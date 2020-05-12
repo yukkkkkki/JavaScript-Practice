@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 1.类的继承
+        // class Father {
+        //     constructor() {
+                
+        //     }
+        //     money() {
+        //         console.log(100);
+        //     }
+        // }
+        // class Son extends Father {
+
+        // }
+        // var son = new Son();
+        // son.money();
+
+        // class Father {
+        //     constructor(x, y) {
+        //         this.x = x;
+        //         this.y = y;
+        //     }
+        //     sum() {
+        //         console.log(this.x + this.y);
+        //     }
+        // }
+
+        // class Son extends Father {
+        //     constructor(x, y) {
+        //         super(x, y); // 调用了父类中的构造函数
+        //     }
+        // }
+        // var son = new Son(1,2);
+        // son.sum();
+
+        //super 关键字调用父类普通函数
+        // class Father {
+        //     say() {
+        //         return '我是爸爸';
+        //     }
+        // }
+        // class Son extends Father {
+        //     say() {
+        //         // console.log('我是儿子');
+        //         console.log(super.say() + '的儿子');
+        //     }
+        // }
+        // var son = new Son();
+        // son.say(); 
+        // 继承中的属性或者方法查找原则: 就近原则
+        // 1. 继承中,如果实例化子类输出一个方法,先看子类有没有这个方法,如果有就先执行子类的
+        // 2. 继承中,如果子类里面没有,就去查找父类有没有这个方法,如果有,就执行父类的这个方法(就近原则) 
+
+        // 父类有加法方法
+        class Father {
+            constructor(x , y) {
+                this.x = x;
+                this.y = y;          
+            }
+            sum() {
+                console.log(this.x + this.y);
+            }
+        }
+        // 子类继承父类加法同时扩展减法方法
+        class Son extends Father {
+            constructor(x, y) {
+                // 利用super 调用父类的构造函数
+                // super 必须在子类this之前调用
+                super(x, y);
+                this.x = x;
+                this.y = y;
+                
+            }
+            subtract() {
+                console.log(this.x - this.y);
+            }
+        }
+        var son = new Son(5, 3);
+        son.subtract();
+        son.sum();
+    </script>
+</body>
+</html>

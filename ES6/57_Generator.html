@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // function *show() {
+        //     alert('a');
+        //     yield; // 暂时放弃，暂停
+        //     alert('b');
+        // }
+        // let genObj = show();
+        // genObj.next();
+        // genObj.next();
+
+        // function *helloWorldGenerator() {
+        //     yield 'hello';
+        //     yield 'world';
+        //     return 'ending';
+        // }
+        // var hw = helloWorldGenerator();
+        // console.log(hw.next());
+        // console.log(hw.next());
+        // console.log(hw.next());
+        // console.log(hw.next());
+
+        function* f() {
+            console.log("执行了！");
+        }
+        var generator = f();
+        setTimeout(function() {
+            generator.next()
+        }, 2000); 
+
+        // yield表达式只能用在 Generator 函数里面，用在其他地方都会报错。
+        // var arr = [1, [[2, 3], 4], [5, 6]];
+        // var flat = function* (a) {
+        //     a.forEach(function (item) {
+        //         if (typeof item !== 'number') {
+        //             yield* flat(item);
+        //         } else {
+        //             yield item;
+        //         }
+        //     });
+        // };
+        var arr = [1, [[2, 3], 4], [5, 6]];
+        var flat = function* (a) {
+            var length = a.length;
+            for (var i = 0; i < length; i++) {
+                var item = a[i];
+                if (typeof item !== 'number') {
+                    yield* flat(item);
+                } else {
+                    yield item;
+                }
+            }
+        };
+        
+        for (var f of flat(arr)){
+            console.log(f);
+        }
+
+        // 通过next方法的参数，就有办法在 Generator 函数开始运行之后，继续向函数体内部注入值。
+        // 也就是说，可以在 Generator 函数运行的不同阶段，从外部向内部注入不同的值，从而调整函数行为。
+        function* foo(x) {
+            var y = 2 * (yield (x + 1));
+            var z = yield (y / 3);
+            return (x + y + z);
+        }
+        var a = foo(5);
+        console.log(a.next());// Object{value:6, done:false}
+        console.log(a.next()); // Object{value:NaN, done:false}
+        console.log(a.next()); // Object{value:NaN, done:false} // Object{value:NaN, done:true}
+
+        var b = foo(5);
+        console.log(b.next()) // { value:6, done:false }
+        console.log(b.next(12)) // { value:8, done:false }
+        console.log(b.next(13)) // { value:42, done:true }
+
+        // for...of循环
+        function* foo() {
+            yield 1;
+            yield 2;
+            yield 3;
+            yield 4;
+            yield 5;
+            return 6;
+        }
+
+        for (let v of foo()) {
+            console.log(v);
+        }
+
+        // for...of实现斐波那契数列
+        function* fibonacci() {
+            let [prev, curr] = [0, 1];
+            
+            for (;;) {
+                yield curr;
+                [prev, curr] = [curr, prev + curr];
+            }
+        }      
+        for (let n of fibonacci()) {
+            if (n > 1000) break;
+            console.log(n);
+        }
+        
+        function* numbers () {
+            yield 1
+            yield 2
+            return 3
+            yield 4
+        }
+
+        // 扩展运算符
+        [...numbers()] // [1, 2]
+
+        // Array.from 方法
+        Array.from(numbers()) // [1, 2]
+
+        // 解构赋值
+        let [x, y] = numbers();
+        x // 1
+        y // 2
+
+        // for...of 循环
+        for (let n of numbers()) {
+            console.log(n)
+        }
+        // 1
+        // 2
+
+        var g = function* () {
+            try {
+                yield;
+            } catch (e) {
+                console.log('内部捕获', e);
+            }
+        };
+        var i = g();
+        i.next();
+
+        // try {
+        //     i.throw('a');
+        //     i.throw('b');
+        // } catch (e) {
+        //     console.log('外部捕获',e);    
+        // }
+        // i.throw(new Error('出错了！'));
+        try {
+            throw new Error('a');
+            throw new Error('b');
+        } catch (e) {
+            console.log('外部捕获', e);
+        }
+        // 外部捕获 [Error: a]
+
+        function *gen() {
+            yield 1;
+            yield 2;
+            yield 3
+        }
+        var g = gen();
+
+        console.log(g.next());
+        console.log(g.return('foo')); // 返回'foo'后终止
+        console.log(g.next());
+
+        // yield*
+        function* foo() {
+            yield 'a';
+            yield 'b'
+        }
+
+        function* bar() {
+            yield 'x';
+            yield* foo();
+            yield 'y';
+        }
+
+        // 等同于
+        function* bar() {
+            yield 'x';
+            yield 'a';
+            yield 'b';
+            yield 'y';
+        }
+
+        // 等同于
+        function* bar() {
+            yield 'x';
+            for (let v of foo()) {
+                yield v;
+            }
+            yield 'y';
+        }
+
+        for (let v of bar()){
+            console.log(v);
+        }
+        // "x"
+        // "a"
+        // "b"
+        // "y"
+        // yield*后面的 Generator 函数（没有return语句时），是for...of的一种简写形式，完全可以用后者替代前者
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>21</title>
+</head>
+<body>
+    <script>
+        function getMax(num1,num2){
+            // if(num1 > num2){
+            //     return num1;
+            // }else{
+            //     return num2;
+            // }
+            return num1 > num2 ? num1:num2;
+        }
+        console.log(getMax(1,3));
+        console.log(getMax(11,3));
+
+        function getArrMax(arr){
+            var max = arr[0];
+            for (var i = 1; i < arr.length; i++) {
+                if (arr[i] > max){
+                    max = arr[i];
+                }
+            }
+            return max;
+        }
+        //在实际开发里面，经常使用一个变量来接受返回结果
+        var re = getArrMax([5,2,99,101,67,77]);
+        console.log(re);
+    </script>
+</body>
+</html>

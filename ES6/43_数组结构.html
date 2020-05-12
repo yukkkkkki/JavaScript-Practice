@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>数组解构</title>
+</head>
+<body>
+	<script type="text/javascript">
+		// 数组解构允许我们按照一一对应的关系从数组中提取值 然后将值赋值给变量
+		let ary = [1,2,3];
+		let [a, b, c, d, e] = ary;
+		console.log(a)
+		console.log(b)
+		console.log(c)
+		console.log(d) // undefined
+		console.log(e) // undefined
+
+		// map
+        let arr = [12, 5, 8];
+        let result = arr.map(item => item *2);
+		alert(result);
+		
+        // reduce
+        let arr1 = [12, 69, 180, 8763];
+        let result2 = arr1.reduce(function(tmp, item, index) {
+            // alert(a + ',' + b + ',' + c);
+            return tmp + item;
+        });
+        console.log(result2 / arr1.length);
+	</script>
+</body>
+</html>

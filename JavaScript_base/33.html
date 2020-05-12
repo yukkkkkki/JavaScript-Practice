@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>33</title>
+</head>
+<body>
+    <script>
+        // 基本包装类型
+        var str = 'selena';
+        console.log(str.length);
+        // 对象才有属性和方法 复杂数据类型才有属性和方法
+        // 基本包装类型：就是把简单数据类型包装成为了 复杂数据类型
+        // (1)把简单数据类型包装成为复杂数据类型
+        var temp = new String('selena');
+        // (2)把临时变量的值赋给str
+        str = temp;
+        // (3)销毁这个临时变量
+        temp = null;
+
+        // 字符串对象 根据字符返回位置 str.indexOf('要查找的字符',[起始的位置])
+        var str2 = '改革春风吹满地，春天来了';
+        console.log(str2.indexOf('春'));
+        console.log(str2.indexOf('春',3));
+
+        // 案例1：返回字符串位置
+        // 核心算法：查找字符串‘abcoefoxyozzopp'中所有o出现的位置及次数
+        // 先查找第一个o出现的位置
+        // 只要indexOf返回的结果不是-1就继续往后查找
+        // 因为index Of 只能查找到第一个，所以后面的查找，一定是当前索引加1，从而继续查找
+        var str3 = 'oabcoefoxyozzopp';
+        var index = str3.indexOf('o');
+        var num = 0;
+        console.log(index);
+        while(index !== -1) {
+            console.log(index);
+            num++;
+            index = str3.indexOf('o',index + 1);
+        }
+        console.log('o出现的次数是：' + num);
+
+        // 课后作业['red','blue','red','green','pink','red'] 求red出现的位置和次数
+        var str4 = ['red','blue','red','green','pink','red'];
+        var index2 = str4.indexOf('red');
+        console.log(index2);
+        var num2 = 0;
+        while(index2 !== -1){
+            console.log(index2);
+            num2++;
+            index2 = str4.indexOf('red',index2 + 1);
+        }
+        console.log('red出现的次数是:' + num2);
+
+        // 根据位置返回字符
+        // 1.charAt(index) 根据位置返回字符
+        var str5 = 'andy';
+        console.log(str5.charAt(3));
+        // 遍历所有的字符
+        for(var i = 0;i <= str5.length; i++){
+            console.log(str5.charAt(i));
+        }
+        // 2.charCodeAt(index) 返回相应索引号的字符ASCII值， 目的：判断用户按下了哪个键
+        console.log(str5.charCodeAt(0));
+        // 3.str[index] H5新增
+        console.log(str5[0]);
+
+        // 案例2：返回字符位置
+        // 判断一个字符串 'abcoefoxyozzopp'中出现次数最多的字符，并统计其次数
+        // 核心算法: 利用charAt() 遍历这个字符串
+        // 把每个字符都存储给对象，如果对象没有该属性，就为1，如果存在了就 +1
+        // 遍历对象，得到最大值和该字符
+        var str6 = 'abcoefoxyozzopp';
+        var o = {};
+        for(var i = 0; i < str6.length; i++){
+            var chars = str6.charAt(i); // chars是字符串的每一个字符
+            if(o[chars]){//o[chars]得到的是属性值
+                o[chars]++; 
+            }else{
+                o[chars] = 1;
+            }
+        }
+        console.log(o);
+        // 2.遍历对象
+        var max = 0;
+        var ch = '';
+        for(var k in o){
+            // k 得到的是属性值
+            // o[k] 得到的是属性值
+            if(o[k] > max){
+                max = o[k];
+                ch = k;
+            }
+        }
+        console.log(max);
+        console.log('出现最多的字符：' + ch)
+
+        
+    </script>
+</body>
+</html>

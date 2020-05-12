@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>31</title>
+</head>
+<body>
+    <script>
+        var arr = [];
+        var obj = {};
+        console.log(arr instanceof Array);
+        console.log(obj instanceof Array);
+
+        console.log(Array.isArray(arr));
+        console.log(Array.isArray(obj));
+
+        var arr1 = [1,2,3];
+        console.log(arr1.push(4,'pink'));
+        console.log(arr1);
+
+        console.log(arr1.unshift('red','purple'));
+        console.log(arr1);
+
+        console.log(arr1.pop());
+        console.log(arr1);
+
+        console.log(arr1.shift());
+        console.log(arr1);
+    </script>
+</body>
+</html>

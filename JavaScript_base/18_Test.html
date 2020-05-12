@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>18</title>
+</head>
+<body>
+    <script>
+        //1-100内所有偶数的和
+        // var sum = 0;
+        // for (var i = 1; i <= 100; i++) {
+        //     if(i % 2 == 0){
+        //         sum += i;
+        //     }
+        // } 
+        // console.log(sum);
+
+        // var name = prompt('请输入您的用户名：');
+        // var password = prompt('请输入您的密码');
+        // while (name !== 'admin' && password !== 123456) {
+        //     name = prompt('请输入您的用户名：');
+        //     password = prompt('请输入您的密码');
+        // }
+        // alert('登录成功！');
+
+        var sum = 0;
+        for(var i = 1; i <= 100; i++) {
+            if(i % 10 == 3) {
+                continue;
+            }
+            sum += i;
+        }
+        console.log('1-100内跳过所有个位为3的数的累计值' + sum)
+
+    </script>
+</body>
+</html>

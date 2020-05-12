@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>29</title>
+</head>
+<body>
+    <script>
+        var arr = new Array();
+        var obj = new Object();
+
+        //1.使用Date 如果没有参数，返回当前系统的当前时间
+        var date = new Date();
+        console.log(date);
+        console.log(date.getFullYear());
+        console.log(date.getMonth() + 1); // 返回的月份少一个月
+        console.log(date.getDate());
+        console.log(date.getDay());
+
+        //获得Date总的毫秒数(时间戳)
+        console.log(date.valueOf()); //现在时间距离1970.1.1的总毫秒数
+        //简单的写法 （最常用的）
+        console.log(date.getTime()); //现在时间距离1970.1.1的总毫秒数
+        var date3 = +new Date();     //现在时间距离1970.1.1的总毫秒数
+        console.log(date3);
+        //h5新增的获得总的毫秒数
+        console.log(Date.now());
+
+        //2019年5月1日
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var dates = date.getDate();
+        var arr = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+        var day = date.getDay();
+        console.log('今天是' + year + '年' + month + '月' + dates + '日 ' + arr[day]);
+
+
+        //2.参数常用的写法 数字型 2019,10,01 或者 '2019-10-1 8:8:8'
+        var date1 = new Date(2019,10,1);
+        console.log(date1);//返回的是11月不是10月
+        var date2 = new Date('2019-10-1 8:8:8');
+        console.log(date2);
+
+        function getTime(){
+            var time = new Date();
+            var h = time.getHours();
+            h = h < 10 ? '0' + h:h;
+            var m = time.getMinutes();
+            m = m < 10 ? '0' + m:m;
+            var s = time.getSeconds();
+            s = s < 10 ? '0' + s:s;
+            return h + ':' + m + ':' + s;
+        }
+        console.log(getTime());
+
+    </script>
+</body>
+</html>

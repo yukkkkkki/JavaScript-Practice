@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const map = new Map();
+        map.set('foo', true);
+        map.set('bar', false);
+        // size属性
+        console.log(map.size);// 2
+
+        // set()
+        const m = new Map();
+        m.set('edition', 6)        // 键是字符串
+        m.set(262, 'standard')     // 键是数值
+        m.set(undefined, 'nah')    // 键是 undefined
+        // 可以采用链式写法
+        // let map2 = new Map().set(1, 'a').set(2, 'b').set(3, 'c');
+        // get()
+        console.log(m.get(262));
+        // has()
+        console.log(m.has(262));
+        // delete
+        console.log(m.delete(undefined));
+        console.log(m);
+        m.clear();
+        console.log(m);
+
+        const map = new Map([
+            [1, 'one'],
+            [2, 'two'],
+            [3, 'three'],
+        ]);
+        
+        // [...map.keys()] // [1, 2, 3]
+
+        // [...map.values()] // ['one', 'two', 'three']
+
+        // [...map.entries()] // [[1,'one'], [2, 'two'], [3, 'three']]
+
+        // [...map] // [[1,'one'], [2, 'two'], [3, 'three']]
+               
+        
+    </script>
+</body>
+</html>

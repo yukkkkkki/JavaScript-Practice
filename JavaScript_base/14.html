@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>14</title>
+</head>
+<body>
+    <script>
+        // for (var i = 1; i <= 100; i++){
+        //     console.log('你好吗');
+        // }
+
+        // var even = 0;
+        // var odd = 0;
+        // for(var i = 1;i < 100; i++){
+        //     if(i%2 == 0){
+        //         even = even + i;
+        //     }else{
+        //         odd = odd + i;
+        //     }
+        // }
+        // console.log('1~100 之间所有偶数的和是' + even);
+        // console.log('1~100 之间所有偶数的和是' + odd);
+
+        //打印一行星星
+        // var str = '';
+        // for(var i = 1; i <= 5; i++){
+        //     str = str + '★';
+        // }
+        // console.log(str);
+
+        //双重for循环
+        // for (var i = 1; i <= 3; i++){
+        //     console.log('这是外层循环第' + i +'次循环')
+        //     for (var j = 1; j <= 3; j++){
+        //         console.log('这是里层循环第' + j +'次循环')
+        //     }
+        // }
+
+        //打印五行五列星星
+        // var str = '';
+        // for(var i = 1; i <= 5; i++){
+        //     for(var j = 1; j <= 5; j++){
+        //         str = str + '★';
+        //     }
+        //     str = str + '\n';
+        // }
+        // console.log(str);
+
+        //打印n行n列星星
+        // var rows = prompt('请您输入行数：');
+        // var cols = prompt('请您输入列数：');
+        // var str = '';
+        // for(var i = 1; i <= rows; i++){
+        //     for(var j = 1; j <= cols; j++){
+        //         str = str + '★';
+        //     }
+        //     str += '\n';
+        // }
+        // console.log(str);
+
+        //打印倒三角
+        // var str = '';
+        // for (var i = 1; i <= 10; i++){
+        //     for (var j = i; j <= 10; j++){
+        //         str = str + '★';
+        //     }
+        //     str += '\n';
+        // }
+        // console.log(str);
+
+        //打印正三角
+        // var str = '';
+        // for (var i = 1; i <= 10; i++){
+        //     for (var j = 1; j <= i; j++){
+        //         str = str + '★';
+        //     }
+        //     str += '\n';
+        // }
+        // console.log(str);
+
+        //九九乘法表
+        var str = '';
+        for(var i = 1; i <= 9; i++){
+            for(var j = 1; j <= i; j++){
+                //先写列再写行
+                str += j + 'x' + i + '=' + i * j + '\t';
+            }
+            str += '\n';
+        }
+        console.log(str);
+
+    </script>
+</body>
+</html>

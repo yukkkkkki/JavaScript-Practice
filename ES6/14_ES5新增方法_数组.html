@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // forEach 迭代(遍历) 数组
+        var arr = [1, 2, 3];
+        var sum = 0;
+        arr.forEach(function(value, index, array) {
+            console.log('每个数组元素' + value);
+            console.log('每个数组元素的索引号' + index);
+            console.log('数组本身' + array);
+            sum += value;
+        })
+        console.log(sum);
+
+        // filter 筛选数组
+        var arr2 = [12, 66, 4, 88, 3, 7];
+        var newArr = arr2.filter(function(value, index) {
+            // return value >= 20;
+            return value % 2 == 0;
+        });
+        console.log(newArr);
+
+        // some 查找数组中是否有满足条件的元素
+        var arr3 = [10, 30, 4];
+        var flag = arr3.some(function(value) {
+            // return value >= 20;
+            return value < 3;
+        });
+        console.log(flag);
+        var arr4 = ['red', 'pink', 'blue'];
+        var flag1 = arr4.some(function(value) {
+            return value == 'pink';
+        })
+        console.log(flag1);
+
+        // some和forEach的区别
+        // 如果查询数组中唯一的元素，用some方法更合适 
+        var arr5 = ['red','green','blue','pink'];
+        // (1). forEach迭代
+        // arr5.forEach(function(value) {
+        //     if (value == 'green') {
+        //         console.log('找到了');
+        //         return true; // 在forEach里的return不会终止迭代
+        //     }
+        //     console.log(11);
+        // });
+        // (2)some
+        arr5.some(function(value) {
+            if (value == 'green') {
+                console.log('找到了');
+                return true; // 在some里遇到 return true 会终止遍历 迭代效率更高
+            }
+            console.log(11);
+        });
+
+        arr5.filter(function(value) {
+            if (value == 'green') {
+                console.log('找到了');
+                return true; // 在filter里的return不会终止迭代
+            }
+            console.log(11);
+        });
+    </script>
+</body>
+
+</html>

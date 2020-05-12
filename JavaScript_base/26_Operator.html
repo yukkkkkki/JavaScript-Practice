@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>26</title>
+</head>
+<body>
+    <script>
+        function Add(num1,num2){
+            res =  num1 + num2;
+            return res;
+        }
+        function Subtract(num1,num2){
+            res = num1 - num2;
+            return res;
+        }
+        function Multiply(num1,num2){
+            res = num1 * num2;
+            return res;
+        }
+        function Divide(num1,num2){
+            res = num1/num2;
+            return res;
+        }
+        function getFirstNum(){
+            var num1 = parseFloat(prompt("请输入第一个数值"));
+            return num1;
+        }
+        function getSecondNum(){
+            var num2 = parseFloat(prompt("请输入第二个数值"));
+            return num2;
+        }
+
+        var opreation = prompt('欢迎使用简易计算器：\n1.加法运算\n2.减法运算\n3.乘法运算\n4.除法运算\n5.退出\n请输入您的选项：');
+        if(opreation == 1){
+            var num1 = getFirstNum();
+            var num2 = getSecondNum();
+            alert(Add(num1,num2));
+        }else if(opreation == 2){
+            var num1 = getFirstNum();
+            var num2 = getSecondNum();
+            alert(Subtract(num1,num2));
+        }else if(opreation == 3){
+            var num1 = getFirstNum();
+            var num2 = getSecondNum();
+            alert(Multiply(num1,num2));
+        }else if(opreation == 4){
+            var num1 = getFirstNum();
+            var num2 = getSecondNum();
+            alert(Divide(num1,num2));
+        }else if(opreation == 5){
+            alert("退出");
+        }
+
+        // switch(opreation){
+        //     case 1:
+        //         var num1 = getFirstNum();
+        //         var num2 = getSecondNum();
+        //         alert(Add(num1,num2));
+        //     case 2:
+        //         var num1 = getFirstNum();
+        //         var num2 = getSecondNum();
+        //         alert(Subtract(num1,num2));
+        //     case 3:
+        //         var num1 = getFirstNum();
+        //         var num2 = getSecondNum();
+        //         alert(Multiply(num1,num2));
+        //     case 4:
+        //         var num1 = getFirstNum();
+        //         var num2 = getSecondNum();
+        //         alert(Divide(num1,num2));
+        //     case 5:
+        //         alert("退出");
+        // }
+        // console.log(Add(1,2));
+
+    </script>
+</body>
+</html>

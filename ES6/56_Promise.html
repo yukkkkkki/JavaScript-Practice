@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery.min.js"></script>
+</head>
+<body>
+    <script>
+        // let p = new Promise(function (resolve, reject) {
+        //     // 异步代码
+        //     // resolve——成功了
+        //     // reject——失败了
+        //     $.ajax({
+        //         url: 'arr.txt',
+        //         dataType: 'json',
+        //         success(arr) {
+        //             resolve(arr);
+        //         },
+        //         error(err){
+        //             reject(err);
+        //         }
+        //     })
+        // });
+        // p.then(function(){
+        //     alert('成功');
+        // }, function(){
+        //     alert('失败');
+        // });
+
+        // promise 对象简单例子
+        function timeout(ms) {
+            return new Promise((resolve, reject) => {
+                setTimeout(resolve, ms, 'done');
+            });
+        }
+
+        timeout(100).then((value) => {
+            console.log(value);
+        })
+
+        // promise 新建后就会立即执行
+        let p = new Promise(function(resolve, reject) {
+            console.log('Promise');
+            resolve();
+        });
+        p.then(function(){
+            console.log('resolved.');
+        }); 
+        console.log('Hi!');
+
+        // 异步加载图片的例子
+        function loadImageAsync(url) {
+            return new Promise(function(resolve, reject){
+                const image = new Image();
+                image.onload = function() {
+                    resolve(image);
+                };
+                image.onerror = function() {
+                    reject(new Error('Could not load image at ' + url));
+                };
+                image.src = url;
+            });
+        }
+        loadImageAsync("smg.jpg");
+
+        // Promise.prototype.then()
+        // getJSON("1.json").then(
+        //     post => getJSON(post.commentURL)
+        // ).then(
+        //     comments => console.log("resolved: ", comments),
+        //     err => console.log("rejected: ", err)
+        // );
+
+        // Promise.prototype.catch()
+        // getJSON('/posts.json').then(function(posts) {
+        //     // ...
+        // }).catch(function(error) {
+        //     // 处理 getJSON 和 前一个回调函数运行时发生的错误
+        //     console.log('发生错误！', error);
+        // });
+        // 下面两个写法等价
+        // 写法一
+        // const promise = new Promise(function(resolve, reject) {
+        //     try {
+        //         throw new Error('test');
+        //     } catch(e) {
+        //         reject(e);
+        //     }
+        // });
+        // promise.catch(function(error) {
+        //     console.log(error);
+        // });
+        // // 写法二
+        // const promise = new Promise(function(resolve, reject) {
+        //     reject(new Error('test'));
+        // });
+        // promise.catch(function(error) {
+        //     console.log(error);
+        // });
+
+        // Promise.prototype.finally()
+        // Promise.prototype.finally = function (callback) {
+        //     let P = this.constructor;
+        //     return this.then(
+        //         value  => P.resolve(callback()).then(() => value),
+        //         reason => P.resolve(callback()).then(() => { throw reason })
+        //     );
+        // };
+
+        // Promise.prototype.all()
+        // const p = [2, 3, 5, 7, 11, 13].map(function(id) {
+        //     return getJSON('/post/' + id + ".json");
+        // });
+        // Promise.all(p).then(function(posts) {
+        //     //...
+        // }).catch(function(reason)){
+        //     //...
+        // }
+
+        // Promise.resolve();
+        setTimeout(function() {
+            console.log('three');
+        }, 0);
+        Promise.resolve().then(function() {
+            console.log('two');
+        });
+        console.log('one');
+        
+        // Promise.reject()
+        const thenable = {
+            then(resolve, reject) {
+                reject('出错了');
+            }
+        };
+        Promise.reject(thenable).catch(e => {
+            console.log(e === thenable);           
+        })
+    </script>
+</body>
+</html>

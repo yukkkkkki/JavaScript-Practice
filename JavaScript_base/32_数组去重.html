@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>32</title>
+</head>
+<body>
+    <script>
+        var arr = [1500,1200,2000,2100,1800];
+        var newArr = [];
+        for(var i = 0; i < arr.length; i++){
+            if(arr[i] < 2000) {
+                // newArr[newArr.length] = arr[i];
+                newArr.push(arr[i]);
+            }
+        }
+        console.log(newArr);
+
+        //数组排序
+        //翻转数组
+        var arr1 = ['pink','red','black'];
+        arr.reverse();
+        console.log(arr1);
+
+        //冒泡排序
+        var arr2 = [13,4,77,1,7];
+        arr2.sort(function(a,b){
+            return a - b; // 升序
+            // return b - a; //降序
+        });
+        console.log(arr2);
+
+        // 返回数组元素索引
+        var arr3 = ['red','green','blue','pink'];
+        console.log(arr3.indexOf('red')); // 返回指定元素的索引号
+
+        var arr4 = ['red','green','blue','pink','blue'];
+        console.log(arr4.lastIndexOf('blue')) // 返回指定元素在数组中的最后一个的索引
+
+        // 数组去重
+        // 核心算法：遍历旧数组，然后拿着旧数组元素去查询新数组，如果该元素在新数组中没有出现过则添加，否则不添加
+        // 封装一个去重的函数
+        function unique(arr){
+            var newArr = [];
+            for(var i = 0; i < arr.length; i++){
+                if(newArr.indexOf(arr[i]) == -1){
+                    newArr.push(arr[i]);
+                }
+            }
+            return newArr;
+        }
+        var demo = unique(['c','a','z','a','x','a','x','c','b']);
+        console.log(demo);
+
+        // 数组转换为字符串
+        var arr5 = [1,2,3];
+        console.log(arr.toString());
+        console.log(arr1.join('-'));
+
+        console.log(arr4.splice(1,2));
+    </script>>
+</body>
+</html>

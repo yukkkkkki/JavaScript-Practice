@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>23</title>
+</head>
+<body>
+    <script>
+        var Dog = {
+            name:'可可',
+            type:'Alaska',
+            age:5,
+            color:'brownish red',
+            bark:function(){
+                console.log('汪汪汪！');
+            },
+            showFilm:function(){
+                console.log('演电影');
+            }
+        }
+        // console.log(Dog.name);
+        // console.log(Dog.bark());
+
+        // var Ninja = new Object();
+        // Ninja.name = '鸣人';
+        // Ninja.sex = '男';
+        // Ninja.age = 19;
+        // Ninja.Skill = function(){
+        //     alert('影分身之术');
+        // }
+        // console.log(Ninja.name);
+        // console.log(Ninja.age);
+        // console.log(Ninja.Skill());
+
+        //四大天王
+        function Star(uname,age,sex){
+            this.name = uname;
+            this.age = age;
+            this.sex = sex;
+            this.sing = function(sang){
+                console.log(sang);
+            }
+        }
+        var ldh = new Star('刘德华',18,'男');
+        console.log(typeof ldh);
+        console.log(ldh['sex']);
+        ldh.sing('冰雨');
+        var zxy = new Star('张学友',19,'男');
+        console.log(zxy.name);
+        console.log(zxy.age);
+        zxy.sing('李香兰');
+
+        //王者荣耀
+        function Hero(uname,type,blood,attack){
+            this.name = uname;
+            this.type = type;
+            this.blood = blood;
+            this.attack = attack;
+        }
+        var lp = new Hero('廉颇','力量型',500,'近战');
+        console.log(typeof lp);
+        console.log(lp.name);
+        var hy = new Hero('后羿','射手型',100,'远程');
+        console.log(hy.blood);
+
+        for (var k in Dog){
+            console.log(k);
+            console.log(Dog[k]);
+        }
+    </script>
+</body>
+</html>

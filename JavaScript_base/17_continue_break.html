@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>17</title>
+</head>
+<body>
+    <script>
+        for (var i = 1; i <= 5; i++){
+            if(i == 3){
+                continue;
+            }
+            console.log('我正在吃第' + i + '个包子');
+        }
+
+        //求1-100之间，除了能被7整除之外所有数的和
+        var sum = 0;
+        for(var i = 1; i <= 100; i++){
+            if(i % 7 == 0){
+                continue;
+            }
+            sum += i;
+        }
+        console.log(sum);
+    </script>
+</body>
+</html>

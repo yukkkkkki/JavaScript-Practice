@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>20</title>
+</head>
+<body>
+    <script>
+        // var arr = [2,3,6,8,33,64];
+        // var sum = 0;
+        // var average = 0;
+        // for (var i = 0; i < arr.length; i++){
+        //     sum += arr[i];
+        // }
+        // average = sum / arr.length;
+        // console.log(sum, average);
+
+        //数组中最大值
+        // var arr = [2,6,1,77,52,25,7];
+        // var max = arr[0];
+        // for (var i = 0; i <= arr.length; i++) {
+        //     if (arr[i] > max) {
+        //         max = arr[i];
+        //     }
+        // }
+        // console.log('该数组里的最大值是：' + max);
+
+        //数组转换为字符串
+        // var arr = ['red','pink','blue','black'];
+        // var str = '';
+        // var sep = '*';
+        // for (var i = 0; i < arr.length; i++) {
+        //     str += arr[i] + sep;
+        // }
+        // console.log(str);
+
+        // var arr  = [];
+        // for (var i = 0; i < 10; i++) {
+        //     arr[i] = i + 1;
+        // }
+        // console.log(arr);
+
+        //筛选数组
+        // 方法1
+        var arr = [2,0,6,1,77,0,52,0,25,7];
+        var newArr = [];
+        var j = 0;
+        for (var i = 0; i < arr.length; i++){
+            if (arr[i] >= 10){
+                newArr[j] = arr[i];
+                j++;
+            }
+        }
+        console.log(newArr);
+        //方法2
+        var arr = [2,0,6,1,77,0,52,0,25,7];
+        var newArr2 = [];
+        for (var i = 0; i < arr.length; i++){
+            if (arr[i] >= 10){
+                newArr2[newArr2.length] = arr[i];
+            }
+        }
+        console.log(newArr2);
+
+        //数组去重复0
+        var arr3 = [2,0,6,1,77,0,52,0,25,7];
+        var newArr3 = [];
+        for (var i = 0; i < arr.length; i++) {
+            if(arr[i] != 0) {
+                newArr3[newArr3.length] = arr3[i];
+            }
+        }
+        console.log(newArr3);
+
+        //翻转数组
+        var arr4 = ['red','green','blue','pink','purple'];
+        var newArr4 = [];
+        for (var i = arr4.length - 1; i >= 0; i--) {
+            newArr4[newArr4.length] = arr4[i]; 
+        }
+        console.log(newArr4);
+
+        //数组排序，冒泡排序
+        //一次比较两个元素，顺序错误就调换过来
+        var arr5 = [5,4,3,2,1];
+        for (var i = 0; i <= arr5.length; i++){//外层循环管趟数
+            for (var j = 0; j <= arr5.length - 1 - i; j ++){// 内层循环交换次数 每一趟的交换次数
+                //内部交换两数
+                if (arr5[j] > arr5[j + 1]) {
+                    var temp = arr5[j];
+                    arr5[j] = arr5[j + 1];
+                    arr5[j + 1] = temp;
+                }
+            }
+        }
+        console.log(arr5)
+        
+        
+
+
+    </script>
+</body>
+</html>

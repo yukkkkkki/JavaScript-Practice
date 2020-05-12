@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 正则表达式在js中的使用
+
+        // 1. 利用 RegExp对象来创建 正则表达式
+        var regexp = new RegExp(/123/);
+        console.log(regexp);
+
+        // 2. 利用字面量创建 正则表达式
+        var rg = /123/;
+        // 3.test 方法用来检测字符串是否符合正则表达式要求的规范
+        console.log(rg.test(123));
+        console.log(rg.test('abc'));
+
+        // 边界符 ^ $ 
+        var rg = /abc/; // 正则表达式里面不需要加引号 不管是数字型还是字符串型
+        // /abc/ 只要包含有abc这个字符串返回的都是true
+        console.log(rg.test('abc'));
+        console.log(rg.test('abcd'));
+        console.log(rg.test('aabcd'));
+        console.log('---------------------------');
+        var reg = /^abc/;
+        console.log(reg.test('abc')); // true
+        console.log(reg.test('abcd')); // true
+        console.log(reg.test('aabcd')); // false
+        console.log('---------------------------');
+        var reg1 = /^abc$/; // 精确匹配 要求必须是 abc字符串才符合规范
+        console.log(reg1.test('abc')); // true
+        console.log(reg1.test('abcd')); // false
+        console.log(reg1.test('aabcd')); // false
+        console.log(reg1.test('abcabc')); // false
+
+        //var rg = /abc/;  只要包含abc就可以 
+        // 字符类: [] 表示有一系列字符可供选择，只要匹配其中一个就可以了
+        var rg = /[abc]/; // 只要包含有a 或者 包含有b 或者包含有c 都返回为true
+        console.log(rg.test('andy')); // true
+        console.log(rg.test('baby')); // true
+        console.log(rg.test('color')); // true
+        console.log(rg.test('red')); // false
+        var rg1 = /^[abc]$/; // 三选一 只有是a 或者是 b  或者是c 这三个字母才返回 true
+        console.log(rg1.test('aa')); // false
+        console.log(rg1.test('a')); // true
+        console.log(rg1.test('b')); // true
+        console.log(rg1.test('c')); // true
+        console.log(rg1.test('abc')); // false
+        console.log('------------------');
+
+        var reg = /^[a-z]$/; // 26个英文字母任何一个字母返回 true  - 表示的是a 到z 的范围  
+        console.log(reg.test('a')); // true
+        console.log(reg.test('z')); // true
+        console.log(reg.test(1)); // false
+        console.log(reg.test('A')); // false
+        // 字符组合
+        var reg1 = /^[a-zA-Z0-9_-]$/; // 26个英文字母(大写和小写都可以)任何一个字母返回 true  
+        console.log(reg1.test('a')); // true
+        console.log(reg1.test('B')); // true
+        console.log(reg1.test(8)); // true
+        console.log(reg1.test('-')); // true
+        console.log(reg1.test('_')); // true
+        console.log(reg1.test('!')); // false
+        console.log('----------------');
+        // 如果中括号里面有^ 表示取反的意思 千万和 我们边界符 ^ 别混淆
+        var reg2 = /^[^a-zA-Z0-9_-]$/;
+        console.log(reg2.test('a')); // false
+        console.log(reg2.test('B')); // false
+        console.log(reg2.test(8));   // false
+        console.log(reg2.test('-')); // false
+        console.log(reg2.test('_')); // false
+        console.log(reg2.test('!')); // true
+    </script>
+</body>
+
+</html>
