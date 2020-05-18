@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>Document</title>
+</head>
+
+<body>
+      <!-- 这个页面用来接收信息（获取cookie的值 ） -->
+      <h1>收到消息：<span id="recMsg1"></span></h1>
+      <h1>收到消息：<span id="recMsg2"></span></h1>
+      <script>
+            // 获取cookie的方法   document.cookie
+            // 01 将cookie中的值   msg1=hellwo; msg2=word   转变为 json字符串 格式 {"msg1":"hellwo","msg2":"word"}
+
+            function getKey(key) {
+                  var obj = '{"' + document.cookie.replace(/=/g, '":"').replace(/;\s+/g, '","') + '"}'
+                  var cookies = JSON.parse(obj) // 02 将json字符串转为 对象
+                  return cookies[key]
+
+            }
+            setInterval(() => { //加入定时器，让函数每一秒就调用一次，实现页面刷新
+                  recMsg1.innerHTML = getKey("msg1") //将msg1的值设置到页面recMsg1处
+                  recMsg2.innerHTML = getKey("msg2") //将msg2的值设置到页面recMsg2处
+            }, 1000);
+      </script>
+
+</body>
+
+</html>
