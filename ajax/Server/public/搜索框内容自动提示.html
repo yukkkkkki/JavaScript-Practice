@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索框输入文字自动提示</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style type="text/css">
+        .container {
+            padding-top: 150px;
+        }
+
+        .list-group {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="请输入搜索关键字" id="search">
+            <ul class="list-group" id="list-box">
+
+            </ul>
+        </div>
+    </div>
+    <script src="js/ajax.js"></script>
+    <script src="js/template-web.js"></script>
+    <script type="text/html" id="tpl">
+        {{each result}}
+        <li class="list-group-item">{{$value}}</li>
+        {{/each}}
+    </script>
+    <script>
+        // 获取搜索框
+        var searchInp = document.getElementById('search');
+        // 获取提示文字的存放容器
+        var listBox = document.getElementById('list-box');
+        // 存储定时器
+        var timer = null;
+
+        // 输入法联想 防抖
+        searchInp.oninput = function () {
+            // 先把上一次开始的定时器清除掉
+            // 当第二次输入的时候,前一次开启的定时器走到这里还没来得及生效,就被清楚掉了
+            clearTimeout(timer);
+            // 获取用户输入内容
+            var key = this.value;
+
+            // 判断用户是否有输入内容，若无则隐藏下拉框
+            if (key.trim().length == 0) {
+                listBox.style.display = 'none';
+                // 阻止程序向下执行
+                return;
+            }
+            // 向服务器端发送请求
+            // 向服务器端索取和用户输入关键字相关的内容
+            // 当用户输入完最后一次内容时,这个请求会延迟800毫秒,发送到服务器端
+            timer = setTimeout(ajax({
+                type: 'get',
+                url: 'http://localhost:3000/searchAutoPrompt',
+                data: {
+                    key: key
+                },
+                success: function (result) {
+                    // 使用模板引擎拼接字符串
+                    var html = template('tpl', {
+                        result: result
+                    });
+                    // 将拼接好的字符串显示在页面中
+                    listBox.innerHTML = html;
+                    // 显示ul容器
+                    listBox.style.display = 'block';
+                }
+            }), 800);
+
+
+        }
+    </script>
+</body>
+
+</html>

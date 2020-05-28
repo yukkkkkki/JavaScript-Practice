@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="btn">发送ajax请求</button>
+    <script>
+        var btn = document.getElementById('btn');
+        btn.onclick = function () {
+            // 创建ajax对象
+            var xhr = new XMLHttpRequest();
+            // 告诉ajax对象要向哪里发送请求，并以什么方式发送请求
+            // (1)请求方式(2)请求地址
+            xhr.open('get', 'http://localhost:3000/cache?t=' + Math.random());
+            // 3.发送请求
+            xhr.send();
+            // 4.获取服务器端响应到客户端的数据
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    alert(xhr.responseText);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

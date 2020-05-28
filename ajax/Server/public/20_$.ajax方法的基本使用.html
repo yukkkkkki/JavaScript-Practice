@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$.ajax方法基本使用</title>
+</head>
+<body>
+	<button id="btn">发送请求</button>
+    <script src="/js/jquery.min.js"></script>
+    <script>
+        var params = {name: 'wangwu', age: 300}
+        $('#btn').on('click', function() {
+            $.ajax({
+                type: 'post',
+                url: '/user',
+                // 向服务器端发送的请求参数
+                // data: {
+                //     name: 'zhangsan',
+                //     age: 100
+                // },
+                data: JSON.stringify(params),
+                contentType: 'application/x-www-form-urlencoded',
+                success: function(response) {
+                    console.log(response);              
+                },
+                // 在请求发送之前调用
+                beforeSend: function(){
+                    alert('请求即将发送');
+                    // 请求不会被发送
+                    // return false;
+                },
+                error: function(xhr) {
+                    // response为服务器端返回的数据
+					// 方法内部会自动将json字符串转换为json对象
+                    console.log(xhr);                    
+                }
+            });
+        });
+    </script>
+</body>
+</html>
