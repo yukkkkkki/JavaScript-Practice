@@ -6,9 +6,9 @@
 // (1)冒泡排序：两个for循环 比较相邻记录
 function bubleSort(arr) {
     var len = arr.length;
-    for(var i = 0; i < len; i++) {
-        for(var j = 0; j < len - 1 - i; j++){
-            if(arr[j] > arr[j + 1]){
+    for (var i = 0; i < len; i++) {
+        for (var j = 0; j < len - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
                 // 相邻元素两两对比
                 [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
             }
@@ -16,12 +16,13 @@ function bubleSort(arr) {
     }
     return arr;
 }
+
 function bubleSort2(arr) {
     var len = arr.length;
-    for (let outer = len ; outer >= 2; outer--) {
-        for(let inner = 0; inner <=outer - 1; inner++) {
-            if(arr[inner] > arr[inner + 1]) {
-                [arr[inner],arr[inner+1]] = [arr[inner+1],arr[inner]]
+    for (let outer = len; outer >= 2; outer--) {
+        for (let inner = 0; inner <= outer - 1; inner++) {
+            if (arr[inner] > arr[inner + 1]) {
+                [arr[inner], arr[inner + 1]] = [arr[inner + 1], arr[inner]]
             }
         }
     }
@@ -32,9 +33,9 @@ function bubleSort2(arr) {
 // 遍历自身以后的元素，最小的元素跟自己调换位置
 function selectSort(arr) {
     var len = arr.length;
-    for(let i = 0; i < len - 1; i++) {
-        for(let j = i; j < len; j++) {
-            if(arr[i] > arr[j]){
+    for (let i = 0; i < len - 1; i++) {
+        for (let j = i; j < len; j++) {
+            if (arr[i] > arr[j]) {
                 [arr[i], arr[j]] = [arr[j], arr[i]];
             }
         }
@@ -52,10 +53,10 @@ function selectSort(arr) {
 // <6>.重复步骤 2~5。
 function insertSort(arr) {
     //外循环从1开始，默认arr[0]是有序段
-    for(let i = 1; i < arr.length; i++) {
+    for (let i = 1; i < arr.length; i++) {
         // j = i,将arr[j]依次插入有序段中
-        for(let j = i; j > 0; j--) {
-            if(arr[j] < arr[j - 1]) {
+        for (let j = i; j > 0; j--) {
+            if (arr[j] < arr[j - 1]) {
                 [arr[j], arr[j - 1]] = [arr[j - 1], arr[j]];
             } else {
                 break;
@@ -64,7 +65,7 @@ function insertSort(arr) {
     }
     return arr;
 }
-var A = [3,4,77,1,2,89,21]
+var A = [3, 4, 77, 1, 2, 89, 21]
 console.log(insertSort(A));
 
 // (4).快速排序
@@ -75,11 +76,11 @@ console.log(insertSort(A));
 function quickSort(arr) {
     if (arr.length <= 1) return arr;
 
-    var left = [], 
+    var left = [],
         right = [],
-        current = arr.splice(0,1);
-    for(let i = 0; i < arr.length; i++) {
-        if(arr[i] < current) {
+        current = arr.splice(0, 1);
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] < current) {
             left.push(arr[i]) // 小的放在左边
         } else {
             right.push(arr[i]) // 大的放在右边
@@ -102,24 +103,25 @@ function mergeSort(arr) {
     //采用自上而下的递归方法
     var len = arr.length;
     if (len < 2) {
-      return arr;
+        return arr;
     }
     var middle = Math.floor(len / 2),
-      left = arr.slice(0, middle),
-      right = arr.slice(middle);
+        left = arr.slice(0, middle),
+        right = arr.slice(middle);
     return merge(mergeSort(left), mergeSort(right));
 }
+
 function merge(left, right) {
     var result = [];
     console.time("归并排序耗时");
     while (left.length && right.length) {
-      if (left[0] <= right[0]) {
-        result.push(left.shift());
-      } else {
-        result.push(right.shift());
-      }
+        if (left[0] <= right[0]) {
+            result.push(left.shift());
+        } else {
+            result.push(right.shift());
+        }
     }
- 
+
     while (left.length) result.push(left.shift());
     while (right.length) result.push(right.shift());
     // console.timeEnd("归并排序耗时");
@@ -135,40 +137,40 @@ console.log(mergeSort(arr));
 // <3>.每趟排序，根据对应的增量 ti，将待排序列分割成若干长度为 m 的子序列，分别对各子表进行直接插入排序。仅增量因子为 1 时，整个序列作为一个表来处理，表长度即为整个序列的长度。
 function shellSort(arr) {
     var len = arr.length,
-              temp,
-              gap = 1;
+        temp,
+        gap = 1;
     console.time("希尔排序耗时:");
     while (gap < len / 5) {
-      //动态定义间隔序列
-      gap = gap * 5 + 1;
+        //动态定义间隔序列
+        gap = gap * 5 + 1;
     }
     for (gap; gap > 0; gap = Math.floor(gap / 5)) {
-      for (var i = gap; i < len; i++) {
-        temp = arr[i];
-        for (var j = i - gap; j >= 0 && arr[j] > temp; j -= gap) {
-          arr[j + gap] = arr[j];
+        for (var i = gap; i < len; i++) {
+            temp = arr[i];
+            for (var j = i - gap; j >= 0 && arr[j] > temp; j -= gap) {
+                arr[j + gap] = arr[j];
+            }
+            arr[j + gap] = temp;
         }
-        arr[j + gap] = temp;
-      }
     }
     console.timeEnd("希尔排序耗时:");
     return arr;
 }
-  var arr = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
-  console.log(shellSort(arr)); //[2, 3, 4, 5, 15, 19, 26, 27, 36, 38, 44, 46, 47, 48, 50]
-  
+var arr = [3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48];
+console.log(shellSort(arr)); //[2, 3, 4, 5, 15, 19, 26, 27, 36, 38, 44, 46, 47, 48, 50]
+
 
 // 3.最长公共子串
 function findSubStr(str1, str2) {
-    if(str1.length > str2.length) {
+    if (str1.length > str2.length) {
         [str1, str2] = [str2, str1];
     }
     var res = '';
     var len = str1.length;
-    for(var j = len; j > 0; j--) {
-        for(var i = 0; i < len - j; i++) {
+    for (var j = len; j > 0; j--) {
+        for (var i = 0; i < len - j; i++) {
             res = str1.substr(i, j);
-            if(str2.includes(res)) return res;
+            if (str2.includes(res)) return res;
         }
     }
 }
@@ -176,52 +178,53 @@ function findSubStr(str1, str2) {
 
 // 4.最长公共子序列
 // dp[i][j] 计算去最大长度，记住口诀：相等左上角加一，不等取上或左最大值
-function LCS(str1, str2){
-    var rows =  str1.split("");
+function LCS(str1, str2) {
+    var rows = str1.split("");
     rows.unshift("");
-    var cols =  str2.split("");
+    var cols = str2.split("");
     cols.unshift("");
     var m = rows.length,
         n = cols.length,
         dp = [];
 
-    for(var i = 0; i < m; i++){
+    for (var i = 0; i < m; i++) {
         dp[i] = []
-        for(var j = 0; j < n; j++){
-            if(i === 0 || j === 0){
+        for (var j = 0; j < n; j++) {
+            if (i === 0 || j === 0) {
                 dp[i][j] = 0
                 continue
             }
 
-            if(rows[i] === cols[j]){
-                dp[i][j] = dp[i-1][j-1] + 1 //对角＋1
-            }else{
-                dp[i][j] = Math.max( dp[i-1][j], dp[i][j-1]) //对左边，上边取最大
+            if (rows[i] === cols[j]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1 //对角＋1
+            } else {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]) //对左边，上边取最大
             }
         }
-        console.log(dp[i].join(""))//调试
+        console.log(dp[i].join("")) //调试
     }
-    return dp[i-1][j-1]
+    return dp[i - 1][j - 1]
 }
 //!!!如果它来自左上角加一，则是子序列，否则向左或上回退。
 //findValue过程，其实就是和 就是把T[i][j]的计算反过来。
 // 求最长子序列
-function findValue(input1,input2,n1,n2,T){
-    var i = n1-1,j=n2-1;
-    var result = [];//结果保存在数组中
+function findValue(input1, input2, n1, n2, T) {
+    var i = n1 - 1,
+        j = n2 - 1;
+    var result = []; //结果保存在数组中
     console.log(i);
     console.log(j);
-    while(i>0 && j>0){
-        if(input1[i] == input2[j]){
+    while (i > 0 && j > 0) {
+        if (input1[i] == input2[j]) {
             result.unshift(input1[i]);
             i--;
             j--;
         } else {
             //向左或向上回退
-            if(T[i-1][j]>T[i][j-1]){
+            if (T[i - 1][j] > T[i][j - 1]) {
                 //向上回退
                 i--;
-            }else{
+            } else {
                 //向左回退
                 j--;
             }
@@ -240,14 +243,14 @@ function findValue(input1,input2,n1,n2,T){
 // 6.实现一个函数功能：
 // sum(1,2,3,4..n)转化为 sum(1)(2)(3)(4)…(n)
 // 使用柯里化 + 递归
-function curry ( fn ) {
+function curry(fn) {
     var c = (...arg) => (fn.length === arg.length) ? fn(...arg) : (...arg1) => c(...arg, ...arg1);
     return c;
 }
 
 // 7.反转二叉树
-var invertTree = function(root) {
-    if(root !== null) {
+var invertTree = function (root) {
+    if (root !== null) {
         [root.left, root.right] = [root.right, root.left];
         invertTree(root.left);
         invertTree(root.right);
@@ -256,9 +259,9 @@ var invertTree = function(root) {
 }
 
 // 8.贪心算法解决背包问题
-var items = ['A','B','C','D'];
-var values = [50,220,60,60];
-var weights = [5,20,10,12];
+var items = ['A', 'B', 'C', 'D'];
+var values = [50, 220, 60, 60];
+var weights = [5, 20, 10, 12];
 var capacity = 32; //背包容积
 
 greedy(values, weights, capacity); // 320
@@ -270,9 +273,9 @@ function greedy(values, weights, capacity) {
     var num = 0;
     values.forEach((v, i) => {
         sortArray.push({
-        value: v,
-        weight: weights[i],
-        ratio: v / weights[i]
+            value: v,
+            weight: weights[i],
+            ratio: v / weights[i]
         });
     });
     sortArray.sort((a, b) => b.ratio - a.ratio)
@@ -284,8 +287,7 @@ function greedy(values, weights, capacity) {
     return result;
 }
 // 9.输入一个递增排序的数组和一个数字S，在数组中查找两个数，使得他们的和正好是S，如果有多对数字的和等于S，输出两个数的乘积最小的。
-function FindNumbersWithSum(array, sum)
-{
+function FindNumbersWithSum(array, sum) {
     var index = 0
     for (var i = 0; i < array.length - 1 && array[i] < sum / 2; i++) {
         for (var j = i + 1; j < array.length; j++) {
@@ -303,8 +305,8 @@ function FindNumbersWithSum(array, sum)
     this.left = null;
     this.right = null;
 } */
-var buildTree = function(preorder, inorder) {
-    if(!preorder.length || !inorder.length) return null;
+var buildTree = function (preorder, inorder) {
+    if (!preorder.length || !inorder.length) return null;
 
     // 前序遍历的第一个元素为根节点
     const rootVal = preorder[0];
@@ -313,8 +315,8 @@ var buildTree = function(preorder, inorder) {
     let i = 0;
     // i有两个含义，一个是根节点在中序遍历结果中的下标，
     // 另一个是当前左子树的节点个数
-    for( ;i < inorder.length; ++i) {
-        if(inorder[i] === rootVal){
+    for (; i < inorder.length; ++i) {
+        if (inorder[i] === rootVal) {
             break;
         }
     }
@@ -327,24 +329,24 @@ var buildTree = function(preorder, inorder) {
 // (2)递归
 // 前序遍历
 function preTraverse(node) {
-    if(node === null) return;
+    if (node === null) return;
 
     console.log(node.data);
     preTraverse(node.left);
     preTraverse(node.right);
 }
 // 中序遍历
-function middleTraverse (node) {
+function middleTraverse(node) {
     if (node === null) return;
-  
+
     middleTraverse(node.left);
     console.log(node.data);
     middleTraverse(node.right);
 }
 // 后序遍历
-function lastTraverse (node) {
+function lastTraverse(node) {
     if (node === null) return;
-  
+
     lastTraverse(node.left);
     lastTraverse(node.right);
     console.log(node.data);
@@ -353,30 +355,32 @@ function lastTraverse (node) {
 // (3)非递归
 // 前序遍历
 function preTraverse(tree) {
-    var arr = [], node = null;
+    var arr = [],
+        node = null;
     arr.unshift(tree)
     while (arr.length) {
-      node = arr.shift()
-      console.log(node.root)
-      if (node.right) arr.unshift(node.right)
-      if (node.left) arr.unshift(node.left)
+        node = arr.shift()
+        console.log(node.root)
+        if (node.right) arr.unshift(node.right)
+        if (node.left) arr.unshift(node.left)
     }
 }
 // 中序遍历
 // shift() 弹出第一个元素
 // unshift() 往数组里加入第一个元素 
-function middleTraverseUnRecursion (root) {
-    let arr = [], node = root;
-  
+function middleTraverseUnRecursion(root) {
+    let arr = [],
+        node = root;
+
     while (arr.length !== 0 || node !== null) {
-      if (node === null) {
-        node = arr.shift();
-        console.log(node.data);
-        node = node.right;
-      } else {
-        arr.unshift(node);
-        node = node.left;
-      }
+        if (node === null) {
+            node = arr.shift();
+            console.log(node.data);
+            node = node.right;
+        } else {
+            arr.unshift(node);
+            node = node.left;
+        }
     }
 }
 
@@ -398,36 +402,38 @@ var bfs = function () {
 // bfs()
 // console.log(result);
 // 非递归
-function bfs (node) {
+function bfs(node) {
     var result = [];
     var queue = [];
     queue.push(node);
     while (queue.length) {
-      node = queue.shift();
-      result.push(node.value);
-      node.left && queue.push(node.left);
-      node.right && queue.push(node.right);
+        node = queue.shift();
+        result.push(node.value);
+        node.left && queue.push(node.left);
+        node.right && queue.push(node.right);
     }
     return result;
 }
 
 // 11.使用尾递归对斐波那契优化
 // 传统递归斐波那契, 会造成超时或溢出
-function Fibonacci (n) {
-    if ( n <= 1 ) return 1;
+function Fibonacci(n) {
+    if (n <= 1) return 1;
     return Fibonacci(n - 1) + Fibonacci(n - 2);
 }
 // console.log(Fibonacci(10));
 // console.log(Fibonacci(100)); //超时
 // 使用尾递归优化, 可规避风险
-function Fibonacci2 (n , ac1 = 1 , ac2 = 1) {
-    if( n <= 1 ) {return ac2};  
-    return Fibonacci2 (n - 1, ac2, ac1 + ac2);
+function Fibonacci2(n, ac1 = 1, ac2 = 1) {
+    if (n <= 1) {
+        return ac2
+    };
+    return Fibonacci2(n - 1, ac2, ac1 + ac2);
 }
 
 // 12.递归运用(斐波那契数列)：爬楼梯问题
 function cStairs(n) {
-    if(n === 1 || n === 2) {
+    if (n === 1 || n === 2) {
         return 1;
     } else {
         return cStairs(n - 1) + cStairs(n - 2);
@@ -437,9 +443,14 @@ function cStairs(n) {
 
 // 13.两个升序数组合并为一个升序数组
 function sort(A, B) {
-    var i = 0, j = 0, p = 0, m = A.length, n = B.length, C = [];
-    while(i < m || j < n) {
-        if(i < m && j < n) {
+    var i = 0,
+        j = 0,
+        p = 0,
+        m = A.length,
+        n = B.length,
+        C = [];
+    while (i < m || j < n) {
+        if (i < m && j < n) {
             // 关键
             C[p++] = A[i] < B[j] ? A[i++] : B[j++];
         } else if (i > m) {
