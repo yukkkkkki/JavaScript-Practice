@@ -6,13 +6,201 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="算法.js"></script>
+    <style>
+        .test {
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            position: static;
+        }
+    </style>
 </head>
+<div>
+    <div class="test">
+
+    </div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+    <div>11111</div>
+
+</div>
 
 <body>
     <div></div>
     <script>
-        let dp = Array(2 + 1).fill(0).map(x => Array(3 + 1).fill(0));
-        console.log(dp);
+        // let dp = Array(2 + 1).fill(0).map(x => Array(3 + 1).fill(0));
+        // console.log(dp);
+        // for (var i = 0; i < 5; i++) {
+        //     // setTimeout(function () {
+        //     //     console.log(i);
+        //     // }, 1000)
+        //     console.log(i); // 0,1,2,3,4
+        // }
+        // console.log(i); // 5
+
+        // for (let i = 0; i < 5; i++) {
+        //     // setTimeout(function () {
+        //     //     console.log(i);
+        //     // }, 1000)
+        //     console.log(i); // 0,1,2,3,4
+        // }
+        // console.log(i); // ReferenceError
+
+        // for (let i = 0; i < 5; i++) {
+        //     setTimeout(function () {
+        //         console.log(i); // 0,1,2,3,4
+        //     }, 1000)
+        // }
+        // console.log(i); // ReferenceError
+
+        // 单例模式
+        // var Singleton = function (name) {
+        //     this.name = name;
+        // };
+        // Singleton.prototype.getName = function () {
+        //     return this.name;
+        // }
+        // // 获取实例对象
+        // var getInstance = (function () {
+        //     var instance = null;
+        //     return function (name) {
+        //         if (!instance) {
+        //             instance = new Singleton(name);
+        //         }
+        //         return instance;
+        //     }
+        // })();
+        // // 测试单例模式的实例
+        // var a = getInstance("aa");
+        // var b = getInstance("bb");
+        // console.log(b.getName()); // "aa"
+        // console.log(a === b); // true
+
+        // function CoolModule() {
+        //     // 私有变量
+        //     var something = "cool";
+        //     var another = [1, 2, 3];
+
+        //     function doSomething() {
+        //         console.log(something);
+        //     }
+
+        //     function doAnother() {
+        //         console.log(another.join(" ! "));
+        //     }
+
+        //     // 返回一个对象包含公有(特权)方法和属性
+        //     return {
+        //         doSomething: doSomething,
+        //         doAnother: doAnother
+        //     };
+        // }
+
+        // var foo = CoolModule();
+
+        // foo.doAnother(); // cool
+        // foo.doSomething(); // 1!2!3
+
+        // var test = CoolModule();
+        // test.doAnother();
+        // test.doSomething()
     </script>
 </body>
 
