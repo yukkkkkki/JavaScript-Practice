@@ -42,7 +42,7 @@ function shotCat(content) {
 // (2)一般还需要保存函数的参数(一般就是事件返回的对象)和上下文(定时器存在this隐式丢失)
 // 这里不建议通过定义一个全局变量来替代闭包保存定时器标识.
 function debounce(fun, delay = 500) {
-    let timer = null // 保存定时器
+    // let timer = null // 保存定时器
     return function (args) {
         let that = this;
         let _args = args;
@@ -55,10 +55,10 @@ function debounce(fun, delay = 500) {
         }, delay);
         // (2)常见写法 
         // 相比上面的方法 这里多一个判断
-        if (timer) clearTimeout(timer);
-        timer = setTimeout(function () {
-            fun.call(that, _args);
-        }, delay)
+        // if (timer) clearTimeout(timer);
+        // timer = setTimeout(function () {
+        //     fun.call(that, _args);
+        // }, delay)
     }
 }
 // 接着用变量保存保存 debounce 返回的带有延时功能的函数
