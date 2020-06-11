@@ -15,7 +15,7 @@
         }
     </style>
 </head>
-<div>
+<!-- <div>
     <div class="test">
 
     </div>
@@ -120,10 +120,12 @@
     <div>11111</div>
     <div>11111</div>
 
-</div>
+</div> -->
 
 <body>
-    <div></div>
+    <input type="file" onchange="previewFile()"><br>
+    <img src="5cd99e7f-e1bb-4e2c-9305-5ebb916f4dea.jpg" height="200" alt="Image preview...">
+
     <script>
         // let dp = Array(2 + 1).fill(0).map(x => Array(3 + 1).fill(0));
         // console.log(dp);
@@ -201,6 +203,23 @@
         // var test = CoolModule();
         // test.doAnother();
         // test.doSomething()
+
+        function previewFile() {
+            var preview = document.querySelector('img');
+            var file = document.querySelector('input[type=file]').files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                preview.src = reader.result;
+                console.log(reader.result.length);
+
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+        // console.log(img.length);
     </script>
 </body>
 
