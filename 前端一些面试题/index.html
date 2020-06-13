@@ -44,7 +44,7 @@
             color: pink;
             background-color: powderblue;
         } */
-        img {
+        /* img {
             width: 200px;
             height: 200px;
         }
@@ -52,20 +52,197 @@
         .figure {
             float: left;
             width: 50%;
-        }
+        } */
 
         /* .container::after {
             clear: both;
         } */
+
+        /* body,
+        html,
+        .containerl {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        } */
+
+        /*左边栏左浮动*/
+        /* .left {
+            float: left;
+            height: 100%;
+            width: 200px;
+            background: red;
+        } */
+
+        /*中间栏自适应*/
+        /* .main {
+            height: 100%;
+            margin: 0 200px;
+            background: blue;
+        } */
+
+        /*右边栏右浮动*/
+        /* .right {
+            float: right;
+            height: 100%;
+            width: 200px;
+            background: #333;
+        } */
+
+        /* body,
+        html,
+        .container {
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        } */
+
+        /*左右进行绝对定位*/
+        /* .left,
+        .right {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            background: #333;
+        }
+
+        .left {
+            left: 0;
+            width: 200px;
+        }
+
+        .right {
+            right: 0;
+            width: 200px;
+        } */
+
+        /*中间用margin空出左右元素所占的空间*/
+        /* .main {
+            height: 100%;
+            margin: 0 200px;
+            background: red;
+        } */
+
+        /*或者中间也进行绝对定位*/
+        /* .main {
+            position: absolute;
+            height: 100%;
+            left: 200px;
+            right: 200px;
+            background: red;
+        } */
+
+        /* * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .left {
+            width: 200px;
+            background: red;
+        }
+
+        .main {
+            flex: 1;
+            background: blue;
+        }
+
+        .right {
+            width: 200px;
+            background: red;
+        } */
+
+        /* * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            display: table;
+            width: 100%;
+            min-height: 100px;
+        }
+
+        .container>div {
+            display: table-cell;
+        }
+
+        .left {
+            width: 100px;
+            background: red;
+        }
+
+        .main {
+            background: yellow;
+        }
+
+        .right {
+            width: 100px;
+            background: blue;
+        } */
+        .container {
+            margin-left: 120px;
+            margin-right: 220px;
+        }
+
+        .main {
+            float: left;
+            width: 100%;
+            height: 300px;
+            background-color: red;
+        }
+
+        .left {
+            float: left;
+            width: 100px;
+            height: 300px;
+            margin-left: -100%;
+            position: relative;
+            left: -120px;
+            background-color: blue;
+        }
+
+        .right {
+            float: left;
+            width: 200px;
+            height: 300px;
+            margin-left: -200px;
+            position: relative;
+            right: -220px;
+            background-color: green;
+        }
     </style>
 </head>
 
 <body>
+    <div class="container">
+        <div class="main"></div>
+        <div class="left"></div>
+        <div class="right"></div>
+    </div>
+    <!-- <div class="content">
+        <div class="main"></div>
+    </div>
+    <div class="left"></div>
+    <div class="right"></div> -->
+    <!-- <div class="container">
+        <div class="left">1</div>
+        <div class="main">2</div>
+        <div class="right">3</div>
+    </div> -->
+
     <!-- <div class="t">hello</div>
     <div class="t">hello</div>
     <div class="t">hello</div>
     <div class="t">hello</div> -->
-    <p>this is a fake article this is a fake article this is a fake article this is a fake articlethis is a fake article
+    <!-- <p>this is a fake article this is a fake article this is a fake article this is a fake articlethis is a fake article
         this is a fake article this is a fake article this is a fake articlethis is a fake article this is a fake
         article this is a fake article this is a fake articlethis is a fake article this is a fake article this is a
         fake article this is a fake articlethis is a fake article this is a fake article this is a fake article this is
@@ -83,15 +260,15 @@
         article this is a fake article this is a fake article this is a fake articlethis is a fake article this is a
         fake article this is a fake article this is a fake articlethis is a fake article this is a fake article this is
         a fake article this is a fake articlethis is a fake article this is a fake article this is a fake article this
-    </p>
-    <div class="container">
+    </p> -->
+    <!-- <div class="container">
         <div class="figure"><img src="5cd99e7f-e1bb-4e2c-9305-5ebb916f4dea.jpg" alt=""></div>
         <div class="figure"><img src="5cd99e7f-e1bb-4e2c-9305-5ebb916f4dea.jpg" alt=""></div>
         <div></div>
-    </div>
+    </div> -->
     <!-- <div class="figure1"><img src="5cd99e7f-e1bb-4e2c-9305-5ebb916f4dea.jpg" alt=""></div>
     <div class="figure2"><img src="5cd99e7f-e1bb-4e2c-9305-5ebb916f4dea.jpg" alt=""></div> -->
-    <p>this is a fake article this is a fake article this is a fake article this is a fake articlethis is a fake article
+    <!-- <p>this is a fake article this is a fake article this is a fake article this is a fake articlethis is a fake article
         this is a fake article this is a fake article this is a fake articlethis is a fake article this is a fake
         article this is a fake article this is a fake articlethis is a fake article this is a fake article this is a
         fake article this is a fake articlethis is a fake article this is a fake article this is a fake article this is
@@ -109,7 +286,7 @@
         article this is a fake article this is a fake article this is a fake articlethis is a fake article this is a
         fake article this is a fake article this is a fake articlethis is a fake article this is a fake article this is
         a fake article this is a fake articlethis is a fake article this is a fake article this is a fake article this
-    </p>
+    </p> -->
 
     <!-- <aside class="comment">is this real???</aside> -->
     <!-- <header class="photo-header">
