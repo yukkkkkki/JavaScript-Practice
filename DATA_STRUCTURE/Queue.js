@@ -30,3 +30,32 @@ export class Queue {
     return this.items.length;
   }
 }
+
+// 击鼓传花
+export function passGame(nameList, num) {
+  // 创建队列
+  const queue = new Queue();
+
+  // 通过for循环，将nameList中的人放在队列中
+  for (let i = 0; i < nameList.length; i++) {
+    queue.enqueue(nameList[i]);
+  }
+
+  // 循环让游戏者进入队列
+  while (queue.size() > 1) {
+    for (let i = 0; i < 7; i++) {
+      queue.enqueue(queue.dequeue());
+    }
+    // 将第num个人, 从队列中移除
+    queue.dequeue()
+  }
+
+  // 获取剩下的一个人
+  alert(queue.size());
+  let endName = queue.dequeue();
+  alert("最终留下来的人：" + endName);
+
+  // return queue.front();
+  // 获取该人在队列中的位置
+  return nameList.indexOf(endName);
+}
