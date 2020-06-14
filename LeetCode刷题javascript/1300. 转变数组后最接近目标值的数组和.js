@@ -16,3 +16,35 @@
 // 示例 3：
 // 输入：arr = [60864,25176,27249,21296,20204], target = 56803
 // 输出：11361
+var findBestValue = function (arr, target) {
+  // find min & max
+  let min = max = arr[0];
+  arr.forEach(item => {
+    if (item > max) max = item;
+    if (item < min) min = item;
+  });
+
+  // find average
+  let average = target / arr.length;
+  if (average >= max) return max;
+  if (average <= min) {
+    const floorDiff = target - Math.floor(average) * arr.length;
+    const ceilDiff = Math.ceil(average) * arr.length - target;
+    if (floorDiff <= ceilDiff) {
+      return Math.floor(average);
+    }
+    return Math.ceil(average);
+  }
+
+  // 递归
+  let lessSum = 0; // 小于平均值的数求和
+  let moreItem = []; // 保留大于平均值的数组项
+  arr.forEach((item, index) => {
+    if (item > average) {
+      moreItem.push(item);
+    } else {
+      lessSum += item;
+    }
+  });
+  return findBestValue(moreItem, target - lessSum);
+};

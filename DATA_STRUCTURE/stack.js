@@ -21,7 +21,8 @@ class Stack {
 
   // 判断栈中的元素是否为空
   isEmpty() {
-    return this.items.length === 0;
+    if (this.isEmpty()) return null;
+    // return this.items.length === 0;
   }
 
   // 获取栈中元素的个数
