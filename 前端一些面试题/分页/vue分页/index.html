@@ -12,6 +12,7 @@
     <p>{{msg}}</p>
     <vue-nav :cur="cur" :all="all" :callback="callback"></vue-nav>
   </div>
+
   <script src="vue2.js"></script>
   <script src="vue-nav.js"></script>
 
@@ -28,8 +29,8 @@
       },
       methods: {
         callback(data) {
-          this.cur = data
-          this.msg = '你点击了' + data + '页'
+          this.cur = data;
+          this.msg = '你点击了' + data + '页';
         }
       }
     })
