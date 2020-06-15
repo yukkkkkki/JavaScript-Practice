@@ -24,7 +24,7 @@ class ArrayList {
     }
   }
 
-  // 选择排序(o(n))
+  // 选择排序(o(n^2))
   selectionSort() {
     let length = this.array.length;
 
