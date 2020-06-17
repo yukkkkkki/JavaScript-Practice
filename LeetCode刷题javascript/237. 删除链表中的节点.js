@@ -18,13 +18,18 @@
 // 给定的节点为非末尾节点并且一定是链表中的一个有效节点。
 // 不要从你的函数中返回任何结果。
 
+// 方法一
 var deleteNode = function (node) {
   node.val = node.next.val;
   node.next = node.next.next;
 };
 
-// 额额我一开始还纳闷怎么head没穿进来额，神经病
+// 方法二
+var deleteNode = function (node) {
+  Object.assign(node, node.next);
+};
 
+// 额额我一开始还纳闷怎么head没穿进来额，神经病
 
 // JS中基本类型按值引用， 对象类型按地址引用
 
