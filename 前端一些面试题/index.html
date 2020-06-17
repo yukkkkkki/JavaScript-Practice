@@ -393,6 +393,56 @@
         //     }
         // }
         // console.log(img.length);
+        //输出结果为浏览器环境下的输出
+        // var name = 'Tom'
+        // var obj = {
+        //     name: 'Jerry',
+        //     bar: function () {
+        //         var name = 'Spike'
+        //         console.log(this.name)
+        //     }
+        // }
+
+        // var f1 = obj.bar
+        // f1() //Tom
+        // obj.bar() //Jerry
+        // var name = "111"
+        // var obj = {
+        //     name: 'Tom',
+        //     getName() {
+        //         console.log(this.name)
+        //     }
+        // }
+        // var foo = obj.getName
+        //输出不是undefine而是空，这是由于window对象中本来就包含有一个名为name的属性，且属性值为空
+        // foo() //''
+
+        // for (let i = 0; i < 10; i++) {
+        //     console.log(i);
+        // }
+
+        // console.log("last", i);
+
+        // var funcs = [];
+        // for (var i = 0; i < 10; i++) {
+        //     funcs.push((function (value) {
+        //         return function () {
+        //             console.log(value);
+        //         }
+        //     }(i)));
+        // }
+
+        // funcs.forEach(function (func) {
+        //     func();
+        // });
+
+        for (var i = 1; i <= 5; i++) {
+            (function (j) {
+                setTimeout(function timer() {
+                    console.log(j);
+                })
+            })(i)
+        }
     </script>
 </body>
 
