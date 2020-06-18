@@ -25,6 +25,8 @@ function TreeNode(val) {
  * @param {string} S
  * @return {TreeNode}
  */
+
+//  方法一：重写split()
 var recoverFromPreorder = function (S, mysplit = '-') {
   // console.log(Object.prototype.toString.call(S));
   if (S == '') return null;
@@ -56,6 +58,7 @@ function split(S, mysplit) {
 }
 
 // 方法二
+// 参考：https://leetcode-cn.com/problems/recover-a-tree-from-preorder-traversal/solution/shou-hui-tu-jie-fei-di-gui-fa-zhong-gou-chu-er-cha/
 var recoverFromPreorder = function (S) {
   const stack = [];
   for (let i = 0; i < S.length;) {
