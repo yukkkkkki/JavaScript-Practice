@@ -87,3 +87,33 @@ var recoverFromPreorder = function (S) {
   }
   return stack[0]; // 栈底就是根节点
 }
+
+// 方法三
+var recoverFromPreorder = function (S) {
+  let list = [],
+    deep = 0,
+    val = ''; // 由于有多位的数字, 循环字符串把数字拼接起来
+  for (let s of S) {
+    if (s !== '-') {
+      val += s;
+    } else if (val) {
+      insertNode(+val, deep, list);
+      deep = 1;
+      val = '';
+    } else {
+      deep++;
+    }
+  }
+  insertNode(+val, deep, list);
+  return list[0];
+};
+
+function insertNode(val, deep, list) {
+  list[deep] = new TreeNode(val);
+  if (deep === 0) return;
+  if (!list[deep - 1].left) {
+    list[deep - 1].left = list[deep];
+  } else {
+    list[deep - 1].right = list[deep];
+  }
+}
