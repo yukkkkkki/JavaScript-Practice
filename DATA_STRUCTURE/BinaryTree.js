@@ -17,6 +17,47 @@
 // 非空左子树的所有键值小于其根节点的键值
 // 非空右子树的所有键值大于其根节点的键值
 // 左、右子树本身也都是二叉搜索树
-class BinarySearchTree {
-  
+class Node {
+  constructor() {
+    this.key = key;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+export class BinarySearchTree {
+  constructor() {
+    this.root = null;
+  }
+
+  // 向树中插入一个新的键
+  insert(key) {
+    // 根据key创建node节点
+    const newNode = new Node(key);
+
+    // 若原来的树是一棵空树
+    if (this.root === null) {
+      this.root = newNode;
+    } else {
+      this.insertNode(this.root, newNode);
+    }
+  }
+
+  insertNode(node, newNode) {
+    if (newNode.key > node.key) {
+      if (node.right === null) {
+        node.right = newNode;
+      } else {
+        this.insertNode(node.right, newNode);
+      }
+    } else {
+      if (node.left === null) {
+        node.left = newNode;
+      } else {
+        this.insertNode(node.left, newNode);
+      }
+    }
+  }
+
+  // 先序遍历二叉树
 }
