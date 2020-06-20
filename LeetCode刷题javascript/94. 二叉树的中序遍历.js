@@ -52,22 +52,23 @@ var help = function (root, res) {
     res.push(root.val);
     help(root.right, res);
   }
-}
+};
 
 // 方法三：非递归
-// 用栈来做(比前两个效果好)
+// 用栈来做
 var inorderTraversal = function (root) {
   let res = [],
     stack = [];
   while (root || stack.length) {
-    while (root) { // 左子节点们入栈
+    while (root) {
+      // 左子节点们入栈
       stack.push(root);
       root = root.left;
     }
 
     root = stack.pop(); // 直到左子节点没有左子节点，出栈
     res.push(root.val); // push进res
-    root = root.right; // 看右子节点 
+    root = root.right; // 看右子节点
   }
   return res;
 };

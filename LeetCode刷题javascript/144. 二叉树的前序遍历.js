@@ -2,12 +2,12 @@
 
 //  示例:
 
-// 输入: [1,null,2,3]  
+// 输入: [1,null,2,3]
 //    1
 //     \
 //      2
 //     /
-//    3 
+//    3
 
 // 输出: [1,2,3]
 
@@ -24,9 +24,10 @@ var help = function (res, root) {
     help(res, root.left);
     help(res, root.right);
   }
-}
+};
 
 // 方法二：非递归
+// 用栈做，右子树先入栈，然后左子树入栈
 var preorderTraversal = function (root) {
   if (!root) return [];
 

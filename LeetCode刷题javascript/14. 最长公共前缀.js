@@ -15,10 +15,11 @@
 
 // 方法一
 var longestCommonPrefix = function (strs) {
-  if (!strs || strs.length === 0) return '';
-  let res = ''; // 共同的前缀字符串
+  if (!strs || strs.length === 0) return "";
+  let res = ""; // 共同的前缀字符串
   let index = 0; // 指针
-  for (let c of strs[0]) { // 遍历第一个字符串的每个字符
+  for (let c of strs[0]) {
+    // 遍历第一个字符串的每个字符
     for (let i = 1; i < strs.length; i++) {
       if (index >= strs[i].length || strs[i][index] !== c) {
         return res;

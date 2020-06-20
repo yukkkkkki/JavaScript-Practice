@@ -13,22 +13,22 @@
 
 // 方法一：
 var singleNumber = function (nums) {
-    // 先排序。再暴力
-    nums = nums.sort();
-    for (let i = 0; i < nums.length; i++) {
-        if (nums[i] !== nums[i - 1] && nums[i] !== nums[i + 1]) return nums[i];
-    }
+  // 先排序。再暴力
+  nums = nums.sort();
+  for (let i = 0; i < nums.length; i++) {
+    if (nums[i] !== nums[i - 1] && nums[i] !== nums[i + 1]) return nums[i];
+  }
 };
 
 // 方法二：哈希(这个效果更好)
 var singleNumber = function (nums) {
-    let numsObj = {};
-    for (let i = 0; i < nums.length; i++) {
-        if (numsObj[nums[i]]) {
-            delete numsObj[nums[i]];
-        } else {
-            numsObj[nums[i]] = 1;
-        }
+  let numsObj = {};
+  for (let i = 0; i < nums.length; i++) {
+    if (numsObj[nums[i]]) {
+      delete numsObj[nums[i]];
+    } else {
+      numsObj[nums[i]] = 1;
     }
-    return Object.keys(numsObj)[0];
+  }
+  return Object.keys(numsObj)[0];
 };

@@ -20,7 +20,7 @@ var add = function (a, b) {
 var add = function (a, b) {
   if (a == 0) return b;
   if (b == 0) return a;
-  return add((a ^ b), ((a & b) << 1));
+  return add(a ^ b, (a & b) << 1);
 };
 // 作者： zero0011
 // 链接： https: //leetcode-cn.com/problems/bu-yong-jia-jian-cheng-chu-zuo-jia-fa-lcof/solution/javascriptde-di-gui-jie-fa-yo-by-zero0011/

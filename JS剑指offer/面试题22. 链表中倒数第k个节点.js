@@ -7,16 +7,17 @@
 // 双指针
 // 用两个指针，让第一个先走k步, 然后两个指针一起移动
 // 当第一个指针到最后一个节点处，第二个指针就在倒数第K个节点
-var getKthFromEnd = function(head, k) {
-    if(head == null || k == 0) return null;
-    let first = head, second = head;
-    while(k !== 0) {
-        first = first.next;
-        k--;
-    }
-    while(first !== null) {
-        first = first.next;
-        second = second.next;
-    }
-    return second;
-}
+var getKthFromEnd = function (head, k) {
+  if (head == null || k == 0) return null;
+  let first = head,
+    second = head;
+  while (k !== 0) {
+    first = first.next;
+    k--;
+  }
+  while (first !== null) {
+    first = first.next;
+    second = second.next;
+  }
+  return second;
+};

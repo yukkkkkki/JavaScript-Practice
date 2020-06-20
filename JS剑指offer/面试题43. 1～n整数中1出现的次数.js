@@ -25,7 +25,7 @@ var countDigitOne = function (n) {
       rest = 0;
 
     count += p * i;
-    rest = (k > (2 * i - 1)) ? i : ((k < i) ? 0 : k - i + 1);
+    rest = k > 2 * i - 1 ? i : k < i ? 0 : k - i + 1;
     count += rest;
   }
   return count;

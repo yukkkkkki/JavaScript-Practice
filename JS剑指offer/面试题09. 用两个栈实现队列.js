@@ -16,29 +16,30 @@
 //     1 <= values <= 10000
 //     最多会对 appendTail、deleteHead 进行 10000 次调用
 
-var CQueue = function() {
-    this.inStack = [];
-    this.outStack = [];
+var CQueue = function () {
+  this.inStack = [];
+  this.outStack = [];
 };
 
-/** 
+/**
  * @param {number} value
  * @return {void}
  */
-CQueue.prototype.appendTail = function(value) {
-    this.inStack.push(value);
+CQueue.prototype.appendTail = function (value) {
+  this.inStack.push(value);
 };
 
 /**
  * @return {number}
  */
-CQueue.prototype.deleteHead = function() {
-    if (this.outStack.length === 0) { // 判断 outStack 是否已经为空
-        while (this.inStack.length !== 0) { 
-            this.outStack.push(this.inStack.pop()) // 把 inStack 的值调换顺序放入 outStack
-        }
+CQueue.prototype.deleteHead = function () {
+  if (this.outStack.length === 0) {
+    // 判断 outStack 是否已经为空
+    while (this.inStack.length !== 0) {
+      this.outStack.push(this.inStack.pop()); // 把 inStack 的值调换顺序放入 outStack
     }
-    return this.outStack.pop() || -1
+  }
+  return this.outStack.pop() || -1;
 };
 
 /**

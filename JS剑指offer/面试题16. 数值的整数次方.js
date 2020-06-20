@@ -1,6 +1,5 @@
 // 实现函数double Power(double base, int exponent)，求base的exponent次方。不得使用库函数，同时不需要考虑大数问题。
 
-
 // 示例 1:
 // 输入: 2.00000, 10
 // 输出: 1024.00000
@@ -23,7 +22,7 @@ var myPow = function (x, n) {
   const isNegative = n > 0; // 判断n是否是负数
   const res = help(x, Math.abs(n));
   return isNegative ? 1 / res : res;
-}
+};
 
 function help(x, n) {
   if (n == 0) return 1;

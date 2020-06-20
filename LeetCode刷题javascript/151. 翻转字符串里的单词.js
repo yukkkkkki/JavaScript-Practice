@@ -21,5 +21,10 @@
 
 var reverseWords = function (s) {
   if (s === null) return null;
-  return s.trim().split(" ").filter(value => value !== '').reverse().join(" ");
+  return s
+    .trim()
+    .split(" ")
+    .filter((value) => value !== "")
+    .reverse()
+    .join(" ");
 };

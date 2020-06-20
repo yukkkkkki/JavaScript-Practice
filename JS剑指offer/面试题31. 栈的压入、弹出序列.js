@@ -27,4 +27,4 @@ var validateStackSequences = function (pushed, popped) {
     }
   }
   return !stack.length;
-}
+};

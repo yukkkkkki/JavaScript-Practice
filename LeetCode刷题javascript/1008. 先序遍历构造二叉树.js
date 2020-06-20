@@ -9,7 +9,7 @@
 var bstFromPreorder = function (preorder) {
   if (!preorder.length) return null;
 
-  let mid = preorder[0]
+  let mid = preorder[0];
   let node = new TreeNode(mid);
   //console.log(node.val);
   let left = [],

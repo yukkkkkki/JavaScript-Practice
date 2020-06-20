@@ -9,9 +9,7 @@
 // 在添加方法中，根据优先级放入争取的位置
 
 // 应用：机场登机顺序、医院的急诊科
-import {
-  Queue
-} from "./Queue"
+import { Queue } from "./Queue";
 
 export class PriorityQueue extends Queue {
   enqueue(element, priority) {
@@ -35,6 +33,5 @@ export class PriorityQueue extends Queue {
         this.items.push(queueElement);
       }
     }
-
   }
 }

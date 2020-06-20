@@ -19,8 +19,8 @@
 // 9   6 3   1
 
 // 方法一：递归
-var invertTree = function(root) {
-  if(!root) return null;
+var invertTree = function (root) {
+  if (!root) return null;
 
   let temp = root.left;
   root.left = root.right;
@@ -33,20 +33,20 @@ var invertTree = function(root) {
 };
 
 // 方法二：中序遍历 + 左右交换
-var invertTree = function(root) {
-  if(!root) return null;
+var invertTree = function (root) {
+  if (!root) return null;
   let cur;
   let stack = [root];
-  while(stack.length) {
-      cur = stack.pop();
-      // 左右交换
-      let temp = root.left;
-      root.left = root.right;
-      cur.right = temp;
+  while (stack.length) {
+    cur = stack.pop();
+    // 左右交换
+    let temp = root.left;
+    root.left = root.right;
+    cur.right = temp;
 
-      // 栈依次存入右、左节点
-      cur.right && stack.push(cur.right);
-      cur.left && stack.push(cur.left);
+    // 栈依次存入右、左节点
+    cur.right && stack.push(cur.right);
+    cur.left && stack.push(cur.left);
   }
   return root;
 };

@@ -1,24 +1,24 @@
 // 给定一个二叉树，返回它的 后序 遍历。
 
 // 示例:
-// 输入: [1,null,2,3]  
+// 输入: [1,null,2,3]
 //    1
 //     \
 //      2
 //     /
-//    3 
+//    3
 // 输出: [3,2,1]
 
 // 方法一：递归
 var postorderTraversal = function (root) {
   let res = [];
-  const help = root => {
+  const help = (root) => {
     if (root) {
       help(root.left);
       help(root.right);
       res.push(root.val);
     }
-  }
+  };
   help(root);
   return res;
 };

@@ -7,35 +7,35 @@
 
 // reverse()输出
 var reversePrint = function (head) {
-    if (head === null) return []
-    const res = []
-    while (head) {
-      res.push(head.val)
-      head = head.next
-    }
-    return res.reverse()
-}
+  if (head === null) return [];
+  const res = [];
+  while (head) {
+    res.push(head.val);
+    head = head.next;
+  }
+  return res.reverse();
+};
 
 // 递归
-var reversePrint = function(head) {
-    if(head == null) return [];
-    let res = reversePrint(head.next);
-    res.push(head.val);
-    return res;
+var reversePrint = function (head) {
+  if (head == null) return [];
+  let res = reversePrint(head.next);
+  res.push(head.val);
+  return res;
 };
 
 // 栈
-var reversePrint = function(head) {
-    const stack = [];
-    let node = head;
-    while(node) {
-        stack.push(node.val);
-        node = node.next;
-    }
+var reversePrint = function (head) {
+  const stack = [];
+  let node = head;
+  while (node) {
+    stack.push(node.val);
+    node = node.next;
+  }
 
-    const reverse = [];
-    while(stack.length) {
-        reverse.push(stack.pop());
-    }
-    return reverse;
+  const reverse = [];
+  while (stack.length) {
+    reverse.push(stack.pop());
+  }
+  return reverse;
 };

@@ -86,7 +86,7 @@ export class LinkedList {
 
     while (current) {
       if (current.element === element) {
-        return index
+        return index;
       }
       index++;
       current = current.next;

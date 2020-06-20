@@ -16,24 +16,25 @@
 // 输出：5
 
 // 方法一
-var fib = function(n) {
-    if(n === 0) return 0;
-    if(n === 1) return 1;
+var fib = function (n) {
+  if (n === 0) return 0;
+  if (n === 1) return 1;
 
-    let a= 1, b = 0;
-    for(let i = 1; i < n; i++){
-        let t = b;
-        b = a;
-        a = (t + a) % 1000000007;
-    }
-    return a;
+  let a = 1,
+    b = 0;
+  for (let i = 1; i < n; i++) {
+    let t = b;
+    b = a;
+    a = (t + a) % 1000000007;
+  }
+  return a;
 };
 
 // 方法二：递归
-var fib = function(n) {
-    let fibonacci = [0,1];
-    for(let i = 2; i <= n; i++){
-        fibonacci[i] = (fibonacci[i - 1] + fibonacci[i - 2]) % (1e9 + 7);
-    }
-    return fibonacci[n];
+var fib = function (n) {
+  let fibonacci = [0, 1];
+  for (let i = 2; i <= n; i++) {
+    fibonacci[i] = (fibonacci[i - 1] + fibonacci[i - 2]) % (1e9 + 7);
+  }
+  return fibonacci[n];
 };

@@ -33,9 +33,9 @@ var findNthDigit = function (n) {
   //此时n就是i位数里面的第几个字符
   // 然后找到是哪个数字
   n--; //变为下标
-  let start = 10 ** (i - 1) + parseInt(n / i) + '';
+  let start = 10 ** (i - 1) + parseInt(n / i) + "";
   return start[n % i];
-}
+};
 
 // 方法二
 var findNthDigit = function (n) {
@@ -46,5 +46,5 @@ var findNthDigit = function (n) {
     n -= sum;
     sum = 9 * Math.pow(10, i) * ++i;
   }
-  return (sum / 9 / i + parseInt(n / i) + '')[n % i];
-}
+  return (sum / 9 / i + parseInt(n / i) + "")[n % i];
+};

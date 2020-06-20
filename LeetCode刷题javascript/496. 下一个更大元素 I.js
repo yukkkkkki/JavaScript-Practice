@@ -2,7 +2,6 @@
 
 // nums1 中数字 x 的下一个更大元素是指 x 在 nums2 中对应位置的右边的第一个比 x 大的元素。如果不存在，对应位置输出 -1 。
 
-
 // 示例 1:
 // 输入: nums1 = [4,1,2], nums2 = [1,3,4,2].
 // 输出: [-1,3,-1]
@@ -31,7 +30,7 @@ var nextGreaterElement = function (nums1, nums2) {
         res[i] = nums2[j];
         break;
       }
-      res[i] = -1
+      res[i] = -1;
     }
   }
   return res;
@@ -48,7 +47,7 @@ var nextGreaterElement = function (nums1, nums2) {
   let map = new Map();
 
   for (let i = 0; i < nums2.length; i++) {
-    // 栈顶元素存在，并且当前的元素大于栈顶  
+    // 栈顶元素存在，并且当前的元素大于栈顶
     while (stack.length && nums2[i] > stack[stack.length - 1]) {
       map.set(stack.pop(), nums2[i]);
     }
@@ -60,8 +59,8 @@ var nextGreaterElement = function (nums1, nums2) {
     map.set(stack.pop(), -1);
   }
 
-  nums1.forEach(item => {
+  nums1.forEach((item) => {
     res.push(map.get(item));
-  })
+  });
   return res;
 };

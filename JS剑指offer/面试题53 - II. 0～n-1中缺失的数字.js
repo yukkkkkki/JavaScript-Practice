@@ -9,15 +9,15 @@
 // 输出: 8
 
 // 方法一：二项查找
-var missingNumber = function(nums) {
-    if(nums.length - 1 === nums[nums.length - 1]) return nums.length; // 如果就是有序，直接返回最后一个数
-    let left = 0, right = nums.length - 1;
-    while(left <= right) {
-        let mid = left + parseInt((right - left) / 2);
-        mid === nums[mid] ? left = mid + 1 : right = mid - 1;
-    }
-    return left;
-
+var missingNumber = function (nums) {
+  if (nums.length - 1 === nums[nums.length - 1]) return nums.length; // 如果就是有序，直接返回最后一个数
+  let left = 0,
+    right = nums.length - 1;
+  while (left <= right) {
+    let mid = left + parseInt((right - left) / 2);
+    mid === nums[mid] ? (left = mid + 1) : (right = mid - 1);
+  }
+  return left;
 };
 
 // 方法二 思路：
@@ -27,18 +27,17 @@ var missingNumber = function(nums) {
 // 如果mid < nums[mid]，说明[mid, right]范围内不缺失数字，right 更新为 mid - 1
 // 检查 left 是否小于等于 mid，若成立，返回第 2 步；否则，向下执行
 // 返回 left 即可
-var missingNumber = function(nums) {
-    let left = 0;
-    let right = nums.length - 1;
+var missingNumber = function (nums) {
+  let left = 0;
+  let right = nums.length - 1;
 
-    while (left <= right) {
-        let mid = Math.floor((left + right) / 2);
-        if(mid === nums[mid]){
-            left = mid + 1;
-        } else if (mid < nums[mid]) {
-            right = mid - 1;
-        }
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    if (mid === nums[mid]) {
+      left = mid + 1;
+    } else if (mid < nums[mid]) {
+      right = mid - 1;
     }
-    return left;
-
+  }
+  return left;
 };

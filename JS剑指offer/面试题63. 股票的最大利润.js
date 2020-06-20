@@ -21,7 +21,7 @@ var maxProfit = function (prices) {
     res = Math.max(res, prices[i] - min);
   }
   return res;
-}
+};
 
 // 方法二
 var maxProfit = function (prices) {

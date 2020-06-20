@@ -4,26 +4,27 @@
 // 输入: [1,2,1]
 // 输出: [2,-1,2]
 // 解释: 第一个 1 的下一个更大的数是 2；
-// 数字 2 找不到下一个更大的数； 
+// 数字 2 找不到下一个更大的数；
 // 第二个 1 的下一个最大的数需要循环搜索，结果也是 2。
 
 // 单调栈
 var nextGreaterElements = function (nums) {
   const doubleNums = [...nums, ...nums];
-  const {
-    length
-  } = doubleNums;
+  const { length } = doubleNums;
   if (length === 0) return doubleNums;
   let stack = [];
   let res = new Array(length).fill(-1);
   for (let i = 0; i < length; i++) {
-    while (stack.length && doubleNums[i] > doubleNums[stack[stack.length - 1]]) {
+    while (
+      stack.length &&
+      doubleNums[i] > doubleNums[stack[stack.length - 1]]
+    ) {
       let index = stack.pop();
       res[index] = doubleNums[i];
     }
     stack.push(i);
   }
-  return res.slice(0, (res.length / 2));
+  return res.slice(0, res.length / 2);
 };
 
 // 方法二(还是单调栈)

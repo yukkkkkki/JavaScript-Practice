@@ -15,7 +15,7 @@ var MinStack = function () {
   this.minV = Number.MAX_VALUE;
 };
 
-/** 
+/**
  * @param {number} x
  * @return {void}
  */
@@ -68,13 +68,16 @@ var MinStack = function () {
   this.minStack = [];
 };
 
-/** 
+/**
  * @param {number} x
  * @return {void}
  */
 MinStack.prototype.push = function (x) {
   this.stack.push(x);
-  if (this.minStack.length == 0 || x <= this.minStack[this.minStack.length - 1]) {
+  if (
+    this.minStack.length == 0 ||
+    x <= this.minStack[this.minStack.length - 1]
+  ) {
     this.minStack.push(x);
   }
 };

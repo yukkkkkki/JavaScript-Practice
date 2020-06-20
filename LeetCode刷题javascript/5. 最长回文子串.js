@@ -23,17 +23,17 @@
 // j - i < 2：意即子串是一个长度为0或1的回文串
 // 总结
 // dp[i][j] = s[i] == s[j] && ( dp[i+1][j-1] || j - i < 2)
-var longestPalindrome = function(s) {
-    let n = s.length;
-    let res = '';
-    let dp = Array.from(new Array(n), () => new Array(n).fill(0));
-    for(let i = n - 1; i >= 0; i--){
-        for(let j = i; j < n; j++){
-            dp[i][j] = s[i] == s[j] && (j - i < 2 || dp[i +1][j - 1]);
-            if(dp[i][j] && j - i + 1 > res.length){
-                res = s.substring(i, j + 1);
-            }
-        }
+var longestPalindrome = function (s) {
+  let n = s.length;
+  let res = "";
+  let dp = Array.from(new Array(n), () => new Array(n).fill(0));
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = i; j < n; j++) {
+      dp[i][j] = s[i] == s[j] && (j - i < 2 || dp[i + 1][j - 1]);
+      if (dp[i][j] && j - i + 1 > res.length) {
+        res = s.substring(i, j + 1);
+      }
     }
-    return res;
+  }
+  return res;
 };

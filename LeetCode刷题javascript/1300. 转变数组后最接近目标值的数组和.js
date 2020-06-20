@@ -18,8 +18,8 @@
 // 输出：11361
 var findBestValue = function (arr, target) {
   // find min & max
-  let min = max = arr[0];
-  arr.forEach(item => {
+  let min = (max = arr[0]);
+  arr.forEach((item) => {
     if (item > max) max = item;
     if (item < min) min = item;
   });

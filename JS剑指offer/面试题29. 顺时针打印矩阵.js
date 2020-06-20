@@ -17,7 +17,7 @@ var spiralOrder = function (matrix) {
 
   const rows = matrix.length;
   const cols = matrix[0].length;
-  let res = []
+  let res = [];
 
   let start = 0;
   while (cols > start * 2 && rows > start * 2) {
@@ -109,7 +109,7 @@ var spiralOrder = function (matrix) {
     top++;
     for (let i = top; i <= bottom; i++) res.push(matrix[i][right]);
     right--;
-    if (res.length === size) break // 遍历结束
+    if (res.length === size) break; // 遍历结束
     for (let i = right; i >= left; i--) res.push(matrix[bottom][i]);
     bottom--;
     for (let i = bottom; i >= top; i--) res.push(matrix[i][left]);

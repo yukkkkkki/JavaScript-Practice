@@ -9,19 +9,20 @@
 // 输出：[10,30] 或者 [30,10]
 
 // 左右双指针
-var twoSum = function(nums, target) {
-    let left = 0, right = nums.length - 1;
-    while(left < right){
-        let sum = nums[left] + nums[right];
-        if(sum === target){
-            return [nums[left], nums[right]];
-        } else if(sum > target){
-            // 如果sum > target，只能右边递减，因为左边已经是最小
-            right--;
-        } else if(sum < target){
-            // 如果sum < target，左边递加
-            left++;
-        }
+var twoSum = function (nums, target) {
+  let left = 0,
+    right = nums.length - 1;
+  while (left < right) {
+    let sum = nums[left] + nums[right];
+    if (sum === target) {
+      return [nums[left], nums[right]];
+    } else if (sum > target) {
+      // 如果sum > target，只能右边递减，因为左边已经是最小
+      right--;
+    } else if (sum < target) {
+      // 如果sum < target，左边递加
+      left++;
     }
-    return -1;
+  }
+  return -1;
 };

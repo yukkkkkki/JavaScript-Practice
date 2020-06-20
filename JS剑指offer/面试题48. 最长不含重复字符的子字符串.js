@@ -2,7 +2,7 @@
 
 // 示例 1:
 // 输入: "abcabcbb"
-// 输出: 3 
+// 输出: 3
 // 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
 
 // 示例 2:
@@ -20,7 +20,7 @@
 var lengthOfLongestSubstring = function (s) {
   const len = s.length;
   let res = 0;
-  let temp = '';
+  let temp = "";
   for (let i = 0; i < len; i++) {
     if (temp.indexOf(s[i]) === -1) {
       temp += s[i];

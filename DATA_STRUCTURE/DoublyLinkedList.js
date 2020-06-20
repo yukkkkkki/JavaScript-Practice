@@ -3,10 +3,7 @@
 // 也就是链表相连的过程是双向的
 // 一个节点既有向前链接的引用，也有一个向后连接的引用
 // 双向链表可以有效地解决单向链表中提到的问题
-import {
-  LinkedList,
-  Node
-} from "./LinkedList"
+import { LinkedList, Node } from "./LinkedList";
 
 // 使用了继承
 class DoublyNode extends Node {
@@ -17,7 +14,6 @@ class DoublyNode extends Node {
 }
 
 export class DoublyLinkedList extends LinkedList {
-
   constructor() {
     super();
     this.tail = null;
@@ -28,7 +24,8 @@ export class DoublyLinkedList extends LinkedList {
     // 根据element创建元素
     const newNode = new DoublyNode(element);
 
-    if (this.head === null) { // 原来没有任何元素
+    if (this.head === null) {
+      // 原来没有任何元素
       this.head = newNode;
       this.tail = newNode;
     } else {
@@ -50,10 +47,12 @@ export class DoublyLinkedList extends LinkedList {
 
     // 判断多钟插入情况
     if (position === 0) {
-      if (this.head === null) { // 原来是没有元素的情况
+      if (this.head === null) {
+        // 原来是没有元素的情况
         this.head = newNode;
         this.tail = newNode;
-      } else { // 原来是有元素的情况
+      } else {
+        // 原来是有元素的情况
         newNode.next = this.head;
         this.head.prev = newNode;
         this.head = newNode;
@@ -123,7 +122,7 @@ export class DoublyLinkedList extends LinkedList {
 
   // isEmpty() // 判断是否为空
 
-  // size() // 获取链表长度 
+  // size() // 获取链表长度
 
   // 获取第一个元素
   getHeat() {

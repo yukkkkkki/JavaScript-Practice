@@ -1,6 +1,5 @@
 // 从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。2～10为数字本身，A为1，J为11，Q为12，K为13，而大、小王为 0 ，可以看成任意数字。A 不能视为 14。
 
-
 // 示例 1:
 // 输入: [1,2,3,4,5]
 // 输出: True
@@ -9,9 +8,8 @@
 // 输入: [0,0,1,2,5]
 // 输出: True
 
-
 // 限制：
-// 数组长度为 5 
+// 数组长度为 5
 // 数组的数取值为 [0, 13]
 
 var isStraight = function (nums) {
@@ -31,15 +29,16 @@ var isStraight = function (nums) {
   while (i < nums.length - 1) {
     let difLen = nums[i + 1] - nums[i];
     if (difLen > 1) {
-      king -= (difLen - 1);
+      king -= difLen - 1;
       if (king < 0) return false;
-    } else if (difLen == 0) { //相同的，肯定不是顺子
+    } else if (difLen == 0) {
+      //相同的，肯定不是顺子
       return false;
     }
     i++;
   }
   return true;
-}
+};
 
 // 方法二
 // 如果空缺的总数 <= 0的个数，那么这个数组就是连续的；反之则不连续

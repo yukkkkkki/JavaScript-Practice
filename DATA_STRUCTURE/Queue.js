@@ -19,7 +19,7 @@ export class Queue {
 
   front() {
     if (this.items.length === 0) return null;
-    return this.items[0]
+    return this.items[0];
   }
 
   isEmpty() {
@@ -47,7 +47,7 @@ export function passGame(nameList, num) {
       queue.enqueue(queue.dequeue());
     }
     // 将第num个人, 从队列中移除
-    queue.dequeue()
+    queue.dequeue();
   }
 
   // 获取剩下的一个人

@@ -2,7 +2,7 @@
 
 // 示例:
 // 输入: 13
-// 输出: 6 
+// 输出: 6
 // 解释: 数字 1 出现在以下数字中: 1, 10, 11, 12, 13 。
 
 // 归纳法
@@ -20,7 +20,7 @@ var countDigitOne = function (n) {
       rest = 0;
 
     count += p * i;
-    rest = (k > (2 * i - 1)) ? i : ((k < i) ? 0 : k - i + 1);
+    rest = k > 2 * i - 1 ? i : k < i ? 0 : k - i + 1;
     count += rest;
   }
   return count;

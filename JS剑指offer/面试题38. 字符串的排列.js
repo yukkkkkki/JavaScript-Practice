@@ -10,7 +10,7 @@
 var permutation = function (s) {
   let len = s.length;
   let res = new Set();
-  dfs('', s);
+  dfs("", s);
   return Array.from(res);
 
   /**

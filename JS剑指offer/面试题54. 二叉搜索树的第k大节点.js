@@ -27,10 +27,10 @@ var kthLargest = function (root, k) {
   let arr = [];
 
   function dfs(node) {
-    if (!node) return
-    dfs(node.left)
-    arr.push(node.val)
-    dfs(node.right)
+    if (!node) return;
+    dfs(node.left);
+    arr.push(node.val);
+    dfs(node.right);
   }
   dfs(root);
   return arr[arr.length - k];

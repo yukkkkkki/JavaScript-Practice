@@ -9,7 +9,7 @@
 //     3    6
 //    / \    \
 //   2   4    8
-//  /        / \ 
+//  /        / \
 // 1        7   9
 
 // 输出：[1,null,2,null,3,null,4,null,5,null,6,null,7,null,8,null,9]
@@ -30,19 +30,20 @@
 //               \
 //                8
 //                 \
-//                  9  
+//                  9
 var increasingBST = function (root) {
   let temp = [],
     stack = [];
   while (root || stack.length) {
-    while (root) { // 左子节点们入栈
+    while (root) {
+      // 左子节点们入栈
       stack.push(root);
       root = root.left;
     }
 
     root = stack.pop(); // 直到左子节点没有左子节点，出栈
     temp.push(root.val);
-    root = root.right
+    root = root.right;
   }
 
   let newNode = new TreeNode(temp[0]);

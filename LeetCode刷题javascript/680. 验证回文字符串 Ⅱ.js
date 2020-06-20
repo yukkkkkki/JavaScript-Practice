@@ -13,24 +13,24 @@
 
 // 方法一
 var validPalindrome = function (s) {
-    return helper(s, true) || helper(s, false);
+  return helper(s, true) || helper(s, false);
 };
 
 function helper(s, left) {
-    // 标记是否进行了删除修改
-    let update = false;
-    for (let i = 0, j = s.length - 1; i <= j;) {
-        // 左右不相等
-        if (s[i] !== s[j]) {
-            if (update) return false;
-            // 移动指针，相当于删除一个字符，两种 case，移动左边字符或右边字符
-            left ? i++ : j--;
-            update = true;
-        } else {
-            i++, j--;
-        }
+  // 标记是否进行了删除修改
+  let update = false;
+  for (let i = 0, j = s.length - 1; i <= j; ) {
+    // 左右不相等
+    if (s[i] !== s[j]) {
+      if (update) return false;
+      // 移动指针，相当于删除一个字符，两种 case，移动左边字符或右边字符
+      left ? i++ : j--;
+      update = true;
+    } else {
+      i++, j--;
     }
-    return true;
+  }
+  return true;
 }
 
 // 方法二
@@ -39,12 +39,15 @@ function helper(s, left) {
 // 否则说明 s 不是回文字符串，此时我可以删除一个头节点的字符，或者尾节点的字符，再对其进行检测是否是回文字符串
 // 因为只能删一个字符，所以我们只能删一次，可以使用一个 flag 进行过滤
 var validPalindrome = function (s, flag = true) {
-    let l = 0,
-        r = s.length - 1;
-    while (l < r && s[l] === s[r]) l++, r--;
-    if (r <= l) return true;
-    if (flag == true) {
-        return validPalindrome(s.slice(l, r), false) || validPalindrome(s.slice(l + 1, r + 1), false);
-    }
-    return false;
+  let l = 0,
+    r = s.length - 1;
+  while (l < r && s[l] === s[r]) l++, r--;
+  if (r <= l) return true;
+  if (flag == true) {
+    return (
+      validPalindrome(s.slice(l, r), false) ||
+      validPalindrome(s.slice(l + 1, r + 1), false)
+    );
+  }
+  return false;
 };

@@ -59,5 +59,57 @@ export class BinarySearchTree {
     }
   }
 
-  // 先序遍历二叉树
+  // 先序遍历二叉树 根节点->左节点->右节点
+  preOrderTraverse() {
+    this.preOrderTraverseNode(this.root);
+  }
+
+  preOrderTraverseNode(node) {
+    if (node === null) return;
+    console.log(node.key);
+    this.preOrderTraverseNode(node.left);
+    this.preOrderTraverseNode(node.right);
+  }
+
+  // 中序遍历二叉树 左节点->根节点->右节点
+  inOrderTraverse() {
+    this.inOrderTraverseNode(this.root);
+  }
+  inOrderTraverseNode(node) {
+    if (node === null) return;
+    this.inOrderTraverseNode(node.left);
+    console.log(node.key);
+    this.inOrderTraverseNode(node.right);
+  }
+
+  // 后序遍历二叉树 左节点->右节点->根节点
+  postOrderTraverse() {
+    this.postOrderTraverseNode(this.root);
+  }
+  postOrderTraverseNode(node) {
+    if (node === null) return;
+    this.postOrderTraverseNode(node.left);
+    this.postOrderTraverseNode(node.right);
+    console.log(node.key);
+  }
+
+  // 最小值
+  min() {
+    let node = this.root;
+    while (node.left !== null) {
+      node = node.left;
+    }
+    return node.key;
+  }
+
+  // 最大值
+  max() {
+    let node = this.root;
+    while (node.right !== null) {
+      node = node.right;
+    }
+    return node.key;
+  }
+
+  // 获取特定的值
 }

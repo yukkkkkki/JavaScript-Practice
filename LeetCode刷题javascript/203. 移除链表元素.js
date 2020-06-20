@@ -10,13 +10,16 @@ var removeElements = function (head, val) {
     pre = null;
 
   while (cur) {
-    if (cur.val === val && cur === head) { // 删除节点是头部的情况
+    if (cur.val === val && cur === head) {
+      // 删除节点是头部的情况
       head = head.next;
       cur = head;
-    } else if (cur.val === val) { // 找到相等，则改变pre的next指向，cur前进继续找相同元素
+    } else if (cur.val === val) {
+      // 找到相等，则改变pre的next指向，cur前进继续找相同元素
       pre.next = cur.next;
       cur = cur.next;
-    } else { // 不相等则pre和cur都前进继续找
+    } else {
+      // 不相等则pre和cur都前进继续找
       pre = cur;
       cur = cur.next;
     }
@@ -41,4 +44,4 @@ var removeElements = function (head, val) {
     }
   }
   return newHead.next;
-}
+};

@@ -14,15 +14,14 @@
 //   7     2
 //  / \   / \
 // 9   6 3   1
- 
 
 // 示例 1：
 // 输入：root = [4,2,7,1,3,6,9]
 // 输出：[4,7,2,9,6,3,1]
 
 // 方法一：递归
-var mirrorTree = function(root) {
-  if(!root) return null;
+var mirrorTree = function (root) {
+  if (!root) return null;
   // 交换当前节点的左右节点
   const leftCopy = root.left;
   root.left = root.right;
@@ -36,18 +35,18 @@ var mirrorTree = function(root) {
 };
 
 // 方法二：中序遍历 + 交换左右子节点
-var mirrorTree = function(root) {
-  if(!root) return null;
+var mirrorTree = function (root) {
+  if (!root) return null;
   let cur;
   let stack = [root];
-  while(stack.length){
-      cur = stack.pop();
-      let temp = cur.left;
-      cur.left = cur.right;
-      cur.right = temp;
+  while (stack.length) {
+    cur = stack.pop();
+    let temp = cur.left;
+    cur.left = cur.right;
+    cur.right = temp;
 
-      cur.right && stack.push(cur.right);
-      cur.left && stack.push(cur.left);
+    cur.right && stack.push(cur.right);
+    cur.left && stack.push(cur.left);
   }
   return root;
 };

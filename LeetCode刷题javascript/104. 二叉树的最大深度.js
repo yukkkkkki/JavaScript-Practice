@@ -15,7 +15,7 @@
 //    15   7
 
 // 返回它的最大深度 3 。
-var maxDepth = function(root) {
-    if(!root) return 0;
-    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1
+var maxDepth = function (root) {
+  if (!root) return 0;
+  return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
 };

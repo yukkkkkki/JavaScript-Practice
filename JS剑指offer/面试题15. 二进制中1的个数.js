@@ -16,41 +16,42 @@
 // 解释：输入的二进制串 11111111111111111111111111111101 中，共有 31 位为 '1'。
 
 // 方法一
-var hammingWeight = function(n) {
-    let count = 0;
+var hammingWeight = function (n) {
+  let count = 0;
 
-    while(n) {
-        count++;
-        n = (n - 1) & n;
-    }
-    return count;
+  while (n) {
+    count++;
+    n = (n - 1) & n;
+  }
+  return count;
 };
 
 // 方法二
-var hammingWeight = function(n) {
-    let count = 0, flag = 1;
+var hammingWeight = function (n) {
+  let count = 0,
+    flag = 1;
 
-    while(flag){
-        if(n & flag) count++;
-        flag = flag << 1;
-    }
-    return count;
+  while (flag) {
+    if (n & flag) count++;
+    flag = flag << 1;
+  }
+  return count;
 };
 
 // 方法三
-var hammingWeight = function(n) {
-    var newStr =n.toString(2);
-    var count = 0;
-    for(let i = 0; i < newStr.length; i++) {
-        if(newStr[i] == '1') {
-            count++;
-        }
+var hammingWeight = function (n) {
+  var newStr = n.toString(2);
+  var count = 0;
+  for (let i = 0; i < newStr.length; i++) {
+    if (newStr[i] == "1") {
+      count++;
     }
-    return count;
+  }
+  return count;
 };
 
 // 方法四
-var hammingWeight = function(n) {
-    const r = n.toString(2).match(/1/g)
-    return r ? r.length : 0
+var hammingWeight = function (n) {
+  const r = n.toString(2).match(/1/g);
+  return r ? r.length : 0;
 };

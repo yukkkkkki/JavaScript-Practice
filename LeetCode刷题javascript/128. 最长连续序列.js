@@ -25,7 +25,7 @@ var longestConsecutive = function (nums) {
     max = Math.max(max, count);
   }
   return max;
-}
+};
 
 // 方法二：Set()的查找
 var longestConsecutive = function (nums) {
@@ -43,20 +43,21 @@ var longestConsecutive = function (nums) {
     }
   }
   return max;
-}
+};
 
 // 方法三：哈希表
 var longestConsecutive = function (nums) {
   let map = new Map();
   let max = 0;
   for (let num of nums) {
-    if (!map.has(num)) { // 重复的数字不考虑，跳过
+    if (!map.has(num)) {
+      // 重复的数字不考虑，跳过
 
-      let preLen = map.get(num - 1) || 0; // 获取左邻居所在序列的长度            
+      let preLen = map.get(num - 1) || 0; // 获取左邻居所在序列的长度
       let nextLen = map.get(num + 1) || 0; // 获取右邻居所在序列的长度
       let curLen = preLen + 1 + nextLen; // 新序列的长度
 
-      map.set(num, curLen); // 将自己存入 map              
+      map.set(num, curLen); // 将自己存入 map
       max = Math.max(max, curLen);
       map.set(num - preLen, curLen);
       map.set(num + nextLen, curLen);

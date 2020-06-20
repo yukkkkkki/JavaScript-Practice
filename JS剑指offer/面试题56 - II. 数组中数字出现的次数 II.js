@@ -9,24 +9,24 @@
 // 输出：1
 
 // 方法一：哈希表
-var singleNumber = function(nums) {
-    let map = new Map();
-    for(let num of nums){
-        if(map.has(num)){
-            map.set(num, map.get(num) + 1);
-        } else {
-            map.set(num, 1);
-        }
+var singleNumber = function (nums) {
+  let map = new Map();
+  for (let num of nums) {
+    if (map.has(num)) {
+      map.set(num, map.get(num) + 1);
+    } else {
+      map.set(num, 1);
     }
+  }
 
-    for(let [nums, times] of map.entries()) {
-        if(times === 1) return nums;
-    }
+  for (let [nums, times] of map.entries()) {
+    if (times === 1) return nums;
+  }
 };
 
 // 方法二：indexOf()和lastindexOf
-var singleNumber = function(nums) {
-    for (let i = 0; i < nums.length; i++) {
-        if (nums.indexOf(nums[i]) === nums.lastIndexOf(nums[i])) return nums[i]
-    }
+var singleNumber = function (nums) {
+  for (let i = 0; i < nums.length; i++) {
+    if (nums.indexOf(nums[i]) === nums.lastIndexOf(nums[i])) return nums[i];
+  }
 };

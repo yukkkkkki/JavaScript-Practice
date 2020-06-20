@@ -15,24 +15,24 @@
 // 解释: 给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -> 5 -> 9.
 
 // 递归
-var deleteNode = function(head, val) {
-    if(head === null) return null;
-    if(head.val == val) return head.next;
-    head.next = deleteNode(head.next, val);
-    return head;
+var deleteNode = function (head, val) {
+  if (head === null) return null;
+  if (head.val == val) return head.next;
+  head.next = deleteNode(head.next, val);
+  return head;
 };
 
 // 方法二
-var deleteNode = function(head, val) {
-    var pre = new ListNode(-1);
-    pre.next = head;
-    let node = pre;
-    while(node.next) {
-        if(node.next.val === val) {
-            node.next = node.next.next;
-            break;
-        }
-        node = node.next;
+var deleteNode = function (head, val) {
+  var pre = new ListNode(-1);
+  pre.next = head;
+  let node = pre;
+  while (node.next) {
+    if (node.next.val === val) {
+      node.next = node.next.next;
+      break;
     }
-    return pre.next;
+    node = node.next;
+  }
+  return pre.next;
 };

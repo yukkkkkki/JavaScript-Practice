@@ -49,5 +49,5 @@ var buildTree = function (inorder, postorder) {
     return root;
   }
 
-  return helper(0, inorder.length)
-}
+  return helper(0, inorder.length);
+};

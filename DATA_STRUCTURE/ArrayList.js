@@ -62,9 +62,7 @@ class ArrayList {
     }
   }
 
-  shellSort() {
-
-  }
+  shellSort() {}
 
   swap(m, n) {
     let temp = this.array[m];
@@ -72,11 +70,7 @@ class ArrayList {
     this.array[n] = temp;
   }
 
-  quickSort() {
+  quickSort() {}
 
-  }
-
-  quickSortRec() {
-
-  }
+  quickSortRec() {}
 }

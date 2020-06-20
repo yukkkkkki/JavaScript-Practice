@@ -29,39 +29,39 @@
 // 作者：ning-meng-jia-cu-5
 // 链接：https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/solution/hou-xu-bian-li-by-ning-meng-jia-cu-5/
 
-var isBalanced = function(root) {
-  var dps = function(node) {
-      if(!node) return 0;
-      
-      let left = dps(node.left);
-      let right = dps(node.right);
+var isBalanced = function (root) {
+  var dps = function (node) {
+    if (!node) return 0;
 
-      if(left == -1 || right == -1) {
-          return -1;
-      }
+    let left = dps(node.left);
+    let right = dps(node.right);
 
-      if(Math.abs(left - right) <= 1){
-          return Math.max(left, right) + 1;
-      } else {
-          return -1;
-      }
-  } 
-  
+    if (left == -1 || right == -1) {
+      return -1;
+    }
+
+    if (Math.abs(left - right) <= 1) {
+      return Math.max(left, right) + 1;
+    } else {
+      return -1;
+    }
+  };
+
   return dps(root) > -1;
 };
 
 // 方法二
-var isBalanced = function(root) {
-  if(!root) return true;
+var isBalanced = function (root) {
+  if (!root) return true;
   let leftHeight = getHeightNode(root.left);
   let rightHeight = getHeightNode(root.right);
   if (Math.abs(leftHeight - rightHeight) > 1) {
-      return false;
+    return false;
   }
   return isBalanced(root.left) && isBalanced(root.right);
 };
 
 function getHeightNode(node) {
-  if(!node) return 0;
+  if (!node) return 0;
   return Math.max(getHeightNode(node.left) + 1, getHeightNode(node.right) + 1);
 }

@@ -25,38 +25,38 @@
 // 返回 false 。
 
 // 方法一
-var isBalanced = function(root) {
-  if(!root) return true;
+var isBalanced = function (root) {
+  if (!root) return true;
 
   let l = help(root.left);
   let r = help(root.right);
-  if(Math.abs(l - r) > 1) return false;
-  
+  if (Math.abs(l - r) > 1) return false;
+
   return isBalanced(root.left) && isBalanced(root.right);
 };
 
 function help(node) {
-  if(!node) return 0;
+  if (!node) return 0;
   return Math.max(help(node.left) + 1, help(node.right) + 1);
 }
 
 // 方法二
-var isBalanced = function(root) {
-  var dps = function(node) {
-    if(!node) return 0;
-    
+var isBalanced = function (root) {
+  var dps = function (node) {
+    if (!node) return 0;
+
     let left = dps(node.left);
     let right = dps(node.right);
 
-    if(left == -1 || right == -1) {
-        return -1;
+    if (left == -1 || right == -1) {
+      return -1;
     }
 
-    if(Math.abs(left - right) <= 1){
-        return Math.max(left, right) + 1;
+    if (Math.abs(left - right) <= 1) {
+      return Math.max(left, right) + 1;
     } else {
-        return -1;
+      return -1;
     }
-  } 
+  };
   return dps(root) > -1;
 };
