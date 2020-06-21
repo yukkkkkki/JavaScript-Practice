@@ -32,3 +32,23 @@ var singleNumber = function (nums) {
   }
   return Object.keys(numsObj)[0];
 };
+
+// 方法三
+// 思路
+// 将数组遍历，并通过过滤的方法，将值相同的数归集为数组的一个元素
+// 由于除了一个元素，其他元素都会出现两次，所有只要找到过滤的集合的长度为1的那个集合
+// 该集合第一个元素即是该元素。
+// 详解
+// 1. 遍历数组，由于需要返回值，这里使用map方法
+// 2. 使用过滤函数，过滤数组中值与当前遍历的元素的值相同的元素
+// 3. 现在得到了一个存在多个集合的数组，而数组中唯一值的那个元素的集合肯定值存在它自己
+// 4. 查询这个集合中长度只有1的集合，再取这个集合的第一个元素，即是只出现一次的数字
+var singleNumber = function (nums) {
+  let numsGroup = nums.map((num) => nums.filter((v) => v === num));
+  return numsGroup.find((num) => num.length === 1)[0];
+};
+
+// 方法二
+var singleNumber = function (nums) {
+  return nums.reduce((accumulator, currentValue) => accumulator ^ currentValue);
+};

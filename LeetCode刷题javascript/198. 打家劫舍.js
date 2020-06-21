@@ -16,16 +16,40 @@
 //      偷窃到的最高金额 = 2 + 9 + 1 = 12 。
 
 // 动态规划
-// 状态方程：dp[n] = MAX( dp[n-1], dp[n-2] + num )
+// 状态方程：dp[n] = MAX( dp[n-1], dp[n-2] + num[n] )
 // num为当前房间自身的值
 var rob = function (nums) {
-  const len = nums.length;
-  if (len == 0) return 0;
-  const dp = new Array(len + 1);
-  dp[0] = 0;
-  dp[1] = nums[0];
-  for (let i = 2; i <= len; i++) {
-    dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
+  let len = nums.length;
+  if (len === 0) return 0;
+  if (len === 1) return 1;
+
+  let dp = new Array(len);
+  dp[0] = nums[0];
+  dp[1] = Math.max(nums[0], nums[1]);
+  let res = dp[1];
+
+  for (let i = 2; i < len; i++) {
+    dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
+    res = Math.max(dp[i], res);
   }
-  return dp[len];
+  return res;
+};
+
+// 方法二
+// 原理还是动态规划，只不过把dp[i-1]和dp[i-2]换成用两个数表示
+var rob = function (nums) {
+  const len = nums.length;
+  if (len === 0) return 0;
+  if (len === 1) return nums[0];
+
+  let preMax = nums[0];
+  let curMax = Math.max(nums[0], nums[1]);
+  let res = curMax;
+  for (let i = 2; i < len; i++) {
+    let temp = curMax;
+    curMax = Math.max(nums[i] + preMax, curMax);
+    preMax = temp;
+    res = Math.max(curMax, res);
+  }
+  return res;
 };
