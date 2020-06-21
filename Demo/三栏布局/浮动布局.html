@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>浮动布局</title>
+  <style>
+    /* 左右两侧浮动(左侧左浮，右侧右浮) 中间设置 margin-left 和 margin-right */
+    * {
+      font-size: 14px;
+    }
+
+    .left {
+      float: left;
+      height: 200px;
+      width: 100px;
+      background-color: red;
+    }
+
+    .right {
+      float: right;
+      height: 200px;
+      width: 200px;
+      background-color: blue;
+    }
+
+    .main {
+      margin-left: 120px;
+      margin-right: 220px;
+      height: 200px;
+      background-color: green;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div class="left">left</div>
+    <div class="right">right</div>
+    <div class="main">main</div>
+  </div>
+</body>
+
+</html>

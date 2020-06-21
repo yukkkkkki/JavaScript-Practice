@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 复制引用类型
+    // 新值实际上是一个指针，指向存储在堆中的一个对象
+    // 复制操作结束后，两个变量实际上引用同一个对象，两者互相影响
+    // 原对象改变，新对象也改变；新对象改变，原对象也改变
+    var a = [1, 2];
+    var b = a;
+    console.log(a); // [1,2]
+    console.log(b); // [1,2]
+    console.log("----------");
+    a[0] = b[1];
+    console.log(a); // [2.2]
+    console.log(b); // [2,2]
+    console.log("----------");
+    b.push(3);
+    console.log(a); // [2,2,3]
+    console.log(b); // [2,2,3]
+    console.log("----------");
+    a.push(1);
+    console.log(a); // [2,2,3,1]
+    console.log(b); // [2,2,3,1]
+    console.log("----------");
+
+    // 基本数据类型
+    // 从一个变量向另一个变量复制基本类型的值，会在变量对象上创建一个新值，然后把该值复制到为新变量分配的位置上
+    // 两者互相独立
+    var b = "nihao";
+    var c = b;
+    console.log(b); // nihao
+    console.log(c); // nihao
+    console.log("----------");
+    c = "re"
+    console.log(b); // nihao
+    console.log(c); // re
+    console.log("----------");
+    b = 'test';
+    console.log(b); // test
+    console.log(c); // re
+    console.log("----------");
+  </script>
+</body>
+
+</html>
