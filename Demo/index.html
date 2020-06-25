@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="算法.js"></script>
     <style>
-        /* .test {
+      /* .test {
             width: 200px;
             height: 200px;
             background-color: red;
             position: static;
         } */
-        /* .photo-header {
+      /* .photo-header {
             position: relative;
         } */
 
-        /* .photo-header-plate {
+      /* .photo-header-plate {
             position: absolute;
             right: 4em;
             bottom: 4em;
@@ -26,25 +25,25 @@
             background-color: rgba(255, 255, 255, 0.7);
             padding: 2em;
         } */
-        /* p {
+      /* p {
             position: relative;
             margin-left: 10em;
             margin-right: 10em;
         } */
 
-        /* .comment {
+      /* .comment {
             position: absolute;
             width: 7em;
             margin-top: -5em;
             color: red;
         } */
-        /* .t {
+      /* .t {
             width: 200px;
             height: 200px;
             color: pink;
             background-color: powderblue;
         } */
-        /* img {
+      /* img {
             width: 200px;
             height: 200px;
         }
@@ -54,11 +53,11 @@
             width: 50%;
         } */
 
-        /* .container::after {
+      /* .container::after {
             clear: both;
         } */
 
-        /* body,
+      /* body,
         html,
         .containerl {
             height: 100%;
@@ -66,30 +65,30 @@
             margin: 0;
         } */
 
-        /*左边栏左浮动*/
-        /* .left {
+      /*左边栏左浮动*/
+      /* .left {
             float: left;
             height: 100%;
             width: 200px;
             background: red;
         } */
 
-        /*中间栏自适应*/
-        /* .main {
+      /*中间栏自适应*/
+      /* .main {
             height: 100%;
             margin: 0 200px;
             background: blue;
         } */
 
-        /*右边栏右浮动*/
-        /* .right {
+      /*右边栏右浮动*/
+      /* .right {
             float: right;
             height: 100%;
             width: 200px;
             background: #333;
         } */
 
-        /* body,
+      /* body,
         html,
         .container {
             height: 100%;
@@ -98,8 +97,8 @@
             overflow: hidden;
         } */
 
-        /*左右进行绝对定位*/
-        /* .left,
+      /*左右进行绝对定位*/
+      /* .left,
         .right {
             position: absolute;
             height: 100%;
@@ -117,15 +116,15 @@
             width: 200px;
         } */
 
-        /*中间用margin空出左右元素所占的空间*/
-        /* .main {
+      /*中间用margin空出左右元素所占的空间*/
+      /* .main {
             height: 100%;
             margin: 0 200px;
             background: red;
         } */
 
-        /*或者中间也进行绝对定位*/
-        /* .main {
+      /*或者中间也进行绝对定位*/
+      /* .main {
             position: absolute;
             height: 100%;
             left: 200px;
@@ -133,7 +132,7 @@
             background: red;
         } */
 
-        /* * {
+      /* * {
             margin: 0px;
             padding: 0px;
             box-sizing: border-box;
@@ -158,7 +157,7 @@
             background: red;
         } */
 
-        /* * {
+      /* * {
             margin: 0px;
             padding: 0px;
             box-sizing: border-box;
@@ -187,45 +186,45 @@
             width: 100px;
             background: blue;
         } */
-        .container {
-            margin-left: 120px;
-            margin-right: 220px;
-        }
+      .container {
+        margin-left: 120px;
+        margin-right: 220px;
+      }
 
-        .main {
-            float: left;
-            width: 100%;
-            height: 300px;
-            background-color: red;
-        }
+      .main {
+        float: left;
+        width: 100%;
+        height: 300px;
+        background-color: red;
+      }
 
-        .left {
-            float: left;
-            width: 100px;
-            height: 300px;
-            margin-left: -100%;
-            position: relative;
-            left: -120px;
-            background-color: blue;
-        }
+      .left {
+        float: left;
+        width: 100px;
+        height: 300px;
+        margin-left: -100%;
+        position: relative;
+        left: -120px;
+        background-color: blue;
+      }
 
-        .right {
-            float: left;
-            width: 200px;
-            height: 300px;
-            margin-left: -200px;
-            position: relative;
-            right: -220px;
-            background-color: green;
-        }
+      .right {
+        float: left;
+        width: 200px;
+        height: 300px;
+        margin-left: -200px;
+        position: relative;
+        right: -220px;
+        background-color: green;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="main"></div>
-        <div class="left"></div>
-        <div class="right"></div>
+      <div class="main"></div>
+      <div class="left"></div>
+      <div class="right"></div>
     </div>
     <!-- <div class="content">
         <div class="main"></div>
@@ -300,150 +299,161 @@
     <img src="5cd99e7f-e1bb-4e2c-9305-5ebb916f4dea.jpg" height="200" alt="Image preview..."> -->
 
     <script>
-        // let dp = Array(2 + 1).fill(0).map(x => Array(3 + 1).fill(0));
-        // console.log(dp);
-        // for (var i = 0; i < 5; i++) {
-        //     // setTimeout(function () {
-        //     //     console.log(i);
-        //     // }, 1000)
-        //     console.log(i); // 0,1,2,3,4
-        // }
-        // console.log(i); // 5
+      let set = new Set([1, 2]);
+      let processor = {
+        output(value) {
+          console.log(value);
+        },
+        process(dataSet) {
+          dataSet.forEach(function (value) {
+            this.output(value);
+          }, this);
+        },
+      };
+      processor.process(set);
+      // let dp = Array(2 + 1).fill(0).map(x => Array(3 + 1).fill(0));
+      // console.log(dp);
+      // for (var i = 0; i < 5; i++) {
+      //     // setTimeout(function () {
+      //     //     console.log(i);
+      //     // }, 1000)
+      //     console.log(i); // 0,1,2,3,4
+      // }
+      // console.log(i); // 5
 
-        // for (let i = 0; i < 5; i++) {
-        //     // setTimeout(function () {
-        //     //     console.log(i);
-        //     // }, 1000)
-        //     console.log(i); // 0,1,2,3,4
-        // }
-        // console.log(i); // ReferenceError
+      // for (let i = 0; i < 5; i++) {
+      //     // setTimeout(function () {
+      //     //     console.log(i);
+      //     // }, 1000)
+      //     console.log(i); // 0,1,2,3,4
+      // }
+      // console.log(i); // ReferenceError
 
-        // for (let i = 0; i < 5; i++) {
-        //     setTimeout(function () {
-        //         console.log(i); // 0,1,2,3,4
-        //     }, 1000)
-        // }
-        // console.log(i); // ReferenceError
+      // for (let i = 0; i < 5; i++) {
+      //     setTimeout(function () {
+      //         console.log(i); // 0,1,2,3,4
+      //     }, 1000)
+      // }
+      // console.log(i); // ReferenceError
 
-        // 单例模式
-        // var Singleton = function (name) {
-        //     this.name = name;
-        // };
-        // Singleton.prototype.getName = function () {
-        //     return this.name;
-        // }
-        // // 获取实例对象
-        // var getInstance = (function () {
-        //     var instance = null;
-        //     return function (name) {
-        //         if (!instance) {
-        //             instance = new Singleton(name);
-        //         }
-        //         return instance;
-        //     }
-        // })();
-        // // 测试单例模式的实例
-        // var a = getInstance("aa");
-        // var b = getInstance("bb");
-        // console.log(b.getName()); // "aa"
-        // console.log(a === b); // true
+      // 单例模式
+      // var Singleton = function (name) {
+      //     this.name = name;
+      // };
+      // Singleton.prototype.getName = function () {
+      //     return this.name;
+      // }
+      // // 获取实例对象
+      // var getInstance = (function () {
+      //     var instance = null;
+      //     return function (name) {
+      //         if (!instance) {
+      //             instance = new Singleton(name);
+      //         }
+      //         return instance;
+      //     }
+      // })();
+      // // 测试单例模式的实例
+      // var a = getInstance("aa");
+      // var b = getInstance("bb");
+      // console.log(b.getName()); // "aa"
+      // console.log(a === b); // true
 
-        // function CoolModule() {
-        //     // 私有变量
-        //     var something = "cool";
-        //     var another = [1, 2, 3];
+      // function CoolModule() {
+      //     // 私有变量
+      //     var something = "cool";
+      //     var another = [1, 2, 3];
 
-        //     function doSomething() {
-        //         console.log(something);
-        //     }
+      //     function doSomething() {
+      //         console.log(something);
+      //     }
 
-        //     function doAnother() {
-        //         console.log(another.join(" ! "));
-        //     }
+      //     function doAnother() {
+      //         console.log(another.join(" ! "));
+      //     }
 
-        //     // 返回一个对象包含公有(特权)方法和属性
-        //     return {
-        //         doSomething: doSomething,
-        //         doAnother: doAnother
-        //     };
-        // }
+      //     // 返回一个对象包含公有(特权)方法和属性
+      //     return {
+      //         doSomething: doSomething,
+      //         doAnother: doAnother
+      //     };
+      // }
 
-        // var foo = CoolModule();
+      // var foo = CoolModule();
 
-        // foo.doAnother(); // cool
-        // foo.doSomething(); // 1!2!3
+      // foo.doAnother(); // cool
+      // foo.doSomething(); // 1!2!3
 
-        // var test = CoolModule();
-        // test.doAnother();
-        // test.doSomething()
+      // var test = CoolModule();
+      // test.doAnother();
+      // test.doSomething()
 
-        // function previewFile() {
-        //     var preview = document.querySelector('img');
-        //     var file = document.querySelector('input[type=file]').files[0];
-        //     var reader = new FileReader();
+      // function previewFile() {
+      //     var preview = document.querySelector('img');
+      //     var file = document.querySelector('input[type=file]').files[0];
+      //     var reader = new FileReader();
 
-        //     reader.addEventListener("load", function () {
-        //         preview.src = reader.result;
-        //         console.log(reader.result.length);
+      //     reader.addEventListener("load", function () {
+      //         preview.src = reader.result;
+      //         console.log(reader.result.length);
 
-        //     }, false);
+      //     }, false);
 
-        //     if (file) {
-        //         reader.readAsDataURL(file);
-        //     }
-        // }
-        // console.log(img.length);
-        //输出结果为浏览器环境下的输出
-        // var name = 'Tom'
-        // var obj = {
-        //     name: 'Jerry',
-        //     bar: function () {
-        //         var name = 'Spike'
-        //         console.log(this.name)
-        //     }
-        // }
+      //     if (file) {
+      //         reader.readAsDataURL(file);
+      //     }
+      // }
+      // console.log(img.length);
+      //输出结果为浏览器环境下的输出
+      // var name = 'Tom'
+      // var obj = {
+      //     name: 'Jerry',
+      //     bar: function () {
+      //         var name = 'Spike'
+      //         console.log(this.name)
+      //     }
+      // }
 
-        // var f1 = obj.bar
-        // f1() //Tom
-        // obj.bar() //Jerry
-        // var name = "111"
-        // var obj = {
-        //     name: 'Tom',
-        //     getName() {
-        //         console.log(this.name)
-        //     }
-        // }
-        // var foo = obj.getName
-        //输出不是undefine而是空，这是由于window对象中本来就包含有一个名为name的属性，且属性值为空
-        // foo() //''
+      // var f1 = obj.bar
+      // f1() //Tom
+      // obj.bar() //Jerry
+      // var name = "111"
+      // var obj = {
+      //     name: 'Tom',
+      //     getName() {
+      //         console.log(this.name)
+      //     }
+      // }
+      // var foo = obj.getName
+      //输出不是undefine而是空，这是由于window对象中本来就包含有一个名为name的属性，且属性值为空
+      // foo() //''
 
-        // for (let i = 0; i < 10; i++) {
-        //     console.log(i);
-        // }
+      // for (let i = 0; i < 10; i++) {
+      //     console.log(i);
+      // }
 
-        // console.log("last", i);
+      // console.log("last", i);
 
-        // var funcs = [];
-        // for (var i = 0; i < 10; i++) {
-        //     funcs.push((function (value) {
-        //         return function () {
-        //             console.log(value);
-        //         }
-        //     }(i)));
-        // }
+      // var funcs = [];
+      // for (var i = 0; i < 10; i++) {
+      //     funcs.push((function (value) {
+      //         return function () {
+      //             console.log(value);
+      //         }
+      //     }(i)));
+      // }
 
-        // funcs.forEach(function (func) {
-        //     func();
-        // });
+      // funcs.forEach(function (func) {
+      //     func();
+      // });
 
-        for (var i = 1; i <= 5; i++) {
-            (function (j) {
-                setTimeout(function timer() {
-                    console.log(j);
-                })
-            })(i)
-        }
+      for (var i = 1; i <= 5; i++) {
+        (function (j) {
+          setTimeout(function timer() {
+            console.log(j);
+          });
+        })(i);
+      }
     </script>
-</body>
-
+  </body>
 </html>
