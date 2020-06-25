@@ -108,3 +108,54 @@ var wordBreak = function (s, wordDict) {
   }
   return dp[s.length];
 };
+
+// 方法五 暴力破解法
+// 思路：
+// 把字符串 s 的前缀从短到长拆出来进行判断是否在单词字典中，若在字典中则把前缀截取掉继续递归，直到字符串的长度为 0。
+// 在递归中若遇到字符串任何长度的前缀都无法匹配到字典中的单词，则回溯到上层递归。
+// 详解：
+// 1、检查字典中是否有字符串的前缀；
+// 2、若有的话，将字符串去掉这个前缀后继续遍历，重复步骤 1、2；
+// 3、若某次调用发现整个字符串都已拆分并且都在字典内则返回 true；
+var wordBreak = function (s, wordDict) {
+  if (s.length === 0) return true;
+  for (let i = 0; i < wordDict.length; i += 1) {
+    const startIndex = s.indexOf(wordDict[i]);
+    if (startIndex === 0) {
+      // 将字符串去掉这个匹配到的前缀后继续遍历
+      const temp = s.slice(startIndex + wordDict[i].length);
+      if (wordBreak(temp, wordDict) === true) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+// 额额超时了，时间复杂度O(n^n)
+
+// 方法六 动态规划
+// 思路
+// dp[i] 表示字符串 s 从开始到 i 位置是否可以由 wordDict 组成。
+// 使用 j 从头开始遍历，若 dp[i] 可由 wordDict 组成，并且 i 到 j 之间的单词可以在 wordDict中找到，则说明dp[i] = true 。
+// 详解
+// 1、第一层遍历：用 i 从头到尾遍历字符串；
+// 2、第二层遍历：用 j 从头到 i 遍历字符串；
+// 3、若 dp[j] = true 而且字典中存在字符串 s[i~j] ，则说明 dp[i] = true ；
+// 4、继续步骤 1、2，直到整个字符串都遍历一遍；
+// 5、若 dp[s.length()] = true ，则说明字符可由字段中的单词组合而成；
+var wordBreak = function (s, wordDict) {
+  const len = s.length;
+  const dp = new Array(len + 1).fill(false);
+  dp[0] = true;
+  for (let i = 1; i <= len; i++) {
+    for (let j = 0; j < i; j++) {
+      if (dp[j] && wordDict.includes(s.substring(j, i))) {
+        dp[i] = true;
+        break;
+      }
+    }
+  }
+  return dp[len];
+};
+// 时间复杂度：o(n^2)
+// 空间复杂度：o(n)
