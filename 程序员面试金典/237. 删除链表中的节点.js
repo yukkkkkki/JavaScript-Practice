@@ -19,17 +19,26 @@
 // 不要从你的函数中返回任何结果。
 
 // 方法一
+// 在获取当前节点后，可以将下一个节点的值赋给当前节点，
+// 然后将当前节点指向下下个节点，完成删除
 var deleteNode = function (node) {
   node.val = node.next.val;
   node.next = node.next.next;
 };
 
-// 方法二
+// 方法二 Object.assign()
+// 思路
+// Object.assign() 方法用于将所有可枚举属性的值从一个或多个源对象复制到目标对象。它将返回目标对象。
+// 简单来说， Object.assign(a,b) 能合并两个对象(a和b)，并覆盖到第一个参数(a)所指的地址上。
+// 由于 Js 的对象都是内存引用，也就是说 node 这个变量里面，只保存了内存地址。
+// 因此可以用Object.assign() ，使得 node.next 覆盖 node.
+// 详解
+// 将 node 和 node.next 合并，并保存到 node 所指的内存地址上
 var deleteNode = function (node) {
   Object.assign(node, node.next);
 };
 
-// 额额我一开始还纳闷怎么head没穿进来额，神经病
+// 额额我一开始还纳闷怎么head没传进来额，神经病
 
 // JS中基本类型按值引用， 对象类型按地址引用
 
