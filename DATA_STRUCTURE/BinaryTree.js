@@ -111,5 +111,36 @@ export class BinarySearchTree {
     return node.key;
   }
 
+  search(key) {
+    return this.searchNode(this.root, key);
+  }
+
+  searchNode(node, key) {
+    if (node === null) return false;
+
+    // 判断搜索的key和结点值的关系
+    if (key < node.key) {
+      return this.searchNode(node.left, key);
+    } else if (key > node.left) {
+      return this.searchNode(node.right, key);
+    } else {
+      return true;
+    }
+  }
+
+  search2(key) {
+    let node = this.root;
+    while (node !== null) {
+      if (key < node.key) {
+        node = node.left;
+      } else if (key > node.key) {
+        node = node.right;
+      } else {
+        return true;
+      }
+    }
+    return false;
+  }
+
   // 获取特定的值
 }
