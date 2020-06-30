@@ -29,6 +29,16 @@
  * @param {TreeNode} root
  * @return {string}
  */
+// 广度优先遍历
+// 按层级从上往下将每层节点从左往右依次遍历，用队列来处理遍历，
+// 先将根节点入队，然后根节点出队，再左子树和右子树入队，递归遍历即可
+
+// 序列化：
+// 1. 定义一个 result 数组存放序列化结果，定义一个 queue 数组，作为队列
+// 2. 将根节点入队
+// 3. 循环队列，队列中的第一个元素(节点)出队，将此节点值 push 进 result 数组。分别将此节点左右节点入队
+// 4. 当队列为空时，跳出循环
+// 5. 返回 result
 var serialize = function (root) {
   if (!root) return [];
   let res = [];
@@ -46,12 +56,12 @@ var serialize = function (root) {
   return res;
 };
 
-/**
- * Decodes your encoded data to tree.
- *
- * @param {string} data
- * @return {TreeNode}
- */
+// 反序列化：
+// 1. 从 result 取出第一个节点值，生成根节点放到队列中
+// 2. 循环队列，队列中第一个元素(节点)出队，从 result 取出下一个值还原左节点，将此左节点入队，从 result 取出下一个值还原
+// 右节点，将此右节点入队
+// 3. 当 result 或队列为空时，跳出循环
+// 4. 返回反序列化好的节点(根节点)
 var deserialize = function (data) {
   if (data.length === 0) return null;
   let root = new TreeNode(data[0]);
@@ -60,20 +70,19 @@ var deserialize = function (data) {
   while (queue.length > 0) {
     let node = queue.shift();
     if (data[i] !== null) {
+      // 先还原左节点
       node.left = new TreeNode(data[i]);
+      // 将生成的左节点放入队列，下次循环会复原此左节点的子节点
       queue.push(node.left);
     }
     i++;
     if (data[i] !== null) {
+      // 还原右节点
       node.right = new TreeNode(data[i]);
+      // 将生成的右节点放入队列，下次循环会复原此左节点的子节点
       queue.push(node.right);
     }
     i++;
   }
   return root;
 };
-
-/**
- * Your functions will be called as such:
- * deserialize(serialize(root));
- */
