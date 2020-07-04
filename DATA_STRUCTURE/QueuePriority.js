@@ -31,6 +31,7 @@ export class PriorityQueue extends Queue {
 
       if (!added) {
         this.items.push(queueElement);
+        console.log()
       }
     }
   }
