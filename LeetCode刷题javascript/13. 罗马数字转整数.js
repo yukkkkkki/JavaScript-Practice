@@ -40,7 +40,81 @@
 // 输入: "MCMXCIV"
 // 输出: 1994
 // 解释: M = 1000, CM = 900, XC = 90, IV = 4.
+
+// 方法一：遍历
+// 先遍历特殊值，如果有特殊值，先累加特殊值，然后用正则去掉特殊值，再遍历剩余的数字
 var romanToInt = function (s) {
-  test = /sss/
-  string= "sssss"
+  const roman = {
+    IV: 4,
+    IX: 9,
+    XL: 40,
+    XC: 90,
+    CD: 400,
+    CM: 900,
+  };
+
+  const list = {
+    I: 1,
+    V: 5,
+    X: 10,
+    L: 50,
+    C: 100,
+    D: 500,
+    M: 1000,
+  };
+
+  let res = 0;
+  // 先遍历特殊值
+  for (const key in roman) {
+    // 检测输入值是否含有特殊值
+    if (num.includes(key)) {
+      // 用正则去掉特殊值
+      const reg = new RegExp(key);
+      num = num.replace(reg, "");
+      res += roman[key];
+    }
+  }
+
+  for (const i of num) {
+    res += list[i]; // 累加正常罗马数
+  }
+  return res;
 };
+// 时间复杂度：O(n); 空间复杂度： O(1)
+
+// 方法二：switch + includes 法
+// 先遍历所有罗马数字进行累加，
+// 对于特殊数字的循环，比如：5+1=6，而实际是 4，相差 2，所以需要在结果上减去 2，以此类推
+var romanToInt = function (s) {
+  let res = 0;
+  for (const c of num) {
+    switch (c) {
+      case "I":
+        res += 1;
+        break;
+      case "V":
+        res += 5;
+        break;
+      case "X":
+        res += 10;
+        break;
+      case "L":
+        res += 50;
+        break;
+      case "C":
+        res += 100;
+        break;
+      case "D":
+        res += 500;
+        break;
+      case "M":
+        res += 1000;
+        break;
+    }
+  }
+  // 减去特殊组合
+  if (num.includes("IV") || num.includes("IX")) res -= 2;
+  if (num.includes("XL") || num.includes("XC")) res -= 20;
+  if (num.includes("CD") || num.includes("CM")) res -= 200;
+};
+// 时间复杂度：O(n); 空间复杂度： O(1)
