@@ -85,7 +85,7 @@ var romanToInt = function (s) {
 // 对于特殊数字的循环，比如：5+1=6，而实际是 4，相差 2，所以需要在结果上减去 2，以此类推
 var romanToInt = function (s) {
   let res = 0;
-  for (const c of num) {
+  for (const c of s) {
     switch (c) {
       case "I":
         res += 1;
@@ -111,8 +111,9 @@ var romanToInt = function (s) {
     }
   }
   // 减去特殊组合
-  if (num.includes("IV") || num.includes("IX")) res -= 2;
-  if (num.includes("XL") || num.includes("XC")) res -= 20;
-  if (num.includes("CD") || num.includes("CM")) res -= 200;
+  if (s.includes("IV") || s.includes("IX")) res -= 2;
+  if (s.includes("XL") || s.includes("XC")) res -= 20;
+  if (s.includes("CD") || s.includes("CM")) res -= 200;
+  return res;
 };
 // 时间复杂度：O(n); 空间复杂度： O(1)
