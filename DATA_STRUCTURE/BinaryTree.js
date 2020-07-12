@@ -142,5 +142,58 @@ export class BinarySearchTree {
     return false;
   }
 
+  // 删除
+  remove(key) {
+    let current = this.root;
+    let parent = null;
+    let isLeftChild = true;
+
+    while (current.key !== key) {
+      parent = current;
+      if(key < parent.key) {
+        isLeftChild = true;
+        current = current.left;
+      } else {
+        isLeftChild = false;
+        current = current.right;
+      }
+      if(current === null) return false;
+    }
+    // 找到节点：current
+    // 情况一：删除的节点是叶子节点(没有子节点)
+    if(current.left === null && current.right === null) {
+      if(current === this.root) {
+        this.root = null;
+      } else if (isLeftChild) {
+        parent.left = null;
+      } else {
+        parent.right = null;
+      }
+    }
+    //情况二：删除的节点只有一个子节点
+    else if(current.right === null) {
+      // 只有左子节点
+      if(current == this.root) {
+        this.root = current.left
+      } else if(isLeftChild) {
+        parent.left = current.left;
+      } else {
+        parent.right = current.left;
+      }
+    } else if(current.left === null) {
+      // 只有右子节点
+      if(current == this.root) {
+        this.root = current.right;
+      } else if(isLeftChild) {
+        parent.left = current.right;
+      } else {
+        parent.right = current.right;
+      }
+    }
+    return true;
+  }
+
+  // 情况三：
+  
   // 获取特定的值
 }
