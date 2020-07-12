@@ -190,10 +190,43 @@ export class BinarySearchTree {
         parent.right = current.right;
       }
     }
+
+    // 情况三：删除的节点有两个节点
+    else {
+      // 1. 获取后继结点
+      let successor = this.getSuccessor(current);
+      // 2. 判断是否根节点
+      if(this.root === current) {
+        this.root = successor;
+      } else if (isLeftChild) {
+        parent.left = successor;
+      } else {
+        parent.right = successor;
+      }
+      successor.left = current.left
+    }
+
     return true;
   }
 
-  // 情况三：
-  
+  // 获得前驱
+  getSuccessor(delNode) {
+    // 1.定义变量，来存储临时节点
+    let successerParent = delNode;
+    let successer = delNode.right;
+    let current = delNode.right;
+    // 2.寻找节点
+    while (current !== null) {
+      successerParent = successer;
+      successer = current;
+      current = current.left;
+    }
+    // 3. 如果后继节点不是删除节点的右节点
+    if(successer != delNode.right) {
+      successerParent.left = successer.right;
+      successer.right = delNode.right
+    }
+    return successer;
+  }
   // 获取特定的值
 }
