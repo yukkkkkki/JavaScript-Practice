@@ -8,27 +8,29 @@
 // 输入：[2,2,2,0,1]
 // 输出：0
 
-// 二分查找解决法， 使 O(n) 变为 O(logn)
-// 思路：
-// 用三个指针，i指向数组的第一个数字，j指向数组的最后一个数字，mid指向中间数字
-// 若mid指向数字大于i指向的数字，故mid指向的数字在第一个数组之中，下一步把i指向mid指向的数字
-// 此时i和j之间的数字（mid指向的数字）若小于j指向的数字，中间数字则在第二个数组之中，下一步把j指向中间的数字
-// 最后i和j指向相邻的两个数字，则j指向的是数组中的最小数字
-var minArray = function (numbers) {
-  let i = 0,
-    j = numbers.length - 1,
-    mid;
-  while (i <= j) {
-    mid = (i + j) >> 1;
-    if (numbers[mid] > numbers[j]) {
-      i = mid + 1;
-    } else if (numbers[mid] < numbers[j]) {
-      j = mid;
+// 方法一：二分查找 找两个单增区间的边界
+// nums[mid] > nums[right]
+//     最小元素肯定在mid的右边，所以 left = mid + 1
+// nums[mid] == nums[right]
+//     此时 mid 可能处于左边区间，也可能处于右边区间，即最小元素不确定在它的左边还是右边
+//     所以 right-- ，换一个 nums[right] 再试
+// nums[mid] < nums[right]
+//     此时 mid 肯定处在右边的增区间，所以 right = mid
+// 时间复杂度：O(logn)
+const minArray = (nums) => {
+  let left = 0;
+  let right = nums.length - 1;
+  while (left < right) {
+    const mid = (left + right) >>> 1;
+    if (nums[mid] > nums[right]) {
+      left = mid + 1;
+    } else if (nums[mid] == nums[right]) {
+      right--;
     } else {
-      j--;
+      right = mid;
     }
   }
-  return numbers[i];
+  return nums[left];
 };
 
 // 直接用Math.min()
