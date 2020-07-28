@@ -21,9 +21,12 @@ var maxDepth = function (root) {
   if (!root) return 0;
   return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
 };
+// 时间复杂度：O(n); 空间复杂度：O(n)
 
 // 方法二：BFS
 // 通过创建FIFO队列，迭代每一层元素，每迭代一层，level+1
+// 不断的把待处理的节点入队，每次都将本级的节点进行判断是否对称，如果不对称则返回false，
+// 对称则将下一级的节点全部入栈，然后再依次出队判断处理，再获取新的待处理节点入队，直到结束。
 var maxDepth = function (root) {
   if (root === null) return 0;
   let queue = [root];
@@ -39,3 +42,4 @@ var maxDepth = function (root) {
   }
   return level;
 };
+// 时间复杂度：O(n); 空间复杂度：O(n)
