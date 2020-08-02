@@ -31,10 +31,9 @@ var help = function (res, root) {
 var preorderTraversal = function (root) {
   if (!root) return [];
 
-  let stack = [],
+  let stack = [root], // 根节点不为空时，根节点入栈
     res = [],
     node = null;
-  stack.push(root); // 根节点不为空时，根节点入栈
 
   while (stack.length) {
     node = stack.pop();
@@ -47,4 +46,21 @@ var preorderTraversal = function (root) {
   }
 
   return res;
+};
+
+// 方法二：栈方法2
+var preorderTraversal = function (root) {
+  const list = [];
+  const stack = [];
+  let node = root;
+  while (node !== null || stack.length) {
+    while (node !== null) {
+      list.push(node.val);
+      stack.push(node);
+      node = node.left;
+    }
+    node = stack.pop();
+    node = node.right;
+  }
+  return list;
 };
