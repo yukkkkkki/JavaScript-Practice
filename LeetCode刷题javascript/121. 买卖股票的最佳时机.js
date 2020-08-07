@@ -15,12 +15,60 @@
 // 输出: 0
 // 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
 
+// 方法一：暴力法
+// 数组中两个数字的最大差值即为最大利润maxprofit
+// 比较差值求出max(prices[j] - prices[i]) (j > i)
 var maxProfit = function (prices) {
-  let res = 0;
-  let min = prices[0];
-  for (let i = 1; i < prices.length; i++) {
-    min = Math.min(prices[i], min);
-    res = Math.max(res, prices[i] - min);
+  let max = 0;
+  for (let i = 0; i < prices.length - 1; i++) {
+    for (let j = i + 1; j < prices.length; j++) {
+      let p = prices[j] - prices[i];
+      if (p > max) max = p;
+    }
   }
-  return res;
+  return max;
+};
+// 时间复杂度：O(n^2); 空间复杂度:O(1)
+
+// 方法二：一次遍历法
+var maxProfit = function (prices) {
+  let minPrice = Number.MAX_SAFE_INTEGER;
+  let max = 0;
+  for (let i = 0; i < prices.length; i++) {
+    if (prices[i] < minPrice) {
+      minPrice = prices[i];
+    } else {
+      max = Math.max(max, prices[i] - minPrice);
+    }
+  }
+  return max;
+};
+
+// 方法三：dp粗糙版
+var maxProfit = function (prices) {
+  if (prices.length <= 1) return 0;
+  let diff = [];
+  for (let i = 0; i < prices.length - 1; i++) {
+    diff[i] = prices[i + 1] - prices[i];
+  }
+
+  let dp = new Array(prices.length).fill(0);
+  dp[0] = Math.max(0, diff[0]);
+  let max = dp[0];
+  for (let i = 1; i < diff.length; i++) {
+    dp[i] = Math.max(0, dp[i - 1] + diff[i]);
+    max = Math.max(max, dp[i]);
+  }
+  return max;
+};
+
+// 方法四：dp优化版
+var maxProfit = function (prices) {
+  let last = 0;
+  let max = 0;
+  for (let i = 0; i < prices.length - 1; i++) {
+    last = Math.max(0, last + prices[i + 1] - prices[i]);
+    max = Math.max(max, last);
+  }
+  return max;
 };
