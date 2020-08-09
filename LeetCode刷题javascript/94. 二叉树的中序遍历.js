@@ -53,6 +53,7 @@ var help = function (root, res) {
     help(root.right, res);
   }
 };
+// 时间复杂度:O(n); 空间复杂度:O(n)
 
 // 方法三：非递归
 // 用栈来做
@@ -72,3 +73,4 @@ var inorderTraversal = function (root) {
   }
   return res;
 };
+// 时间复杂度:O(n); 空间复杂度:O(n)
