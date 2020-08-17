@@ -24,7 +24,7 @@
 //  4   4
 // 返回 false 。
 
-// 方法一
+// 方法一：递归
 var isBalanced = function (root) {
   if (!root) return true;
 
@@ -40,13 +40,13 @@ function help(node) {
   return Math.max(help(node.left) + 1, help(node.right) + 1);
 }
 
-// 方法二
+// 方法二：dfs
 var isBalanced = function (root) {
-  var dps = function (node) {
+  var dfs = function (node) {
     if (!node) return 0;
 
-    let left = dps(node.left);
-    let right = dps(node.right);
+    let left = dfs(node.left);
+    let right = dfs(node.right);
 
     if (left == -1 || right == -1) {
       return -1;
@@ -58,5 +58,5 @@ var isBalanced = function (root) {
       return -1;
     }
   };
-  return dps(root) > -1;
+  return dfs(root) > -1;
 };
