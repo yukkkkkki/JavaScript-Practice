@@ -30,7 +30,7 @@ var flipAndInvertImage = function (A) {
 function reverseImage(A, m, n) {
   for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
-      if (A[i][j] == 0) {
+      if (A[i][j] === 0) {
         A[i][j] = 1;
       } else {
         A[i][j] = 0;
