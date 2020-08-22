@@ -1,6 +1,6 @@
 # JavaScript-Practice
 
-1. javascript 刷题（LeetCode &amp; 剑指 offer & 程序员面试金典）
+1. javascript 刷题（[LeetCode](./LeetCode刷题javascript) &amp; [剑指 offer](./CodingInterviews) & [程序员面试金典](./CareerCup)）
 2. javascript 数据结构
 3. ES6 笔记
 4. Ajax 笔记
