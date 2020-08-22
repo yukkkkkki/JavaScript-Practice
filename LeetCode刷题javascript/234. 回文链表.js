@@ -36,7 +36,6 @@ var reverseLinkList = function (head) {
   pointer = pointer.next;
   return res;
 };
-
 function isPalindrome(head) {
   pointer = head;
   return reverseLinkList(head);
