@@ -115,48 +115,299 @@
 
 8. **Map**
 
+   - 类似于对象，也是键值对的集合（Hash结构），但“键”的范围不限于字符串，各种类型的值（包括对象）都可以当作键
+
+   - 实例的属性和操作方法：size、set()、get()、has()、delete()、clear()
+
+     ```javascript
+     const m = new Map();
+     m.set('foo', true);
+     m.set('bar', false);
+     
+     // size属性返回 Map 结构的成员总数
+     // Map.prototype.set(key, value) 设置键名key对应的键值为value，然后返回整个 Map 结构
+     // Map.prototype.get(key) 读取key对应的键值，如果找不到key，返回undefined
+     // Map.prototype.has(key) 返回一个布尔值，表示某个键是否在当前 Map 对象之中
+     // Map.prototype.delete(key) 删除某个键，返回true。如果删除失败，返回false
+     // Map.prototype.clear() 清除所有成员，没有返回值
+     m.size // 2
+     m.set(1, 'standard');
+     m.get(1); // 'standard'
+     m.has(1); // true
+     m.delete(1); // true
+     ```
+
+   - 遍历方法：`keys()`、`values()`、`entries()`、`forEach`()
+
+     ```javascript
+     const map = new Map([
+       ['F', 'no'],
+       ['T',  'yes'],
+     ]);
+     
+     // Map.prototype.keys()：返回键名的遍历器。
+     for (let key of map.keys()) {
+       console.log(key);
+     }
+     // "F"
+     // "T
+     
+     // Map.prototype.values()：返回键值的遍历器。
+     for (let value of map.values()) {
+       console.log(value);
+     }
+     // "no"
+     // "yes"
+     
+     // Map.prototype.entries()：返回所有成员的遍历器。
+     for (let item of map.entries()) {
+       console.log(item[0], item[1]);
+     }
+     // "F" "no"
+     // "T" "yes"
+     // 或者
+     for (let [key, value] of map.entries()) {
+       console.log(key, value);
+     }
+     // "F" "no"
+     // "T" "yes"
+     // 等同于使用map.entries()
+     for (let [key, value] of map) {
+       console.log(key, value);
+     }
+     // "F" "no"
+     // "T" "yes"
+     
+     // Map.prototype.forEach()：遍历 Map 的所有成员
+     map.forEach(function(value, key, map) {
+       console.log("Key: %s, Value: %s", key, value);
+     });
+     
+     // Map 结构转为数组结构
+     const map = new Map([
+       [1, 'one'],
+       [2, 'two'],
+       [3, 'three'],
+     ]);
+     [...map.keys()] // [1, 2, 3]
+     [...map.values()] // ['one', 'two', 'three']
+     [...map.entries()] // [[1,'one'], [2, 'two'], [3, 'three']]
+     [...map] // [[1,'one'], [2, 'two'], [3, 'three']]
+     
+     // 结合数组的map方法、filter方法，可以实现 Map 的遍历和过滤
+     const map0 = new Map()
+       .set(1, 'a')
+       .set(2, 'b')
+       .set(3, 'c');
+     
+     const map1 = new Map(
+       [...map0].filter(([k, v]) => k < 3)
+     );
+     // 产生 Map 结构 {1 => 'a', 2 => 'b'}
+     
+     const map2 = new Map(
+       [...map0].map(([k, v]) => [k * 2, '_' + v])
+         );
+     // 产生 Map 结构 {2 => '_a', 4 => '_b', 6 => '_c'}
+     ```
+
+   - Map与其他数据结构的互相转换
+
+     - Map转换为数组
+
+       ```javascript
+       const myMap = new Map().set(true, 7).set({foo: 3}, ['abc']);
+       [...myMap]; // [ [ true, 7 ], [ { foo: 3 }, [ 'abc' ] ] ]
+       ```
+
+     - 数组转换为Map
+
+       ```javascript
+       new Map([
+         [true, 7],
+         [{foo: 3}, ['abc']]
+       ])
+       // Map {
+       //   true => 7,
+       //   Object {foo: 3} => ['abc']
+       // }
+       ```
+
+     - Map转换为对象
+
+       ```javascript
+       function strMapToObj(strMap) {
+         let obj = Object.create(null);
+         for (let [k,v] of strMap) {
+           obj[k] = v;
+         }
+         return obj;
+       }
+       
+       const myMap = new Map()
+         .set('yes', true)
+         .set('no', false);
+       strMapToObj(myMap)
+       // { yes: true, no: false }
+       ```
+
+     - 对象转为Map
+
+       ```javascript
+       let obj = {"a":1, "b":2};
+       let map = new Map(Object.entries(obj));
+       
+       // 不用entries API
+       function objToStrMap(obj) {
+         let strMap = new Map();
+         for (let k of Object.keys(obj)) {
+           strMap.set(k, obj[k]);
+         }
+         return strMap;
+       }
+       objToStrMap({yes: true, no: false}) // Map {"yes" => true, "no" => false}
+       ```
+
+     - Map 转为 JSON
+
+       ```javascript
+       // Map 的键名都是字符串，转为对象 JSON
+       function strMapToJson(strMap) {
+         return JSON.stringify(strMapToObj(strMap));
+       }
+       let myMap = new Map().set('yes', true).set('no', false);
+       strMapToJson(myMap); // '{"yes":true,"no":false}'
+       
+       // Map 的键名有非字符串，选择转为数组 JSON
+       function mapToArrayJson(map) {
+         return JSON.stringify([...map]);
+       }
+       let myMap = new Map().set(true, 7).set({foo: 3}, ['abc']);
+       mapToArrayJson(myMap); // '[[true,7],[{"foo":3},["abc"]]]'
+       ```
+
+     - JSON 转为 Map
+
+       ```javascript
+       function jsonToStrMap(jsonStr) {
+         return objToStrMap(JSON.parse(jsonStr));
+       }
+       jsonToStrMap('{"yes": true, "no": false}')
+       // Map {'yes' => true, 'no' => false}
+       
+       // 特殊情况：整个 JSON 就是一个数组，且每个数组成员本身，又是一个有两个成员的数组
+       function jsonToMap(jsonStr) {
+         return new Map(JSON.parse(jsonStr));
+       }
+       
+       jsonToMap('[[true,7],[{"foo":3},["abc"]]]')
+       // Map {true => 7, Object {foo: 3} => ['abc']}
+       ```
+
 9. **Set**
 
    - 类似于数组，但是成员的值都是唯一的，没有重复的值
 
-     - 应用于数组去重`[...new Set(array)]`
+     ```javascript
+     const s = new Set();
+     
+     [2, 3, 5, 4, 5, 2, 2].forEach(x => s.add(x));
+     
+     for (let i of s) {
+       console.log(i);
+     }// 2 3 5 4
+     ```
 
-   - `let s = new Set()`
-   - Set.prototype.size：返回 Set 实例的成员总数
-   - add() 添加某个值，返回 Set 结构本身。不会添加重复的值
-   - has() 返回一个布尔值，表示该值是否为 Set 的成员
-   - delete() 删除某个值，返回一个布尔值，表示删除是否成功
-   - clear() 清除所有成员，没有返回值
+     - 应用于数组去重
 
-   - 遍历操作(Set 的遍历顺序就是插入顺序)
+       ```javascript
+       [...new Set(array)]; // 数组去重
+       [...new Set('ababbc')].join(''); // 去除字符串里面的重复字符
+       ```
 
-     - keys() 返回键名的遍历器
-     - values() 返回键值的遍历器
-     - entries() 返回键值对的遍历器
-     - forEach() 使用回调函数遍历每个成员
+     - `Array.from`方法可以将 Set 结构转为数组
 
-   - Set 集合转换为数组：let set = new Set(\[1,2,3]);
-   - 数组转换为 Set 集合：array = \[...set]
+       ```javascript
+       const items = new Set([1, 2, 3, 4, 5]);
+       const array = Array.from(items);
+       ```
 
-10. **WeakSet**
+   - Set实例的属性和方法：size、add()、has()、delete()、clear()
 
-    - `const ws = new WeakSet();`
+     ```javascript
+     let s = new Set();
+     // Set.prototype.add(value)：添加某个值，返回 Set 结构本身
+     s.add(1).add(2);
+     // Set.prototype.size：返回Set实例的成员总数
+     console.log(s.size) // 2
+     // Set.prototype.has(value)：返回一个布尔值，表示该值是否为Set的成员
+     console.log(s.has(1)); // true
+     console.log(s.has(3)); // false
+     // Set.prototype.delete(value)：删除某个值，返回一个布尔值，表示删除是否成功
+     s.delete(2);
+     console.log(s.has(2)); // false
+     Set.prototype.clear()：清除所有成员，没有返回值
+     ```
 
-    - 与 Set 有两个区别
+   - 遍历操作：`keys()`、`values()`、`entries()`、`forEach()`
 
-      - WeakSet 的成员只能是对象，而不能是其他类型的值
-      - WeakSet 中的对象都是弱引用，即垃圾回收机制不考虑 WeakSet 对该对象的引用，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存，不考虑该对象还存在于 WeakSet 之中。
+     ```javascript
+     let set = new Set(['red', 'green', 'blue']);
+     //Set.prototype.keys()：返回键名的遍历器
+     for (let item of set.keys()) {
+       console.log(item);
+     }
+     // red
+     // green
+     // blue
+     
+     //Set.prototype.values()：返回键值的遍历器
+     for (let item of set.values()) {
+       console.log(item);
+     }
+     // red
+     // green
+     // blue
+     
+     //Set.prototype.entries()：返回键值对的遍历器
+     // ["red", "red"]
+     // ["green", "green"]
+     // ["blue", "blue"]
+     
+     //Set.prototype.forEach()：使用回调函数遍历每个成员
+     let set = new Set([1, 4, 9]);
+     set.forEach((value, key) => console.log(key + ' : ' + value))
+     // 1 : 1
+     // 4 : 4
+     // 9 : 9
+     
+     // 遍历的应用
+     // 扩展运算符（...）内部使用for...of循环，所以也可以用于 Set 结构
+     let set = new Set(['red', 'green', 'blue']);
+     let arr = [...set];
+     // ['red', 'green', 'blue']
+     
+     // 数组的map和filter方法也可以间接用于 Set 
+     let set = new Set([1, 2, 3]);
+     set = new Set([...set].map(x => x * 2));
+     // 返回Set结构：{2, 4, 6}
+     
+     let set = new Set([1, 2, 3, 4, 5]);
+     set = new Set([...set].filter(x => (x % 2) == 0));
+     // 返回Set结构：{2, 4}
+     ```
 
-        - WeakSet 适合临时存放一组对象，以及存放跟对象绑定的信息。只要这些对象在外部消失，它在 WeakSet 里面的引用就会自动消失。
+10. **`WeakSet`**
 
-    - WeakSet 结构有以下三个方法
-
-      - add()
-      - delete()
-      - gas()
-
-    - WeakSet 不能遍历，是因为成员都是弱引用，随时可能消失，遍历机制无法保证成员的存在，很可能刚刚遍历结束，成员就取不到了。
-    - WeakSet 的一个用处，是储存 DOM 节点，而不用担心这些节点从文档移除时，会引发内存泄漏。
+    - 与 Set 类似，也是不重复的值的集合
+    - 与Set的区别：
+      - `WeakSet`的成员只能是对象，而不能是其他类型的值；
+      - `WeakSet` 中的对象都是弱引用，即垃圾回收机制不考虑 `WeakSet` 对该对象的引用：如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存
+        - 因此`WeakSet` 适合临时存放一组对象，以及存放跟对象绑定的信息
+        - 一个用处：储存 DOM 节点，而不用担心这些节点从文档移除时，会引发内存泄漏。
+    - 实例方法：add()、delete()、has()
+      - 无size属性
+      - 无法遍历其成员，因为成员都是弱引用，随时可能消失，遍历机制无法保证成员的存在
 
 11. **Symbol**
 
@@ -207,6 +458,8 @@
 
     - extends 继承
     - super 继承
+
+16. **`CommonJS`**
 
 
 > 参考链接
