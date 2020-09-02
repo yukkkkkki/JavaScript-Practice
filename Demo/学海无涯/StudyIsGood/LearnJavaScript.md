@@ -260,9 +260,10 @@
 
    - for-in 和 for-of 的区别
 
-     - for-in 循环遍历数组的结果是数组元素的下标
-
-     - for-of 循环遍历数组的结果是数组元素的值
+     - for-in 循环遍历数组只能获得对象的键名，不能获得键值
+   - for-of 循环遍历数组允许遍历获得键值
+     - 无论是 for...in 还是 for...of 都不能遍历出 Symbol 类型的值
+       - 遍历 Symbol 类型的值需要用 Object.getOwnPropertySymbols() 方法
 
 8. **遍历数组**
 
@@ -283,7 +284,7 @@
      - `arr.forEach(callback(currentValue [, index [, array]])[, thisArg])`
      - 与 map() 或者 reduce() 不同的是，它总是返回 undefined 值，并且不可链式调用
      - forEach 不会直接改变调用它的对象，但是那个对象可能会被 callback 函数改变
-     - 除了抛出异常，无法中止或跳出 forEach()循环
+     - 除了抛出异常，**无法中止或跳出** forEach()循环
 
    - map()：创建一个新数组，其结果是该数组中的每个元素都调用一次提供的函数后的返回值
 
@@ -1430,7 +1431,7 @@
 
    - 阻止默认事件：preventDefault()
      - ie：设置事件对象的 returnValue 属性为 false
-   
+
 > 参考链接
 > 1. https://juejin.im/post/59cf06745188253fbe466f78
 > 2. https://juejin.im/post/592045b0570c350069a1d7b5
@@ -1442,4 +1443,7 @@
 > 8. https://mp.weixin.qq.com/s/3R8BxWk6JjUxF4OIdWBc_g
 > 9. https://mp.weixin.qq.com/s/bvYqA16mU_rRYT1G37onug
 > 10. https://blog.csdn.net/Q846169253/article/details/81841919
+> 11. https://www.cnblogs.com/rogerwu/p/10738776.html
+> 12. https://juejin.im/post/6844903798851239950#heading-38
+> 13. http://www.imooc.com/article/281277?block_id=tuijian_wz
 

@@ -39,8 +39,8 @@
 
    | 生命周期钩子  | 描述                                                         |
    | ------------- | ------------------------------------------------------------ |
-   | beforeCreate  | 在实例初始化之后，数据观测(data observer)和 event/watcher 事件配置之前被调用 |
-   | created       | 在实例创建完成后被立即调用，实例已完成数据观测，property 和方法的运算，watch/event 事件回调（模板渲染成 html 前调用） |
+   | beforeCreate  | 在实例初始化之后，可获取vue实例，data数据未绑定，el未挂载    |
+   | created       | 在实例创建完成后被立即调用，数据已挂载，el未挂载，适合在此阶段初始化数据（模板渲染成 html 前调用） |
    | beforeMount   | 在挂载开始之前被调用：相关的 render 函数首次被调用           |
    | mounted       | 实例被挂载后调用，这时 el 被新创建的 vm.\$el 替换了（模板渲染成 html 后调用） |
    | beforeUpdate  | 数据更新时调用，发生在虚拟 DOM 打补丁之前                    |
@@ -141,7 +141,16 @@
 
    - ![image text](https://cn.vuejs.org/images/lifecycle.png?_sw-precache=6f2c97f045ba988851b02056c01c8d62)
 
-2. **Vue 的优点**
+2. **created和mounted的区别**
+
+   - created：在模板渲染成html前调用，即通常初始化某些属性值，然后再渲染成视图。
+   - mounted：在模板渲染成html后调用，通常是初始化页面完成后，再对html的`DOM`节点进行一些需要的操作。
+   
+3. **`Vue`获取数据在哪个周期函数**
+
+   - 一般 `created/beforeMount/mounted` 皆可。如果涉及到需要页面加载完成之后(DOM操作)的就用 mounted
+
+4. **Vue 的优点**
 
    - 轻量级框架：只关注视图层，是一个构建数据的视图集合，大小只有几十 `kb` ；
    - 简单易学
@@ -151,108 +160,202 @@
    - 虚拟 DOM：`dom` 操作是非常耗费性能的， 不再使用原生的 `dom` 操作节点，极大解放 `dom` 操作，但具体操作的还是 `dom` 不过是换了另一种方式；
    - 运行速度更快：相比较于 `react` 而言，同样是操作虚拟 `dom` ，就性能而言， `vue` 存在很大的优势。
 
-3. **Vue 组件间传递参数**
+5. **Vue 组件间传递参数**
 
-   - 父组件向子组件传递参数
+   - `vue`中的通信方式
+     - `v-bind` 和 `props` （通过绑定属性进行传值）
+     - `v-on` 和 `$emit` （通过触发事件进行传值）
+     - `$ref`、`$parent`、`$children`（通过获取到`dom`进行传值）
+     - `provide`和`inject` （使用依赖注入进行传值）
+     - `$attrs` 和 `$listeners` (获取剩余参数进行传值)
+     - `EventBus` (利用事件总线进行传值)
+     - `vuex` 
+     - 利用本地存储和`vue-router`等方式
 
-     - props
+   - **`Props`传参**：父组件给子组件传递数据
 
-       注册子组件，props 接收父子间发送的数据
+     - 子组件里定义`props`三种方式
 
        ```javascript
-       Vue.component("blog-post", {
-         props: ["title"],
-         template: "<h3>{{title}}</h3",
-       });
+       props: [xxx, xxx, xxx] // 第一种：数组方式
+       props: { xxx: Number, xxx: String} // 第二种：对象方式
+       
+       props: { // 第三种：对象嵌套对象方式
+         xxx: {
+           type: Number, //类型不匹配会警告
+           default: 0,
+           required: true,
+           validator(val) { return val === 10} // 返回值不是 true,会警告
+         }
+       }
        ```
 
-       - props 值有两种方式：字符串数组、对象
+     - 父组件传参的两种方式
 
-       - prop 验证
+       - 静态属性传参
 
-         ```javascript
-         Vue.component("my-component", {
-           props: {
-             // 基础的类型检查 (`null` 和 `undefined` 会通过任何类型验证)
-             propA: Number,
-             // 多个可能的类型
-             propB: [String, Number],
-             // 必填的字符串
-             propC: {
-               type: String,
-               required: true,
-             },
-             // 带有默认值的数字
-             propD: {
-               type: Number,
-               default: 100,
-             },
-             // 带有默认值的对象
-             propE: {
-               type: Object,
-               // 对象或数组默认值必须从一个工厂函数获取
-               default: function () {
-                 return { message: "hello" };
-               },
-             },
-             // 自定义验证函数
-             propF: {
-               validator: function (value) {
-                 // 这个值必须匹配下列字符串中的一个
-                 return ["success", "warning", "danger"].indexOf(value) !== -1;
-               },
-             },
-           },
-         });
+         ```html
+         <!--props 接受到的均为 String -->
+         <!--不定义 props 类型的情况下 props 接受到的均为 String -->
+         <children xxx="123"></children>
+         
+         <!-- 只有属性没有值, 这种情况 props 指定类型是 Boolean 则接收到的是 true -->
+         <children xxx></children>
          ```
 
-   - 子组件向父组件传递参数
+       - 动态属性传参
 
-     - \$emit() -> 自定义事件
+         ```html
+         <!-- prop 接收到 Number 类型的 123-->
+         <children :xxx="123"></children>
+         
+         <!-- prop 接收到 Array 类型的 [1, 2, 3]-->
+         <children v-bind:xxx="[1, 2, 3]"></children>
+         
+         <!-- prop 会接收到 xxx1 和 xxx2 俩个参数。这种不支持简写形式-->
+         <children v-bind="{xxx1: 1, xxx2: 2}"></children>
+         <!-- 如果是表达式则获取到的是表达式的计算结果 -->
+         ```
+
+     - 实例：
 
        ```javascript
-       // 子组件里：
-       this.$emit('item-click');
-       
-       // 父组件里
-       <cpn @item-click="cpnClick"></cpn>
+       // Parent.vue
+       <template>
+         <div class="parent">
+           <h1>父组件</h1>
+           <Child message1='我是直接参数' :message2='msg' :message3='obj'></Child>
+         </div>
+       </template>
+       <script>
+       import Child from '@/views/Child.vue'
+       export default {
+         name: 'Parent',
+         components: {
+           Child
+         },
+         data() {
+           return {
+             msg: '我是父组件的参数'
+           }
+         },
+         created() {
+           this.obj = {a:'1', b:'2', c:'3'};
+         }
+       }
+       </script>
+       // Child.vue
+       <template>
+         <div class="child">
+           <h1>子组件</h1>
+           <div>{{message1}}</div>
+           <div>{{message2}}</div>
+           <div>{{message3.a}} -- {{message3.b}} -- {{message3.c}}</div>
+         </div>
+       </template>
+       <script>
+       export default {
+         name: 'Child',
+         components: {
+         },
+         // props: ['message1', 'message2', 'message3'],
+         props: {
+           message1: String,
+           message2: String,
+           message3: Object
+         },
+         created() {
+           console.log(this.message3);
+         }
+       }
+       </script>
        ```
 
-   - `$refs,$root,$parent,$children`
+     - 优点
 
-   - `project/inject`：**注入的值是非响应的**
+       - 使用最为简单，也是父子组件传递最常见的方法。
+       - `Vue`为props提供了类型检查支持。
+       - `$emit`不会修改到别的组件的同名事件，因为他只能触发父级的事件，这里和event-bus不同
+
+     - 缺点
+
+       - 单一组件层级一深需要逐层传递，会有很多不必要的代码量
+       - 不能解决了多组件依赖统同一状态的问题
+
+   - `$emit`/`$on`：子组件向父组件传值
 
      ```javascript
-     <!--父组件 提供-->
-     {
-       project() {
-         return {
-           parent: this
-         }
-       }
-     }
-     <!--子组件 注入-->
-     {
-       // 写法一
-       inject: ['parent']
-       // 写法二
-       inject: { parent: 'parent' }
-       // 写法三
-       inject: {
-         parent: {
-           from: 'parent',
-           default: 222
-         }
-       }
-     }
-     
+     // 子组件里自定义事件：
+     this.$emit('item-click');
+     // 父组件里
+     <cpn @item-click="cpnClick"></cpn>
      ```
 
-   - `Vuex`：相当于单独维护的一组数据
+   - `provide`/`inject `依赖注入
 
-   - 插槽
+     - 在父组件上通过provide提供给后代组件的数据/方法，在后代组件上通过inject来接收被注入的数据/方法
 
-4. **数据双向绑定**
+       - provide：应该是一个对象或返回一个对象的函数。该对象包含可注入其子孙的property
+       - inject：应该是一个字符串数组，或者一个对象，对象的key是本地的绑定名，value是
+         - 在可用的注入内容中搜索用的key
+         - 或一个对象，该对象的：
+           - `from` property 是在可用的注入内容中搜索用的 key
+           - `default` property 是降级情况下使用的 value
+
+       ```javascript
+       // 父组件
+       var Provider = {
+         provide: function() {
+           return {
+             getMap: this.getMap
+           }
+         }
+       }
+       
+       // 子组件
+       var Child = { inject: ['getMap'] }
+       ```
+
+     - 可以把依赖注入看作一部分“大范围有效的 prop”，除了
+
+       - 祖先组件不需要知道哪些后代组件使用它提供的 property
+       - 后代组件不需要知道被注入的 property 来自哪里
+
+     - 优点：不用像props一层层传递，可以跨层级传递
+
+     - 缺点
+
+       - 用这种方式传递的property是非响应式的，所以尽可能来传递一些静态属性。
+         - 如果你传入了一个可监听的对象，那么其对象的 property 还是可响应的
+       - **它将你的应用以目前的组件组织方式耦合了起来，使重构变得更加困难**
+
+   - `slot` / `slot-scope`
+
+     - 可以在组件的html模版里添加自定义内容
+     - **父组件模板的所有东西都会在父级作用域内编译；子组件模板的所有东西都会在子级作用域内编译**
+     - 优点：可以在父组件里自定义插入到子组件里的内容；复用性好,适合做组件开发
+     - 缺点：和props一样不支持跨层级传递
+
+   - `$parent` / `$children`：通过`$parent`/`$children`可以拿到父子组件的实例，从而调用实例里的方法，实现父子组件通信。并不推荐这种做法。
+
+     - 优点：可以拿到父子组件实例，从而拥有实例里的所有属性
+     - 缺点
+       - 用这种方法写出来的组件十分难维护，因为你并不知道数据的来源是哪里，有悖于单向数据流的原则
+       - `this.$children`拿到的是一个数组，你并不能很准确的找到你要找的子组件的位置，尤其是子组件多的时候
+
+   - `attrs`和`listeners`传参
+
+   - `EventBus`
+
+   - `Vuex`传参
+
+   - 路由传参
+
+     - 路由配置（eg：/:id，获取参数使用$route）、`router.push()`、`params`、`query`
+
+6. **Computed计算属性**
+
+7. **数据双向绑定**
 
    - v-model：表单数据的双向绑定
 
@@ -545,7 +648,7 @@
          - 当数据发生了变化，会触发 getter，从而向 Dep 中的依赖(Watcher)发送通知。
          - Watcher 收到通知后，会向外界发送通知，变化通知到外界后可能会触发视图更新，也有可能触发用户的某个回调函数等。
 
-5. **v-if 和 v-show**
+8. **v-if 和 v-show**
 
    - **v-if** 用于条件性地渲染一块内容。这块内容只会在指令的表达式返回 truethy 值的时候被渲染
    - **v-show** 用于根据条件展示元素
@@ -557,7 +660,7 @@
      - 一般来说 v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销
      - 当显示与隐藏切换频率高，用 v-show，只有一次切换: v-if
 
-6. **如何让 CSS 只在当前组件中起作用**
+9. **如何让 CSS 只在当前组件中起作用**
 
    - 在组件中的 `style` 前面加上 `scoped`
 
@@ -573,7 +676,7 @@
 
      这个可选 `scoped` attribute 会自动添加一个唯一的 attribute (比如 `data-v-21e5b78`) 为组件内 CSS 指定作用域，编译的时候 `.list-container:hover` 会被编译成类似 `.list-container[data-v-21e5b78]:hover`
 
-7. **\<keep-alive>\</keep-alive>的作用是什么**
+10. **\<keep-alive>\</keep-alive>的作用是什么**
 
    - `keep-alive` 是 Vue 内置的一个组件，可以使被包含的组件保留状态，或避免重新渲染
 
@@ -613,67 +716,67 @@
 
    - `<keep-alive>` 不会在函数式组件中正常工作，因为它们没有缓存实例。
 
-8. **如何获取 dom**
+11. **如何获取 dom**
 
-   - `ref = "domName"`
+    - `ref = "domName"`
 
-     `this.$refs.domName`
+      `this.$refs.domName`
 
-9. **几种 vue 当中的指令和它的用法**
+12. **几种 vue 当中的指令和它的用法**
 
-   | 指令      | 描述                                                         |
-   | --------- | :----------------------------------------------------------- |
-   | v-text    | 更新元素的 `textContent`。                                   |
-   | v-html    | 更新元素的 `innerHTML`<br />容易导致 XSS 攻击。故只在可信内容上使用 `v-html`，**永不**用在用户提交的内容上 |
-   | v-show    | 根据表达式之真假值，切换元素的 `display` CSS property        |
-   | v-if      | 根据表达式的值的 truthiness 来有条件地渲染元素。在切换时元素及它的数据绑定 / 组件被销毁并重建 |
-   | v-else    | 为 `v-if` 或者 `v-else-if` 添加“else 块”                     |
-   | v-else-if | 表示 `v-if` 的“else if 块”。可以链式调用                     |
-   | v-for     | 基于源数据多次渲染元素或模板块                               |
-   | v-on      | 缩写：@<br />绑定事件监听器                                  |
-   | v-bind    | 缩写：：<br />动态地绑定一个或多个 attribute，或一个组件 prop 到表达式 |
-   | v-model   | 在表单控件或者组件上创建双向绑定，它会根据控件类型自动选取正确的方法来更新元素 |
-   | v-slot    | 缩写：#<br />提供具名插槽或需要接收 prop 的插槽              |
-   | v-pre     | 跳过这个元素和它的子元素的编译过程。可以用来显示原始 Mustache 标签。跳过大量没有指令的节点会加快编译 |
-   | v-cloak   | 这个指令保持在元素上直到关联实例结束编译。<br />和 CSS 规则如 `[v-cloak] { display: none }` 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到实例准备完毕。 |
-   | v-once    | 只渲染元素和组件**一次**。随后的重新渲染，元素/组件及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能 |
+    | 指令      | 描述                                                         |
+    | --------- | :----------------------------------------------------------- |
+    | v-text    | 更新元素的 `textContent`。                                   |
+    | v-html    | 更新元素的 `innerHTML`<br />容易导致 XSS 攻击。故只在可信内容上使用 `v-html`，**永不**用在用户提交的内容上 |
+    | v-show    | 根据表达式之真假值，切换元素的 `display` CSS property        |
+    | v-if      | 根据表达式的值的 truthiness 来有条件地渲染元素。在切换时元素及它的数据绑定 / 组件被销毁并重建 |
+    | v-else    | 为 `v-if` 或者 `v-else-if` 添加“else 块”                     |
+    | v-else-if | 表示 `v-if` 的“else if 块”。可以链式调用                     |
+    | v-for     | 基于源数据多次渲染元素或模板块                               |
+    | v-on      | 缩写：@<br />绑定事件监听器                                  |
+    | v-bind    | 缩写：：<br />动态地绑定一个或多个 attribute，或一个组件 prop 到表达式 |
+    | v-model   | 在表单控件或者组件上创建双向绑定，它会根据控件类型自动选取正确的方法来更新元素 |
+    | v-slot    | 缩写：#<br />提供具名插槽或需要接收 prop 的插槽              |
+    | v-pre     | 跳过这个元素和它的子元素的编译过程。可以用来显示原始 Mustache 标签。跳过大量没有指令的节点会加快编译 |
+    | v-cloak   | 这个指令保持在元素上直到关联实例结束编译。<br />和 CSS 规则如 `[v-cloak] { display: none }` 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到实例准备完毕。 |
+    | v-once    | 只渲染元素和组件**一次**。随后的重新渲染，元素/组件及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能 |
 
-   - v-on 监听多个方法/自定义事件
+    - v-on 监听多个方法/自定义事件
 
-     ```javascript
-     <!-- 监听多个方法：对象语法 -->
-     <button v-on="{ mousedown: doThis, mouseup: doThat }"></button>
-     <!-- 监听自定义事件 -->
-     <my-component @my-event="handleThis"></my-component>
-     ```
+      ```javascript
+      <!-- 监听多个方法：对象语法 -->
+      <button v-on="{ mousedown: doThis, mouseup: doThat }"></button>
+      <!-- 监听自定义事件 -->
+      <my-component @my-event="handleThis"></my-component>
+      ```
 
-   - v-on 修饰符
+    - v-on 修饰符
 
-     - `.stop` - 调用 `event.stopPropagation()`。
-     - `.prevent` - 调用 `event.preventDefault()`。
-     - `.capture` - 添加事件侦听器时使用 capture 模式。
-     - `.self` - 只当事件是从侦听器绑定的元素本身触发时才触发回调。
-     - `.{keyCode | keyAlias}` - 只当事件是从特定键触发时才触发回调。
-     - `.native` - 监听组件根元素的原生事件。
-     - `.once` - 只触发一次回调。
-     - `.left` - 只当点击鼠标左键时触发。
-     - `.right` - 只当点击鼠标右键时触发。
-     - `.middle` - 只当点击鼠标中键时触发。
-     - `.passive` - 以 `{ passive: true }` 模式添加侦听器
+      - `.stop` - 调用 `event.stopPropagation()`。
+      - `.prevent` - 调用 `event.preventDefault()`。
+      - `.capture` - 添加事件侦听器时使用 capture 模式。
+      - `.self` - 只当事件是从侦听器绑定的元素本身触发时才触发回调。
+      - `.{keyCode | keyAlias}` - 只当事件是从特定键触发时才触发回调。
+      - `.native` - 监听组件根元素的原生事件。
+      - `.once` - 只触发一次回调。
+      - `.left` - 只当点击鼠标左键时触发。
+      - `.right` - 只当点击鼠标右键时触发。
+      - `.middle` - 只当点击鼠标中键时触发。
+      - `.passive` - 以 `{ passive: true }` 模式添加侦听器
 
-   - v-bind 修饰符
+    - v-bind 修饰符
 
-     - `.prop` - 作为一个 DOM property 绑定而不是作为 attribute 绑定。
-     - `.camel` - 将 kebab-case attribute 名转换为 camelCase。
-     - `.sync` 语法糖，会扩展成一个更新父组件绑定值的 `v-on` 侦听器。
+      - `.prop` - 作为一个 DOM property 绑定而不是作为 attribute 绑定。
+      - `.camel` - 将 kebab-case attribute 名转换为 camelCase。
+      - `.sync` 语法糖，会扩展成一个更新父组件绑定值的 `v-on` 侦听器。
 
-   - v-model 修饰符
+    - v-model 修饰符
 
-     - `.lazy` - 取代 `input` 监听 `change` 事件
-     - `.number`- 输入字符串转为有效的数字
-     - `.trim` - 输入首尾空格过滤
+      - `.lazy` - 取代 `input` 监听 `change` 事件
+      - `.number`- 输入字符串转为有效的数字
+      - `.trim` - 输入首尾空格过滤
 
-10. **为什么组件 data 必须是函数**
+13. **为什么组件 data 必须是函数**
 
     > 为什么组件中的 data 必须是一个函数，然后 return 一个对象，而 new Vue 实例里，data 可以直接是一个对象？
 
@@ -681,7 +784,7 @@
     - 如果组件中 data 选项是一个函数，那么每个实例可以维护一份被返回对象的独立的拷贝，组件实例之间的 data 属性值不会互相影响；
     - new Vue 的实例，是不会被复用的，因此不存在引用对象的问题。
 
-11. **vue-loader**
+14. **vue-loader**
 
     - vue-loader 是基于 webpack 的一个 loader，解析和转换.vue 文件，提取出其中的逻辑代码 script、样式代码 style、以及 HTML 模板 template，再分别把它们交给对应的 loader 去处理，核心的作用，就是提取。
 
@@ -722,7 +825,7 @@
           }
           ```
 
-12. **为什么使用 key**
+15. **为什么使用 key**
 
     - 作用：主要用在 Vue 的虚拟 DOM 算法( `Diff`)，在复杂的列表渲染中快速准确的找到与`newVnode`相对应的`oldVnode`，提升`diff`效率。（相当于给每个节点一个唯一标识）
 
@@ -799,7 +902,7 @@
       - 建议尽可能在使用 v-for 时提供 key，除非遍历输出的 DOM 内容非常简单，或者是刻意依赖默认行为以获取性能上的提升。
       - 总结：简单列表的渲染可以不使用`key`或者用数组的`index`作为`key`（效果等同于不带`key`），这种模式下性能最高，但是并不能准确的更新列表项的状态。一旦你需要保存列表项的状态，那么就需要用使用唯一的`key`用来准确的定位每一个列表项以及复用其自身的状态，而大部分情况下列表组件都有自己的状态。
 
-13. **创建组件**
+16. **创建组件**
 
     - 全局注册
     - 局部注册
@@ -813,7 +916,7 @@
           - 准备好组件的数据输出，即组件逻辑，做好要暴露出来的方法
           - 封装完毕可直接调用
 
-14. **Vue Cli 项目中 src 目录每个文件夹和文件的用法**
+17. **Vue Cli 项目中 src 目录每个文件夹和文件的用法**
 
     - `assets` 文件夹是放静态资源；
     - `components` 是放组件；
@@ -821,7 +924,7 @@
     - `app.vue` 是一个应用主组件；
     - `main.js` 是入口文件。
 
-15. **分别简述 computed 和 watch 的使用场景**
+18. **分别简述 computed 和 watch 的使用场景**
 
     - `computed`计算属性：类似于过滤器，对绑定到视图的数据进行处理，并监听变化进而执行对应的方法
 
@@ -944,37 +1047,37 @@
         - 不同：computed 主要用于对同步数据的处理，watch 则主要用于观测某个值的变化去完成一段开销较大的复杂业务逻辑。
           - 能用 computed 的时候优先用 computed，避免了多个数据影响其中某个数据时多次调用 watch 的尴尬情况。
 
-16. **\$nextTick 的使用**
+19. **\$nextTick 的使用**
 
     - vm.\$nextTick([callback])
     - 当你修改了`data` 的值然后马上获取这个 `dom` 元素的值，是不能获取到更新后的值，`$nextTick`将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。它跟全局方法 `Vue.nextTick` 一样，不同的是回调的 `this` 自动绑定到调用它的实例上
 
-17. **渐进式框架的理解**
+20. **渐进式框架的理解**
 
     - 渐进式代表的含义：没有多做职责之外的事；把框架分层
       - 视图层渲染 -> 组建机制 -> 路由机制 -> 状态管理 -> 构建工具
     - 主张最少，可以根据不同的需求选择不同的层级
     - Vue.js 只提供了 vue-cli 生态中最核心的**组件系统** 和 **双向数据绑定（也叫数据驱动）**
 
-18. **`Vue` 的两个核心点**
+21. **`Vue` 的两个核心点**
 
     - **数据驱动（双向数据绑定）**：MVVM，保证数据和视图的一致性
     - **组件系统**：应用类 UI 可以看作全部是由组件树构成的。组件化开发可以很好地降低数据之间的耦合度。将常用的代码封装成组件之后，就能高度的复用，提高代码的可重用性。一个页面/模块可以由多个组件所组成。
 
-19. **单页面应用和多页面应用区别及优缺点**
+22. **单页面应用和多页面应用区别及优缺点**
 
     - 单页面应用：只有一个主页面的应用，浏览器一开始要加载所有必须的 html, js, css。所有的页面内容都包含在这个所谓的主页面中。但在写的时候，还是会分开写（页面片段），然后在交互的时候由路由程序动态载入，单页面的页面跳转，仅刷新局部资源。多应用于 pc 端。
       - 优点：用户体验好，快，内容的改变不需要重新加载整个页面，对服务器压力较小，前后端分离，页面效果会比较炫酷
       - 缺点：不利于 SEO；导航不可用，如果一定要导航需要自行实现前进、后退（由于是单页面不能用浏览器的前进后退功能，所以需要自己建立堆栈管理）；初次加载时耗时多；页面复杂度提高很多
     - 多页面应用：一个应用中有多个页面，页面跳转时是整页刷新
 
-20. **v-if 和 v-for 的优先级**
+23. **v-if 和 v-for 的优先级**
 
     - 当 `v-if` 与 `v-for` 一起使用时，`v-for` 具有比 `v-if` 更高的优先级，这意味着 `v-if` 将分别重复运行于每个 `v-for` 循环中。
     - 不推荐 `v-if` 和 `v-for` 同时使用。
     - 如果 `v-if` 和 `v-for` 一起用的话，vue 中会自动提示 `v-if` 应该放到外层去。
 
-21. **assets 和 static 的区别**
+24. **assets 和 static 的区别**
 
     - 相同点：`assets` 和 `static` 两个都是存放静态资源文件。项目中所需要的资源文件图片，字体图标，样式文件等都可以放在这两个文件下。
     - 区别：
@@ -982,16 +1085,16 @@
       - `static` 中放置的静态资源文件就不会要走打包压缩格式化等流程，而是直接进入打包好的目录，直接上传至服务器。因为避免了压缩直接进行上传，在打包时会提高一定的效率，但是 `static` 中的资源文件由于没有进行压缩等操作，所以文件的体积也就相对于 `assets` 中打包后的文件提交较大点。在服务器中就会占据更大的空间
     - 建议：将项目中 `template`需要的样式文件 js 文件等都可以放置在 `assets` 中，走打包这一流程。减少体积。而项目中引入的第三方的资源文件如`iconfoont.css` 等文件可以放置在 `static` 中，因为这些引入的第三方文件已经经过处理，我们不再需要处理，直接上传
 
-22. **Vue 和 jQuery 的区别**
+25. **Vue 和 jQuery 的区别**
 
     - jQuery 是使用选择器（ `$` ）选取 DOM 对象，对其进行赋值、取值、事件绑定等操作，其实和原生的 HTML 的区别只在于可以更方便的选取和操作 DOM 对象，而数据和界面是在一起的。比如需要获取 label 标签的内容：`$("lable").val();` ,它还是依赖 DOM 元素的值。
     - Vue 则是通过 Vue 对象将数据和 View 完全分离开来了。对数据进行操作不再需要引用相应的 DOM 对象，可以说数据和 View 是分离的，他们通过 Vue 对象这个 vm 实现相互的绑定。这就是传说中的 MVVM。
 
-23. **SPA首屏加载慢如何解决**
+26. **SPA首屏加载慢如何解决**
 
     - 安装动态懒加载所需插件；使用CDN资源；UI组件库按需加载；路由懒加载；开启`gzip`压缩，生成压缩文件。（视具体情况而定）
 
-24. **`delete`、splice和`Vue.delete`删除数组的区别**
+27. **`delete`、splice和`Vue.delete`删除数组的区别**
 
     - `delete` 只是被删除的元素变成了 `empty/undefined` 其他的元素的键值还是不变。
 
@@ -1011,7 +1114,7 @@
       this.$delete(c,1) // c: [1, 3, 4]
       ```
 
-25. **`vue`初始化页面闪动问题**
+28. **`vue`初始化页面闪动问题**
 
     - 将根结构默认设为display: none，然后在根结构上添加属性 :style="display:'inline'"
 
@@ -1036,11 +1139,11 @@
       <span>{{message}}</span>
       ```
 
-26. **`Vue`更新数组时触发视图更新的方法**
+29. **`Vue`更新数组时触发视图更新的方法**
 
     - push()；pop()；shift()；unshift()；splice()；sort()；reverse()
 
-27. **`Vue`修改打包后静态资源修改路径**
+30. **`Vue`修改打包后静态资源修改路径**
 
     - CLI2：将 config/index.js 里的 `assetsPublicPath` 的值改为  `./`
 
@@ -1060,20 +1163,9 @@
       } 
       ```
 
-28. **created和mounted的区别**
+31. `Vue slot`
 
-    - created：在模板渲染成html前调用，即通常初始化某些属性值，然后再渲染成视图。
-    - mounted：在模板渲染成html后调用，通常是初始化页面完成后，再对html的`DOM`节点进行一些需要的操作。
-
-29. **`Vue`获取数据在哪个周期函数**
-
-    - 一般 `created/beforeMount/mounted` 皆可. 比如如果你要操作 DOM , 那肯定 mounted 时候才能操作.
-
-30. `Vue slot`
-
-31. **MVC 与 MVVM**
-
-
+32. **MVC 与 MVVM**
 
 > 参考链接
 >
@@ -1088,4 +1180,11 @@
 > 9. https://vue-loader-v14.vuejs.org/zh-cn/
 > 10. https://mp.weixin.qq.com/s/_P0-uCz11hvFIwdLQ1mL-Q
 > 11. https://www.cnblogs.com/Sherlock09/p/11023593.html
+> 12. https://juejin.im/post/6844904080540712967#heading-1
+> 13. https://juejin.im/post/6844903736356126734
+> 14. https://cn.vuejs.org/v2/guide/components-props.html#header
+> 15. https://juejin.im/post/6844903736356126734
+> 16. https://cn.vuejs.org/v2/api/#provide-inject
+> 17. https://juejin.im/post/6844903812474339341
+> 18. https://juejin.im/post/6844903878538821640
 
