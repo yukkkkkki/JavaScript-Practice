@@ -76,13 +76,13 @@ const isMatch = (s, p) => {
   // base case
   dp[0][0] = true;
   for (let j = 1; j <= pLen; j++) {
-    dp[0][j] = p[j - 1] == "*" && dp[0][j - 1];
+    dp[0][j] = p[j - 1] == '*' && dp[0][j - 1];
   }
   // 迭代
   for (let i = 1; i <= sLen; i++) {
     for (let j = 1; j <= pLen; j++) {
-      if (p[j - 1] == "?" || s[i - 1] == p[j - 1]) dp[i][j] = dp[i - 1][j - 1];
-      else if (p[j - 1] == "*" && (dp[i - 1][j] || dp[i][j - 1]))
+      if (p[j - 1] == '?' || s[i - 1] == p[j - 1]) dp[i][j] = dp[i - 1][j - 1];
+      else if (p[j - 1] == '*' && (dp[i - 1][j] || dp[i][j - 1]))
         dp[i][j] = true;
     }
   }
