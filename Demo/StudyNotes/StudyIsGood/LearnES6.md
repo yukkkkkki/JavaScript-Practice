@@ -454,12 +454,14 @@
 
 14. **async & await**
 
-15. **Class**
+15. **Proxy**
+
+16. **Class**
 
     - extends 继承
     - super 继承
 
-16. **`CommonJS`**
+17. **`CommonJS`**
 
 
 > 参考链接
