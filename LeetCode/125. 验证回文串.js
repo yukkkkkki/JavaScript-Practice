@@ -12,7 +12,7 @@
 
 // 方法一：正则过滤标点符号 + 双指针
 var isPalindrome = function (s) {
-  let str = s.replace(/\W|_/g, "").toLowerCase();
+  let str = s.replace(/\W|_/g, '').toLowerCase();
   let left = 0,
     right = str.length - 1;
   while (left < right) {
@@ -20,10 +20,11 @@ var isPalindrome = function (s) {
     left++;
     right--;
   }
+  return true;
 };
 
 // 方法二
 var isPalindrome = function (s) {
-  let strArr = s.replace(/\W|_/g, "").toLowerCase().split("");
-  return strArr.join("") == strArr.reverse().join("");
+  let strArr = s.replace(/\W|_/g, '').toLowerCase().split('');
+  return strArr.join('') == strArr.reverse().join('');
 };

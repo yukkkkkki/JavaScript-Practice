@@ -12,6 +12,7 @@
 // 输入: k = 3, n = 9
 // 输出: [[1,2,6], [1,3,5], [2,3,4]]
 
+// 方法一：回溯
 var combinationSum3 = function (k, n) {
   const res = [];
 
