@@ -11,45 +11,6 @@
    - 设置共享 cookie 与不断轮询检查(setInterval)
    - 借助服务端或者中间层实现
 
-2. **从输入 URL 到展示的过程**
-
-   - 浏览器根据请求的 URL 交给 DNS 域名解析，找到真实 IP
-
-   - 客户端与服务端 TCP 三次握手建立连接
-
-   - 向服务器发起 HTTP 请求，分析 url，设置请求报文(头，主体)
-
-   - 服务器交给后台处理完成后返回数据，浏览器接收文件（HTML、JS、CSS、图象等）
-
-   - 浏览器对加载到的资源（HTML、JS、CSS 等）进行语法解析，建立相应的内部数据结构
-
-     - 浏览器的渲染过程
-
-       ![image](https://user-gold-cdn.xitu.io/2018/12/10/16798b8db54caa31?imageView2/0/w/1280/h/960/ignore-error/1)
-
-     - HTML parser --> DOM Tree
-
-     - CSS parser --> Style Tree(样式树)
-
-       - 会阻塞渲染
-       - 注：是一个**十分消耗性能**的过程，所以应尽量保证层级扁平，减少过度层叠，**越是具体的 CSS 选择器，执行速度越慢**
-
-     - attachment --> Render Tree(渲染树)
-
-     - layout: 布局
-
-     - GPU painting: 像素绘制页面
-
-     - 载入解析到的资源文件，渲染页面
-
-     - 注：
-
-       - **当 HTML 解析到 script 标签时，会暂停构建 DOM**，完成后才会从暂停的地方重新开始。
-         - 想首屏渲染得越快，就越不应该在首屏就加载 JS 文件
-       - CSS 也会影响 JS 的执行，只有当解析完样式表才会执行 JS，所以也可以认为这种情况下，CSS 也会暂停构建 DOM
-
-   - 当数据传送完毕，发起 TCP 四次挥手断开连接。
-
 3. **存储(localStorage、sessionStorage、cookie)**
 
    - 前端存储的好处
@@ -281,4 +242,6 @@
 > 6. https://juejin.im/post/5c6c182ee51d45760b1c8e30#heading-4
 > 7. https://juejin.im/post/5d63a2bbe51d453c2577b7b5
 > 8. https://blog.csdn.net/u014346301/article/details/52689558
+> 9. https://juejin.im/post/5c6c9c99f265da2d896326ae#heading-5
+> 10. https://juejin.im/post/5b9346dcf265da0aac6fbe57#heading-4
 

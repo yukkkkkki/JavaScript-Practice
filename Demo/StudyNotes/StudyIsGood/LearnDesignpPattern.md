@@ -149,3 +149,10 @@
 7. **策略模式**
 
 8. **职责链模式**
+
+
+
+> 参考链接
+>
+> 1. https://juejin.im/post/5c071f68e51d451dcd3c3077
+> 2. https://juejin.im/post/5c071f2ff265da6115109302

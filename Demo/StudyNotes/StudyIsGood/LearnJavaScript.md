@@ -1376,7 +1376,7 @@
 - **apply()**
     - **bind()**
 - **call()、apply()、bind()的区别**
-    
+  
 25. **defineProperty**
 
 26. **eval**
@@ -1432,17 +1432,28 @@
      - ie：设置事件对象的 returnValue 属性为 false
 
 > 参考链接
-> 1. https://juejin.im/post/59cf06745188253fbe466f78
-> 2. https://juejin.im/post/592045b0570c350069a1d7b5
-> 3. https://juejin.im/post/5b40581e5188251ac446c716
-> 4. https://juejin.im/post/5e10a97f5188253a765ec7e1
-> 5. https://juejin.im/post/5bbad07ce51d450e894e4228
-> 6. https://juejin.im/post/5ad5b908f265da23870f540d
-> 7. http://www.fly63.com/article/detial/225?type=2
-> 8. https://mp.weixin.qq.com/s/3R8BxWk6JjUxF4OIdWBc_g
-> 9. https://mp.weixin.qq.com/s/bvYqA16mU_rRYT1G37onug
-> 10. https://blog.csdn.net/Q846169253/article/details/81841919
-> 11. https://www.cnblogs.com/rogerwu/p/10738776.html
-> 12. https://juejin.im/post/6844903798851239950#heading-38
-> 13. http://www.imooc.com/article/281277?block_id=tuijian_wz
+> 1. https://juejin.im/post/5c64d15d6fb9a049d37f9c20#heading-4、
+> 2. https://mp.weixin.qq.com/s/-4QzuupsTwr2NcknN590Dg
+> 3. https://mp.weixin.qq.com/s/jdDwmPfMOf4qVnwYx0a6ew
+> 4. https://juejin.im/post/5e6055e6f265da5762133c89
+> 5. https://juejin.im/post/59cf06745188253fbe466f78
+> 6. https://juejin.im/post/592045b0570c350069a1d7b5
+> 7. https://juejin.im/post/5b40581e5188251ac446c716
+> 8. https://juejin.im/post/5e10a97f5188253a765ec7e1
+> 9. https://juejin.im/post/5bbad07ce51d450e894e4228
+> 10. https://juejin.im/post/5ad5b908f265da23870f540d
+> 11. http://www.fly63.com/article/detial/225?type=2
+> 12. https://mp.weixin.qq.com/s/3R8BxWk6JjUxF4OIdWBc_g
+> 13. https://mp.weixin.qq.com/s/bvYqA16mU_rRYT1G37onug
+> 14. https://blog.csdn.net/Q846169253/article/details/81841919
+> 15. https://www.cnblogs.com/rogerwu/p/10738776.html
+> 16. https://juejin.im/post/6844903798851239950#heading-38
+> 17. http://www.imooc.com/article/281277?block_id=tuijian_wz
+> 18. NicholasC.Zakas, 泽卡斯, Zakas, 李松峰, & 曹力. (2010). JavaScript 高级程序设计. 人民邮电出版社.
+> 19. https://juejin.im/post/5d0a48d86fb9a07ea803cf23#heading-0
+> 20. https://juejin.im/post/59ac1c4ef265da248e75892b#heading-12
+> 21. https://juejin.im/post/5d1d61766fb9a07ed2248aea#heading-5
+> 22. KyleSimpson, 辛普森, 赵望野, & 梁杰. (2015). 你不知道的 JavaScript. 人民邮电出版社.
+> 23. https://juejin.im/post/5ec74c6a518825430956ae65#heading-9
+> 24. 
 

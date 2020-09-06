@@ -417,7 +417,7 @@
 
     - 封装异步操作
 
-    - **promise 实现**
+    - **Promise 实现**
 
       ```javascript
       <!-- resolve和reject两个回调函数 -->

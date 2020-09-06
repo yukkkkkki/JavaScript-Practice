@@ -1169,22 +1169,24 @@
 
 > 参考链接
 >
-> 1. https://www.cnblogs.com/pangwl/p/7979169.html
-> 2. https://juejin.im/post/6844903812474339341
-> 3. https://blog.csdn.net/xiasohuai/article/details/84788708
-> 4. https://juejin.im/post/6844903917243858951
-> 5. https://juejin.im/post/6844903942254510087#heading-4
-> 6. https://juejin.im/post/6844903917243858951#heading-6
-> 7. https://juejin.im/post/6844903956898447367
-> 8. https://juejin.im/post/6844904160396050440
-> 9. https://vue-loader-v14.vuejs.org/zh-cn/
-> 10. https://mp.weixin.qq.com/s/_P0-uCz11hvFIwdLQ1mL-Q
-> 11. https://www.cnblogs.com/Sherlock09/p/11023593.html
-> 12. https://juejin.im/post/6844904080540712967#heading-1
-> 13. https://juejin.im/post/6844903736356126734
-> 14. https://cn.vuejs.org/v2/guide/components-props.html#header
-> 15. https://juejin.im/post/6844903736356126734
-> 16. https://cn.vuejs.org/v2/api/#provide-inject
-> 17. https://juejin.im/post/6844903812474339341
-> 18. https://juejin.im/post/6844903878538821640
+> 1. https://cn.vuejs.org/v2/guide/
+> 2. https://www.cnblogs.com/pangwl/p/7979169.html
+> 3. https://juejin.im/post/6844903812474339341
+> 4. https://blog.csdn.net/xiasohuai/article/details/84788708
+> 5. https://juejin.im/post/6844903917243858951
+> 6. https://juejin.im/post/6844903942254510087#heading-4
+> 7. https://juejin.im/post/6844903917243858951#heading-6
+> 8. https://juejin.im/post/6844903956898447367
+> 9. https://juejin.im/post/6844904160396050440
+> 10. https://vue-loader-v14.vuejs.org/zh-cn/
+> 11. https://mp.weixin.qq.com/s/_P0-uCz11hvFIwdLQ1mL-Q
+> 12. https://www.cnblogs.com/Sherlock09/p/11023593.html
+> 13. https://juejin.im/post/6844904080540712967#heading-1
+> 14. https://juejin.im/post/6844903736356126734
+> 15. https://cn.vuejs.org/v2/guide/components-props.html#header
+> 16. https://juejin.im/post/6844903736356126734
+> 17. https://cn.vuejs.org/v2/api/#provide-inject
+> 18. https://juejin.im/post/6844903812474339341
+> 19. https://juejin.im/post/6844903878538821640
+> 20. https://www.jianshu.com/p/1b75a3623d0d
 
