@@ -822,7 +822,7 @@
       - BFC 区域，不会与浮动元素重叠
       - 缺点：主要内容模块无法最先加载，当页面中内容较多时会影响用户体验
 
-    - **flex 布局**：父容器 display:flex，middle 元素 flex：1
+    - **flex 布局**：父容器 display: flex，middle 元素 flex：1
 
       - 按照 left、middle、right 顺序布局
       - 优点：移动端首选

@@ -1373,10 +1373,9 @@
 24. **改变 this 的指向：call()、apply()、bind()**
 
     - **call()**
-- **apply()**
+    - **apply()**
     - **bind()**
-- **call()、apply()、bind()的区别**
-  
+    - **call()、apply()、bind()的区别**
 25. **defineProperty**
 
 26. **eval**
@@ -1410,26 +1409,114 @@
       - 暂停 setInterval()：clearInterval()
 
     - **setTimeout 和 setInterval 的区别**
-
-      - setTimeout 到达一定的时间触发一次， 当方法执行完成定时器就立即停止(但是定时器还在,只不过没用了);
+- setTimeout 到达一定的时间触发一次， 当方法执行完成定时器就立即停止(但是定时器还在,只不过没用了);
       - setInterval 到达一定时间触发一次，并且会持续触发，直到我们手动清除定时器为止
+    
+32. **函数防抖和函数节流**
 
-32. **事件流**
+    - 函数防抖：触发事件后在规定时间内回调函数只能执行一次，如果在规定时间内又触发了该事件，则会重新开始算规定时间
 
-33. **事件委托(代理)**
+      - 非立即执行版：事件触发 - > 延时 - > 执行回调函数
 
-34. **Event 对象**
+        ```javascript
+        function shotCat(content) {
+          console.log("test");
+        }
+        
+        function debounce(fun, delay = 500) {
+          let timer;
+          return function () {
+            let that = this;
+            let args = arguments; // arguments中存着e
+            if(timer) clearTimeout(timer);
+            timer = setTimeout(() => {
+              fun.call(that, _args);
+            }, delay);
+          }
+        }
+        
+        let debounceShotCat = debounce(shotCat, 500)
+        let input = document.getElementById('debounce');
+        input.addEventListener('keyup', function (e) {
+            debounceShotCat(e.target.value);
+        });
+        ```
 
-35. **手写 EventEmitter(发布订阅模式--简单版)**
+      - 立即执行版：事件触发 - > 执行回调函数 - > 延时
 
-36. **如何阻止事件冒泡和默认事件**
+        ```javascript
+        function debounce(func, delay) {
+          let timer;
+          return function() {
+            let that = this;
+            let args = arguments;
+            if(timer) clearTimeout(timer);
+            let callNow = !timer;
+            timer = setTimeout(() => {
+              timer = null;
+            }, delay);
+            if(callNow) func.apply(that, args);
+          }
+        }
+        ```
 
-   - 阻止冒泡：stopPropagation()
+      - 合并版
 
-     - ie8 以下：设置事件对象的 cancelBubble 属性为 true
+        ```javascript
+        function debounce(func, delay, immediate) {
+          let timer;
+          return function() {
+            let that = this;
+            let args = arguments;
+            if(timer) clearTimeout(timer);
+            if(immediate) {
+              let callNow = !timer;
+              timer = setTimeout(() => {
+                timer = null;
+              }, delay);
+              if(callNow) func.apply(that, args);
+            } else {
+              timer = setTimeout(() => {
+                func.apply(that, args)
+              }, delay);
+            }
+          }
+        }
+        ```
 
-   - 阻止默认事件：preventDefault()
-     - ie：设置事件对象的 returnValue 属性为 false
+    - 函数节流：当持续触发事件时，在规定时间段内只能调用一次回调函数。如果在规定时间内又触发了该事件,则什么也不做, 也不会重置定时器
+
+      - 时间戳方式：通过闭包保存上一次的时间戳, 然后与事件触发的时间戳比较，如果大于规定时间, 则执行回调,否则就什么都不处理
+
+        ```javascript
+        
+        ```
+
+      - 定时器方式：通过闭包保存上一次定时器状态,然后事件触发时,如果定时器为null(即代表此时间隔已经大于规定时间)，则设置新的定时器.到时间后执行回调函数,并将定时器置为null
+
+        ```javascript
+        
+        ```
+
+        
+
+33. **事件流**
+
+34. **事件委托(代理)**
+
+35. **Event 对象**
+
+36. **手写 EventEmitter(发布订阅模式--简单版)**
+
+37. **如何阻止事件冒泡和默认事件**
+
+    - 阻止冒泡：stopPropagation()
+
+      ie8 以下：设置事件对象的 cancelBubble 属性为 true
+
+    - 阻止默认事件：preventDefault()
+
+      - ie：设置事件对象的 returnValue 属性为 false
 
 > 参考链接
 > 1. https://juejin.im/post/5c64d15d6fb9a049d37f9c20#heading-4、

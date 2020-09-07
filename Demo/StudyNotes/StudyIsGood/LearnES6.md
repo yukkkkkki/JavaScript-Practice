@@ -2,11 +2,21 @@
 
 1. **let、const**
 
-   - let：声明变量；块级作用域；不会被变量提升
-
+   - let：声明变量；块级作用域；不存在变量提升；不允许在相同作用域内重复声明同一个变量
+   
+     - 暂时性死区：只要块级作用域内存在`let`命令，它所声明的变量就“绑定”（binding）这个区域，不再受外部的影响。
+   
+       ```javascript
+       var tmp = 123;
+       if(true) {
+         tmp = 'abc'; // ReferenceError
+         let tmp;
+       }
+       ```
+   
    - const：声明常量；块级作用域；const 声明不允许修改绑定，但允许修改值
+   
      - 即声明对象时，可以修改对象的属性值
-
 2. **箭头函数**
 
    - 箭头函数里面根本没有自己的 this，而是引用外层的 this
@@ -18,6 +28,7 @@
        init: function () {
          document.addEventListener(
            "click",
+           // 使用了箭头函数，这导致这个箭头函数里面的 this总是指向 handler 对象
            (event) => this.doSomething(event.type),
            false
          );
@@ -28,8 +39,6 @@
        },
      };
      ```
-
-     上面代码的 init 方法中，使用了箭头函数，这导致这个箭头函数里面的 this，总是指向 handler 对象
 
    - 除了 this，以下三个变量在箭头函数之中也是不存在的，指向外层函数的对应变量
 
@@ -55,9 +64,59 @@
 
 3. **解构赋值**
 
+   - 只要等号两边的模式相同，左边的变量就会被赋予对应的值
+
+   - **对象的解构赋值**：内部机制，是先找到同名属性，然后再赋给对应的变量。真正被赋值的是后者，而不是前者
+
+     ```javascript
+     // 可以取到继承的属性
+     const obj1 = {};
+     const obj2 = {foo: 'bar'};
+     Object.setPrototypeOf(obj1, obj2);
+     const { foo } = obj1;
+     console.log( foo ); // "bar"
+     ```
+
+   - **字符串的解构赋值**：字符串被转换成了一个类似数组的对象
+
+     ```javascript
+     const [a, b, c, d, e] = 'hello';
+     a // "h"
+     b // "e"
+     c // "l"
+     d // "l"
+     e // "o"
+     ```
+
+   - **数值和布尔值的解构赋值**：如果等号右边是数值和布尔值，则会先转为对象
+
+     ```javascript
+     let {toString: s} = 123;
+     s === Number.prototype.toString // true
+     
+     let {toString: s} = true;
+     s === Boolean.prototype.toString // true
+     
+     // 由于undefined和null无法转为对象，所以对它们进行解构赋值，都会报错
+     let { prop: x } = undefined; // TypeError
+     let { prop: y } = null; // TypeError
+     ```
+
+   - **函数的解构赋值**
+
+     ```javascript
+     function move({x, y} = { x: 0, y: 0 }) { // 可以使用默认值
+       return [x, y];
+     }
+     move({x: 3, y: 8}); // [3, 8]
+     move({x: 3}); // [3, undefined]
+     move({}); // [undefined, undefined]
+     move(); // [0, 0]
+     ```
+
 4. **数组新增方法**
 
-   - Array.of()
+   - Array.of() 
    - Array.from()
    - find()
    - findIndex()
@@ -421,6 +480,9 @@
 
       ```javascript
       <!-- resolve和reject两个回调函数 -->
+      // resolve和reject由 JavaScript 引擎提供，不用自己部署
+      // resolve用于将Promise对象的状态从"pending"变为"resolved"
+      // reject用于将Promise对象的状态"pending"变为"rejected"
       var myPromise = new Promise((resolve, reject) => {
         // 需要执行的代码...
         if (/* 异步执行成功 */) {
@@ -438,20 +500,114 @@
       })
       ```
 
-      - resolve()和 reject()的使用(援引自小黄书)
-
-        - 如果调用 reject，则 promise 被拒绝，如果有任何值传给 reject，则这个值就是被拒绝的原因值
-
-        - 如果调用 resolve 且没有值传入，或者传入任何非 promise 值，这个 promise 就完成
-
-        - 如果调用 resolve 并传入另外一个 promise，这个 promise 就会采用传入的 promise 的状态
-
-    - **promise 特点**
-
-    - **Promise 优缺点**
-
-    - **promise 的应用**
-
+      - **resolve()和 reject()的使用**(援引自小黄书)
+- 如果调用 reject，则 promise 被拒绝，如果有任何值传给 reject，则这个值就是被拒绝的原因值
+        
+- 如果调用 resolve 且没有值传入，或者传入任何非 promise 值，这个 promise 就完成
+        
+- 如果调用 resolve 并传入另外一个 promise，这个 promise 就会采用传入的 promise 的状态
+      
+- **promise 特点**
+    
+  - 对象的状态不受外界影响。
+    
+    - pending（进行中）、fulfilled（已成功）、rejected（已失败）
+    
+    - 一旦状态改变，就不会再变，任何时候都可以得到这个结果，这时就称为resolved。
+    
+- **Promise 缺点**
+    
+  - 无法取消`Promise`，一旦新建它就会立即执行，无法中途取消
+      - 如果不设置回调函数，`Promise`内部抛出的错误，不会反应到外部
+      - 当处于`pending`状态时，无法得知目前进展到哪一个阶段
+    
+- **promise 的基本用法及案例**
+    
+  ```javascript
+      // 案例1：Promise 新建后就会立即执行
+      let promise = new Promise(function(resolve, reject) {
+        console.log("Promise");
+        resolve();
+      });
+      promise.then(() => {
+          console.log('resolved.');
+      })
+      console.log("hi")
+      // Promise
+      // hi
+      // resolved.
+      
+      // 案例2：异步加载图片
+      function loadImageAsync(url) {
+          return new Promise((resolve, reject) => {
+              const image = new Image();
+              image.onload = function () {
+                  resolve(image);
+              };
+              image.onerror = function () {
+                  reject(new Error('Could not load image at ' + url));
+              };
+              image.src = url;
+          })
+      }
+      
+      // 案例3：用Promise对象实现 Ajax 操作
+      const getJSON = function (url) {
+          const promise = new Promise(function(resolve, reject) {
+              const handler = function () {
+                  if(this.readyState !== 4) {
+                      return;
+                  }
+                  if(this.status === 200) {
+                      resolve(this.response);
+                  } else {
+                      reject(new Error(this.statusText));
+                  }
+              };
+              const client = new XMLHttpRequest();
+              client.open('GET', url);
+              client.onreadystatechange = handler;
+              client.responseType = "json";
+              client.setRequestHeader("Accept", "application/json")
+          });
+          return promise;
+      }
+      getJSON("/posts.json").then(function (json) {
+          console.log('Contents:' + json);
+      }, function (error) {
+          console.log('出错了', error);
+      })
+      
+      // 案例4：如果调用resolve函数和reject函数时带有参数，那么它们的参数会被传递给回调函数
+      const p1 = new Promise(function (resolve, reject) {
+          setTimeout(() => reject(new Error('fail')), 3000);
+      });
+      const p2 = new Promise(function (resolve, reject) {
+          setTimeout(() => resolve(p1), 1000);
+      });
+      // 由p1的状态决定p2的状态，所以后面的then语句都变成针对p1
+      p2.then(res => console.log(res)).catch(err => console.log(err));
+      // Error: fail
+      
+      // 案例5：调用resolve或reject并不会终结 Promise 的参数函数的执行
+      new Promise((resolve, reject) => {
+          resolve(1);
+          console.log(2);
+        }).then(r => {
+          console.log(r);
+      });
+      // 2
+      // 1
+      ```
+    
+- Promise的实例方法：then()、catch()、finally()
+    
+- `Promise.all()`、`Promise.race()`、`Promise.allSettled()`、`Promise.any()`
+    
+- `Promise.resolve()`、`Promise.reject()`
+    
+- **手写Promise**
+    
 14. **async & await**
 
 15. **Proxy**

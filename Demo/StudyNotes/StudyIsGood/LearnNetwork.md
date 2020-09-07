@@ -1,79 +1,65 @@
 # 服务端与网络
+
 1. **http 和 https**
 
    - **http**：超文本传输协议(Hyper Text Transfer Protocol)
-     从 WEB 服务器传输超文本标记语言(HTML)到本地浏览器的传送协议，可以使浏览器更加高效，使网络传输减少。
-- 原理
-  
-  - 基于 TCP/IP 通信协议来传递数据，传输的数据类型为 HTML 文件, 图片文件, 查询结果等
-       - 一般用于 B/S 架构。浏览器作为 HTTP 客户端通过 URL 向 HTTP 服务端即 WEB 服务器发送所有请求。
-  
-- 特点
-  
-  - **基于请求和响应**：客户端发起请求，服务端响应
+
+     - 从 WEB 服务器传输超文本标记语言(HTML)到本地浏览器的传送协议，可以使浏览器更加高效，使网络传输减少。
+     - **原理**
+       - 基于 TCP/IP 通信协议来传递数据，传输的数据类型为 HTML 文件, 图片文件, 查询结果等
+         - 一般用于 B/S 架构。浏览器作为 HTTP 客户端通过 URL 向 HTTP 服务端即 WEB 服务器发送所有请求。
+     - **特点**
+       - **基于请求和响应**：客户端发起请求，服务端响应
        - **无状态**：协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 这个级别，协议对于发送过的请求或响应都**不做持久化处理**。这是为了更快地处理大量事务，确保协议的可伸缩性。
        - **无连接**：限制每次连接只处理一个请求。服务器处理完请求，并收到客户的应答后，即断开连接。不利于客户端与服务器保持会话连接，为了弥补这种不足，产生了两项记录 http 状态的技术，一个叫做 Cookie,一个叫做 Session。
-         - HTTP/1.1 和部分 HTTP/1.0 的改进：**持久连接**：只要任意一端没有明确提出断开连接，则保持 TCP 连接状态。旨在建立一次 TCP 连接后进行多次请求和响应的交互。在 HTTP/1.1 中，所有的连接默认都是持久连接。
-         - **管线化**：持久连接使得多数请求以管线化方式发送成为可能。以前发送请求后需等待并接收到响应，才能发送下一个请求。管线化技术出现后，不用等待亦可发送下一个请求。这样就能做到同时并行发送多个请求，而不需要一个接一个地等待响应。
+       - **HTTP/1.1 和部分 HTTP/1.0 的改进**：**持久连接**：只要任意一端没有明确提出断开连接，则保持 TCP 连接状态。旨在建立一次 TCP 连接后进行多次请求和响应的交互。在 HTTP/1.1 中，所有的连接默认都是持久连接。
+       - **管线化**：持久连接使得多数请求以管线化方式发送成为可能。以前发送请求后需等待并接收到响应，才能发送下一个请求。管线化技术出现后，不用等待亦可发送下一个请求。这样就能做到同时并行发送多个请求，而不需要一个接一个地等待响应。
        - **简单快速**：客户向服务器请求服务时，只需传送请求方法和路径。请求方法常用的有 GET、HEAD、POST。
        - **灵活**：HTTP 允许传输任意类型的数据对象。传输的类型由 Content-Type 加以标记。
-  
-- http 工作流程
-  
-  - 地址解析：解析出协议名、主机名、端口、对象路径等部分
+     - **http 工作流程**
+       - 地址解析：解析出协议名、主机名、端口、对象路径等部分
        - 封装 HTTP 请求数据包
        - 封装成 TCP 包，建立 TCP/IP 连接(TCP/IP 三次握手)
        - 客户端向服务端发起 HTTP 请求。(例如：POST/login.html http/1.1)
-         - 最后会发送一空白行，标示客户端请求完毕
+       - 最后会发送一空白行，标示客户端请求完毕
        - 服务器响应
-         - 服务器向客户端发送应答头信息(例如：HTTP/1.1 200 OK)
-         - 之后服务端也会发送一个空白行，表示应答头信息发送完毕，接着就以 Content-type 要求的数据格式发送数据给客户端
+       - 服务器向客户端发送应答头信息(例如：HTTP/1.1 200 OK)
+       - 之后服务端也会发送一个空白行，表示应答头信息发送完毕，接着就以 Content-type 要求的数据格式发送数据给客户端
        - 服务端关闭 TCP 连接
-         - 如果服务器或者客户端在其头信息加入 Connection:keep-alive，就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接
-  
-- **https**：超文本传输安全协议(Hypertext Transfer Protocol Secure)。是在 HTTP 上建立 SSL 加密层，并对传输数据进行加密，是 HTTP 协议的安全版。
-   - 原理
-    
-     - 客户端向服务器端索要并验证公钥。
-      - 这一阶段使用的是非对称加密传输(RSA)，服务端将数字证书发给客户端。其中数字证书包括：公钥和数字签名。客户端在拿到后对两者进行校验.
+       - 如果服务器或者客户端在其头信息加入 Connection:keep-alive，就表示客户端与服务器端继续保存连接，在下次请求时可以继续使用这次的连接
+   - **https**：超文本传输安全协议(Hypertext Transfer Protocol Secure)。是在 HTTP 上建立 SSL 加密层，并对传输数据进行加密，是 HTTP 协议的安全版。
+
+     - **原理**
+       - 客户端向服务器端索要并验证公钥。
+       - 这一阶段使用的是非对称加密传输(RSA)，服务端将数字证书发给客户端。其中数字证书包括：公钥和数字签名。客户端在拿到后对两者进行校验.
        - 在非对称加密传输中,两端协商生成"对话密钥"。
        - 双方采用"对话密钥"进行对称加密通信。
-     
-   - 特点
-    
-     - 优点
-    
-       - 内容加密
-      - 保护数据完整性
-         - 对网站服务器进行真实身份认证
-     
-     - 缺点
-    
-       - https 协议握手阶段比较费时
-      - https 连接缓存不如 http 高效，会增加数据开销和功耗
-         - https 连接服务器端资源占用相比于 http 高很多， 会降低用户的访问速度
-           - SSL 涉及到的安全算法会消耗 CPU 资源
-         - 申请 SSL 证书需要钱，功能越强大的证书费用越高
-         - SSL 证书通常需要绑定 IP，不能再同一 IP 上绑定多个域名，IPv4 资源不可能支撑这个消耗
-     
-   - https 工作流程
-    
+   - **优点**：内容加密；保护数据完整性，对网站服务器进行真实身份认证
+   - **缺点**：https 协议握手阶段比较费时
+   - **https 连接缓存不如 http 高效**，会增加数据开销和功耗
+       - https 连接服务器端资源占用相比于 http 高很多， 会降低用户的访问速度
+       - SSL 涉及到的安全算法会消耗 CPU 资源
+       - 申请 SSL 证书需要钱，功能越强大的证书费用越高
+       - SSL 证书通常需要绑定 IP，不能再同一 IP 上绑定多个域名，IPv4 资源不可能支撑这个消耗
+       
+     - **https 工作流程**
      - ![image](https://pics1.baidu.com/feed/023b5bb5c9ea15ce26b853cd9cdca2f73887b284.jpeg?token=5ee5bde0022bc60fbbcfb1fe34e739b7&s=7EAC3C6259DFC0C8485CE0DB0000C0B1)
-    
-     - 客户端通过 URL 访问服务器建立 SSL 连接。
-    - 服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。
-       - 客户端的服务器开始协商 SSL 连接的安全等级，也就是信息加密的等级。
-       - 客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。
-       - 服务器利用自己的私钥解密出会话密钥。
-       - 服务器利用会话密钥加密与客户端之间的通信。
      
+     - 客户端通过 URL 访问服务器建立 SSL 连接。
+     
+     - 服务端收到客户端请求后，会将网站支持的证书信息（证书中包含公钥）传送一份给客户端。
+     
+     - 客户端的服务器开始协商 SSL 连接的安全等级，也就是信息加密的等级。
+     - 客户端的浏览器根据双方同意的安全等级，建立会话密钥，然后利用网站的公钥将会话密钥加密，并传送给网站。
+       - 服务器利用自己的私钥解密出会话密钥。
+     - 服务器利用会话密钥加密与客户端之间的通信。
    - http 和 https 的区别
-  - https 协议需要到 CA 申请证书，一般免费证书很少，需要交费
+     - https 协议需要到 CA 申请证书，一般免费证书很少，需要交费
      - http 信息是明文传输，会被他人截获，不安全；https 通过 SSL\TLS 进行加密，传输信息不易被截获，非常安全
      - http 使用的端口是 80，HTTPS 是 443
      - http 的连接很简单,是无状态的；HTTPS 协议是由 SSL + HTTP 协议构建的可进行加密传输、身份认证的网络协议，要比 http 协议安全
      - 在 OSI 网络模型中，http 工作于应用层，而 https 工作在传输层
-  
+
 2. **TCP 和 UDP 协议**
 
 3. **DNS 域名解析**
@@ -127,7 +113,7 @@
        - no-store：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存
        - max-age=xxx (xxx is numeric)：缓存内容将在 xxx 秒后失效
 
-     - 优先级：**Cache-Control > Expires**
+     - **优先级**：**Cache-Control > Expires**
 
      - 缺点：该缓存方式优先级高，如果在过期时间内缓存的资源在服务器上更新了，客服端不能及时获取最新的资源(所以有了协商缓存)
 
@@ -154,8 +140,7 @@
 
        - 浏览器收到 200 的响应后，则从服务器加载新资源时，Last-Modified Header 在重新加载的时候会被更新，下次请求时，If-Modified-Since 会启用上次返回的 Last-Modified 值
 
-         - 缺点
-           - 周期性修改，但内容未变时，会导致缓存失效
+         - 缺点：周期性修改，但内容未变时，会导致缓存失效
          - 以秒为单位进行更新，如果小于该单位高频进行更新的话，则不适合采用该方法，这时候协商缓存就不那么的可靠了。(所以就有了 ETag、If-None-Match)
 
      - Etag 与 If-None-Match
@@ -192,14 +177,14 @@
 
      - 强缓存 > 协商缓存 > 启发式缓存
      - Cache-Control > Expires > ETag > Last-Modified
+     
+   - 浏览器整个缓存策略的过程：   ![image](https://user-gold-cdn.xitu.io/2018/1/27/16137f262e0adf18?imageView2/0/w/1280/h/960/ignore-error/1)
 
-     - 浏览器整个缓存策略的过程：
-       ![image](https://user-gold-cdn.xitu.io/2018/1/27/16137f262e0adf18?imageView2/0/w/1280/h/960/ignore-error/1)
-- 浏览器先检查 Cache-Control，如果为 no-store，则浏览器所有内容都不会缓存，强制缓存，协商缓存统统都不会触发
-  
+   - 浏览器先检查 Cache-Control，如果为 no-store，则浏览器所有内容都不会缓存，强制缓存，协商缓存统统都不会触发
+
 5. **http 状态码**
 
-   常见状态码
+   - 常见状态码
 
    | 1XX 接收的请求正在处理 | 2XX 请求正常处理完毕  | 3XX 重定向                                 | 4XX 客户端错误    | 5XX 服务器错误            |
    | ---------------------- | --------------------- | ------------------------------------------ | ----------------- | ------------------------- |
@@ -213,7 +198,7 @@
 
 6. **WebSocket**
 
-   特点：服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的**双向平等对话**，属于服务器推送技术的一种。(不受同源政策影响)
+   - 特点：服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的**双向平等对话**，属于服务器推送技术的一种。(不受同源政策影响)
 
    - 其他特点:
 
@@ -240,40 +225,33 @@
 
 7. **Ajax**
 
-8. **GET请求 和 POST请求**
+8. **GET 请求 和 POST 请求**
 
    - **GET**：主要用于获取信息，无副作用，幂等，可缓存
 
      - 浏览器回退无害
-     - 请求的数据会暴露在地址栏中
-     - 请求URL的编码格式仅支持ASCII编码
-
-     - 请求的数据会附加在URL之后，用问号分割，多个参数用&进行连接
-     - 相对安全性较差，会被浏览器主动缓存
-     - 产生一个TCP数据包，head和data一起发送
-
+     - 请求 URL 的编码格式仅支持 ASCII 编码；**不能提交json数据**
+     - 请求的数据**会附加在 URL 之后**，用问号分割，多个参数用&进行连接，会暴露在地址栏中，
+     - 相对安全性较差，会被浏览器**主动缓存**
+     - 产生一个 TCP 数据包，**head 和 data 一起发送**
    - **POST**：主要用于创建或者更新数据，有副作用，非幂等，不可缓存
-
      - 浏览器回退重新请求
-     - 请求会把数据放置在HTTP请求包的包体中，不会直接暴露给用户
-     - 请求URL的编码格式支持各种编码
-
-     - 理论上大小是不会限制的，但是实际上各个服务器会规定POST提交数据大小
-     - 相对Get更安全，因为参数不会保存浏览器立式或者是web服务器日志中
-     - 部分浏览器或框架，POST方法会产生两个TCP数据包，header先发送，服务端返回 100 状态码再发送 Body，服务器200然后返回数据
-
+     - post请求URL 的编码格式支持各种编码
+     - post请求必须设置Content-Type值为`application/x-form-www-urlencoded`
+     - 请求会把数据放置在 HTTP 请求包的包体中，不会直接暴露给用户
+     - 理论上大小是不会限制的，但是实际上各个服务器会规定 POST 提交数据大小
+     - 相对 Get 更安全，因为参数不会保存浏览器立式或者是 web 服务器日志中，**不会被缓存**
+     - 部分浏览器或框架，POST 方法会产生**两个 TCP 数据包**，header 先发送，服务端返回 100 状态码再发送 Body，服务器 200 然后返回数据
    - **无区别表现**
-
-     - GET和POST只**是HTTP协议中的两种请求方式，**而HTTP协议之基于TCP/IP的应用层协议，无论POST和GET都是用同一个传输层协议，所以传输上没有区别
-     - GET和POST能做的事情是一样的，只要给GET加上request body，给POST加上url参数，技术上完全是行得通的
-
+     - GET 和 POST 只**是 HTTP 协议中的两种请求方式，**而 HTTP 协议之基于 TCP/IP 的应用层协议，无论 POST 和 GET 都是用同一个传输层协议，所以传输上没有区别
+     - GET 和 POST 能做的事情是一样的，只要给 GET 加上 request body，给 POST 加上 url 参数，技术上完全是行得通的
 9. **fetch**
 
 10. **跨域，同源策略，如何解决跨域问题**
 
     - **同源**指的是两个域需要协议，子域名，主域名与端口号都保持一致，四者有一个不同，即属于**跨域**
 
-    - 同源政策的目的
+    - 同源政策的**目的**
 
       - 保证用户信息的安全，防止恶意的网站窃取数据
 
@@ -304,7 +282,7 @@
           - 关键在于：**服务端响应数据是一个函数的调用，真正要发送给客户端的数据作为函数调用的参数**
 
             ```javascript
-            const data = fn({ name: "zs", age: "20" });
+            const data = fn({ name: 'zs', age: '20' });
             res.send(data);
             ```
 
@@ -327,10 +305,10 @@
 
             ```javascript
             function jsonp(req) {
-              var script = document.createElement("script");
-              var url = req.url + "?callback=" + req.callback.name;
+              var script = document.createElement('script');
+              var url = req.url + '?callback=' + req.callback.name;
               script.src = url;
-              document = getElementsByTagName("head")[0].appendChild(script);
+              document = getElementsByTagName('head')[0].appendChild(script);
             }
             ```
 
@@ -338,11 +316,11 @@
 
               ```javascript
               function hello(res) {
-                alert("hello" + res.data);
+                alert('hello' + res.data);
               }
-              
+
               jsonp({
-                url: "",
+                url: '',
                 callback: hello,
               });
               ```
@@ -352,50 +330,50 @@
               ```javascript
               (function (global) {
                 var id = 0,
-                  container = document.getElementsByTagName("head")[0];
-              
+                  container = document.getElementsByTagName('head')[0];
+
                 function jsonp(options) {
                   if (!options || !options.url) return;
-              
-                  var scriptNode = document.createElement("script"),
+
+                  var scriptNode = document.createElement('script'),
                     data = options.data || {},
                     url = options.url,
                     callback = options.callback,
-                    fnName = "jsonp" + id++;
-              
+                    fnName = 'jsonp' + id++;
+
                   // 添加回调函数
-                  data["callback"] = fnName;
-              
+                  data['callback'] = fnName;
+
                   // 拼接url
                   var params = [];
                   for (var key in data) {
                     params.push(
                       encodeURIComponent(key) +
-                        "=" +
+                        '=' +
                         encodeURIComponent(data[key])
                     );
                   }
-              
-                  url = url.indexOf("?") > 0 ? url + "&" : url + "?";
-              
-                  url += params.join("&");
+
+                  url = url.indexOf('?') > 0 ? url + '&' : url + '?';
+
+                  url += params.join('&');
                   scriptNode.src = url;
-              
+
                   // 传递的是一个匿名的回调函数，要执行的话，暴露为一个全局方法
                   global[fnName] = function (ret) {
                     callback && callback(ret);
                     container.removeChild(scriptNode);
                     delete global[fnName];
                   };
-              
+
                   // 出错处理
                   scriptNode.onerror = function () {
-                    callback && callback({ error: "error" });
+                    callback && callback({ error: 'error' });
                     container.removeChild(scriptNode);
                     global[fnName] && delete global[fnName];
                   };
-              
-                  scriptNode.type = "text/javascript";
+
+                  scriptNode.type = 'text/javascript';
                   container.appendChild(scriptNode);
                 }
                 global.jsonp = jsonp;
@@ -407,23 +385,23 @@
         ```javascript
         $.ajax({
           // 请求方式
-          type: "get",
+          type: 'get',
           // 请求地址
-          url: "http://169.254.200.238:8080/jsonp.do",
+          url: 'http://169.254.200.238:8080/jsonp.do',
           // 标志跨域请求
-          dataType: "jsonp",
+          dataType: 'jsonp',
           // 跨域函数名的键值，即服务端提取函数名的钥匙（默认为callback）
-          jsonp: "callbackparam",
+          jsonp: 'callbackparam',
           // 客户端与服务端约定的函数名称
-          jsonpCallback: "jsonpCallback",
+          jsonpCallback: 'jsonpCallback',
           // 请求成功的回调函数，json既为我们想要获得的数据
           success: function (json) {
             console.log(json);
           },
-        
+
           // 请求失败的回调函数
           error: function (e) {
-            alert("error");
+            alert('error');
           },
         });
         ```
@@ -475,8 +453,8 @@
             function load() {
               if (first) {
                 // 第1次onload(跨域页)成功后，切换到同域代理页面
-                let iframe = document.getElementById("iframe");
-                iframe.src = "http://localhost:3000/b.html";
+                let iframe = document.getElementById('iframe');
+                iframe.src = 'http://localhost:3000/b.html';
                 first = false;
               } else {
                 // 第2次onload(同域b.html页)成功后，读取同域window.name中数据
@@ -484,10 +462,10 @@
               }
             }
           </script>
-          
+
           // c.html(http://localhost:4000/c.html)
           <script>
-            window.name = "我不爱你";
+            window.name = '我不爱你';
           </script>
           ```
 
@@ -508,13 +486,13 @@
               console.log(location.hash);
             };
           </script>
-          
+
           // b.html
           <script>
             window.parent.parent.location.hash = location.hash;
             //b.html将结果放到a.html的hash值中，b.html可通过parent.parent访问a.html页面
           </script>
-          
+
           // c.html console.log(location.hash); let iframe =
           document.createElement('iframe'); iframe.src =
           'http://localhost:3000/b.html#idontloveyou';
@@ -552,7 +530,7 @@
           }
         }
         </script>
-        
+
         // b.html
         window.onmessage = function(e) {
           console.log(e.data) //我爱你
@@ -577,18 +555,18 @@
         socket.onopen = function () {
           socket.send('我爱你'); //向服务器发送数据
         }
-        
+
         socket.onmessage = function (e) {
           console.log(e.data); //接收服务器返回的数据
         }
         </script>
-        
+
         // server.js
         let express = require('express');
         let app = express();
         let WebSocket = require('ws'); //记得安装ws
         let wss = new WebSocket.Server({port:3000});
-        
+
         wss.on('connection',function(ws) {
           ws.on('message', function (data) {
             console.log(data);
@@ -691,28 +669,27 @@
 
     - 当数据传送完毕，发起 TCP 四次挥手断开连接。
 
-13. **Web安全问题**
+13. **Web 安全问题**
 
     - **CSRF**跨站请求伪造：指攻击者冒充用户发起请求（在用户不知情的情况下），完成一些违背用户意愿的事情
       - 解决方案：
-        - 使用token：服务器产生一个token存到session中，同时将token发送给客户端，客户端提交表单时带上该token，服务器验证token与session是否一致，一致就允许访问，否则拒绝访问
-        - Referer验证：只接受本站的请求，服务器才做响应；如果不是，就拦截
+        - 使用 token：服务器产生一个 token 存到 session 中，同时将 token 发送给客户端，客户端提交表单时带上该 token，服务器验证 token 与 session 是否一致，一致就允许访问，否则拒绝访问
+        - Referer 验证：只接受本站的请求，服务器才做响应；如果不是，就拦截
         - 使用验证码
-    - **XSS**跨站脚本攻击：浏览器错误地将攻击者提供的用户输入数据当做javascript脚本执行了
+    - **XSS**跨站脚本攻击：浏览器错误地将攻击者提供的用户输入数据当做 javascript 脚本执行了
       - 防御措施：
         - 对数据进行严格的输出编码，使得攻击者提供的数据不再被浏览器认为是脚本而错误执行。例如\<script>编码后成为\&lt;script\&gt;
-        - 设置CSP HTTP Header、输入验证、开启浏览器XSS防御
-        - 在cookie中设置HttpOnly属性，使js脚本无法读取到cookie信息
-    - SQL注入
+        - 设置 CSP HTTP Header、输入验证、开启浏览器 XSS 防御
+        - 在 cookie 中设置 HttpOnly 属性，使 js 脚本无法读取到 cookie 信息
+    - SQL 注入
     - 点击劫持
     - 不安全的第三方依赖
-    - 本地存储数据泄露：推荐尽可能不再前端存储重要信息。存在cookie中或localStorage中的信息进行加密
+    - 本地存储数据泄露：推荐尽可能不再前端存储重要信息。存在 cookie 中或 localStorage 中的信息进行加密
 
 14. **进程 和 线程**
 
 15. **Socket.io**
 
-    
 > 参考链接
 >
 > 1. https://juejin.im/post/5bb1cc2af265da0ae5052496
