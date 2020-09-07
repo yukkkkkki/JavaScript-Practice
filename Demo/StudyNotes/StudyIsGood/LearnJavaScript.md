@@ -1411,7 +1411,7 @@
     - **setTimeout 和 setInterval 的区别**
 - setTimeout 到达一定的时间触发一次， 当方法执行完成定时器就立即停止(但是定时器还在,只不过没用了);
       - setInterval 到达一定时间触发一次，并且会持续触发，直到我们手动清除定时器为止
-    
+  
 32. **函数防抖和函数节流**
 
     - 函数防抖：触发事件后在规定时间内回调函数只能执行一次，如果在规定时间内又触发了该事件，则会重新开始算规定时间
@@ -1489,16 +1489,68 @@
       - 时间戳方式：通过闭包保存上一次的时间戳, 然后与事件触发的时间戳比较，如果大于规定时间, 则执行回调,否则就什么都不处理
 
         ```javascript
-        
+        function throttle(func, delay) {
+          let previous = 0;
+        return function() {
+            let now = Date.now();
+          let that = this;
+            let args = arguments;
+            if(now - previous > delay) {
+              func.apply(that, args);
+            previous = now;
+            }
+          }
+        }
         ```
-
+      
       - 定时器方式：通过闭包保存上一次定时器状态,然后事件触发时,如果定时器为null(即代表此时间隔已经大于规定时间)，则设置新的定时器.到时间后执行回调函数,并将定时器置为null
-
+      
         ```javascript
-        
+        function throttle(func, delay) {
+          let timeout;
+        return function() {
+            let that = this;
+            let args = arguments;
+            if(!timeout) {
+              timeout = setTimeout(() => {
+                timeout = null;
+                func.apply(that, args);
+              }, wait);
+            }
+          }
+        }
         ```
-
         
+      - 合并版
+      
+        ```javascript
+        function throttle(func, delay, type) {
+          if(type === 1) {
+            let previous = 0;
+          } else if (type === 2) {
+            let timeout;
+          }
+          
+          return function() {
+            let that = this;
+            let args = arguments;
+            if(type === 1) {
+              let now = Date.now();
+              if(now - previous > delay) {
+                func.apply(that, args);
+                previous = now;
+              }
+            } else if (type === 2) {
+              if(!timeout) {
+                timeout = setTimeout(() => {
+                  timeout = null;
+                  func.apply(that, args);
+                }, wait);
+              }
+            }
+          }
+        }
+        ```
 
 33. **事件流**
 
@@ -1542,5 +1594,5 @@
 > 21. https://juejin.im/post/5d1d61766fb9a07ed2248aea#heading-5
 > 22. KyleSimpson, 辛普森, 赵望野, & 梁杰. (2015). 你不知道的 JavaScript. 人民邮电出版社.
 > 23. https://juejin.im/post/5ec74c6a518825430956ae65#heading-9
-> 24. 
+> 24. https://www.jianshu.com/p/c8b86b09daf0
 
