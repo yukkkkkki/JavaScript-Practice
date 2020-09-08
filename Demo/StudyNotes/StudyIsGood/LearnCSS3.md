@@ -1,5 +1,7 @@
 # CSS
+
 1. **BFC**
+
    - 块级格式化上下文，是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。（盒子里面的子元素的样式不会影响到外面的元素）
 
    - 规则
@@ -59,7 +61,7 @@
      | 属性选择器     | `[target]`        | 选择带有 target 属性所有元素                       |
      |                | `[target=_blank]` | 选择 target="\_blank" 的所有元素                   |
      |                | `[title~=flower]` | 选择 title 属性包含单词 "flower" 的所有元素        |
-     |                | `[lang|=en]`      | 选择 `lang` 属性值以 `"en"` 开头的所有元素         |
+     |                | `[lang            | =en]`                                              | 选择 `lang` 属性值以 `"en"` 开头的所有元素 |
      |                | `a[src^="https"]` | 选择其 `src` 属性值以 "https" 开头的每个 \<a> 元素 |
 
    - 伪类选择器(a:hover, li:nth-child)
@@ -78,19 +80,19 @@
 
      - **结构伪类**
 
-       | 选择器               | 示例                    | 说明                                                         |
-       | :------------------- | :---------------------- | :----------------------------------------------------------- |
-       | :first-child         | p:first-child           | 选择器匹配 p 的父元素的第一个 p 元素                         |
-       | :last-child          | p:last-child            | 选择所有 p 元素的最后一个子元素                              |
-       | :first-of-type       | p:first-of-type         | 选择的每个 p 元素是其父元素的第一个 p 元素                   |
-       | :last-of-type        | p:last-of-type          | 选择每个 p 元素是其父元素的最后一个 p 元素                   |
-       | :only-child          | p:only-child            | 选择所有仅有一个子元素的 p 元素                              |
-       | :only-of-type        | p:only-of-type          | 选择所有仅有一个子元素为 p 的元素                            |
-       | **:nth-child(n)**    | p:nth-child(2/odd/even) | 选择其父元素第二/奇数/偶数个子元素为P的元素。<br />eg：div  p:nth-child(2)表示div下的第二的P元素，如果不是p元素则没有匹配的元素 |
-       | :nth-last-child(n)   | p:nth-last-child(2)     | 选择所有 p 元素倒数的第二个子元素                            |
-       | **:nth-of-type(n)**  | p:nth-of-type(2)        | 选择父元素下第二个为 p 元素的子元素<br />eg：div p:nth-of-type(2)表示div下的第二个ｐ元素 |
-       | :nth-last-of-type(n) | p:nth-last-of-type(2)   | 选择所有 p 元素倒数的第二个为 p 的子元素                     |
-       | :not(selector)       | :not(p)                 | 选择所有 p 以外的元素                                        |
+       | 选择器               | 示例                    | 说明                                                                                                                                   |
+       | :------------------- | :---------------------- | :------------------------------------------------------------------------------------------------------------------------------------- |
+       | :first-child         | p:first-child           | 选择器匹配 p 的父元素的第一个 p 元素                                                                                                   |
+       | :last-child          | p:last-child            | 选择所有 p 元素的最后一个子元素                                                                                                        |
+       | :first-of-type       | p:first-of-type         | 选择的每个 p 元素是其父元素的第一个 p 元素                                                                                             |
+       | :last-of-type        | p:last-of-type          | 选择每个 p 元素是其父元素的最后一个 p 元素                                                                                             |
+       | :only-child          | p:only-child            | 选择所有仅有一个子元素的 p 元素                                                                                                        |
+       | :only-of-type        | p:only-of-type          | 选择所有仅有一个子元素为 p 的元素                                                                                                      |
+       | **:nth-child(n)**    | p:nth-child(2/odd/even) | 选择其父元素第二/奇数/偶数个子元素为 P 的元素。<br />eg：div p:nth-child(2)表示 div 下的第二的 P 元素，如果不是 p 元素则没有匹配的元素 |
+       | :nth-last-child(n)   | p:nth-last-child(2)     | 选择所有 p 元素倒数的第二个子元素                                                                                                      |
+       | **:nth-of-type(n)**  | p:nth-of-type(2)        | 选择父元素下第二个为 p 元素的子元素<br />eg：div p:nth-of-type(2)表示 div 下的第二个ｐ元素                                             |
+       | :nth-last-of-type(n) | p:nth-last-of-type(2)   | 选择所有 p 元素倒数的第二个为 p 的子元素                                                                                               |
+       | :not(selector)       | :not(p)                 | 选择所有 p 以外的元素                                                                                                                  |
 
      - **表单伪类**
 
@@ -99,18 +101,18 @@
        | :enabled  | 选择所有启用的表单元素             |
        | :disabled | 选择所有禁用的表单元素             |
        | :checked  | 选择所有选中的表单元素             |
-     | :required | 选择有"required"属性指定的元素属性 |
+       | :required | 选择有"required"属性指定的元素属性 |
        | :optional | 选择没有"required"的元素属性       |
-     | :valid    | 选择所有有效值的属性               |
+       | :valid    | 选择所有有效值的属性               |
        | :invalid  | 选择所有无效的元素                 |
 
      - **字符伪类**
 
        | 字符伪类      | 说明                         |
        | ------------- | ---------------------------- |
-     | :first-letter | 选择每个元素的首字母         |
+       | :first-letter | 选择每个元素的首字母         |
        | :first-line   | 选择每个元素的首行           |
-     | :before       | 在每个元素的内容之前插入内容 |
+       | :before       | 在每个元素的内容之前插入内容 |
        | :after        | 在每个元素的内容之后插入内容 |
 
    - 伪元素选择器
@@ -118,7 +120,7 @@
      - ::first-letter、::first-line、::before、::after
      - **伪类**选择元素**基于的是当前元素处于的状态**，或者说元素当前所具有的特性，而不是元素的 id、class、属性等静态的标志。由于状态是动态变化的，所以一个元素达到一个特定状态时，它可能得到一个伪类的样式；当状态改变时，它又会失去这个样式。由此可以看出，它的功能和 class 有些类似，但它是基于文档之外的抽象，所以叫伪类。
      - **伪元素**是**对元素中的特定内容进行操作**，它所操作的层次比伪类更深了一层，也因此它的动态性比伪类要低得多。实际上，设计伪元素的目的就是去选取诸如元素内容第一个字（母）、第一行，选取某些内容前面或后面这种普通的选择器无法完成的工作。它控制的内容实际上和元素是相同的，但是它本身只是基于元素的抽象，并不存在于文档中，所以叫伪元素。
-     
+
    - **选择器优先级(权重)**：!important(∞) > 行内样式(1000) > #id(100) > .class(10) > tag(1) > \* > 继承 > 默认
 
      - 两个权重不同的选择器作用在同一元素上，权重值高的 css 规则生效
@@ -128,26 +130,25 @@
      - 权重相同时，与元素距离近的选择器生效
 
        ```html
-       #content h1 { // css样式表中
-         padding: 5px;
-       }
+       #content h1 { // css样式表中 padding: 5px; }
        <style type="text/css">
-         #content h1 { // html头部 因为html头部离元素更近一点，所以生效
-        padding: 10px;
+         #content h1 {
+           // html头部 因为html头部离元素更近一点，所以生效
+           padding: 10px;
          }
        </style>
        ```
 
-      - 嵌套越多，权重就越大(尽量避免嵌套)
+     - 嵌套越多，权重就越大(尽量避免嵌套)
 
-      - 伪类的权重，相当于类元素的权重
+     - 伪类的权重，相当于类元素的权重
 
-      - 关于!important 应该注意
+     - 关于!important 应该注意
 
-        - 用于提升指定样式规则的应用优先权
-        - !important 的作用是给当前样式加权重，但不能多次叠加
-        - !important 优先级最高，但也会被权重高的 important 所覆盖
-        - 不推荐使用!important，因为!important 根本没有结构与上下文可言，并且很多时候权重的问题，就是因为不知道在哪里定义了一个!important 而导致的
+       - 用于提升指定样式规则的应用优先权
+       - !important 的作用是给当前样式加权重，但不能多次叠加
+       - !important 优先级最高，但也会被权重高的 important 所覆盖
+       - 不推荐使用!important，因为!important 根本没有结构与上下文可言，并且很多时候权重的问题，就是因为不知道在哪里定义了一个!important 而导致的
 
 5. **id 和 class 的区别**
 
@@ -360,14 +361,14 @@
 
           ```html
           <style>
-          .box2{
-            overflow:auto;
-            width:100px;
-            height:100px;
-            background:red;
-          }
+            .box2 {
+              overflow: auto;
+              width: 100px;
+              height: 100px;
+              background: red;
+            }
           </style>
-            
+
           <div class="container">
             <div class="box1"></div>
             <div class="box2"></div>
@@ -394,7 +395,7 @@
               margin-top: 20px;
             }
           </style>
-          
+
           /*html*/
           <body>
             <div class="box">
@@ -441,7 +442,7 @@
         background: relative;
         position: relative;
     }
-    
+
     .children {
         position: absolute;
         top: 50%;
@@ -462,7 +463,7 @@
          align-items: center;
          justify-content: center;
        }
-       
+
        .children {
          background: red;
        }
@@ -502,18 +503,18 @@
 
     - animation: name duration timing-function delay iteration-count direction fill-mode play-state;
 
-    | 值                        | 描述                                                         |
-    | ------------------------- | ------------------------------------------------------------ |
-    | animation-name            | 指定要绑定到选择器的动画的名称                               |
-    | animation-duration        | 动画指定需要多少秒或毫秒完成。如果动画数量大于时间数量，将重新从时间列表中计算 |
-    | animation-timing-function | 设置动画将如何完成一个周期                                   |
-    | animation-delay           | 定义过渡效果何时开始                                         |
-    | animation-iteration-count | 指定元素播放动画的循环次数。(infinite 表示无限循环执行)      |
-    | animation-direction       | 指定元素动画播放的方向                                       |
+    | 值                        | 描述                                                                                 |
+    | ------------------------- | ------------------------------------------------------------------------------------ |
+    | animation-name            | 指定要绑定到选择器的动画的名称                                                       |
+    | animation-duration        | 动画指定需要多少秒或毫秒完成。如果动画数量大于时间数量，将重新从时间列表中计算       |
+    | animation-timing-function | 设置动画将如何完成一个周期                                                           |
+    | animation-delay           | 定义过渡效果何时开始                                                                 |
+    | animation-iteration-count | 指定元素播放动画的循环次数。(infinite 表示无限循环执行)                              |
+    | animation-direction       | 指定元素动画播放的方向                                                               |
     | animation-fill-mode       | 规定当动画不播放时(当动画完成时，或当动画有一个延迟未开始播放时)，要应用到元素的样式 |
-    | animation-play-state      | 指定动画是否正在运行或已暂停                                 |
-    | initial                   | 设置属性为其默认值                                           |
-    | inherit                   | 从父元素继承属性                                             |
+    | animation-play-state      | 指定动画是否正在运行或已暂停                                                         |
+    | initial                   | 设置属性为其默认值                                                                   |
+    | inherit                   | 从父元素继承属性                                                                     |
 
     - animation-name
 
@@ -544,12 +545,12 @@
 
     - transition: property duration timing-function delay;
 
-    | 值                         | 描述                                                         |
-    | -------------------------- | ------------------------------------------------------------ |
+    | 值                         | 描述                                                                  |
+    | -------------------------- | --------------------------------------------------------------------- |
     | transition-property        | 规定设置过渡效果的 CSS 属性的名称。默认值为 all，多个属性使用逗号分隔 |
-    | transition-duration        | 规定完成过渡效果需要多少秒或毫秒                             |
-    | transition-timing-function | 规定速度效果的速度曲线                                       |
-    | transition-delay           | 定义过渡效果何时开始。                                       |
+    | transition-duration        | 规定完成过渡效果需要多少秒或毫秒                                      |
+    | transition-timing-function | 规定速度效果的速度曲线                                                |
+    | transition-delay           | 定义过渡效果何时开始。                                                |
 
     - transition-duration：
 
@@ -560,14 +561,14 @@
 
     - transition-timing-function
 
-      | 值                  | 描述                                                         |
-      | ------------------- | ------------------------------------------------------------ |
-      | linear              | 规定以相同速度开始至结束的过渡效果（等于 cubic-bezier(0,0,1,1)） |
+      | 值                  | 描述                                                                  |
+      | ------------------- | --------------------------------------------------------------------- |
+      | linear              | 规定以相同速度开始至结束的过渡效果（等于 cubic-bezier(0,0,1,1)）      |
       | ease                | 开始慢，然后快，慢下来，结束时非常慢（cubic-bezier(0.25,0.1,0.25,1)） |
-      | ease-in             | 开始慢，结束快（等于 cubic-bezier(0.42,0,1,1)）              |
-      | ease-out            | 开始快，结束慢（等于 cubic-bezier(0,0,0.58,1)）              |
-      | ease-in-out         | 中间快，两边慢（等于 cubic-bezier(0.42,0,0.58,1)）           |
-      | cubic-bezier(n,n,n) | 在 cubic-bezier 函数中定义自己的值                           |
+      | ease-in             | 开始慢，结束快（等于 cubic-bezier(0.42,0,1,1)）                       |
+      | ease-out            | 开始快，结束慢（等于 cubic-bezier(0,0,0.58,1)）                       |
+      | ease-in-out         | 中间快，两边慢（等于 cubic-bezier(0.42,0,0.58,1)）                    |
+      | cubic-bezier(n,n,n) | 在 cubic-bezier 函数中定义自己的值                                    |
 
       - cubic-bezier(<\x1>, <\y1>, <\x2>, <\y2>)
       - 步进速度
@@ -613,13 +614,10 @@
 
     - **边框**
     - border-radius(圆角)、border-image(边框图片)、box-shadow / text-shadow(阴影)
-      
     - **背景**
     - background-size：规定背景图片的尺寸；background-origin：规定背景图片的定位区域
-      
     - **颜色**
     - rgba(rgb 为颜色值，a 为透明度)
-      
     - **文本**
     - text-shadow：向文本添加阴影
       - text-justify：规定当 text-align 设置为 “justify” 时所使用的对齐方法
@@ -630,23 +628,19 @@
       - word-break：规定非中日韩文本的换行规则
       - word-wrap：允许对长的不可分割的单词进行分割并换行到下一行
       - text-decoration：文本修饰符：overline(上划线)、line-through(中划线)、underline(下划线)
-      
     - **渐变**
     - linear-gradient()：创建一个线性渐变的 "图像"。
       - radial-gradient()：用径向渐变创建 "图像"
-      
     - **2D 转换**(transform)
     - translate()：元素从其当前位置移动，根据给定的 left(x 坐标) 和 top(y 坐标) 位置参数
       - rotate()：元素顺时针旋转给定的角度。若为负值，元素将逆时针旋转。
       - scale()：元素的尺寸会增加或减少，根据给定的宽度(X 轴)和高度(Y 轴)参数，也可以一个值(宽高)
       - skew()：元素翻转给定的角度，根据给定的水平线(X 轴)和垂直线(Y 轴)参数
       - matrix()：把所有 2D 转换方法组合在一起，需要六个参数，包含数学函数，允许：旋转、缩放、移动以及倾斜元素。
-      
     - **3D 转换**
     - rotateX()：元素围绕其 X 轴以给定的度数进行旋转
       - rotateY()：元素围绕其 Y 轴以给定的度数进行旋转
       - perspective：规定 3D 元素的透视效果
-      
     - **动画** animation
 
     - **过渡** transition
@@ -655,7 +649,6 @@
     - column-count: 规定元素应该被分隔的列数
       - column-gap: 规定列之间的间隔
       - column-rule: 设置列之间的宽度、样式和颜色规则
-      
     - 用户界面
 
       - resize：规定是否可由用户调整元素尺寸
@@ -666,11 +659,11 @@
         - inherit：规定应从父元素继承 box-sizing 属性的值
       - outline-offset：对轮廓进行偏移，并在超出边框边缘的位置绘制轮廓
 
-    - **弹性布局Flex**
+    - **弹性布局 Flex**
 
-    - **栅格布局Grid**
+    - **栅格布局 Grid**
 
-    - 滤镜Filter
+    - 滤镜 Filter
 
 19. **display:none 与 visibility:hidden 的区别**
 
@@ -728,12 +721,12 @@
 
 22. **行内元素和块元素**
 
-    | 元素                                 | 特征                                                         |
-    | ------------------------------------ | ------------------------------------------------------------ |
-    | 行内元素                             | 设置宽高无效<br />设置 margin 仅左右方向有效，上下无效<br />设置 padding 上下左右都有效，但会撑大自己的空间<br />不会自动进行换行<br />常见行内元素：span, a, strong, b, em, i, small, big, label, img, input, select, textarea |
+    | 元素                                 | 特征                                                                                                                                                                                                                                           |
+    | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | 行内元素                             | 设置宽高无效<br />设置 margin 仅左右方向有效，上下无效<br />设置 padding 上下左右都有效，但会撑大自己的空间<br />不会自动进行换行<br />常见行内元素：span, a, strong, b, em, i, small, big, label, img, input, select, textarea                |
     | 块元素                               | 能够识别宽高<br />margin 和 padding 的上下左右均对其有效<br />可以自动换行<br />多个块状元素标签写在一起，默认排列方式为从上至下<br />常见块级元素：div, h1-h6, p, ul, ol, dl, table, form, header, hr, audio, video, article, section, footer |
-    | 行内块状元素                         | 不自动换行<br />能够识别宽高<br />默认排列方式为从左到右     |
-    | 行内元素、块元素、行内块元素相互转换 | display:inline 转换为行内元素<br />display:block 转换为块状元素<br />display:inline-block 转换为行内块状元素 |
+    | 行内块状元素                         | 不自动换行<br />能够识别宽高<br />默认排列方式为从左到右                                                                                                                                                                                       |
+    | 行内元素、块元素、行内块元素相互转换 | display:inline 转换为行内元素<br />display:block 转换为块状元素<br />display:inline-block 转换为行内块状元素                                                                                                                                   |
 
 23. **如何实现两栏布局**
 
@@ -745,13 +738,13 @@
         margin: 0;
         padding: 0；;
       }
-      
+
       .left {
         width: 200px;
         background-color: red;
         float: left;
       }
-      
+
       .right {
         background-color: green;
         margin-left: 200px; //等于左边栏的宽度
@@ -766,13 +759,13 @@
         margin: 0;
         padding: 0；;
       }
-      
+
       .left {
         width: 200px;
         background-color: red;
         float: left;
       }
-      
+
       .right {
         background-color: green;
         margin-left: 200px; //等于左边栏的宽度
@@ -908,7 +901,7 @@
           height: 300px;
           background-color: red;
         }
-        
+
         .left {
           float: left;
           width: 100px;
@@ -971,4 +964,3 @@
 > 12. https://juejin.im/post/5ce607a7e51d454f6f16eb3d#heading-37
 > 13. https://www.cnblogs.com/Lina-zhu/p/8891616.html
 > 14. https://blog.csdn.net/eva_lu/article/details/79633044
-
