@@ -216,47 +216,58 @@
 
    - flex：是 flex-grow、flex-shrink 、flex-basis 缩写组合。
 
-7. **定位布局**
+7. **定位布局Position**
 
-   - position:static 默认形为，参考文档流
+   - **static**：默认形为，参考文档流，块级元素垂直堆叠
 
-     - 块级元素垂直堆叠
+   - **relative相对定位**
 
-   - position:relative 相对定位
+     - **相对于自身原来的位置定位**，设置偏移量的时候，原位置留白
 
-     - 相对于自己原来的位置移动，当元素发生位置偏移时，原位置留白
-     - 原来在标准流的位置继续占有，后面的盒子仍然以标准流的方式对待它(不脱离标准流，继续保留原来位置)
+     - 元素设置此属性之后保留原来位置，**仍然处在文档流中**，不影响其他元素的布局
 
-   - position:absolute 绝对定位
+       ```css
+       .box2 {
+         height: 100px;
+         background-color: green;
+         position: relative;
+         left: 50px;
+         top: 50px;
+       }
+       ```
 
-     - 不受文档流影响，就像漂浮在页面中的精灵，绝对定位元素拥有行内块特性
-     - 相对于其最近的定位上下文
-       - 如果祖先元素有定位(非静态定位的任意定位)，则**以最近一级的定位祖先元素为参考点**移动位置
-       - 如果没有祖先元素或者祖先元素没有定位，则以浏览器为准定位
-     - 绝对定位不再占有原先的位置(脱离标准流)
-     - 绝对定位的元素默认会待在自己静态定位时的地方
+     - ![image](https://www.runoob.com/wp-content/uploads/2018/04/1523584580-5788-20160715092656576-1570070204.png)
 
-     - 在绝对定位的情况下
+   - **absolute绝对定位**：
 
-       - 如果没有显式声明元素大小，那么绝对定位元素的大小由自身包含内容的多少来决定。
-       - 如果相对于定位上下文的各个边声明偏移值，那么元素会被拉伸以满足设定的规则
+     - **相对于离元素最近的设置了绝对或相对定位的父元素决定的**（离自己最近的不是static的父元素），如果没有祖先元素或者祖先元素没有定位，元素相对于根元素定位（即html元素）
+
+     - 元素会**脱离文档流**，不受文档流影响，如果设置偏移量，会影响其他元素的位置定位
+
+     - 元素在**没有定义宽度**的情况下，**宽度由元素里面的内容决定**，效果和用float方法一样 
+
+       ```css
+       .box5 {
+         height: 100px;
+         background-color: cyan;
+         position: absolute;
+         left: 50px;
+         top: 50px;
+       }
+       ```
+
+     - ![image](https://www.runoob.com/wp-content/uploads/2018/04/1523584581-9960-20160715093416842-596966947.png)
 
      - 应用场景
 
-       - 利用初始位置
-       - 创建三角形
+       - 利用初始位置、创建三角形
        - 利用偏移实现自动大小 > 图片上放置一个半透明盒子，相对于右、下、左绝对定位
 
-   - position:fixed 固定定位
+   - **fixed固定定位**：元素的位置相对于浏览器窗口进行定位，不会随着滚动条的滚动而改变位置。固定定位不占有原先的位置
 
-     - 以浏览器的可视窗口为参照点移动元素，固定定位在某个位置
-     - 跟父元素没有关系，**不随滚动条滚动**
-     - 固定定位不占有原先的位置
+   - **sticky粘性定位**：
 
-   - position:sticky 粘性定位：相对定位和固定定位的混合
-
-     - 以浏览器的可视窗口为参照点移动元素(固定定位特点)
-     - 占有原先的位置(相对定位特点)
+     - 基于用户的滚动位置来定位，在 `position:relative` 与 `position:fixed` 定位之间切换：它的行为就像 `position:relative`; 而当页面滚动超出目标区域时，它的表现就像 `position:fixed;`，它会固定在目标位置。
      - 必须添加 top、left、right、bottom 其中的一个才有效
 
 8. **z-index**
@@ -312,13 +323,12 @@
       - 父元素的高度无法被撑开，影响与父元素同级的元素
       - 与浮动元素同级的非浮动元素（内联元素）会跟随其后
       - 若非第一个元素浮动，则该元素之前的元素也需要浮动，否则会影响页面显示的结构
-
-- 清除浮动的方法：
-  - 额外标签法：在父元素内部最后面添加一个没有高度的子元素，并使用 clear:both(不推荐)
-    - 使用 ::after 伪元素为父元素添加后标签
-    - 使用 before 和 after 双伪元素清除浮动
-    - 通过添加父元素并设置 overflow:hidden (触发 BFC)
-    - **overflow 原理**：该属性进行超出隐藏时需要计算盒子内所有元素的高度, 所以会隐式清除浮动
+    - 清除浮动的方法：
+      - 额外标签法：在父元素内部最后面添加一个没有高度的子元素，并使用 clear:both(不推荐)
+        - 使用 ::after 伪元素为父元素添加后标签
+        - 使用 before 和 after 双伪元素清除浮动
+        - 通过添加父元素并设置 overflow:hidden (触发 BFC)
+        - **overflow 原理**：该属性进行超出隐藏时需要计算盒子内所有元素的高度, 所以会隐式清除浮动
 
 12. **overflow**
 
@@ -428,69 +438,68 @@
     - 水平垂直居中
 
       - absolute + transform
-
-- flex + justify-content + align-items
-
-  - **未知宽高的元素水平垂直居中**
-
-    1.  通过定位和 transform 来实现(absolute + transform)(子绝父相)
-
-    ```CSS
-    .parent {
-        width: 100%;
-        height: 400px;
-        background: relative;
-        position: relative;
-    }
-
-    .children {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        background: red;
-        transform: translate(-50%, -50%);
-    }
-    ```
-
-    2. 利用 flex 布局来实现(flex + justify-content + align-items)
-
-       ```css
-       .parent {
-         width: 100%;
-         height: 400px;
-         background: #666;
-         display: flex;
-         align-items: center;
-         justify-content: center;
-       }
-
-       .children {
-         background: red;
-       }
-       ```
-
-    3. 将父元素设置为 table，子元素设置为 table-cell，利用 table 属性(table + table-cell + vertical-align + text-align)
-
-       ```css
-       .parent {
-         display: table;
-         width: 100%;
-         height: 400px;
-         background: #666;
-       }
-       .children {
-         display: table-cell;
-         vertical-align: middle;
-         text-align: center;
-         background: red;
-       }
-       ```
-
-  - **高度不定，宽 100%，内一 p 高不确定，如何实现垂直居中?**
-
-    - verticle-align: middle;
-    - 绝对定位 50%加 translateY(-50%)
-    - 绝对定位，上下左右全 0，margin:auto
+      - flex + justify-content + align-items
+      
+    - **未知宽高的元素水平垂直居中**
+    
+      1.  通过定位和 transform 来实现(absolute + transform)(子绝父相)
+    
+      ```CSS
+      .parent {
+          width: 100%;
+          height: 400px;
+          background: relative;
+          position: relative;
+      }
+      
+      .children {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          background: red;
+          transform: translate(-50%, -50%);
+      }
+      ```
+    
+      2. 利用 flex 布局来实现(flex + justify-content + align-items)
+    
+         ```css
+         .parent {
+           width: 100%;
+           height: 400px;
+           background: #666;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+         }
+         
+         .children {
+           background: red;
+         }
+         ```
+    
+      3. 将父元素设置为 table，子元素设置为 table-cell，利用 table 属性(table + table-cell + vertical-align + text-align)
+    
+         ```css
+         .parent {
+           display: table;
+           width: 100%;
+           height: 400px;
+           background: #666;
+         }
+         .children {
+           display: table-cell;
+           vertical-align: middle;
+           text-align: center;
+           background: red;
+         }
+         ```
+    
+    - **高度不定，宽 100%，内一 p 高不确定，如何实现垂直居中?**
+    
+      - verticle-align: middle;
+      - 绝对定位 50%加 translateY(-50%)
+      - 绝对定位，上下左右全 0，margin:auto
 
 13. **CSS 动画**
 
@@ -612,14 +621,16 @@
 
     - **@Font-face**：加载字体样式。还能够加载服务器端的字体文件，让客户端显示客户端所没有安装的字体。
 
-    - **边框**
-    - border-radius(圆角)、border-image(边框图片)、box-shadow / text-shadow(阴影)
-    - **背景**
-    - background-size：规定背景图片的尺寸；background-origin：规定背景图片的定位区域
-    - **颜色**
-    - rgba(rgb 为颜色值，a 为透明度)
+    - **边框**：border-radius(圆角)、border-image(边框图片)、box-shadow / text-shadow(阴影)
+
+    - **背景**：background-size：规定背景图片的尺寸；background-origin：规定背景图片的定位区域
+
+    - **颜色**：rgba(rgb 为颜色值，a 为透明度)
+
     - **文本**
-    - text-shadow：向文本添加阴影
+
+      - text-shadow：向文本添加阴影
+
       - text-justify：规定当 text-align 设置为 “justify” 时所使用的对齐方法
       - text-emphasis：向元素的文本应用重点标记以及重点标记的前景色
       - text-outline：规定文本的轮廓
@@ -628,27 +639,38 @@
       - word-break：规定非中日韩文本的换行规则
       - word-wrap：允许对长的不可分割的单词进行分割并换行到下一行
       - text-decoration：文本修饰符：overline(上划线)、line-through(中划线)、underline(下划线)
+
     - **渐变**
+
     - linear-gradient()：创建一个线性渐变的 "图像"。
+      
       - radial-gradient()：用径向渐变创建 "图像"
+      
     - **2D 转换**(transform)
+
     - translate()：元素从其当前位置移动，根据给定的 left(x 坐标) 和 top(y 坐标) 位置参数
       - rotate()：元素顺时针旋转给定的角度。若为负值，元素将逆时针旋转。
       - scale()：元素的尺寸会增加或减少，根据给定的宽度(X 轴)和高度(Y 轴)参数，也可以一个值(宽高)
       - skew()：元素翻转给定的角度，根据给定的水平线(X 轴)和垂直线(Y 轴)参数
       - matrix()：把所有 2D 转换方法组合在一起，需要六个参数，包含数学函数，允许：旋转、缩放、移动以及倾斜元素。
+      
     - **3D 转换**
+
     - rotateX()：元素围绕其 X 轴以给定的度数进行旋转
       - rotateY()：元素围绕其 Y 轴以给定的度数进行旋转
       - perspective：规定 3D 元素的透视效果
+      
     - **动画** animation
 
     - **过渡** transition
 
     - **多列布局**
-    - column-count: 规定元素应该被分隔的列数
+
+      - column-count: 规定元素应该被分隔的列数
+
       - column-gap: 规定列之间的间隔
       - column-rule: 设置列之间的宽度、样式和颜色规则
+
     - 用户界面
 
       - resize：规定是否可由用户调整元素尺寸
@@ -964,3 +986,4 @@
 > 12. https://juejin.im/post/5ce607a7e51d454f6f16eb3d#heading-37
 > 13. https://www.cnblogs.com/Lina-zhu/p/8891616.html
 > 14. https://blog.csdn.net/eva_lu/article/details/79633044
+> 15. https://www.runoob.com/w3cnote/css-position-static-relative-absolute-fixed.html ★
