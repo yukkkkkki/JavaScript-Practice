@@ -4,40 +4,8 @@
 
    - 总共分 8 个阶段：创建前/后，载入前/后，更新前/后，销毁前/后
 
-   - \_init\_
-
-     - initLifecycle/Event，往 vm 上挂载各种属性
-     - callHook: beforeCreated: 实例刚创建
-     - initInjection/initState: 初始化注入和 data 响应性
-     - created: 创建完成，属性已经绑定， 但还未生成真实 dom
-     - 进行元素的挂载： $el / vm.$mount()
-     - 是否有 template: 解析成 render function
-       - \*.vue 文件: vue-loader 会将<\template>编译成 render function
-     - beforeMount: 模板编译/挂载之前
-     - 执行 render function，生成真实的 dom，并替换到 dom tree 中
-     - mounted: 组件已挂载
-
-   - update:
-
-     - 执行 diff 算法，比对改变是否需要触发 UI 更新
-     - flushScheduleQueue
-     - watcher.before: 触发 beforeUpdate 钩子 - watcher.run(): 执行 watcher 中的 notify，通知所有依赖项更新 UI
-     - 触发 updated 钩子: 组件已更新
-
-   - actived / deactivated(keep-alive): 不销毁，缓存，组件激活与失活
-
-   - destroy:
-
-     - beforeDestroy: 销毁开始
-     - 销毁自身且递归销毁子组件以及事件监听
-     - remove(): 删除节点
-     - watcher.teardown(): 清空依赖
-     - vm.\$off(): 解绑监听
-     - destroyed: 完成后触发钩子
-
-   - 所有的生命周期钩子自动绑定 this 上下文到实例中，因此你可以访问数据，对 property 和方法进行运算。所以不要在 property 或回调上使用箭头函数，因为箭头函数没有 this，this 会作为变量一直向上级词法作用域查找，直至找到为止。
-
-   | 生命周期钩子  | 描述                                                         |
+   
+| 生命周期钩子  | 描述                                                         |
    | ------------- | ------------------------------------------------------------ |
    | beforeCreate  | 在实例初始化之后，可获取vue实例，data数据未绑定，el未挂载    |
    | created       | 在实例创建完成后被立即调用，数据已挂载，el未挂载，适合在此阶段初始化数据（模板渲染成 html 前调用） |
@@ -48,99 +16,35 @@
    | activated     | 被 keep-alive 缓存的组件激活时调用                           |
    | deactivated   | 被 keep-alive 缓存的组件停用时调用                           |
    | beforeDestroy | 实例销毁之前调用。在这一步，实例仍然完全可用                 |
-   | destroyed     | 实例销毁后调用。被调用后，对应 Vue 实例的所有指令都被解绑，所有的事件监听器被移除，所有的子实例也都被销毁 |
+| destroyed     | 实例销毁后调用。被调用后，对应 Vue 实例的所有指令都被解绑，所有的事件监听器被移除，所有的子实例也都被销毁 |
    | errorCaptured | 当捕获一个来自子孙组件的错误时被调用                         |
 
    - 注意：
-
+   
      - mounted 不会保证所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以在 mounted 内部使用 vm.\$nextTick：
-
-       ```javascript
+   
+    ```javascript
        mounted: function() {
-         this.$nextTick(function() {
+      this.$nextTick(function() {
            // Code that will run only after the entire view has been rendered
-         })
+      })
        }
        ```
-
+   
      - updated 不会保证所有的子组件也都一起被重绘。如果你希望等到整个视图都重绘完毕，可以在 updated 里使用 vm.\$nextTick：
-
+   
        ```javascript
-       updated: function() {
+    updated: function() {
          this.$nextTick(function() {
-           // Code that will run only after the entire view has been re-rendered
+        // Code that will run only after the entire view has been re-rendered
          })
        }
        ```
-
+   
      - errorCaptured：此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 false 以阻止该错误继续向上传播。
-
-   ```javascript
-   new Vue({});
-   // 初始化Vue实例
-   function _init() {
-     initLifeCycle(vm); // 挂载属性
-     initEvent(vm); // 初始化事件系统，钩子函数等
-     initRender(vm); // 编译slot、vnode
-     callHook(vm, 'beforeCreate'); // 触发钩子
-     initInjection(vm); // 添加inject功能
-     // 完成数据响应性 props/data/watch/computed/methods
-     initState(vm);
-     initProvide(vm); // 添加 provide 功能
-     callHook(vm, 'created'); // 触发钩子
-     // 触发钩子
-     if(vm.$options.el) {
-       vm.$mount(vm.$options.el);
-     }
-   }
    
-   // 挂载节点实现
-   function mountComponent(vm) {
-     if(!this.options.render) { // 获取 render function
-       // template to render
-       // Vue.compile = compileToFunctions
-       let { render } = compileToFunctions();
-       this.options.render = render;
-     }
-   
-     callHook('beforeMounte'); // 触发钩子
-     // 初始化观察者
-     // render 渲染 vdom，
-     vdom = vm.render();
-     // update: 根据 diff 出的 patchs 挂载成真实的 dom
-     vm._update(vdom);
-     // 触发钩子
-     callHook(vm, 'mounted');
-   }
-   
-   // 更新节点实现
-   function queueWatcher(watcher) {
-     nextTick(flushScheduleQueue);
-   }
-   
-   // 清空队列
-   function flushScheduleQueue() {
-     for() {
-       // beforeUpdate;
-       watcher.before();
-       // 依赖局部更新节点
-       watcher.update();
-       callHook('updated');
-     }
-   }
-   
-   // 销毁实例实现
-   Vue.prototype.$destory = function() {
-     callHook(vm, 'beforeDestory'); // 触发钩子
-     remove(); // 自身及子节点
-     watcher.teardown(); // 删除依赖
-     vm.$off(); // 删除监听
-     callHook(vm, 'destoryed'); // 触发钩子
-   }
-   ```
-
    - ![image text](https://cn.vuejs.org/images/lifecycle.png?_sw-precache=6f2c97f045ba988851b02056c01c8d62)
-
+   
 2. **created和mounted的区别**
 
    - created：在模板渲染成html前调用，即通常初始化某些属性值，然后再渲染成视图。

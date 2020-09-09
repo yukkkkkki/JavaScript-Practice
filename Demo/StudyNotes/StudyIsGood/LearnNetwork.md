@@ -62,8 +62,6 @@
 
 2. **TCP 和 UDP 协议**
 
-3. **DNS 域名解析**
-
 4. **缓存策略: 强缓存 和 协商缓存**
 
    - 缓存：保存资源副本并在下次请求时直接使用该副本的技术。
@@ -630,48 +628,48 @@
 
       - **为什么关闭连接需要四次挥手**：关闭连接时，服务器收到对方的 FIN 报文时，仅仅表示对方不再发送数据了但是还能接收数据，而自己也未必全部数据都发送给对方了，所以己方可以立即关闭，也可以发送一些数据给对方后，再发送 FIN 报文给对方来表示同意现在关闭连接，因此，己方 ACK 和 FIN 一般都会分开发送，从而导致多了一次。
 
-12. **从输入 URL 到展示的过程**
+11. **浏览器从输入 URL 到页面展示的过程**
 
-    - 浏览器根据请求的 URL 交给 DNS 域名解析，找到真实 IP
+    - **浏览器解析URL**
+      - 用户输入URL
+      - 浏览器根据请求的 URL 交给 DNS 域名解析，找到真实 IP
+      - TCP三次握手建立连接，封装 TCP 包
+      - 浏览器发起HTTP请求报文，分析 url，设置请求报文(头，主体)，最后会发送一空白行，标示客户端请求完毕
+      - 服务器返回HTTP响应报文，浏览器接收文件
+      - 四次挥手关闭TCP连接
+      - 浏览器解析文档资源并渲染页面，对加载到的资源（HTML、JS、CSS 等）进行语法解析，建立相应的内部数据结构
+        - ![image](https://user-gold-cdn.xitu.io/2018/12/10/16798b8db54caa31?imageView2/0/w/1280/h/960/ignore-error/1)
+        - HTML parser --> DOM Tree
+        - CSS parser --> Style Tree(样式树)
 
-    - 封装 HTTP 请求数据包
+          - 会阻塞渲染
+          - 注：是一个**十分消耗性能**的过程，所以应尽量保证层级扁平，减少过度层叠，**越是具体的 CSS 选择器，执行速度越慢**
+        - attachment --> Render Tree(渲染树)
+        - layout: 布局
+        - GPU painting: 像素绘制页面
+        - 载入解析到的资源文件，渲染页面
+        - 注：
+          - **当 HTML 解析到 script 标签时，会暂停构建 DOM**，完成后才会从暂停的地方重新开始。想首屏渲染得越快，就越不应该在首屏就加载 JS 文件
+          - CSS 也会影响 JS 的执行，只有当解析完样式表才会执行 JS，所以也可以认为这种情况下，CSS 也会暂停构建 DOM
+    - **DNS域名解析**
+      - **DNS**(Domain Name System)：用于将主机名和域名转换为IP
 
-    - 封装 TCP 包，客户端与服务端 TCP 三次握手建立连接
+      - **工作流程**
 
-    - 向服务器发起 HTTP 请求，分析 url，设置请求报文(头，主体)，最后会发送一空白行，标示客户端请求完毕
+        - ![image](https://img-blog.csdn.net/20171211190812796?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbTBfMzc4MTI1MTM=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 
-    - 服务器交给后台处理完成后返回数据，浏览器接收文件（HTML、JS、CSS、图象等）
+        - 浏览器**先在自身缓存中查找**DNS(域名服务器)解析记录，若有该域名对应的IP地址则直接返回
+        - 若未命中缓存，则**查找操作系统中的hosts文件**是否有该域名的DNS解析记录，有则返回
+        - 若浏览器缓存或hosts文件都未命中域名，或者已过期，则向**本地域名服务器(LDNS)**发起请求解析这个域名
+        - 若LDNS仍未命中，则向Root Server域名服务器发起请求解析这个域名
+        - 根域名服务器返回给LDNS一个所查询域的主域名服务器（gTLD Server，国际顶尖域名服务器）
+        - 此时LDNS向主域名服务器发起解析请求
+        - 主域名服务器接收到解析请求后，查找并返回域名对应的域名服务器(Name Server)的地址，这个Name Server就是网站注册的域名服务器
+        - 域名服务器会查询存储的域名和IP的映射关系表，返回给LDNS目标IP记录以及一个TTL值(time to live)
+        - LDNS接收到IP和TTL值，进行缓存，缓存时间有TTL值控制
+        - LDNS将解析的结果返回给用户，用户根据TTL值缓存在本地系统缓存中，域名解析过程结束
 
-    - 浏览器对加载到的资源（HTML、JS、CSS 等）进行语法解析，建立相应的内部数据结构
-
-      - 浏览器的渲染过程
-
-        ![image](https://user-gold-cdn.xitu.io/2018/12/10/16798b8db54caa31?imageView2/0/w/1280/h/960/ignore-error/1)
-
-      - HTML parser --> DOM Tree
-
-      - CSS parser --> Style Tree(样式树)
-
-        - 会阻塞渲染
-        - 注：是一个**十分消耗性能**的过程，所以应尽量保证层级扁平，减少过度层叠，**越是具体的 CSS 选择器，执行速度越慢**
-
-      - attachment --> Render Tree(渲染树)
-
-      - layout: 布局
-
-      - GPU painting: 像素绘制页面
-
-      - 载入解析到的资源文件，渲染页面
-
-      - 注：
-
-        - **当 HTML 解析到 script 标签时，会暂停构建 DOM**，完成后才会从暂停的地方重新开始。
-          - 想首屏渲染得越快，就越不应该在首屏就加载 JS 文件
-        - CSS 也会影响 JS 的执行，只有当解析完样式表才会执行 JS，所以也可以认为这种情况下，CSS 也会暂停构建 DOM
-
-    - 当数据传送完毕，发起 TCP 四次挥手断开连接。
-
-13. **Web 安全问题**
+12. **Web 安全问题**
 
     - **CSRF**跨站请求伪造：指攻击者冒充用户发起请求（在用户不知情的情况下），完成一些违背用户意愿的事情
       - 解决方案：
@@ -688,9 +686,9 @@
     - 不安全的第三方依赖
     - 本地存储数据泄露：推荐尽可能不再前端存储重要信息。存在 cookie 中或 localStorage 中的信息进行加密
 
-14. **进程 和 线程**
+13. **进程 和 线程**
 
-15. **Socket.io**
+14. **Socket.io**
 
 > 参考链接
 >
@@ -708,3 +706,6 @@
 > 12. https://insights.thoughtworks.cn/eight-security-problems-in-front-end/
 > 13. http://insights.thoughtworks.cn/eight-security-problems-in-front-end-2/
 > 14. https://juejin.im/post/6844903942036389895
+> 15. https://www.nps.ink/169180.html
+> 16. https://www.jianshu.com/p/a2cb1e3a79be
+> 17. https://blog.csdn.net/m0_37812513/article/details/78775629
