@@ -4,55 +4,54 @@
 
    - 总共分 8 个阶段：创建前/后，载入前/后，更新前/后，销毁前/后
 
-   
-| 生命周期钩子  | 描述                                                         |
-   | ------------- | ------------------------------------------------------------ |
-   | beforeCreate  | 在实例初始化之后，可获取vue实例，data数据未绑定，el未挂载    |
-   | created       | 在实例创建完成后被立即调用，数据已挂载，el未挂载，适合在此阶段初始化数据（模板渲染成 html 前调用） |
-   | beforeMount   | 在挂载开始之前被调用：相关的 render 函数首次被调用           |
-   | mounted       | 实例被挂载后调用，这时 el 被新创建的 vm.\$el 替换了（模板渲染成 html 后调用） |
-   | beforeUpdate  | 数据更新时调用，发生在虚拟 DOM 打补丁之前                    |
-   | updated       | 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子 |
-   | activated     | 被 keep-alive 缓存的组件激活时调用                           |
-   | deactivated   | 被 keep-alive 缓存的组件停用时调用                           |
-   | beforeDestroy | 实例销毁之前调用。在这一步，实例仍然完全可用                 |
-| destroyed     | 实例销毁后调用。被调用后，对应 Vue 实例的所有指令都被解绑，所有的事件监听器被移除，所有的子实例也都被销毁 |
-   | errorCaptured | 当捕获一个来自子孙组件的错误时被调用                         |
+     | 生命周期钩子  | 描述                                                                                                      |
+     | ------------- | --------------------------------------------------------------------------------------------------------- |
+     | beforeCreate  | 在实例初始化之后，可获取 vue 实例，data 数据未绑定，el 未挂载                                             |
+     | created       | 在实例创建完成后被立即调用，数据已挂载，el 未挂载，适合在此阶段初始化数据（模板渲染成 html 前调用）       |
+     | beforeMount   | 在挂载开始之前被调用：相关的 render 函数首次被调用                                                        |
+     | mounted       | 实例被挂载后调用，这时 el 被新创建的 vm.\$el 替换了（模板渲染成 html 后调用）                             |
+     | beforeUpdate  | 数据更新时调用，发生在虚拟 DOM 打补丁之前                                                                 |
+     | updated       | 由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子                                         |
+     | activated     | 被 keep-alive 缓存的组件激活时调用                                                                        |
+     | deactivated   | 被 keep-alive 缓存的组件停用时调用                                                                        |
+     | beforeDestroy | 实例销毁之前调用。在这一步，实例仍然完全可用                                                              |
+     | destroyed     | 实例销毁后调用。被调用后，对应 Vue 实例的所有指令都被解绑，所有的事件监听器被移除，所有的子实例也都被销毁 |
+     | errorCaptured | 当捕获一个来自子孙组件的错误时被调用                                                                      |
 
    - 注意：
-   
-     - mounted 不会保证所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以在 mounted 内部使用 vm.\$nextTick：
-   
-    ```javascript
-       mounted: function() {
-      this.$nextTick(function() {
-           // Code that will run only after the entire view has been rendered
-      })
-       }
-       ```
-   
-     - updated 不会保证所有的子组件也都一起被重绘。如果你希望等到整个视图都重绘完毕，可以在 updated 里使用 vm.\$nextTick：
-   
-       ```javascript
-    updated: function() {
-         this.$nextTick(function() {
-        // Code that will run only after the entire view has been re-rendered
-         })
-       }
-       ```
-   
-     - errorCaptured：此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 false 以阻止该错误继续向上传播。
-   
-   - ![image text](https://cn.vuejs.org/images/lifecycle.png?_sw-precache=6f2c97f045ba988851b02056c01c8d62)
-   
-2. **created和mounted的区别**
 
-   - created：在模板渲染成html前调用，即通常初始化某些属性值，然后再渲染成视图。
-   - mounted：在模板渲染成html后调用，通常是初始化页面完成后，再对html的`DOM`节点进行一些需要的操作。
-   
+   - mounted 不会保证所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以在 mounted 内部使用 vm.\$nextTick：
+
+     ```javascript
+        mounted: function() {
+       this.$nextTick(function() {
+            // Code that will run only after the entire view has been rendered
+       })
+        }
+     ```
+
+   - updated 不会保证所有的子组件也都一起被重绘。如果你希望等到整个视图都重绘完毕，可以在 updated 里使用 vm.\$nextTick：
+
+     ```javascript
+     updated: function() {
+       this.$nextTick(function() {
+      // Code that will run only after the entire view has been re-rendered
+       })
+     }
+     ```
+
+   - errorCaptured：此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 false 以阻止该错误继续向上传播。
+
+- ![image text](https://cn.vuejs.org/images/lifecycle.png?_sw-precache=6f2c97f045ba988851b02056c01c8d62)
+
+2. **created 和 mounted 的区别**
+
+   - created：在模板渲染成 html 前调用，即通常初始化某些属性值，然后再渲染成视图。
+   - mounted：在模板渲染成 html 后调用，通常是初始化页面完成后，再对 html 的`DOM`节点进行一些需要的操作。
+
 3. **`Vue`获取数据在哪个周期函数**
 
-   - 一般 `created/beforeMount/mounted` 皆可。如果涉及到需要页面加载完成之后(DOM操作)的就用 mounted
+   - 一般 `created/beforeMount/mounted` 皆可。如果涉及到需要页面加载完成之后(DOM 操作)的就用 mounted
 
 4. **Vue 的优点**
 
@@ -67,13 +66,14 @@
 5. **Vue 组件间传递参数**
 
    - `vue`中的通信方式
+
      - `v-bind` 和 `props` （通过绑定属性进行传值）
      - `v-on` 和 `$emit` （通过触发事件进行传值）
      - `$ref`、`$parent`、`$children`（通过获取到`dom`进行传值）
      - `provide`和`inject` （使用依赖注入进行传值）
      - `$attrs` 和 `$listeners` (获取剩余参数进行传值)
      - `EventBus` (利用事件总线进行传值)
-     - `vuex` 
+     - `vuex`
      - 利用本地存储和`vue-router`等方式
 
    - **`Props`传参**：父组件给子组件传递数据
@@ -83,7 +83,7 @@
        ```javascript
        props: [xxx, xxx, xxx] // 第一种：数组方式
        props: { xxx: Number, xxx: String} // 第二种：对象方式
-       
+
        props: { // 第三种：对象嵌套对象方式
          xxx: {
            type: Number, //类型不匹配会警告
@@ -102,7 +102,7 @@
          <!--props 接受到的均为 String -->
          <!--不定义 props 类型的情况下 props 接受到的均为 String -->
          <children xxx="123"></children>
-         
+
          <!-- 只有属性没有值, 这种情况 props 指定类型是 Boolean 则接收到的是 true -->
          <children xxx></children>
          ```
@@ -112,10 +112,10 @@
          ```html
          <!-- prop 接收到 Number 类型的 123-->
          <children :xxx="123"></children>
-         
+
          <!-- prop 接收到 Array 类型的 [1, 2, 3]-->
          <children v-bind:xxx="[1, 2, 3]"></children>
-         
+
          <!-- prop 会接收到 xxx1 和 xxx2 俩个参数。这种不支持简写形式-->
          <children v-bind="{xxx1: 1, xxx2: 2}"></children>
          <!-- 如果是表达式则获取到的是表达式的计算结果 -->
@@ -178,8 +178,8 @@
      - 优点
 
        - 使用最为简单，也是父子组件传递最常见的方法。
-       - `Vue`为props提供了类型检查支持。
-       - `$emit`不会修改到别的组件的同名事件，因为他只能触发父级的事件，这里和event-bus不同
+       - `Vue`为 props 提供了类型检查支持。
+       - `$emit`不会修改到别的组件的同名事件，因为他只能触发父级的事件，这里和 event-bus 不同
 
      - 缺点
 
@@ -197,11 +197,11 @@
 
    - `provide`/`inject `依赖注入
 
-     - 在父组件上通过provide提供给后代组件的数据/方法，在后代组件上通过inject来接收被注入的数据/方法
+     - 在父组件上通过 provide 提供给后代组件的数据/方法，在后代组件上通过 inject 来接收被注入的数据/方法
 
-       - provide：应该是一个对象或返回一个对象的函数。该对象包含可注入其子孙的property
-       - inject：应该是一个字符串数组，或者一个对象，对象的key是本地的绑定名，value是
-         - 在可用的注入内容中搜索用的key
+       - provide：应该是一个对象或返回一个对象的函数。该对象包含可注入其子孙的 property
+       - inject：应该是一个字符串数组，或者一个对象，对象的 key 是本地的绑定名，value 是
+         - 在可用的注入内容中搜索用的 key
          - 或一个对象，该对象的：
            - `from` property 是在可用的注入内容中搜索用的 key
            - `default` property 是降级情况下使用的 value
@@ -209,15 +209,15 @@
        ```javascript
        // 父组件
        var Provider = {
-         provide: function() {
+         provide: function () {
            return {
-             getMap: this.getMap
-           }
-         }
-       }
-       
+             getMap: this.getMap,
+           };
+         },
+       };
+
        // 子组件
-       var Child = { inject: ['getMap'] }
+       var Child = { inject: ['getMap'] };
        ```
 
      - 可以把依赖注入看作一部分“大范围有效的 prop”，除了
@@ -225,20 +225,20 @@
        - 祖先组件不需要知道哪些后代组件使用它提供的 property
        - 后代组件不需要知道被注入的 property 来自哪里
 
-     - 优点：不用像props一层层传递，可以跨层级传递
+     - 优点：不用像 props 一层层传递，可以跨层级传递
 
      - 缺点
 
-       - 用这种方式传递的property是非响应式的，所以尽可能来传递一些静态属性。
+       - 用这种方式传递的 property 是非响应式的，所以尽可能来传递一些静态属性。
          - 如果你传入了一个可监听的对象，那么其对象的 property 还是可响应的
        - **它将你的应用以目前的组件组织方式耦合了起来，使重构变得更加困难**
 
    - `slot` / `slot-scope`
 
-     - 可以在组件的html模版里添加自定义内容
+     - 可以在组件的 html 模版里添加自定义内容
      - **父组件模板的所有东西都会在父级作用域内编译；子组件模板的所有东西都会在子级作用域内编译**
      - 优点：可以在父组件里自定义插入到子组件里的内容；复用性好,适合做组件开发
-     - 缺点：和props一样不支持跨层级传递
+     - 缺点：和 props 一样不支持跨层级传递
 
    - `$parent` / `$children`：通过`$parent`/`$children`可以拿到父子组件的实例，从而调用实例里的方法，实现父子组件通信。并不推荐这种做法。
 
@@ -255,9 +255,9 @@
 
    - 路由传参
 
-     - 路由配置（eg：/:id，获取参数使用$route）、`router.push()`、`params`、`query`
+     - 路由配置（eg：/:id，获取参数使用\$route）、`router.push()`、`params`、`query`
 
-6. **Computed计算属性**
+6. **Computed 计算属性**
 
 7. **数据双向绑定**
 
@@ -302,7 +302,7 @@
              console.log('设置了')
        }
        })
-       
+
        obj.name = 'yzg'; / /在给obj设置name属性的时候，触发了set这个方法
        var val = obj.name;  //在得到obj的name属性，会触发get方法
        ```
@@ -327,7 +327,7 @@
              this.el.appendChild(fragment)
            }
          }
-       
+
          nodeToFragment(el) { //需要将el中的内容全部放入到内存中
            //文档碎片，不是真正的DOM，是内存中的节点
            let fragment = document.createDocumentFragment();
@@ -339,7 +339,7 @@
            }
            return fragment; // 内存中的节点
          }
-       
+
          compile(fragment) {
            //需要递归
            let childNodes = fragment.childNodes; //只拿到第一层（父级），拿不到嵌套层的
@@ -354,7 +354,7 @@
              }
            })
          }
-       
+
          compileElement(node) {
            //编译带v-model、v-text等的（取节点的属性）
            let attrs = node.attributes; //取出当前节点的属性
@@ -370,7 +370,7 @@
              }
            })
          }
-       
+
          compileText(node) {
            //编译带{{}}
            let expr = node.textContent; //取文本中的内容
@@ -380,7 +380,7 @@
              CompileUtil['text'](node, this.vm, expr)
            }
          }
-       
+
          //文本更新
          textUpdater(node, value) {
            node.textContent = value
@@ -389,13 +389,13 @@
          modelUpdater(node, value) {
            node.value = value
          }
-       
+
          //数据变化了，应该调用这个watch的callback
          new Watcher(vm, expr, (newValue) => {
            //当值变化后，会调用cb将新值传递过来（）
            updateFn && updateFn(node, this.getVal(vm, expr))
          })
-       
+
        }
        ```
 
@@ -406,14 +406,14 @@
          constructor(data) {
            this.observer(data);
          }
-       
+
          observer(data) {
            //要对这个data数据原有的属性改成set和get的形式
-           if (!data || typeof data !== "object") {
+           if (!data || typeof data !== 'object') {
              //排除数据不存在或者不是对象的情况
              return;
            }
-       
+
            //要将数据一一劫持，先获取到data的key和value
            Object.keys(data).forEach((key) => {
              //该方法是将对象先转换成数组，再循环
@@ -424,7 +424,7 @@
              this.observer(data[key]);
            });
          }
-       
+
          //定义响应式
          defineReactive(obj, key, value) {
            //在获取某个值的时候，可以在获取或更改值的时候，做一些处理
@@ -445,7 +445,7 @@
                //当给data属性中设置值的时候，更改获取的属性的值
                if (newValue !== value) {
                  // 如果值变化了
-                 console.log(this, "this"); //这个this指向的是被修改的值
+                 console.log(this, 'this'); //这个this指向的是被修改的值
                  //但是这里的this不是Observer的实例,所以需要在最初保存一下当前this指向
                  that.observer(newValue); //如果是对象继续劫持
                  value = newValue;
@@ -470,13 +470,13 @@
          }
          getVal(vm, expr) {
            //获取实例上对应的数据
-           expr = expr.split(".");
+           expr = expr.split('.');
            return expr.reduce((prev, next) => {
              //vm.$data.a....
              return prev[next];
            }, vm.$data);
          }
-       
+
          get() {
            Dep.target = this; //将当前watcher实例放入到tartget中
            let value = this.getVal(this.vm, this.expr);
@@ -494,7 +494,7 @@
        }
        ```
 
-       - 发布-订阅模式(观察者模式)
+       - 发布-订阅模式
 
          ```javascript
          //observer.js
@@ -520,7 +520,7 @@
              });
            }
          }
-         
+
          function remove(arr, item) {
            if (arr.length) {
              const index = arr.indexOf(item);
@@ -582,43 +582,45 @@
 
 10. **\<keep-alive>\</keep-alive>的作用是什么**
 
-   - `keep-alive` 是 Vue 内置的一个组件，可以使被包含的组件保留状态，或避免重新渲染
+    - `keep-alive` 是 Vue 内置的一个组件，可以使被包含的组件保留状态，或避免重新渲染
 
-     ```html
-     <!-- 失活的组件将会被缓存！-->
-     <keep-alive>
-       <component v-bind:is="currentTabComponent"></component>
-     </keep-alive>
-     ```
+      ```html
+      <!-- 失活的组件将会被缓存！-->
+      <keep-alive>
+        <component v-bind:is="currentTabComponent"></component>
+      </keep-alive>
+      ```
 
-   - **Props**：
+    - **Props**：
 
-     - `include` - 字符串或正则表达式。只有名称匹配的组件会被缓存。
-     - `exclude` - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。
-     - `max` - 数字。最多可以缓存多少组件实例。
+      - `include` - 字符串或正则表达式。只有名称匹配的组件会被缓存。
 
-     ```html
-     <!-- 逗号分隔字符串 -->
-     <keep-alive include="a,b">
-       <component :is="view"></component>
-     </keep-alive>
-     
-     <!-- 正则表达式 (使用 `v-bind`) -->
-     <keep-alive :include="/a|b/">
-       <component :is="view"></component>
-     </keep-alive>
-     
-     <!-- 数组 (使用 `v-bind`) -->
-     <keep-alive :include="['a', 'b']">
-       <component :is="view"></component>
-     </keep-alive>
-     
-     <keep-alive :max="10">
-       <component :is="view"></component>
-     </keep-alive>
-     ```
+      - `exclude` - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。
 
-   - `<keep-alive>` 不会在函数式组件中正常工作，因为它们没有缓存实例。
+      - `max` - 数字。最多可以缓存多少组件实例。
+
+        ```html
+        <!-- 逗号分隔字符串 -->
+        <keep-alive include="a,b">
+          <component :is="view"></component>
+        </keep-alive>
+
+        <!-- 正则表达式 (使用 `v-bind`) -->
+        <keep-alive :include="/a|b/">
+          <component :is="view"></component>
+        </keep-alive>
+
+        <!-- 数组 (使用 `v-bind`) -->
+        <keep-alive :include="['a', 'b']">
+          <component :is="view"></component>
+        </keep-alive>
+
+        <keep-alive :max="10">
+          <component :is="view"></component>
+        </keep-alive>
+        ```
+
+    - `<keep-alive>` 不会在函数式组件中正常工作，因为它们没有缓存实例。
 
 11. **如何获取 dom**
 
@@ -628,22 +630,22 @@
 
 12. **几种 vue 当中的指令和它的用法**
 
-    | 指令      | 描述                                                         |
-    | --------- | :----------------------------------------------------------- |
-    | v-text    | 更新元素的 `textContent`。                                   |
-    | v-html    | 更新元素的 `innerHTML`<br />容易导致 XSS 攻击。故只在可信内容上使用 `v-html`，**永不**用在用户提交的内容上 |
-    | v-show    | 根据表达式之真假值，切换元素的 `display` CSS property        |
-    | v-if      | 根据表达式的值的 truthiness 来有条件地渲染元素。在切换时元素及它的数据绑定 / 组件被销毁并重建 |
-    | v-else    | 为 `v-if` 或者 `v-else-if` 添加“else 块”                     |
-    | v-else-if | 表示 `v-if` 的“else if 块”。可以链式调用                     |
-    | v-for     | 基于源数据多次渲染元素或模板块                               |
-    | v-on      | 缩写：@<br />绑定事件监听器                                  |
-    | v-bind    | 缩写：：<br />动态地绑定一个或多个 attribute，或一个组件 prop 到表达式 |
-    | v-model   | 在表单控件或者组件上创建双向绑定，它会根据控件类型自动选取正确的方法来更新元素 |
-    | v-slot    | 缩写：#<br />提供具名插槽或需要接收 prop 的插槽              |
-    | v-pre     | 跳过这个元素和它的子元素的编译过程。可以用来显示原始 Mustache 标签。跳过大量没有指令的节点会加快编译 |
+    | 指令      | 描述                                                                                                                                                           |
+    | --------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+    | v-text    | 更新元素的 `textContent`。                                                                                                                                     |
+    | v-html    | 更新元素的 `innerHTML`<br />容易导致 XSS 攻击。故只在可信内容上使用 `v-html`，**永不**用在用户提交的内容上                                                     |
+    | v-show    | 根据表达式之真假值，切换元素的 `display` CSS property                                                                                                          |
+    | v-if      | 根据表达式的值的 truthiness 来有条件地渲染元素。在切换时元素及它的数据绑定 / 组件被销毁并重建                                                                  |
+    | v-else    | 为 `v-if` 或者 `v-else-if` 添加“else 块”                                                                                                                       |
+    | v-else-if | 表示 `v-if` 的“else if 块”。可以链式调用                                                                                                                       |
+    | v-for     | 基于源数据多次渲染元素或模板块                                                                                                                                 |
+    | v-on      | 缩写：@<br />绑定事件监听器                                                                                                                                    |
+    | v-bind    | 缩写：：<br />动态地绑定一个或多个 attribute，或一个组件 prop 到表达式                                                                                         |
+    | v-model   | 在表单控件或者组件上创建双向绑定，它会根据控件类型自动选取正确的方法来更新元素                                                                                 |
+    | v-slot    | 缩写：#<br />提供具名插槽或需要接收 prop 的插槽                                                                                                                |
+    | v-pre     | 跳过这个元素和它的子元素的编译过程。可以用来显示原始 Mustache 标签。跳过大量没有指令的节点会加快编译                                                           |
     | v-cloak   | 这个指令保持在元素上直到关联实例结束编译。<br />和 CSS 规则如 `[v-cloak] { display: none }` 一起用时，这个指令可以隐藏未编译的 Mustache 标签直到实例准备完毕。 |
-    | v-once    | 只渲染元素和组件**一次**。随后的重新渲染，元素/组件及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能 |
+    | v-once    | 只渲染元素和组件**一次**。随后的重新渲染，元素/组件及其所有的子节点将被视为静态内容并跳过。这可以用于优化更新性能                                              |
 
     - v-on 监听多个方法/自定义事件
 
@@ -720,7 +722,7 @@
             rules: [
               {
                 test: /\.vue$/,
-                loader: "vue-loader",
+                loader: 'vue-loader',
                 options: {
                   hotReload: false, // 关闭热重载
                 },
@@ -758,7 +760,7 @@
               )
           )
       }
-      
+
       // 对新旧vnode进行diff，然后将比对出的结果用来更新真实的DOM
       function updateChildren (parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
           ...
@@ -800,10 +802,10 @@
       }
       ```
 
-    - 设置 key 值一定能提高 diff 效率吗？不一定
+    - **设置 key 值一定能提高 diff 效率吗？不一定**
 
       - 当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，它默认用“就地复用”策略。如果数据项的顺序被改变，Vue 将不会移动 DOM 元素来匹配数据项的顺序， 而是简单复用此处每个元素，并且确保它在特定索引下显示已被渲染过的每个元素。这个默认的模式是高效的，但是只适用于不依赖子组件状态或临时 DOM 状态 (例如：表单输入值) 的列表渲染输出。
-      - 建议尽可能在使用 v-for 时提供 key，除非遍历输出的 DOM 内容非常简单，或者是刻意依赖默认行为以获取性能上的提升。
+      - **建议尽可能在使用 v-for 时提供 key**，除非遍历输出的 DOM 内容非常简单，或者是刻意依赖默认行为以获取性能上的提升。
       - 总结：简单列表的渲染可以不使用`key`或者用数组的`index`作为`key`（效果等同于不带`key`），这种模式下性能最高，但是并不能准确的更新列表项的状态。一旦你需要保存列表项的状态，那么就需要用使用唯一的`key`用来准确的定位每一个列表项以及复用其自身的状态，而大部分情况下列表组件都有自己的状态。
 
 16. **创建组件**
@@ -855,7 +857,7 @@
               <label>姓 名：<input type="text" placeholder="请输入姓名" v-model="fullName"></label>
           </div>
       </template>
-      
+
       <script>
           export default {
               name: "ComputedAndWatch",
@@ -977,7 +979,7 @@
 
 23. **v-if 和 v-for 的优先级**
 
-    - 当 `v-if` 与 `v-for` 一起使用时，`v-for` 具有比 `v-if` 更高的优先级，这意味着 `v-if` 将分别重复运行于每个 `v-for` 循环中。
+    - 当 `v-if` 与 `v-for` 一起使用时，**`v-for` 具有比 `v-if` 更高的优先级**，这意味着 `v-if` 将分别重复运行于每个 `v-for` 循环中。
     - 不推荐 `v-if` 和 `v-for` 同时使用。
     - 如果 `v-if` 和 `v-for` 一起用的话，vue 中会自动提示 `v-if` 应该放到外层去。
 
@@ -994,33 +996,33 @@
     - jQuery 是使用选择器（ `$` ）选取 DOM 对象，对其进行赋值、取值、事件绑定等操作，其实和原生的 HTML 的区别只在于可以更方便的选取和操作 DOM 对象，而数据和界面是在一起的。比如需要获取 label 标签的内容：`$("lable").val();` ,它还是依赖 DOM 元素的值。
     - Vue 则是通过 Vue 对象将数据和 View 完全分离开来了。对数据进行操作不再需要引用相应的 DOM 对象，可以说数据和 View 是分离的，他们通过 Vue 对象这个 vm 实现相互的绑定。这就是传说中的 MVVM。
 
-26. **SPA首屏加载慢如何解决**
+26. **SPA 首屏加载慢如何解决**
 
-    - 安装动态懒加载所需插件；使用CDN资源；UI组件库按需加载；路由懒加载；开启`gzip`压缩，生成压缩文件。（视具体情况而定）
+    - 安装动态懒加载所需插件；使用 CDN 资源；UI 组件库按需加载；路由懒加载；开启`gzip`压缩，生成压缩文件。（视具体情况而定）
 
-27. **`delete`、splice和`Vue.delete`删除数组的区别**
+27. **`delete`、splice 和`Vue.delete`删除数组的区别**
 
     - `delete` 只是被删除的元素变成了 `empty/undefined` 其他的元素的键值还是不变。
 
-    - splice直接删除了数组，改变了数组的键值
+    - splice 直接删除了数组，改变了数组的键值
 
     - `Vue.delete` 直接删除了数组 改变了数组的键值
 
       - 删除对象的 property。如果对象是响应式的，确保删除能触发更新视图。这个方法主要用于避开 Vue 不能检测到 property 被删除的限制，但是你应该很少会使用它。
 
       ```javascript
-      var a=[1,2,3,4]
-      var b=[1,2,3,4]
-      delete a[1] // a: [1, empty, 3, 4]
-      b.splice(1,1) // b: [1, 3, 4]
-      var c=[1,2,3,4]
+      var a = [1, 2, 3, 4];
+      var b = [1, 2, 3, 4];
+      delete a[1]; // a: [1, empty, 3, 4]
+      b.splice(1, 1); // b: [1, 3, 4]
+      var c = [1, 2, 3, 4];
       // Vue.delete( target, propertyName/index )
-      this.$delete(c,1) // c: [1, 3, 4]
+      this.$delete(c, 1); // c: [1, 3, 4]
       ```
 
 28. **`vue`初始化页面闪动问题**
 
-    - 将根结构默认设为display: none，然后在根结构上添加属性 :style="display:'inline'"
+    - 将根结构默认设为 display: none，然后在根结构上添加属性 :style="display:'inline'"
 
       ```html
       <div style="display: none" :style="display: 'block'"></div>
@@ -1029,9 +1031,9 @@
     - 在`CSS`里加上 `[v-cloak] { display: none; }`
 
       ```css
-      [v-cloak]{
+      [v-cloak] {
         /*important看情况加*/
-        display: none !important; 
+        display: none !important;
       }
       ```
 
@@ -1049,22 +1051,22 @@
 
 30. **`Vue`修改打包后静态资源修改路径**
 
-    - CLI2：将 config/index.js 里的 `assetsPublicPath` 的值改为  `./`
+    - CLI2：将 config/index.js 里的 `assetsPublicPath` 的值改为 `./`
 
       ```javascript
-      build: { 
-        // ... 
-        assetsPublicPath:  ./ , 
-        // ...  
-      } 
+      build: {
+        // ...
+        assetsPublicPath:  ./ ,
+        // ...
+      }
       ```
 
-    - CLI3：在根目录下新建vue.config.js 文件里配置
+    - CLI3：在根目录下新建 vue.config.js 文件里配置
 
       ```javascript
-      module.exports = { 
-        publicPath: , // 相对于 HTML 页面（目录相同）    
-      } 
+      module.exports = {
+        publicPath: , // 相对于 HTML 页面（目录相同）
+      }
       ```
 
 31. `Vue slot`
@@ -1093,4 +1095,3 @@
 > 18. https://juejin.im/post/6844903812474339341
 > 19. https://juejin.im/post/6844903878538821640
 > 20. https://www.jianshu.com/p/1b75a3623d0d
-

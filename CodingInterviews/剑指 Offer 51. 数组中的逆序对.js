@@ -24,9 +24,7 @@ var reversePairs = function (nums) {
   return merge_Sort(nums, 0, nums.length - 1);
 };
 function merge_Sort(arr, l, r) {
-  if (l >= r) {
-    return 0;
-  }
+  if (l >= r) return 0;
   let mid = Math.floor((l + r) / 2);
   let res = merge_Sort(arr, l, mid) + merge_Sort(arr, mid + 1, r);
   let i = l;
@@ -55,7 +53,6 @@ function merge_Sort(arr, l, r) {
     arr[i] = temp[j];
   }
   return res;
-  
 }
 
 // 参考：
