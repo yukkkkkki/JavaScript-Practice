@@ -579,7 +579,7 @@
       | ease-in-out         | 中间快，两边慢（等于 cubic-bezier(0.42,0,0.58,1)）                    |
       | cubic-bezier(n,n,n) | 在 cubic-bezier 函数中定义自己的值                                    |
 
-      - cubic-bezier(<\x1>, <\y1>, <\x2>, <\y2>)
+      - cubic-bezier(\<x1>, \<y1>, \<x2>, \<y2>)
       - 步进速度
 
         - steps(n,start)：设置 n 个时间点，第一时间点变化状态
@@ -713,7 +713,7 @@
 
     - 常用不可继承属性
 
-      - 宽高:height, width
+      - 宽高：height, width
       - 最小最大宽高：max-height, min-height, max-width, min-width
       - dispaly
       - 文本阴影：text-shadow
@@ -969,6 +969,8 @@
     - background-size 背景大小
       - contain 可以让浏览器尽可能保持图片最大化，同时不改变图片的宽高比
       - cover 图片会缩放以保证覆盖元素的每一个像素，同时不会变形
+    
+30. **什么情况下会发生边距叠加**
 
 > 参考链接
 >

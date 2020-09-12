@@ -401,16 +401,30 @@
 
    - 路由传参案例
 
-     ```vue
-     // router.js import Vue from 'vue' import Router from 'vue-router' import
-     componentsA from './components/componentsA'
-     //在components下创建componentsA.vue import componentsB from
-     './components/componentsB' //在components下创建componentsB.vue
-     Vue.use(Router) export default new Router({ routes:[ { path:'/componentsA',
-     name:'componentsA', component:componentsA }, {
-     path:'/componentsB/:name/:age/:sex', name:'componentsB',
-     component:componentsB } ] }) // 1.1 路由配置传参 // componentsA.vue //
-     在componentsA.vue页面通过this.$router.push配置与之对应的参数
+     ```javascript
+     // router.js
+     import Vue from 'vue'
+     import Router from 'vue-router'
+     import componentsA from './components/componentsA'
+
+     //在components下创建componentsA.vue
+     import componentsB from './components/componentsB'
+     //在components下创建componentsB.vue
+     Vue.use(Router)
+     export default new Router({
+       routes:[
+         { path:'/componentsA',
+         name:'componentsA',
+         component:componentsA },
+         {
+           path:'/componentsB/:name/:age/:sex', name:'componentsB',
+           component:componentsB
+         }
+       ]
+     })
+     // 1.1 路由配置传参
+     // componentsA.vue
+     // 在componentsA.vue页面通过this.$router.push配置与之对应的参数
      <template>
        <div>
          <div>我是组件A</div>
@@ -457,7 +471,8 @@
      };
      </script>
 
-     // componentsB.vue // 在 componentsB.vue 页面用 this.$route.params 接收参数
+     // componentsB.vue
+     // 在 componentsB.vue 页面用 this.$route.params 接收参数
      <template>
        <div>
          <div>我是组件B</div>
