@@ -532,7 +532,7 @@
       // Promise
       // hi
       // resolved.
-
+  
       // 案例2：异步加载图片
       function loadImageAsync(url) {
           return new Promise((resolve, reject) => {
@@ -546,7 +546,7 @@
               image.src = url;
           })
       }
-
+  
       // 案例3：用Promise对象实现 Ajax 操作
       const getJSON = function (url) {
           const promise = new Promise(function(resolve, reject) {
@@ -573,7 +573,7 @@
       }, function (error) {
           console.log('出错了', error);
       })
-
+  
       // 案例4：如果调用resolve函数和reject函数时带有参数，那么它们的参数会被传递给回调函数
       const p1 = new Promise(function (resolve, reject) {
           setTimeout(() => reject(new Error('fail')), 3000);
@@ -584,7 +584,7 @@
       // 由p1的状态决定p2的状态，所以后面的then语句都变成针对p1
       p2.then(res => console.log(res)).catch(err => console.log(err));
       // Error: fail
-
+  
       // 案例5：调用resolve或reject并不会终结 Promise 的参数函数的执行
       new Promise((resolve, reject) => {
           resolve(1);
@@ -594,8 +594,10 @@
       });
       // 2
       // 1
-      ```
+  ```
 
+  ````
+  
   ````
 
 - Promise 的实例方法：then()、catch()、finally()

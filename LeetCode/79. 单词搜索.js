@@ -29,44 +29,43 @@
 // 输入：board = [["a","b"],["c","d"]], word = "abcd"
 // 输出：false
 
-/**
- * @param {character[][]} board
- * @param {string} word
- * @return {boolean}
- */
-var exist = function (board, word) {
-  if (board == null || word == null) return false;
+// 方法一：DFS回溯
+const exist = (board, word) => {
+  const m = board.length;
+  const n = board[0].length;
+  const used = new Array(m); // 二维矩阵used
+  for (let i = 0; i < m; i++) {
+    used[i] = new Array(n);
+  }
+  // 判断当前点是否是目标路径上的点
+  const backTrack = (row, col, i) => {
+    if (i > word.length - 1) return true;
+    // 当前点要存在
+    if (row < 0 || row >= m || col < 0 || col >= n) return false;
+    if (used[row][col] || board[row][col] != word[i]) {
+      // 当前的点已经走过，或当前点就不是word[i]
+      return false;
+    }
+    used[row][col] = true; // used记录一下当前点被访问了
+    const canFindRest =
+      backTrack(row + 1, col, i + 1) ||
+      backTrack(row - 1, col, i + 1) ||
+      backTrack(row, col + 1, i + 1) ||
+      backTrack(row, col - 1, i + 1);
+    if (canFindRest) return true;
+    used[row][col] = false; // 找不出，返回false，继续考察别的分支，并撤销当前点的访问状态。
+    return false;
+  };
 
-  const xLen = board.length;
-  const yLen = board[0].length;
-  const k = 0;
-  for (let x = 0; x < xLen; x++) {
-    for (let y = 0; y < yLen; y++) {
-      if (findFun(board, word, x, y, k, xLen, yLen)) return true;
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      if (board[i][j] == word[0] && backTrack(i, j, 0)) {
+        return true;
+      }
     }
   }
   return false;
 };
 
-//用于判断board[x][y]的上下左右是否有work[k+1]，若有返回true
-//这里有个细节，没必要一直求值的数据就以参数的形式传到函数中，不要每次都计算，比如此题中的xLen，yLen
-function findFun(board, word, x, y, k, xLen, yLen) {
-  if (x < 0 || x >= xLen || y < 0 || y >= yLen || board[x][y] != word[k])
-    return false;
-  // 如果比较过的长度大于或等于word的长度，则说明匹配成功
-  if (k == word.length - 1) {
-    // word到底了
-    return true;
-  }
-  let temp = board[x][y];
-  //将用过的变量随意改个值，以保存不被使用
-  board[x][y] = "-";
-  // 分别向上、右、下、左搜索
-  let res =
-    findFun(board, word, x - 1, y, k + 1, xLen, yLen) ||
-    findFun(board, word, x, y + 1, k + 1, xLen, yLen) ||
-    findFun(board, word, x + 1, y, k + 1, xLen, yLen) ||
-    findFun(board, word, x, y - 1, k + 1, xLen, yLen);
-  board[x][y] = temp;
-  return res;
-}
+// 作者：xiao_ben_zhu
+// 链接：https://leetcode-cn.com/problems/word-search/solution/shou-hua-tu-jie-79-dan-ci-sou-suo-dfs-si-lu-de-cha/
