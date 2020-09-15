@@ -738,7 +738,7 @@
 
 23. **如何实现两栏布局**
 
-    - float + margin-left
+    - **float + margin-left**
 
       ```css
       * {
@@ -759,7 +759,7 @@
       }
       ```
 
-    - absolute + margin-left
+    - **absolute + margin-left**
 
       ```css
       * {
@@ -780,11 +780,11 @@
       }
       ```
 
-    - float + BFC
+    - **float + BFC**
 
       - 左侧元素浮动 + 右侧元素 BFC(overflow：hidden)
 
-    - flex 布局：父元素 display:flex，右侧元素 flex:1
+    - **flex 布局：父元素 display:flex，右侧元素 flex:1**
 
       ```css
       * {
@@ -841,7 +841,7 @@
 
     - **margin 负值法**
 
-      - 双飞翼布局(浮动元素 margin 负值)
+      - **双飞翼布局**(浮动元素 margin 负值)
 
         - middle 放在 content 里，left 和 right 在 content 外
 
@@ -890,7 +890,7 @@
 
         - 优点：主体内容可以优先加载
 
-      - 圣杯布局
+      - **圣杯布局**
 
         - 按照 middle、left、right 布局
         - middle、left、right 全都左浮
@@ -958,6 +958,18 @@
     
 30. **什么情况下会发生边距叠加**
 
+    - 当**一个元素出现在另一个元素上面**时，第一个元素的下外边距与第二个元素的上外边距会发生合并
+    - 当**一个元素包含在另一个元素中**时（假设**没有内边距或边框把外边距分隔开**），它们的上和/或下外边距也会发生合并
+    - **外边距自身发生合并**：空元素设置外边距，但是没有设置边框或填充，上外边距与下外边距会发生合并。**如果这个外边距遇到另一个元素的外边距，它还会发生合并**
+    - 注意：**只有普通文档流中块框的垂直外边距才会发生合并。行内框、浮动框或绝对定位之间的外边距不会合并**
+    - **防止外边距重叠解决方案**
+      - 外层元素**padding代替margin**
+      - **内层元素设置透明边框**：border:1px solid transparent;
+      - **内层元素设置绝对定位**：postion:absolute;
+      - **外层元素设置overflow:hidden**
+      - **设置内层元素为浮动元素或者行内元素**：float:left; display:inline-block;
+      - 内层元素设置**padding:1px**
+
 > 参考链接
 >
 > 1. https://www.cnblogs.com/ainyi/p/9777841.html
@@ -975,3 +987,4 @@
 > 13. https://www.cnblogs.com/Lina-zhu/p/8891616.html
 > 14. https://blog.csdn.net/eva_lu/article/details/79633044
 > 15. https://www.runoob.com/w3cnote/css-position-static-relative-absolute-fixed.html ★
+> 16. https://blog.csdn.net/u013516618/article/details/52624314
