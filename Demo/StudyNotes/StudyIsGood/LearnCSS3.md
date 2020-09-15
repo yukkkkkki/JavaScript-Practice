@@ -165,57 +165,43 @@
 
 6. **Flex 弹性布局**
 
-   - flex-direction：控制元素在主副轴排列的方向
-
-     - row：从左到右水平排列元素（默认值）
+   - **flex-direction**：控制元素在主副轴排列的方向
+- row：从左到右水平排列元素（默认值）
      - row-reverse: 从右向左排列元素
      - column：从上到下垂直排列元素
      - column-reverse：从下到上垂直排列元素
-
-   - flex-wrap：控制换行(默认不换行)
-
-     - nowrap：不拆行或不拆列
+   - **flex-wrap**：控制换行(默认不换行)
+- nowrap：不拆行或不拆列
      - wrap：在必要的时候拆行或拆列
-     - wrap-reverse：在必要的时候以相反的顺序拆行或拆列
-
-   - flex-flow：是 flex-direction 与 flex-wrap 的组合简写模式
-
-   - justify-content：元素在主轴对齐方式
-
-     - flex-start：紧靠主轴起点
-     - flex-end：紧靠主轴终点
+  - wrap-reverse：在必要的时候以相反的顺序拆行或拆列
+   - **flex-flow**：是 flex-direction 与 flex-wrap 的组合简写模式
+   - **justify-content**：元素在主轴对齐方式
+   - flex-start：紧靠主轴起点
+  - flex-end：紧靠主轴终点
      - center：从弹性容器中心开始
-     - space-between：第一个元素靠起点，最后一个元素靠终点，余下元素平均分配空间
-     - space-around：每个元素两侧的间隔相等
-     - space-evenly：元素间距离平均分配
-
-   - align-items：容器中**所有元素**在交叉轴对齐方式
-
-     - center：位于容器的中心
+  - **space-between**：第一个元素靠起点，最后一个元素靠终点，余下元素平均分配空间
+     - **space-around**：**每个元素两侧的间隔相等**
+  - **space-evenly**：**元素间距离平均分配**
+   - **align-items**：容器中**所有元素**在交叉轴对齐方式
+   - center：位于容器的中心
      - flex-start：位于容器的交叉轴开头
      - flex-end：位于容器的交叉轴结尾
      - stretch：元素被拉伸以适应容器(默认值)
-
-   - align-self：用于控制**单个元素**在交叉轴上的排列方式
-
-   - align-content：只适用于多行显示的弹性容器，作用是当 flex 容器在交叉轴上有多余的空间时，对元素的对齐处理
-
-     - stretch：将空间平均分配给元素
-     - flex-start：元素紧靠主轴起点
+   - **align-self**：用于控制**单个元素**在交叉轴上的排列方式
+- **align-content**：只适用于多行显示的弹性容器，作用是当 flex 容器在交叉轴上有多余的空间时，对元素的对齐处理
+   - stretch：将空间平均分配给元素
+  - flex-start：元素紧靠主轴起点
      - flex-end：元素紧靠主轴终点
      - center：元素从弹性容器中心开始
      - space-between：第一个元素靠起点，最后一个元素靠终点，余下元素平均分配空间
      - space-around：每个元素两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍
-     - space-evenly：元素间距离平均分配
-
-   - flex-grow：将弹性盒子的剩余可用空间，分配给弹性元素。以使用整数或小数声明
-
-   - flex-shrink：与 flex-grow 相反 flex-shrink 是在弹性盒子装不下元素时定义的缩小值
-
-   - flex-basis：定义了在分配多余空间之前，项目占据的主轴空间(main size)。浏览器根据这个属性，计算主轴是否有多余空间
-
-   - flex：是 flex-grow、flex-shrink 、flex-basis 缩写组合。
-
+  - space-evenly：元素间距离平均分配
+   - **flex-grow**：将弹性盒子的**剩余可用空间按照比例分配给弹性元素**。使用整数或小数声明
+- **flex-shrink**：与 flex-grow 相反，flex-shrink 是**在弹性盒子装不下元素时定义的缩小值**
+   - **flex-basis**：定义了**在分配多余空间之前，项目占据的主轴空间**(main size)。浏览器根据这个属性，计算主轴是否有多余空间
+- flex：是 flex-grow、flex-shrink 、flex-basis 缩写组合。
+   - **决定flex-items最终basis size的元素优先级**：max-width\max-height\min-width\min-height、flex-basis、width\height、内容本身的size
+   
 7. **定位布局Position**
 
    - **static**：默认形为，参考文档流，块级元素垂直堆叠
