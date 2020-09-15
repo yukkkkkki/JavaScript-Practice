@@ -912,9 +912,7 @@
 
     - **深拷贝**：会另外拷贝一份一个一模一样的对象，从堆内存中开辟一个新的区域存放新对象，新对象跟原对象不共享内存，修改新对象不会改到原对象。
 
-      - Object.assign()
-
-        - 只能实现一维对象的深拷贝
+      - Object.assign()：只能实现一维对象的深拷贝
 
       - JSON.parse(JSON.stringify())
 
@@ -934,7 +932,7 @@
         function deepClone(source) {
           // 创建一个新对象
           let result = {};
-
+        
           for (var i in source) {
             if (source.hasOwnProperty(i)) {
               // 如果字段的值也是一个对象则递归操作
@@ -964,19 +962,17 @@
             function isObject(x) {
               return Object.prototype.toString.call(x) === '[object Object]';
             }
-
+            
             function deepClone(source) {
               // 相当于加上一个递归出口
               if (!isObject(source)) return source;
-
+            
               // ...
             }
             ```
 
             - 可以解决栈溢出问题，但无法解决循环引用
-            - 关于循环引用的问题解决思路有两种：
-              - 循环检测
-              - 暴力破解
+            - 关于循环引用的问题解决思路有两种：循环检测，暴力破解
 
       - 使用循环来破解递归爆栈
 

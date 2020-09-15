@@ -166,47 +166,47 @@
 6. **Flex 弹性布局**
 
    - **flex-direction**：控制元素在主副轴排列的方向
-- row：从左到右水平排列元素（默认值）
+     - row：从左到右水平排列元素（默认值）
      - row-reverse: 从右向左排列元素
      - column：从上到下垂直排列元素
      - column-reverse：从下到上垂直排列元素
    - **flex-wrap**：控制换行(默认不换行)
-- nowrap：不拆行或不拆列
+     - nowrap：不拆行或不拆列
      - wrap：在必要的时候拆行或拆列
-  - wrap-reverse：在必要的时候以相反的顺序拆行或拆列
+     - wrap-reverse：在必要的时候以相反的顺序拆行或拆列
    - **flex-flow**：是 flex-direction 与 flex-wrap 的组合简写模式
    - **justify-content**：元素在主轴对齐方式
-   - flex-start：紧靠主轴起点
-  - flex-end：紧靠主轴终点
+     - flex-start：紧靠主轴起点
+     - flex-end：紧靠主轴终点
      - center：从弹性容器中心开始
-  - **space-between**：第一个元素靠起点，最后一个元素靠终点，余下元素平均分配空间
-     - **space-around**：**每个元素两侧的间隔相等**
-  - **space-evenly**：**元素间距离平均分配**
+   - **space-between**：第一个元素靠起点，最后一个元素靠终点，余下元素平均分配空间
+   - **space-around**：**每个元素两侧的间隔相等**
+   - **space-evenly**：**元素间距离平均分配**
    - **align-items**：容器中**所有元素**在交叉轴对齐方式
-   - center：位于容器的中心
+     - center：位于容器的中心
      - flex-start：位于容器的交叉轴开头
      - flex-end：位于容器的交叉轴结尾
      - stretch：元素被拉伸以适应容器(默认值)
    - **align-self**：用于控制**单个元素**在交叉轴上的排列方式
-- **align-content**：只适用于多行显示的弹性容器，作用是当 flex 容器在交叉轴上有多余的空间时，对元素的对齐处理
-   - stretch：将空间平均分配给元素
-  - flex-start：元素紧靠主轴起点
+   - **align-content**：只适用于多行显示的弹性容器，作用是当 flex 容器在交叉轴上有多余的空间时，对元素的对齐处理
+     - stretch：将空间平均分配给元素
+     - flex-start：元素紧靠主轴起点
      - flex-end：元素紧靠主轴终点
      - center：元素从弹性容器中心开始
      - space-between：第一个元素靠起点，最后一个元素靠终点，余下元素平均分配空间
      - space-around：每个元素两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍
-  - space-evenly：元素间距离平均分配
+     - space-evenly：元素间距离平均分配
    - **flex-grow**：将弹性盒子的**剩余可用空间按照比例分配给弹性元素**。使用整数或小数声明
-- **flex-shrink**：与 flex-grow 相反，flex-shrink 是**在弹性盒子装不下元素时定义的缩小值**
+   - **flex-shrink**：与 flex-grow 相反，flex-shrink 是**在弹性盒子装不下元素时定义的缩小值**
    - **flex-basis**：定义了**在分配多余空间之前，项目占据的主轴空间**(main size)。浏览器根据这个属性，计算主轴是否有多余空间
-- flex：是 flex-grow、flex-shrink 、flex-basis 缩写组合。
-   - **决定flex-items最终basis size的元素优先级**：max-width\max-height\min-width\min-height、flex-basis、width\height、内容本身的size
-   
-7. **定位布局Position**
+   - flex：是 flex-grow、flex-shrink 、flex-basis 缩写组合。
+   - **决定 flex-items 最终 basis size 的元素优先级**：max-width\max-height\min-width\min-height、flex-basis、width\height、内容本身的 size
+
+7. **定位布局 Position**
 
    - **static**：默认形为，参考文档流，块级元素垂直堆叠
 
-   - **relative相对定位**
+   - **relative 相对定位**
 
      - **相对于自身原来的位置定位**，设置偏移量的时候，原位置留白
 
@@ -224,13 +224,13 @@
 
      - ![image](https://www.runoob.com/wp-content/uploads/2018/04/1523584580-5788-20160715092656576-1570070204.png)
 
-   - **absolute绝对定位**：
+   - **absolute 绝对定位**：
 
-     - **相对于离元素最近的设置了绝对或相对定位的父元素决定的**（离自己最近的不是static的父元素），如果没有祖先元素或者祖先元素没有定位，元素相对于根元素定位（即html元素）
+     - **相对于离元素最近的设置了绝对或相对定位的父元素决定的**（离自己最近的不是 static 的父元素），如果没有祖先元素或者祖先元素没有定位，元素相对于根元素定位（即 html 元素）
 
      - 元素会**脱离文档流**，不受文档流影响，如果设置偏移量，会影响其他元素的位置定位
 
-     - 元素在**没有定义宽度**的情况下，**宽度由元素里面的内容决定**，效果和用float方法一样 
+     - 元素在**没有定义宽度**的情况下，**宽度由元素里面的内容决定**，效果和用 float 方法一样
 
        ```css
        .box5 {
@@ -249,9 +249,9 @@
        - 利用初始位置、创建三角形
        - 利用偏移实现自动大小 > 图片上放置一个半透明盒子，相对于右、下、左绝对定位
 
-   - **fixed固定定位**：元素的位置相对于浏览器窗口进行定位，不会随着滚动条的滚动而改变位置。固定定位不占有原先的位置
+   - **fixed 固定定位**：元素的位置相对于浏览器窗口进行定位，不会随着滚动条的滚动而改变位置。固定定位不占有原先的位置
 
-   - **sticky粘性定位**：
+   - **sticky 粘性定位**：
 
      - 基于用户的滚动位置来定位，在 `position:relative` 与 `position:fixed` 定位之间切换：它的行为就像 `position:relative`; 而当页面滚动超出目标区域时，它的表现就像 `position:fixed;`，它会固定在目标位置。
      - 必须添加 top、left、right、bottom 其中的一个才有效
@@ -266,19 +266,19 @@
 
    - 堆叠上下文(stacking context)：影响的是元素 CSS 属性中的 z-index，父元素是否是堆叠上下文，对具有 z-index 属性的子元素的堆叠顺序有影响
 
-     层叠上下文由满足以下任意一个条件的元素形成
+     - 层叠上下文由满足以下任意一个条件的元素形成
 
-     - 根元素(HTML)
-     - z-index !== auto 的绝对/相对定位
-     - z-index !== auto 的 flex item
-     - position: fixed
-     - opacity < 1
-     - transform !== none
-     - mix-blend-mode !== normal
-     - filter !== none
-     - perspective !== none
-     - isolation: isolate
-     - -webkit-overflow-scrolling: touch
+       - 根元素(HTML)
+       - z-index !== auto 的绝对/相对定位
+       - z-index !== auto 的 flex item
+       - position: fixed
+       - opacity < 1
+       - transform !== none
+       - mix-blend-mode !== normal
+       - filter !== none
+       - perspective !== none
+       - isolation: isolate
+       - -webkit-overflow-scrolling: touch
 
    - z 轴元素堆叠顺序
 
@@ -309,12 +309,13 @@
       - 父元素的高度无法被撑开，影响与父元素同级的元素
       - 与浮动元素同级的非浮动元素（内联元素）会跟随其后
       - 若非第一个元素浮动，则该元素之前的元素也需要浮动，否则会影响页面显示的结构
+
     - 清除浮动的方法：
       - 额外标签法：在父元素内部最后面添加一个没有高度的子元素，并使用 clear:both(不推荐)
-        - 使用 ::after 伪元素为父元素添加后标签
-        - 使用 before 和 after 双伪元素清除浮动
-        - 通过添加父元素并设置 overflow:hidden (触发 BFC)
-        - **overflow 原理**：该属性进行超出隐藏时需要计算盒子内所有元素的高度, 所以会隐式清除浮动
+      - 使用 ::after 伪元素为父元素添加后标签
+      - 使用 before 和 after 双伪元素清除浮动
+      - 通过添加父元素并设置 overflow:hidden (触发 BFC)
+      - **overflow 原理**：该属性进行超出隐藏时需要计算盒子内所有元素的高度, 所以会隐式清除浮动
 
 12. **overflow**
 
@@ -425,11 +426,11 @@
 
       - absolute + transform
       - flex + justify-content + align-items
-      
+
     - **未知宽高的元素水平垂直居中**
-    
-      1.  通过定位和 transform 来实现(absolute + transform)(子绝父相)
-    
+
+      1. 通过定位和 transform 来实现(absolute + transform)(子绝父相)
+
       ```CSS
       .parent {
           width: 100%;
@@ -437,7 +438,7 @@
           background: relative;
           position: relative;
       }
-      
+
       .children {
           position: absolute;
           top: 50%;
@@ -446,9 +447,9 @@
           transform: translate(-50%, -50%);
       }
       ```
-    
+
       2. 利用 flex 布局来实现(flex + justify-content + align-items)
-    
+
          ```css
          .parent {
            width: 100%;
@@ -458,14 +459,14 @@
            align-items: center;
            justify-content: center;
          }
-         
+
          .children {
            background: red;
          }
          ```
-    
+
       3. 将父元素设置为 table，子元素设置为 table-cell，利用 table 属性(table + table-cell + vertical-align + text-align)
-    
+
          ```css
          .parent {
            display: table;
@@ -480,14 +481,14 @@
            background: red;
          }
          ```
-    
+
     - **高度不定，宽 100%，内一 p 高不确定，如何实现垂直居中?**
-    
+
       - verticle-align: middle;
       - 绝对定位 50%加 translateY(-50%)
       - 绝对定位，上下左右全 0，margin:auto
 
-13. **CSS 动画**
+14. **CSS 动画**
 
     先定义 @keyframes 规则（0%，100% | from，to）
 
@@ -536,7 +537,7 @@
       - forwards：结束后停留动画的最后一帧
       - both：包含 backwards 与 forwards 规则，即动画效果在起始帧，不等延迟结束，并且在结束后停止在最后一帧
 
-14. **过渡延迟**
+15. **过渡延迟**
 
     - transition: property duration timing-function delay;
 
@@ -578,14 +579,14 @@
         - 值可以为负数
         - 变化属性数量大于时间数量时，后面的属性再从第一个时间开始重复使用
 
-15. **link 与 @import 的区别**
+16. **link 与 @import 的区别**
 
     - link 功能较多，可以定义 RSS，定义 Rel 等作用，而@import 只能用于加载 css
     - 当解析到 link 时，页面会同步加载所引的 css，而@import 所引用的 css 会等到页面加载完才被加载
     - @import 需要 IE5 以上才能使用
     - link 可以使用 js 动态引入，@import 不行
 
-16. **纯 css 实现三角形**
+17. **纯 css 实现三角形**
 
     ```css
     /* 宽高都给0，通过设置border的颜色来实现 */
@@ -599,9 +600,9 @@
     }
     ```
 
-17. **至少两种方式实现自适应搜索**
+18. **至少两种方式实现自适应搜索**
 
-18. **CSS3 新特性**
+19. **CSS3 新特性**
 
     - **伪类/伪元素选择器**
 
@@ -628,24 +629,26 @@
 
     - **渐变**
 
-    - linear-gradient()：创建一个线性渐变的 "图像"。
-      
+      - linear-gradient()：创建一个线性渐变的 "图像"。
+
       - radial-gradient()：用径向渐变创建 "图像"
-      
+
     - **2D 转换**(transform)
 
-    - translate()：元素从其当前位置移动，根据给定的 left(x 坐标) 和 top(y 坐标) 位置参数
+      - translate()：元素从其当前位置移动，根据给定的 left(x 坐标) 和 top(y 坐标) 位置参数
+
       - rotate()：元素顺时针旋转给定的角度。若为负值，元素将逆时针旋转。
       - scale()：元素的尺寸会增加或减少，根据给定的宽度(X 轴)和高度(Y 轴)参数，也可以一个值(宽高)
       - skew()：元素翻转给定的角度，根据给定的水平线(X 轴)和垂直线(Y 轴)参数
       - matrix()：把所有 2D 转换方法组合在一起，需要六个参数，包含数学函数，允许：旋转、缩放、移动以及倾斜元素。
-      
+
     - **3D 转换**
 
-    - rotateX()：元素围绕其 X 轴以给定的度数进行旋转
+      - rotateX()：元素围绕其 X 轴以给定的度数进行旋转
+
       - rotateY()：元素围绕其 Y 轴以给定的度数进行旋转
       - perspective：规定 3D 元素的透视效果
-      
+
     - **动画** animation
 
     - **过渡** transition
@@ -673,7 +676,7 @@
 
     - 滤镜 Filter
 
-19. **display:none 与 visibility:hidden 的区别**
+20. **display:none 与 visibility:hidden 的区别**
 
     - display:none：元素不可见、**不占据空间**、资源会加载、DOM 可访问
 
@@ -695,7 +698,7 @@
       - opacity:0 意思是该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，那么点击该区域，是可以触发点击事件的
       - opacity 会触发重绘
 
-20. **可继承属性和非继承属性**
+21. **可继承属性和非继承属性**
 
     - 常用不可继承属性
 
@@ -719,7 +722,7 @@
       - 列表布局属性：list-style, list-style-type
       - 光标属性：cursor
 
-21. **CSS Sprites**
+22. **CSS Sprites**
 
     - 将一个页面涉及到的所有图片都包含到一张大图中去，然后利用 CSS 的 background-image，background- repeat，background-position 的组合进行背景定位
 
@@ -727,7 +730,7 @@
 
     - CSS Sprites 能减少图片的字节。
 
-22. **行内元素和块元素**
+23. **行内元素和块元素**
 
     | 元素                                 | 特征                                                                                                                                                                                                                                           |
     | ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -736,7 +739,7 @@
     | 行内块状元素                         | 不自动换行<br />能够识别宽高<br />默认排列方式为从左到右                                                                                                                                                                                       |
     | 行内元素、块元素、行内块元素相互转换 | display:inline 转换为行内元素<br />display:block 转换为块状元素<br />display:inline-block 转换为行内块状元素                                                                                                                                   |
 
-23. **如何实现两栏布局**
+24. **如何实现两栏布局**
 
     - **float + margin-left**
 
@@ -802,7 +805,7 @@
       }
       ```
 
-24. **三栏布局：两边固定中间自适应**
+25. **三栏布局：两边固定中间自适应**
 
     - **浮动布局**：左右两侧浮动(左侧左浮，右侧右浮) 中间设置 margin-left 和 margin-right
 
@@ -930,13 +933,13 @@
         }
         ```
 
-25. **CSS modules**
+26. **CSS modules**
 
-26. **移动端用什么距离单位**
+27. **移动端用什么距离单位**
 
-27. **逻辑像素, 物理像素, 设备像素比**
+28. **逻辑像素, 物理像素, 设备像素比**
 
-28. **背景属性**
+29. **背景属性**
 
     - background
     - background-color
@@ -955,7 +958,7 @@
     - background-size 背景大小
       - contain 可以让浏览器尽可能保持图片最大化，同时不改变图片的宽高比
       - cover 图片会缩放以保证覆盖元素的每一个像素，同时不会变形
-    
+
 30. **什么情况下会发生边距叠加**
 
     - 当**一个元素出现在另一个元素上面**时，第一个元素的下外边距与第二个元素的上外边距会发生合并
@@ -963,10 +966,10 @@
     - **外边距自身发生合并**：空元素设置外边距，但是没有设置边框或填充，上外边距与下外边距会发生合并。**如果这个外边距遇到另一个元素的外边距，它还会发生合并**
     - 注意：**只有普通文档流中块框的垂直外边距才会发生合并。行内框、浮动框或绝对定位之间的外边距不会合并**
     - **防止外边距重叠解决方案**
-      - 外层元素**padding代替margin**
+      - 外层元素**padding 代替 margin**
       - **内层元素设置透明边框**：border:1px solid transparent;
       - **内层元素设置绝对定位**：postion:absolute;
-      - **外层元素设置overflow:hidden**
+      - **外层元素设置 overflow:hidden**
       - **设置内层元素为浮动元素或者行内元素**：float:left; display:inline-block;
       - 内层元素设置**padding:1px**
 

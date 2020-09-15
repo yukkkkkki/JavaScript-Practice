@@ -75,11 +75,11 @@
 
      - **sessionStorage**
 
-       - 用于本地存储一个会话(session)中的数据，这些数据只有在同一个会话中的页面才能访问并且当会话结束后数据也随之销毁，体积限制为 4~5M
-       - 同源策略：不同于 Cookie，sessionStorage 访问限制更高，只有当前设定了 sessionStorage 的域下才能访问
+       - 用于**本地存储一个会话(session)中的数据**，这些数据只有在同一个会话中的页面才能访问并且当会话结束后数据也随之销毁，体积限制为 4~5M
+       - **同源策略**：不同于 Cookie，sessionStorage 访问限制更高，只有当前设定了 sessionStorage 的域下才能访问
        - **单标签页**：两个相同域下的不同标签页不能互通
        - 在关闭标签页或者新开的标签页下都不能访问之前写下的 sessionStorage
-       - 刷新标签页依然可以访问 sessionStorage
+       - **刷新标签页依然可以访问 sessionStorage**
 
        - 使用场景
 
@@ -89,47 +89,45 @@
 
      - **localStorage**
 
-       - 长久储存，除非主动删除数据，否则数据是永远不会过期的，大小一般限定为 4M 左右
+       - **长久储存**，除非主动删除数据，否则数据是永远不会过期的，大小一般限定为 4M 左右
 
-       - 同源策略：和 sessionStorage 一样，要访问同一个 localStorage 页面必须来自同一个域名，同种协议，同种端口
-
-         - 不能跨域，但可以使用 postMessage 和 iframe 消除这个影响
-
-       - **跨标签页**：localStorage 设定后，刷新或者重新打开标签页，关闭浏览器重新打开原来的标签页也可以访问到
-
-       - 如果有一些数据，服务器难以承载其压力，但又要与用户的信息绑定的话，可以使用 localStorage 存储一些状态，这样即能缓解服务端压力，也可以存储用户的数据
-
-     - Storage 事件
-
-       - 对 Storage 对象进行任何的操作，都会在文档上触发 Storage 事件， 这个事件的 event 对象有以下属性
+       - **同源策略**：和 sessionStorage 一样，要访问同一个 localStorage 页面必须来自同一个域名，同种协议，同种端口
+- **不能跨域，但可以使用 postMessage 和 iframe 消除这个影响**
+         
+- **跨标签页**：localStorage 设定后，刷新或者重新打开标签页，关闭浏览器重新打开原来的标签页也可以访问到
+       
+- 如果有一些数据，服务器难以承载其压力，但又要与用户的信息绑定的话，可以使用 localStorage 存储一些状态，这样即能缓解服务端压力，也可以存储用户的数据
+       
+- Storage 事件
+     
+  - 对 Storage 对象进行任何的操作，都会在文档上触发 Storage 事件， 这个事件的 event 对象有以下属性
          - domain：发生变化的存储空间的域名
          - key：设置或删除的键名
          - newValue：如果是设置值，则是新值。如果是删除键，则为 null
          - oldValue：键被更改之前的值
-
-   - 数据库级别
-
-     - indexeddb：类似 NoSQL，直接使用 js 的方法操作数据
-
-     - Web SQL：类似关系型数据库， 它使用 sql 语句进行相关操作
-
-     - 特点
+     
+- 数据库级别
+   
+  - indexeddb：类似 NoSQL，直接使用 js 的方法操作数据
+   
+  - Web SQL：类似关系型数据库， 它使用 sql 语句进行相关操作
+   
+  - 特点
        - 访问：indexDB 和 Web SQL 和 Web Storage 一样，均是只能在创建数据库的域名下才能访问
        - 存储时间：存储时间为永久，除非用户清除数据，他可用作长期的存储
        - 大小限制：二者其实没有强制限制。只是 indexDB 在数据超过 50 M 之后会从浏览器弹出一个框让你确认
        - 性能：indexDB 查询速度会相对较慢，而 Web SQL 的性能相对较快
-
+   
 4. **重绘和回流**
 
    - 重绘(Repaint)：当节点需要更改外观、风格等而不会影响布局
 
      - 比如：改变 color、background-color、visibility 等
 
-   - 回流(Reflow)：布局或者几何属性需要改变
-
-     - 页面首次渲染、浏览器窗口大小发生改变、元素尺寸或位置发生改变、元素内容变化（文字数量或图片大小等等）、元素字体大小变化、添加或者删除可见的 DOM 元素、**激活 CSS 伪类**、查询某些属性或调用某些方法
-
-     - 一些常用且会导致回流的属性和方法
+   - **回流(Reflow)：布局或者几何属性需要改变**
+- **页面首次渲染、浏览器窗口大小发生改变、元素尺寸或位置发生改变、元素内容变化（文字数量或图片大小等等）、元素字体大小变化、添加或者删除可见的 DOM 元素、激活 CSS 伪类、查询某些属性或调用某些方法**
+     
+- 一些常用且会导致回流的属性和方法
        - clientWidth、clientHeight、clientTop、clientLeft
        - offsetWidth、offsetHeight、offsetTop、offsetLeft
        - scrollWidth、scrollHeight、scrollTop、scrollLeft
@@ -137,15 +135,15 @@
        - getComputedStyle()
        - getBoundingClientRect()
        - scrollTo()
-
-   - 注意：
-
-     - 回流必定重绘，重绘不一定回流。
+     
+- 注意：
+   
+  - 回流必定重绘，重绘不一定回流。
      - 回流所需的成本比重绘高得多，改变深层次的节点很可能导致父节点的一系列回流
-
-   - 重绘和回流与 Event loop 的关系
-
-     1. 当 Event loop 执行完 Microtasks 后，会判断 document 是否需要更新。因为浏览器是 60Hz 的刷新率，每 16ms 才会更新一次
+   
+- 重绘和回流与 Event loop 的关系
+   
+  1. 当 Event loop 执行完 Microtasks 后，会判断 document 是否需要更新。因为浏览器是 60Hz 的刷新率，每 16ms 才会更新一次
      2. 然后判断是否有 resize 或者 scroll ，有的话会去触发事件，所以 resize 和 scroll 事件也是至少 16ms 才会触发一次，并且自带节流功能
      3. 判断是否触发了 media query
      4. 更新动画并且发送事件
@@ -154,12 +152,12 @@
      7. 执行 IntersectionObserver 回调，该方法用于判断元素是否可见，可以用于懒加载上，但是兼容性不好
      8. 更新界面
      9. 以上就是一帧中可能会做的事情。如果在一帧中有空闲时间，就会去执行 requestIdleCallback 回调
-
-   - 减少重绘和回流
-
-     - CSS
-
-       - 避免使用 table 布局
+   
+- 减少重绘和回流
+   
+  - CSS
+   
+    - 避免使用 table 布局
          - 可能很小的一个小改动会造成整个 table 的重新布局
        - 尽可能在 DOM 树的最末端改变 class
        - 避免设置多层内联样式
@@ -169,40 +167,34 @@
          - eg：calc()
        - 使用 translate 替代 top
        - 使用 visibility 替换 display: none
-
-         - 因为前者只会引起重绘，后者会触发回流
-
-       - 动画实现的速度的选择
-
-         - 动画速度越快，回流次数越多，也可以选择使用 requestAnimationFrame
-
-       - 将频繁运行的动画变为图层
+   
+      - 因为前者只会引起重绘，后者会触发回流
+   
+    - 动画实现的速度的选择
+   
+      - 动画速度越快，回流次数越多，也可以选择使用 requestAnimationFrame
+   
+    - 将频繁运行的动画变为图层
          - 图层能够阻止该节点回流影响别的元素。比如对于 video 标签，浏览器会自动将该节点变为图层
-
-     - JavaScript
-
-       - 避免频繁操作样式
-
-         - 最好一次性重写 style 属性，或者将样式列表定义为 class 并一次性更改 class 属性
-
-       - 避免频繁操作 DOM
-
-         - 创建一个 documentFragment，在它上面应用所有 DOM 操作，最后再把它添加到文档中
+   
+  - JavaScript
+   
+    - 避免频繁操作样式
+   
+      - 最好一次性重写 style 属性，或者将样式列表定义为 class 并一次性更改 class 属性
+   
+    - 避免频繁操作 DOM
+   
+      - 创建一个 documentFragment，在它上面应用所有 DOM 操作，最后再把它添加到文档中
          - 避免把 DOM 结点的属性值放在一个循环里当成循环里的变量
-
-       - 把 DOM 离线后修改
-
-         - 先为元素设置 display: none，操作结束后再把它显示出来。因为在 display 属性为 none 的元素上进行的 DOM 操作不会引发回流和重绘
-
-       - 对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流
-
+   
+    - 把 DOM 离线后修改
+   
+      - 先为元素设置 display: none，操作结束后再把它显示出来。因为在 display 属性为 none 的元素上进行的 DOM 操作不会引发回流和重绘
+   
+    - 对具有复杂动画的元素使用绝对定位，使它脱离文档流，否则会引起父元素及后续元素频繁回流
+   
 5. **浏览器架构**
-
-6. **浏览器下事件循环(Event Loop)**
-
-   - 宏任务
-
-   - 微任务
 
 7. **Web Worker**
 

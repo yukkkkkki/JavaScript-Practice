@@ -2,12 +2,12 @@
 
 1. **生命周期**
 
-   - 总共分 8 个阶段：创建前/后，载入前/后，更新前/后，销毁前/后
+   - 实例从创建到销毁的过程，可以分为4个阶段：**初始化阶段、模板编译阶段、挂载阶段、卸载阶段**
 
      | 生命周期钩子  | 描述                                                         |
      | ------------- | ------------------------------------------------------------ |
      | beforeCreate  | 在实例初始化之后，可获取 vue 实例，data 数据未绑定，el 未挂载 |
-     | created       | 在实例创建完成后被立即调用，数据已挂载，el 未挂载<br />（**模板渲染成 html 前**，通常在此阶段初始化数据，然后再渲染成视图） |
+     | created       | 在实例创建完成后被立即调用，数据已观测到，el 未挂载<br />（**模板渲染成 html 前**，通常在此阶段初始化数据，然后再渲染成视图） |
      | beforeMount   | 在挂载开始之前被调用：相关的 render 函数首次被调用           |
      | mounted       | 实例被挂载后调用，这时 el 被新创建的 vm.\$el 替换了<br />（**模板渲染成 html 后**，通常是**初始化页面完成后，再对 html 的`DOM`节点进行一些需要的操作**） |
      | beforeUpdate  | 数据更新时调用，发生在虚拟 DOM 打补丁之前                    |
@@ -18,29 +18,35 @@
      | destroyed     | 实例销毁后调用。被调用后，对应 Vue 实例的所有指令都被解绑，所有的事件监听器被移除，所有的子实例也都被销毁 |
      | errorCaptured | 当捕获一个来自子孙组件的错误时被调用                         |
 
+     - **初始化阶段**：**new Vue()到created之间**的阶段。主要目的是**在Vue实例上初始化一些属性、事件以及响应式数据**，如props、methods、data、computed、watch、provide和inject等
+     - **模板编译阶段**：**created与beforeMount之间**的阶段。主要目的是**将模板编译为渲染函数，只存在于完整版中**。在只包含运行时的构建版本中执行new Vue()则不会存在这个阶段
+       - vue文件内部的模板会在构建时预编译成js，所以最终打好的包里不需要编译，用运行时版本即可
+     - **挂载阶段**：**beforeMount到mounted之间**的阶段。在此阶段**将实例挂载到DOM元素上**，即将模板渲染到指定的DOM元素中。在**挂载过程中会开启watcher来持续追踪依赖的变化**。在已挂载过程中会持续追踪状态的变化，当**状态发生改变时，watcher会通知虚拟DOM重新渲染视图，并且在渲染视图前触发beforeUpdated，渲染完毕后触发updated**
+     - **卸载阶段**：**调用vm.$destory方法后**。在此阶段vue.js将**自身从父组件中删除，取消实例上所有依赖的追踪，并且移除所有的事件监听器**。
+
    - 注意：
 
-   - mounted 不会保证所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以在 mounted 内部使用 vm.\$nextTick：
+     - mounted 不会保证所有的子组件也都一起被挂载。如果你希望等到整个视图都渲染完毕，可以在 mounted 内部使用 vm.\$nextTick：
 
-     ```javascript
-     mounted: function() {
-       this.$nextTick(function() {
-         // Code that will run only after the entire view has been rendered
-       })
-     }
-     ```
+       ```javascript
+       mounted: function() {
+         this.$nextTick(function() {
+           // Code that will run only after the entire view has been rendered
+         })
+       }
+       ```
 
-   - updated 不会保证所有的子组件也都一起被重绘。如果你希望等到整个视图都重绘完毕，可以在 updated 里使用 vm.\$nextTick：
+     - updated 不会保证所有的子组件也都一起被重绘。如果你希望等到整个视图都重绘完毕，可以在 updated 里使用 vm.\$nextTick：
 
-     ```javascript
-     updated: function() {
-       this.$nextTick(function() {
-      // Code that will run only after the entire view has been re-rendered
-       })
-     }
-     ```
+       ```javascript
+       updated: function() {
+         this.$nextTick(function() {
+        // Code that will run only after the entire view has been re-rendered
+         })
+       }
+       ```
 
-   - errorCaptured：此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 false 以阻止该错误继续向上传播。
+     - errorCaptured：此钩子会收到三个参数：错误对象、发生错误的组件实例以及一个包含错误来源信息的字符串。此钩子可以返回 false 以阻止该错误继续向上传播。
 
 - ![image text](https://cn.vuejs.org/images/lifecycle.png?_sw-precache=6f2c97f045ba988851b02056c01c8d62)
 
@@ -264,9 +270,7 @@
      - 提供与真实DOM节点所对应的虚拟节点vnode
      - 将虚拟节点vnode与旧虚拟节点oldVnode进行对比，然后更新视图
 
-5. **Computed 计算属性**
-
-6. **数据双向绑定**
+7. **数据双向绑定**
 
    - v-model：表单数据的双向绑定
 
@@ -288,278 +292,280 @@
          - 监听器（Observer）：观察数据，做到时刻清楚数据的任何变化，然后通知视图更新
          - 解析器（Compiler）：观察 UI，做到时刻清楚视图发生的一切交互，然后更新数据
 
-   - **数据双向绑定原理**
+8. **Vue响应式原理**
 
-     - ![image](https://user-gold-cdn.xitu.io/2019/8/16/16c986328e407929?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
+   - ![image](https://user-gold-cdn.xitu.io/2019/8/16/16c986328e407929?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
-     - 采用**数据劫持**结合**发布-订阅模式**的方式，通过**Object.defineProperty()**来劫持各个属性的 setter，getter，在数据变动时发布消息给订阅者。
+   - 采用**数据劫持**结合**发布-订阅模式**的方式，通过**Object.defineProperty()**来劫持各个属性的 setter，getter，在数据变动时发布消息给订阅者。
 
-       - `Object.defineProperty(obj, prop, descriptor)`
+     - `Object.defineProperty(obj, prop, descriptor)`
 
-       ```javascript
-       var obj  = {}; // 目标对象
-       // prop：'name' 需定义或修改的属性的名字
-       // descriptor：目标属性所拥有的特性
-       Object.defineProperty(obj, 'name', {
-         get: function() {
-           console.log('获取了')
-           return val;
-         },
-         set: function (newVal) {
-             console.log('设置了')
+     ```javascript
+     var obj  = {}; // 目标对象
+     // prop：'name' 需定义或修改的属性的名字
+     // descriptor：目标属性所拥有的特性
+     Object.defineProperty(obj, 'name', {
+       get: function() {
+         console.log('获取了')
+         return val;
+       },
+       set: function (newVal) {
+           console.log('设置了')
+     }
+     })
+     
+     obj.name = 'yzg'; / /在给obj设置name属性的时候，触发了set这个方法
+     var val = obj.name;  //在得到obj的name属性，会触发get方法
+     ```
+
+   - 模板编译 Compiler（实现视图到数据的绑定）
+
+     ```javascript
+     class Compile {
+       //vm-->MVVM中传入的第二个参数就是MVVM的实例，即new MVVM()
+       constructor(el, vm) {
+         //传入的可能是 #app或者document.getElementById('app'),所以需要进行判断
+         this.el = this.isElementNode(el) ? el : document.querySelector(el);
+         this.vm = vm;
+         //防止用户输入的既不是“#el”字符串也不是document节点
+         if (this.el) {
+           //如果这个元素能够获取到，我们才开始编译
+           //1.先把真实的DOM移入到内存中（优化性能） -->使用节点碎片 fragment
+           let fragment = this.nodeToFragment(this.el);
+           //2.编译=>提取想要的元素节点（v-model）和文本节点{{}}
+           this.compile(fragment)
+           //3.把编译好的fragment在放回到页面中
+           this.el.appendChild(fragment)
+         }
        }
-       })
-
-       obj.name = 'yzg'; / /在给obj设置name属性的时候，触发了set这个方法
-       var val = obj.name;  //在得到obj的name属性，会触发get方法
-       ```
-
-     - 模板编译 Compiler（实现视图到数据的绑定）
-
-       ```javascript
-       class Compile {
-         //vm-->MVVM中传入的第二个参数就是MVVM的实例，即new MVVM()
-         constructor(el, vm) {
-           //传入的可能是 #app或者document.getElementById('app'),所以需要进行判断
-           this.el = this.isElementNode(el) ? el : document.querySelector(el);
-           this.vm = vm;
-           //防止用户输入的既不是“#el”字符串也不是document节点
-           if (this.el) {
-             //如果这个元素能够获取到，我们才开始编译
-             //1.先把真实的DOM移入到内存中（优化性能） -->使用节点碎片 fragment
-             let fragment = this.nodeToFragment(this.el);
-             //2.编译=>提取想要的元素节点（v-model）和文本节点{{}}
-             this.compile(fragment)
-             //3.把编译好的fragment在放回到页面中
-             this.el.appendChild(fragment)
+     
+       nodeToFragment(el) { //需要将el中的内容全部放入到内存中
+         //文档碎片，不是真正的DOM，是内存中的节点
+         let fragment = document.createDocumentFragment();
+         let firstChild;
+         while (firstChild = el.firstChild) {
+           //将el中的真实节点一个一个的移入到文档碎片中
+           //el.firstChild指文档中的第一个节点，这一个节点里面可能嵌套很多个节点，但是都没关系，都会一次取走
+           fragment.appendChild(firstChild);
+         }
+         return fragment; // 内存中的节点
+       }
+     
+       compile(fragment) {
+         //需要递归
+         let childNodes = fragment.childNodes; //只拿到第一层（父级），拿不到嵌套层的
+         Array.from(childNodes).forEach(node => {
+           if (this.isElementNode(node)) {
+             this.compileElement(node); //这里的需要编译元素
+             //是元素节点，还需要继续深入的检查（如果是元素节点，有可能节点里面会嵌套节点，所以要使用递归）
+             this.compile(node) //因为外层是箭头函数，所以this始终指向Compile实例
+           } else {
+             //是文本节点,这里需要编译文本
+             this.compileText(node)
            }
-         }
-
-         nodeToFragment(el) { //需要将el中的内容全部放入到内存中
-           //文档碎片，不是真正的DOM，是内存中的节点
-           let fragment = document.createDocumentFragment();
-           let firstChild;
-           while (firstChild = el.firstChild) {
-             //将el中的真实节点一个一个的移入到文档碎片中
-             //el.firstChild指文档中的第一个节点，这一个节点里面可能嵌套很多个节点，但是都没关系，都会一次取走
-             fragment.appendChild(firstChild);
-           }
-           return fragment; // 内存中的节点
-         }
-
-         compile(fragment) {
-           //需要递归
-           let childNodes = fragment.childNodes; //只拿到第一层（父级），拿不到嵌套层的
-           Array.from(childNodes).forEach(node => {
-             if (this.isElementNode(node)) {
-               this.compileElement(node); //这里的需要编译元素
-               //是元素节点，还需要继续深入的检查（如果是元素节点，有可能节点里面会嵌套节点，所以要使用递归）
-               this.compile(node) //因为外层是箭头函数，所以this始终指向Compile实例
-             } else {
-               //是文本节点,这里需要编译文本
-               this.compileText(node)
-             }
-           })
-         }
-
-         compileElement(node) {
-           //编译带v-model、v-text等的（取节点的属性）
-           let attrs = node.attributes; //取出当前节点的属性
-           Array.from(attrs).forEach(attr => {
-             //判断属性名字是不是包含v-
-             let attrName = attr.name;
-             if (this.isDirective(attrName)) {
-               //取到对应的值，放到节点中
-               let expr = attr.value;
-               let [, type] = attrName.split('-') //解构赋值
-               //node  this.vm.$data expr  //这里可能有v-model或v-text  还有可能有v-html（这里只处理前两种）
-               CompileUtil[type](node, this.vm, expr)
-             }
-           })
-         }
-
-         compileText(node) {
-           //编译带{{}}
-           let expr = node.textContent; //取文本中的内容
-           let reg = /\{\{([^}]+)\}\}/g;
-           if (reg.test(expr)) {
-             //node this.vm.$data expr
-             CompileUtil['text'](node, this.vm, expr)
-           }
-         }
-
-         //文本更新
-         textUpdater(node, value) {
-           node.textContent = value
-         },
-         //输入框更新
-         modelUpdater(node, value) {
-           node.value = value
-         }
-
-         //数据变化了，应该调用这个watch的callback
-         new Watcher(vm, expr, (newValue) => {
-           //当值变化后，会调用cb将新值传递过来（）
-           updateFn && updateFn(node, this.getVal(vm, expr))
          })
-
        }
-       ```
-
-     - 数据劫持 Observer：对 `data`中的每一个属性值进行监测，只要数据变化了
-
-       ```javascript
-       class Observer {
-         constructor(data) {
-           this.observer(data);
-         }
-
-         observer(data) {
-           //要对这个data数据原有的属性改成set和get的形式
-           if (!data || typeof data !== 'object') {
-             //排除数据不存在或者不是对象的情况
-             return;
+     
+       compileElement(node) {
+         //编译带v-model、v-text等的（取节点的属性）
+         let attrs = node.attributes; //取出当前节点的属性
+         Array.from(attrs).forEach(attr => {
+           //判断属性名字是不是包含v-
+           let attrName = attr.name;
+           if (this.isDirective(attrName)) {
+             //取到对应的值，放到节点中
+             let expr = attr.value;
+             let [, type] = attrName.split('-') //解构赋值
+             //node  this.vm.$data expr  //这里可能有v-model或v-text  还有可能有v-html（这里只处理前两种）
+             CompileUtil[type](node, this.vm, expr)
            }
-
-           //要将数据一一劫持，先获取到data的key和value
-           Object.keys(data).forEach((key) => {
-             //该方法是将对象先转换成数组，再循环
-             //劫持(定义一个函数，数据响应式)
-             this.defineReactive(data, key, data[key]);
-             //深度递归劫持（添加set和get方法）
-             //这里的递归只会为初始的data中的数据进行劫持，如果在defineReactive函数中使用set新增加则不会进行劫持
-             this.observer(data[key]);
-           });
-         }
-
-         //定义响应式
-         defineReactive(obj, key, value) {
-           //在获取某个值的时候，可以在获取或更改值的时候，做一些处理
-           let that = this;
-           let dep = new Dep(); //每个变化的数据都会对应一个数组，这个数组是存放所有更新的操作
-           Object.defineProperty(obj, key, {
-             enumerable: true,
-             configurable: true,
-             get() {
-               // 读取数据时触发
-               // 收集有哪些依赖使用了数据
-               // 当getter被触发时，去通知getter中收集的依赖数据发生了相应变化
-               Dep.target && dep.addSub(Dep.target);
-               return value;
-             },
-             set(newValue) {
-               // 修改数据时触发
-               //当给data属性中设置值的时候，更改获取的属性的值
-               if (newValue !== value) {
-                 // 如果值变化了
-                 console.log(this, 'this'); //这个this指向的是被修改的值
-                 //但是这里的this不是Observer的实例,所以需要在最初保存一下当前this指向
-                 that.observer(newValue); //如果是对象继续劫持
-                 value = newValue;
-                 // 通知数据变化，间接调用`watcher.update()`
-                 dep.notify();
-               }
-             },
-           });
+         })
+       }
+     
+       compileText(node) {
+         //编译带{{}}
+         let expr = node.textContent; //取文本中的内容
+         let reg = /\{\{([^}]+)\}\}/g;
+         if (reg.test(expr)) {
+           //node this.vm.$data expr
+           CompileUtil['text'](node, this.vm, expr)
          }
        }
-       ```
-
-     - 观察者 Watcher：新值和老值进行比对，如果发生变化，就调用更新方法，进行视图的更新
-
-       ```javascript
-       class Watcher {
-         constructor(vm, expr, cb) {
-           this.vm = vm;
-           this.expr = expr;
-           this.cb = cb;
-           //先获取一下旧值this.value = this.get();
-         }
-         getVal(vm, expr) {
-           //获取实例上对应的数据
-           expr = expr.split('.');
-           return expr.reduce((prev, next) => {
-             //vm.$data.a....
-             return prev[next];
-           }, vm.$data);
-         }
-
-         get() {
-           Dep.target = this; //将当前watcher实例放入到tartget中
-           let value = this.getVal(this.vm, this.expr);
-           Dep.target = null;
-           return value;
-         }
-         //对外暴露的方法
-         update() {
-           let newValue = this.getVal(this.vm, this.expr);
-           let oldValue = this.value;
-           if (newValue !== oldValue) {
-             this.cb(newValue); //对应watch的callback
-           }
-         }
+     
+       //文本更新
+       textUpdater(node, value) {
+         node.textContent = value
+       },
+       //输入框更新
+       modelUpdater(node, value) {
+         node.value = value
        }
-       ```
+     
+       //数据变化了，应该调用这个watch的callback
+       new Watcher(vm, expr, (newValue) => {
+         //当值变化后，会调用cb将新值传递过来（）
+         updateFn && updateFn(node, this.getVal(vm, expr))
+       })
+     
+     }
+     ```
 
-       - 发布-订阅模式
+   - 数据劫持 Observer：对 `data`中的每一个属性值进行监测，只要数据变化了
 
-         ```javascript
-         //observer.js
-         /**发布订阅**/
-         // 用来收集依赖(Watcher)、删除依赖和向依赖发送消息等
-         class Dep {
-           constructor() {
-             this.subs = []; //订阅的数组
-           }
-           addSub(watcher) {
-             //添加订阅者
-             this.subs.push(watcher);
-           }
-           removeSub(sub) {
-             remove(this.subs, sub);
-           }
-           notify() {
-             //通知
-             // 一个数据可能有多个订阅者
-             // 当一个数据有变化时，循环依赖列表，通知所有的Watcher
-             this.subs.forEach((watcher) => {
-               watcher.update();
-             });
-           }
+     ```javascript
+     class Observer {
+       constructor(data) {
+         this.observer(data);
+       }
+     
+       observer(data) {
+         //要对这个data数据原有的属性改成set和get的形式
+         if (!data || typeof data !== 'object') {
+           //排除数据不存在或者不是对象的情况
+           return;
          }
-
-         function remove(arr, item) {
-           if (arr.length) {
-             const index = arr.indexOf(item);
-             if (index > -1) {
-               return arr.splice(index, 1);
+     
+         //要将数据一一劫持，先获取到data的key和value
+         Object.keys(data).forEach((key) => {
+           //该方法是将对象先转换成数组，再循环
+           //劫持(定义一个函数，数据响应式)
+           this.defineReactive(data, key, data[key]);
+           //深度递归劫持（添加set和get方法）
+           //这里的递归只会为初始的data中的数据进行劫持，如果在defineReactive函数中使用set新增加则不会进行劫持
+           this.observer(data[key]);
+         });
+       }
+     
+       //定义响应式
+       defineReactive(obj, key, value) {
+         //在获取某个值的时候，可以在获取或更改值的时候，做一些处理
+         let that = this;
+         let dep = new Dep(); //每个变化的数据都会对应一个数组，这个数组是存放所有更新的操作
+         Object.defineProperty(obj, key, {
+           enumerable: true,
+           configurable: true,
+           get() {
+             // 读取数据时触发
+             // 收集有哪些依赖使用了数据
+             // 当getter被触发时，去通知getter中收集的依赖数据发生了相应变化
+             Dep.target && dep.addSub(Dep.target);
+             return value;
+           },
+           set(newValue) {
+             // 修改数据时触发
+             //当给data属性中设置值的时候，更改获取的属性的值
+             if (newValue !== value) {
+               // 如果值变化了
+               console.log(this, 'this'); //这个this指向的是被修改的值
+               //但是这里的this不是Observer的实例,所以需要在最初保存一下当前this指向
+               that.observer(newValue); //如果是对象继续劫持
+               value = newValue;
+               // 通知数据变化，间接调用`watcher.update()`
+               dep.notify();
              }
+           },
+         });
+       }
+     }
+     ```
+
+   - 观察者 Watcher：新值和老值进行比对，如果发生变化，就调用更新方法，进行视图的更新
+
+     ```javascript
+     class Watcher {
+       constructor(vm, expr, cb) {
+         this.vm = vm;
+         this.expr = expr;
+         this.cb = cb;
+         //先获取一下旧值this.value = this.get();
+       }
+       getVal(vm, expr) {
+         //获取实例上对应的数据
+         expr = expr.split('.');
+         return expr.reduce((prev, next) => {
+           //vm.$data.a....
+           return prev[next];
+         }, vm.$data);
+       }
+     
+       get() {
+         Dep.target = this; //将当前watcher实例放入到tartget中
+         let value = this.getVal(this.vm, this.expr);
+         Dep.target = null;
+         return value;
+       }
+       //对外暴露的方法
+       update() {
+         let newValue = this.getVal(this.vm, this.expr);
+         let oldValue = this.value;
+         if (newValue !== oldValue) {
+           this.cb(newValue); //对应watch的callback
+         }
+       }
+     }
+     ```
+
+     - 发布-订阅模式
+
+       ```javascript
+       //observer.js
+       /**发布订阅**/
+       // 用来收集依赖(Watcher)、删除依赖和向依赖发送消息等
+       class Dep {
+         constructor() {
+           this.subs = []; //订阅的数组
+         }
+         addSub(watcher) {
+           //添加订阅者
+           this.subs.push(watcher);
+         }
+         removeSub(sub) {
+           remove(this.subs, sub);
+         }
+         notify() {
+           //通知
+           // 一个数据可能有多个订阅者
+           // 当一个数据有变化时，循环依赖列表，通知所有的Watcher
+           this.subs.forEach((watcher) => {
+             watcher.update();
+           });
+         }
+       }
+       
+       function remove(arr, item) {
+         if (arr.length) {
+           const index = arr.indexOf(item);
+           if (index > -1) {
+             return arr.splice(index, 1);
            }
          }
-         ```
+       }
+       ```
 
-     - 总结
+   - 总结
 
-       - Compile：指令解析，初始化视图，并且订阅数据变化，绑定更新函数
+     - Compile：指令解析，初始化视图，并且订阅数据变化，绑定更新函数
 
-       - Observer：对数据进行劫持，对 data 中的每一个属性值进行监测，**将属性转换成 getter/setter 的形式来追踪并通知数据变化**，其响应式核心是`defineProperty`。
+     - Observer：对数据进行劫持，对 data 中的每一个属性值进行监测，**将属性转换成 getter/setter 的形式来追踪并通知数据变化**，其响应式核心是`defineProperty`。
 
-         - 因为 data 可能是多层嵌套的对象，所以深度递归劫持，设置递归出口，排除数据不存在或者不是对象的情况。但是此处的递归只会为 data 中初始的数据进行劫持，对于新加进来的则不会，因此在为数据添加 set 方法时，也对数据进行劫持
+       - 因为 data 可能是多层嵌套的对象，所以深度递归劫持，设置递归出口，排除数据不存在或者不是对象的情况。但是此处的递归只会为 data 中初始的数据进行劫持，对于新加进来的则不会，因此在为数据添加 set 方法时，也对数据进行劫持
 
-       - Watcher：订阅者，`Compile`和`Observer`的中介点，用来观察数据变化，在接收数据变更的同时，让 Dep 添加当前 Watcher，并及时通知视图进行更新。
+     - Watcher：订阅者，`Compile`和`Observer`的中介点，用来观察数据变化，在接收数据变更的同时，让 Dep 添加当前 Watcher，并及时通知视图进行更新。
 
-         - 数据变更了通知 watcher，然后它再通知其他地方
+       - 数据变更了通知 watcher，然后它再通知其他地方
 
-         - 只有 Watcher 触发的 getter 才会收集依赖，哪个 Watcher 触发了 getter，就把哪个 Watcher 收集到 Dep 中。
+       - 只有 Watcher 触发的 getter 才会收集依赖，哪个 Watcher 触发了 getter，就把哪个 Watcher 收集到 Dep 中。
 
-       - Data、Observer、Dep 和 Watcher 之间的关系 -- _援引自深入浅出 vuejs_
+     - Data、Observer、Dep 和 Watcher 之间的关系 -- _援引自深入浅出 vuejs_
 
-         - Data 通过 Observer 转换成了 getter/setter 的形式来追踪变化。
-         - 当外界通过 Watcher 读取数据时会触发 getter 从而将 watcher 添加到依赖中。
-         - 当数据发生了变化，会触发 getter，从而向 Dep 中的依赖(Watcher)发送通知。
-         - Watcher 收到通知后，会向外界发送通知，变化通知到外界后可能会触发视图更新，也有可能触发用户的某个回调函数等。
+       - Data 通过 Observer 转换成了 getter/setter 的形式来追踪变化。
+       - 当外界通过 Watcher 读取数据时会触发 getter 从而将 watcher 添加到依赖中。
+       - 当数据发生了变化，会触发 getter，从而向 Dep 中的依赖(Watcher)发送通知。
+       - Watcher 收到通知后，会向外界发送通知，变化通知到外界后可能会触发视图更新，也有可能触发用户的某个回调函数等。
 
-7. **v-if 和 v-show**
+9. **Computed 和Watch的区别**
+
+10. **v-if 和 v-show**
 
    - **v-if** 用于条件性地渲染一块内容。这块内容只会在指令的表达式返回 truethy 值的时候被渲染
    - **v-show** 用于根据条件展示元素
@@ -571,71 +577,71 @@
      - 一般来说 v-if 有更高的切换开销，而 v-show 有更高的初始渲染开销
      - 当显示与隐藏切换频率高，用 v-show，只有一次切换: v-if
 
-8. **如何让 CSS 只在当前组件中起作用**
+11. **如何让 CSS 只在当前组件中起作用**
 
-   - 在组件中的 `style` 前面加上 `scoped`
+    - 在组件中的 `style` 前面加上 `scoped`
 
-     ```html
-     <style scoped>
-       @media (min-width: 250px) {
-         .list-container:hover {
-           background: orange;
-         }
-       }
-     </style>
-     ```
+      ```html
+      <style scoped>
+        @media (min-width: 250px) {
+          .list-container:hover {
+            background: orange;
+          }
+        }
+      </style>
+      ```
 
-     这个可选 `scoped` attribute 会自动添加一个唯一的 attribute (比如 `data-v-21e5b78`) 为组件内 CSS 指定作用域，编译的时候 `.list-container:hover` 会被编译成类似 `.list-container[data-v-21e5b78]:hover`
+      这个可选 `scoped` attribute 会自动添加一个唯一的 attribute (比如 `data-v-21e5b78`) 为组件内 CSS 指定作用域，编译的时候 `.list-container:hover` 会被编译成类似 `.list-container[data-v-21e5b78]:hover`
 
-9. **\<keep-alive>\</keep-alive>的作用是什么**
+12. **\<keep-alive>\</keep-alive>的作用是什么**
 
-   - `keep-alive` 是 Vue 内置的一个组件，可以使被包含的组件保留状态，或避免重新渲染
+    - `keep-alive` 是 Vue 内置的一个组件，可以使被包含的组件保留状态，或避免重新渲染
 
-     ```html
-     <!-- 失活的组件将会被缓存！-->
-     <keep-alive>
-       <component v-bind:is="currentTabComponent"></component>
-     </keep-alive>
-     ```
+      ```html
+      <!-- 失活的组件将会被缓存！-->
+      <keep-alive>
+        <component v-bind:is="currentTabComponent"></component>
+      </keep-alive>
+      ```
 
-   - **Props**：
+    - **Props**：
 
-     - `include` - 字符串或正则表达式。只有名称匹配的组件会被缓存。
+      - `include` - 字符串或正则表达式。只有名称匹配的组件会被缓存。
 
-     - `exclude` - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。
+      - `exclude` - 字符串或正则表达式。任何名称匹配的组件都不会被缓存。
 
-     - `max` - 数字。最多可以缓存多少组件实例。
+      - `max` - 数字。最多可以缓存多少组件实例。
 
-       ```html
-       <!-- 逗号分隔字符串 -->
-       <keep-alive include="a,b">
-         <component :is="view"></component>
-       </keep-alive>
+        ```html
+        <!-- 逗号分隔字符串 -->
+        <keep-alive include="a,b">
+          <component :is="view"></component>
+        </keep-alive>
 
-       <!-- 正则表达式 (使用 `v-bind`) -->
-       <keep-alive :include="/a|b/">
-         <component :is="view"></component>
-       </keep-alive>
+        <!-- 正则表达式 (使用 `v-bind`) -->
+        <keep-alive :include="/a|b/">
+          <component :is="view"></component>
+        </keep-alive>
 
-       <!-- 数组 (使用 `v-bind`) -->
-       <keep-alive :include="['a', 'b']">
-         <component :is="view"></component>
-       </keep-alive>
+        <!-- 数组 (使用 `v-bind`) -->
+        <keep-alive :include="['a', 'b']">
+          <component :is="view"></component>
+        </keep-alive>
 
-       <keep-alive :max="10">
-         <component :is="view"></component>
-       </keep-alive>
-       ```
+        <keep-alive :max="10">
+          <component :is="view"></component>
+        </keep-alive>
+        ```
 
-   - `<keep-alive>` 不会在函数式组件中正常工作，因为它们没有缓存实例。
+    - `<keep-alive>` 不会在函数式组件中正常工作，因为它们没有缓存实例。
 
-10. **如何获取 dom**
+13. **如何获取 dom**
 
     - `ref = "domName"`
 
       `this.$refs.domName`
 
-11. **几种 vue 当中的指令和它的用法**
+14. **几种 vue 当中的指令和它的用法**
 
     | 指令      | 描述                                                                                                                                                           |
     | --------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -689,7 +695,7 @@
       - `.number`- 输入字符串转为有效的数字
       - `.trim` - 输入首尾空格过滤
 
-12. **为什么组件 data 必须是函数**
+15. **为什么组件 data 必须是函数**
 
     > 为什么组件中的 data 必须是一个函数，然后 return 一个对象，而 new Vue 实例里，data 可以直接是一个对象？
 
@@ -697,7 +703,7 @@
     - 如果组件中 data 选项是一个函数，那么每个实例可以维护一份被返回对象的独立的拷贝，组件实例之间的 data 属性值不会互相影响；
     - new Vue 的实例，是不会被复用的，因此不存在引用对象的问题。
 
-13. **vue-loader**
+16. **vue-loader**
 
     - vue-loader 是基于 webpack 的一个 loader，解析和转换.vue 文件，提取出其中的逻辑代码 script、样式代码 style、以及 HTML 模板 template，再分别把它们交给对应的 loader 去处理，核心的作用，就是提取。
 
@@ -738,7 +744,7 @@
           }
           ```
 
-14. **为什么使用 key**
+17. **为什么使用 key**
 
     - 作用：主要用在 Vue 的虚拟 DOM 算法( `Diff`)，在复杂的列表渲染中快速准确的找到与`newVnode`相对应的`oldVnode`，提升`diff`效率。（相当于给每个节点一个唯一标识）
 
@@ -815,7 +821,7 @@
       - **建议尽可能在使用 v-for 时提供 key**，除非遍历输出的 DOM 内容非常简单，或者是刻意依赖默认行为以获取性能上的提升。
       - 总结：简单列表的渲染可以不使用`key`或者用数组的`index`作为`key`（效果等同于不带`key`），这种模式下性能最高，但是并不能准确的更新列表项的状态。一旦你需要保存列表项的状态，那么就需要用使用唯一的`key`用来准确的定位每一个列表项以及复用其自身的状态，而大部分情况下列表组件都有自己的状态。
 
-15. **创建组件**
+18. **创建组件**
 
     - 全局注册
     - 局部注册
@@ -829,7 +835,7 @@
           - 准备好组件的数据输出，即组件逻辑，做好要暴露出来的方法
           - 封装完毕可直接调用
 
-16. **Vue Cli 项目中 src 目录每个文件夹和文件的用法**
+19. **Vue Cli 项目中 src 目录每个文件夹和文件的用法**
 
     - `assets` 文件夹是放静态资源；
     - `components` 是放组件；
@@ -837,21 +843,19 @@
     - `app.vue` 是一个应用主组件；
     - `main.js` 是入口文件。
 
-17. **分别简述 computed 和 watch 的使用场景**
+20. **computed 和 watch **
 
-    - `computed`计算属性：类似于过滤器，对绑定到视图的数据进行处理，并监听变化进而执行对应的方法
+    - **`computed`计算属性**：类似于过滤器，对绑定到视图的数据进行处理，并监听变化进而执行对应的方法
 
-      - 使用场景：当一个属性受多个属性影响的时候
-
-        - eg：购物车商品结算的时候
+      - 使用场景：**当一个属性受多个属性影响的时候**。eg：购物车商品结算的时候
 
       - 作用：减少模板中的计算逻辑；**计算属性的结果会被缓存**；依赖固定的数据类型
 
       - 注意：
 
-        - 计算属性是基于它们的依赖进行缓存的，只有相关的依赖发生改变时才会重新求值。只要相关的依赖未改变，只会返回之前的结果，不会执行函数。
+        - 计算属性是**基于它们的依赖进行缓存的，只有相关的依赖发生改变时才会重新求值**。只要相关的依赖未改变，只会返回之前的结果，不会执行函数。
 
-        - computed 依赖监控自己定义的变量，不能计算已经在 data 里面定义过的值，该变量在 computed 里面定义，然后可以在页面上进行数据绑定
+        - computed **依赖监控自己定义的变量，不能计算已经在 data 里面定义过的值**，该变量在 computed 里面定义，然后**可以在页面上进行数据绑定**
 
         - 比较适合对多个变量或者对象进行处理后返回一个结果值，也就是数多个变量中的某一个值发生了变化则我们监控的这个值也就会发生变化
 
@@ -864,7 +868,7 @@
               <label>姓 名：<input type="text" placeholder="请输入姓名" v-model="fullName"></label>
           </div>
       </template>
-
+      
       <script>
           export default {
               name: "ComputedAndWatch",
@@ -894,13 +898,12 @@
 
     - `watch` 侦听属性：是一个侦听的动作，用来观察和响应 Vue 实例上的数据变动
 
-      - 使用场景：当一条数据影响多条数据的时候
-        - eg：搜索数据
+      - 使用场景：当一条数据影响多条数据的时候。eg：搜索数据
       - 作用：
-        - 监控 vue 实例的变化，监控的变量必须在 data 里面声明才可以
+        - 监控 vue 实例的变化，**监控的变量必须在 data 里面声明**才可以
         - 监控一个变量或者一个对象，但是只能监控整个对象或单个变量
         - 依赖于固定的数据类型
-      - watch 选项允许我们执行异步操作 ，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态。这些都是计算属性无法做到的
+      - **watch 选项允许我们执行异步操作 ，限制我们执行该操作的频率，并在我们得到最终结果前，设置中间状态**。这些都是计算属性无法做到的
 
       - 注意：通过 vm 对象的\$watch()或 watch 配置来监视指定的属性，当属性变化时，回调函数自动调用，在函数内部进行计算。watch 不能双向的绑定值
 
@@ -956,41 +959,40 @@
       ```
 
       - 区别
-        - 相同：`computed`和`watch`都起到监听/依赖一个数据，并进行处理的作用
-        - 不同：computed 主要用于对同步数据的处理，watch 则主要用于观测某个值的变化去完成一段开销较大的复杂业务逻辑。
-          - 能用 computed 的时候优先用 computed，避免了多个数据影响其中某个数据时多次调用 watch 的尴尬情况。
+        - 相同：`computed`和`watch`**都起到监听/依赖一个数据，并进行处理的作用**
+        - 不同：**computed 主要用于对同步数据的处理，watch 则主要用于观测某个值的变化去完成一段开销较大的复杂业务逻辑**。能用 computed 的时候优先用 computed，避免了多个数据影响其中某个数据时多次调用 watch 的尴尬情况。
 
-18. **\$nextTick 的使用**
+21. **\$nextTick 的使用**
 
     - vm.\$nextTick([callback])
     - 当你修改了`data` 的值然后马上获取这个 `dom` 元素的值，是不能获取到更新后的值，`$nextTick`将回调延迟到下次 DOM 更新循环之后执行。在修改数据之后立即使用它，然后等待 DOM 更新。它跟全局方法 `Vue.nextTick` 一样，不同的是回调的 `this` 自动绑定到调用它的实例上
 
-19. **渐进式框架的理解**
+22. **渐进式框架的理解**
 
     - 渐进式代表的含义：没有多做职责之外的事；把框架分层
       - 视图层渲染 -> 组建机制 -> 路由机制 -> 状态管理 -> 构建工具
     - 主张最少，可以根据不同的需求选择不同的层级
     - Vue.js 只提供了 vue-cli 生态中最核心的**组件系统** 和 **双向数据绑定（也叫数据驱动）**
 
-20. **`Vue` 的两个核心点**
+23. **`Vue` 的两个核心点**
 
     - **数据驱动（双向数据绑定）**：MVVM，保证数据和视图的一致性
     - **组件系统**：应用类 UI 可以看作全部是由组件树构成的。组件化开发可以很好地降低数据之间的耦合度。将常用的代码封装成组件之后，就能高度的复用，提高代码的可重用性。一个页面/模块可以由多个组件所组成。
 
-21. **单页面应用和多页面应用区别及优缺点**
+24. **单页面应用和多页面应用区别及优缺点**
 
     - 单页面应用：只有一个主页面的应用，浏览器一开始要加载所有必须的 html, js, css。所有的页面内容都包含在这个所谓的主页面中。但在写的时候，还是会分开写（页面片段），然后在交互的时候由路由程序动态载入，单页面的页面跳转，仅刷新局部资源。多应用于 pc 端。
       - 优点：用户体验好，快，内容的改变不需要重新加载整个页面，对服务器压力较小，前后端分离，页面效果会比较炫酷
       - 缺点：不利于 SEO；导航不可用，如果一定要导航需要自行实现前进、后退（由于是单页面不能用浏览器的前进后退功能，所以需要自己建立堆栈管理）；初次加载时耗时多；页面复杂度提高很多
     - 多页面应用：一个应用中有多个页面，页面跳转时是整页刷新
 
-22. **v-if 和 v-for 的优先级**
+25. **v-if 和 v-for 的优先级**
 
     - 当 `v-if` 与 `v-for` 一起使用时，**`v-for` 具有比 `v-if` 更高的优先级**，这意味着 `v-if` 将分别重复运行于每个 `v-for` 循环中。
     - 不推荐 `v-if` 和 `v-for` 同时使用。
     - 如果 `v-if` 和 `v-for` 一起用的话，vue 中会自动提示 `v-if` 应该放到外层去。
 
-23. **assets 和 static 的区别**
+26. **assets 和 static 的区别**
 
     - 相同点：`assets` 和 `static` 两个都是存放静态资源文件。项目中所需要的资源文件图片，字体图标，样式文件等都可以放在这两个文件下。
     - 区别：
@@ -998,16 +1000,16 @@
       - `static` 中放置的静态资源文件就不会要走打包压缩格式化等流程，而是直接进入打包好的目录，直接上传至服务器。因为避免了压缩直接进行上传，在打包时会提高一定的效率，但是 `static` 中的资源文件由于没有进行压缩等操作，所以文件的体积也就相对于 `assets` 中打包后的文件提交较大点。在服务器中就会占据更大的空间
     - 建议：将项目中 `template`需要的样式文件 js 文件等都可以放置在 `assets` 中，走打包这一流程。减少体积。而项目中引入的第三方的资源文件如`iconfoont.css` 等文件可以放置在 `static` 中，因为这些引入的第三方文件已经经过处理，我们不再需要处理，直接上传
 
-24. **Vue 和 jQuery 的区别**
+27. **Vue 和 jQuery 的区别**
 
     - jQuery 是使用选择器（ `$` ）选取 DOM 对象，对其进行赋值、取值、事件绑定等操作，其实和原生的 HTML 的区别只在于可以更方便的选取和操作 DOM 对象，而数据和界面是在一起的。比如需要获取 label 标签的内容：`$("lable").val();` ,它还是依赖 DOM 元素的值。
     - Vue 则是通过 Vue 对象将数据和 View 完全分离开来了。对数据进行操作不再需要引用相应的 DOM 对象，可以说数据和 View 是分离的，他们通过 Vue 对象这个 vm 实现相互的绑定。这就是传说中的 MVVM。
 
-25. **SPA 首屏加载慢如何解决**
+28. **SPA 首屏加载慢如何解决**
 
     - 安装动态懒加载所需插件；使用 CDN 资源；UI 组件库按需加载；路由懒加载；开启`gzip`压缩，生成压缩文件。（视具体情况而定）
 
-26. **`delete`、splice 和`Vue.delete`删除数组的区别**
+29. **`delete`、splice 和`Vue.delete`删除数组的区别**
 
     - `delete` 只是被删除的元素变成了 `empty/undefined` 其他的元素的键值还是不变。
 
@@ -1027,7 +1029,7 @@
       this.$delete(c, 1); // c: [1, 3, 4]
       ```
 
-27. **`vue`初始化页面闪动问题**
+30. **`vue`初始化页面闪动问题**
 
     - 将根结构默认设为 display: none，然后在根结构上添加属性 :style="display:'inline'"
 
@@ -1052,11 +1054,11 @@
       <span>{{message}}</span>
       ```
 
-28. **`Vue`更新数组时触发视图更新的方法**
+31. **`Vue`更新数组时触发视图更新的方法**
 
     - push()；pop()；shift()；unshift()；splice()；sort()；reverse()
 
-29. **`Vue`修改打包后静态资源修改路径**
+32. **`Vue`修改打包后静态资源修改路径**
 
     - CLI2：将 config/index.js 里的 `assetsPublicPath` 的值改为 `./`
 
@@ -1076,29 +1078,30 @@
       }
       ```
 
-30. `Vue slot`
+33. `Vue slot`
 
-31. **MVC 与 MVVM**
+34. **MVC 与 MVVM**
 
 > 参考链接
 >
 > 1. https://cn.vuejs.org/v2/guide/
-> 2. https://www.cnblogs.com/pangwl/p/7979169.html
-> 3. https://juejin.im/post/6844903812474339341
-> 4. https://blog.csdn.net/xiasohuai/article/details/84788708
-> 5. https://juejin.im/post/6844903917243858951
-> 6. https://juejin.im/post/6844903942254510087#heading-4
-> 7. https://juejin.im/post/6844903917243858951#heading-6
-> 8. https://juejin.im/post/6844903956898447367
-> 9. https://juejin.im/post/6844904160396050440
-> 10. https://vue-loader-v14.vuejs.org/zh-cn/
-> 11. https://mp.weixin.qq.com/s/_P0-uCz11hvFIwdLQ1mL-Q
-> 12. https://www.cnblogs.com/Sherlock09/p/11023593.html
-> 13. https://juejin.im/post/6844904080540712967#heading-1
-> 14. https://juejin.im/post/6844903736356126734
-> 15. https://cn.vuejs.org/v2/guide/components-props.html#header
-> 16. https://juejin.im/post/6844903736356126734
-> 17. https://cn.vuejs.org/v2/api/#provide-inject
-> 18. https://juejin.im/post/6844903812474339341
-> 19. https://juejin.im/post/6844903878538821640
-> 20. https://www.jianshu.com/p/1b75a3623d0d
+> 2. 《深入浅出Vue.js》刘博文
+> 3. https://www.cnblogs.com/pangwl/p/7979169.html
+> 4. https://juejin.im/post/6844903812474339341
+> 5. https://blog.csdn.net/xiasohuai/article/details/84788708
+> 6. https://juejin.im/post/6844903917243858951
+> 7. https://juejin.im/post/6844903942254510087#heading-4
+> 8. https://juejin.im/post/6844903917243858951#heading-6
+> 9. https://juejin.im/post/6844903956898447367
+> 10. https://juejin.im/post/6844904160396050440
+> 11. https://vue-loader-v14.vuejs.org/zh-cn/
+> 12. https://mp.weixin.qq.com/s/_P0-uCz11hvFIwdLQ1mL-Q
+> 13. https://www.cnblogs.com/Sherlock09/p/11023593.html
+> 14. https://juejin.im/post/6844904080540712967#heading-1
+> 15. https://juejin.im/post/6844903736356126734
+> 16. https://cn.vuejs.org/v2/guide/components-props.html#header
+> 17. https://juejin.im/post/6844903736356126734
+> 18. https://cn.vuejs.org/v2/api/#provide-inject
+> 19. https://juejin.im/post/6844903812474339341
+> 20. https://juejin.im/post/6844903878538821640
+> 21. https://www.jianshu.com/p/1b75a3623d0d
