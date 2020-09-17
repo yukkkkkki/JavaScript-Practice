@@ -29,282 +29,278 @@
     - 其他对象：Function、Arguments、Math、Date、RegExp、Error
     - 新类型：Symbol
 
-2.  **操作符**
+2. **操作符**
 
-    - 位操作符
+   - 位操作符
 
-      - ~(按位非)
-      - &(按位与)
-      - |(按位或)
-      - ^(按位异或)
-      - <<(左移)
-      - ">>" (有符号右移)(保留正负号标记)
-      - ">>>" (无符号右移)(会把负数的二进制码当成正数的二进制码)
+     - ~(按位非)，&(按位与)，|(按位或)，^(按位异或)，<<(左移)，">>" (有符号右移)(保留正负号标记)，">>>" (无符号右移)(会把负数的二进制码当成正数的二进制码)
+   - 加性操作符(操作数存在字符串的情况)
 
-    - 加性操作符(操作数存在字符串的情况)
+     - 加法
 
-      - 加法
+       - **两个操作数都是字符串，则字符串拼接**
+       - **只有一个操作数是字符串，则另一个字符转换为字符串，再字符串拼接**
+     - 减法
+       - **若一个操作数是字符串、布尔值、null 或者 undefined，则后台先将其隐式转换(Number)成数值，然后再计算**
+       - 若**一个操作数是对象，则调用对象的 valueOf()方法取得该对象的值，然后再计算**
+   - 关系运算符
 
-        - 两个操作数都是字符串，则字符串拼接
-        - 只有一个操作数是字符串，则另一个字符转换为字符串，再字符串拼接
+     - 若两个操作数都是字符串，则比较两个字符串对应的字符编码值
+3.  **强制转换、显式转换和隐式转换**
 
-      - 减法
-        - 若一个操作数是字符串、布尔值、null 或者 undefined，则后台先将其隐式转换(Number)成数值，然后再计算
-        - 若一个操作数是对象，则调用对象的 valueOf()方法取得该对象的值，然后再计算
+    - 强制类型转换：Boolean()、 Number()、String()、parseInt()、parseFloat()、JSON.parse()、JSON.stringify()
+    - 隐式类型转换：+、-、!!
 
-    - 关系运算符
-      - 若两个操作数都是字符串，则比较两个字符串对应的字符编码值
+4. **JavaScript 的基本规范**
 
-3.  **JavaScript 的基本规范**
+   - 不要在同一行声明多个变量
+   - 使用 ===或!==来比较 true/false 或者数值
+   - switch 必须带有 default 分支
+   - 函数应该有返回值
+   - for if else 必须使用大括号
+   - 语句结束加分号
+   - 命名要有意义，使用驼峰命名法
 
-    - 不要在同一行声明多个变量
-    - 使用 ===或!==来比较 true/false 或者数值
-    - switch 必须带有 default 分支
-    - 函数应该有返回值
-    - for if else 必须使用大括号
-    - 语句结束加分号
-    - 命名要有意义，使用驼峰命名法
+5. **typeof 和 instanceof 原理**
 
-4.  **typeof 和 instanceof 原理**
+   - typeof 原理：不同的对象在底层都表示为二进制，在 Javascript 中二进制前（低）三位存储其类型信息。
 
-    - typeof 原理：不同的对象在底层都表示为二进制，在 Javascript 中二进制前（低）三位存储其类型信息。
+     - 000: 对象
+     - 010: 浮点数
+     - 100：字符串
+     - 110： 布尔
+     - 1： 整数
 
-      - 000: 对象
-      - 010: 浮点数
-      - 100：字符串
-      - 110： 布尔
-      - 1： 整数
+     所以 typeof null === object
 
-      所以 typeof null === object
+   - instanceof 原理：用来比较一个对象是否为某一个构造函数的实例(注：只能用于对象，不适用原始类型的值)。即，能在实例的**原型对象链**中找到该构造函数的 **prototype**属性所指向的**原型对象**，就返回**true**。
 
-    - instanceof 原理：用来比较一个对象是否为某一个构造函数的实例(注：只能用于对象，不适用原始类型的值)。即，能在实例的**原型对象链**中找到该构造函数的 **prototype**属性所指向的**原型对象**，就返回**true**。
+     - **instanceof 的语法：**
 
-      - **instanceof 的语法：**
+     ```javascript
+     object instanceof constructor;
+     // 等同于
+     constructor.prototype.isPrototypeOf(object);
+     ```
 
-      ```javascript
-      object instanceof constructor;
-      // 等同于
-      constructor.prototype.isPrototypeOf(object);
-      ```
+     - **instanceof 的代码实现**
 
-      - **instanceof 的代码实现**
+     ```javascript
+     function instanceof(L, R) {
+       //L 是表达式左边，R 是表达式右边
+       const O = R.prototype;
+       L = L.**proto**;
+       while (true) {
+         if (L === null) return false;
+         // 这里重点：当 L 严格等于 0 时，返回 true
+         if (L === O) return true;
+         L = L.**proto**;
+       }
+     }
+     ```
 
-      ```javascript
-      function instanceof(L, R) {
-        //L 是表达式左边，R 是表达式右边
-        const O = R.prototype;
-        L = L.**proto**;
-        while (true) {
-          if (L === null) return false;
-          // 这里重点：当 L 严格等于 0 时，返回 true
-          if (L === O) return true;
-          L = L.**proto**;
-        }
-      }
-      ```
+     - **instanceof 原理**：检测 constructor.prototype 是否存在于参数 object 的 原型链上。instanceof 查找的过程中会遍历 object 的原型链，直到找到 constructor 的 prototype ,如果查找失败，则会返回 false，告诉我们，object 并非是 constructor 的实例
 
-      - **instanceof 原理**：检测 constructor.prototype 是否存在于参数 object 的 原型链上。instanceof 查找的过程中会遍历 object 的原型链，直到找到 constructor 的 prototype ,如果查找失败，则会返回 false，告诉我们，object 并非是 constructor 的实例
+6. **JavaScript 中判断对象类型的几种方法**
 
-5.  **JavaScript 中判断对象类型的几种方法**
+   - typeof
 
-    - typeof
+   - instanceo f
 
-    - instanceOf
+   - constructor 属性：JavaScript 中，每个对象都有一个 constructor 属性，它引用了初始化该对象的构造函数，常用于判断未知对象的类型。如给定一个求知的值，通过 typeof 运算符来判断它是基本数据类型的值还是对象。如果是对象，就可以使用 constructor 属性来判断其类型
 
-    - constructor 属性：JavaScript 中，每个对象都有一个 constructor 属性，它引用了初始化该对象的构造函数，常用于判断未知对象的类型。如给定一个求知的值，通过 typeof 运算符来判断它是基本数据类型的值还是对象。如果是对象，就可以使用 constructor 属性来判断其类型
+   - Object.prototype.toString.call()
 
-    - Object.prototype.toString.call()
+     - 目前为止发现的判断一个对象类型的最好的办法
 
-      - 目前为止发现的判断一个对象类型的最好的办法
+     ```javascript
+     const b = [];
+     Object.prototype.toString.call(b); // "[object Array]"
 
-      ```javascript
-      const b = [];
-      Object.prototype.toString.call(b); // "[object Array]"
+     const c = {};
+     Object.prototype.toString.call(c); // "[object Object]"
 
-      const c = {};
-      Object.prototype.toString.call(c); // "[object Object]"
+     const d = new Date();
+     Object.prototype.toString.call(d); // "[object Date]"
 
-      const d = new Date();
-      Object.prototype.toString.call(d); // "[object Date]"
+     const e = new RegExp();
+     Object.prototype.toString.call(e); // "[object RegExp]"
+     ```
 
-      const e = new RegExp();
-      Object.prototype.toString.call(e); // "[object RegExp]"
-      ```
+7. **JavaScript 中函数调用的几种方法**
 
-6.  **JavaScript 中函数调用的几种方法**
+   - **函数调用**：this 指向 window，返回值由 return 决定
+
+     ```javascript
+     function f1() {
+       console.log(this);
+     }
+     f1();
+     ```
 
-    - **函数调用**：this 指向 window，返回值由 return 决定
+   - **方法调用**(函数作为方法调用)：this 指向方法的调用者 ，返回值由 return 决定
 
-      ```javascript
-      function f1() {
-        console.log(this);
-      }
-      f1();
-      ```
+     ```javascript
+     var obj = {
+       hello: function () {
+         return 'hello,' + this.username;
+       },
+       username: 'selena',
+     };
+     obj.hello(); // "hello, selena"
+     ```
 
-    - **方法调用**(函数作为方法调用)：this 指向方法的调用者 ，返回值由 return 决定
+     - 上述 hello()直接调用的时候，this 的指向就成了问题。在这种情况下，this 往往被指向全局对象(严格模式下 this 指向 undefined)
 
-      ```javascript
-      var obj = {
-        hello: function () {
-          return 'hello,' + this.username;
-        },
-        username: 'selena',
-      };
-      obj.hello(); // "hello, selena"
-      ```
+   - **构造函数调用**：this 指向当前构造函数构建的对象
 
-      - 上述 hello()直接调用的时候，this 的指向就成了问题。在这种情况下，this 往往被指向全局对象(严格模式下 this 指向 undefined)
+     - 返回值有以下几种情况
 
-    - **构造函数调用**：this 指向当前构造函数构建的对象
+       - 没有返回值，返回 this
 
-      - 返回值有以下几种情况
+         ```javascript
+         function Person() {
+           this.age = 20;
+           this.name = 'zs';
+           console.log(this);
+         }
+         var p1 = new Person(); // {age: 20, name:"zs"}
+         ```
 
-        - 没有返回值，返回 this
+       - return 了一个基本数据类型
 
-          ```javascript
-          function Person() {
-            this.age = 20;
-            this.name = 'zs';
-            console.log(this);
-          }
-          var p1 = new Person(); // {age: 20, name:"zs"}
-          ```
+         ```javascript
+         function P2() {
+           this.age = 18;
+           return 'abc';
+         }
 
-        - return 了一个基本数据类型
+         var p2 = new P2();
+         console.log(p2); //{age: 18}
+         ```
 
-          ```javascript
-          function P2() {
-            this.age = 18;
-            return 'abc';
-          }
+       - 返回了一个复杂数据类型
 
-          var p2 = new P2();
-          console.log(p2); //{age: 18}
-          ```
+         ```javascript
+         function P3() {
+           this.age = 10;
+           return {};
+         }
 
-        - 返回了一个复杂数据类型
+         var p3 = new P3();
+         console.log(p3); //Object {}
+         console.log(p3.age); //undefined
 
-          ```javascript
-          function P3() {
-            this.age = 10;
-            return {};
-          }
+         function P3() {
+           this.age = 10;
+           return {};
+         }
 
-          var p3 = new P3();
-          console.log(p3); //Object {}
-          console.log(p3.age); //undefined
+         var p3 = new P3();
+         console.log(p3); //Object {}
+         console.log(p3.age); //undefined
+         ```
 
-          function P3() {
-            this.age = 10;
-            return {};
-          }
+   - **上下文调用**
 
-          var p3 = new P3();
-          console.log(p3); //Object {}
-          console.log(p3.age); //undefined
-          ```
+     - call()、apply()
 
-    - **上下文调用**
+     - this 指向
 
-      - call()、apply()
+       - 传递一个 null/undefined -> window
+       - 传递一个数字/字符串/布尔值 -> 对应的基本包装类型的对象
+       - 传递一个对象 -> 指向该对象
 
-      - this 指向
+     - 返回值：由 return 语句决定
 
-        - 传递一个 null/undefined -> window
-        - 传递一个数字/字符串/布尔值 -> 对应的基本包装类型的对象
-        - 传递一个对象 -> 指向该对象
+       ```javascript
+       f1.call(null);
+       f1.call(undefined);
+       f1.call('abc'); // String { "abc" }
+       f1.call(true); // Boolean { true }
+       f1.call(1); // Number { 1 }
+       ```
 
-      - 返回值：由 return 语句决定
+8. **for-in 和 for-of**
 
-        ```javascript
-        f1.call(null);
-        f1.call(undefined);
-        f1.call('abc'); // String { "abc" }
-        f1.call(true); // Boolean { true }
-        f1.call(1); // Number { 1 }
-        ```
+   - for-in：循环一个指定的变量来循环一个对象所有可枚举的属性
 
-7.  **for-in 和 for-of**
+     ```javascript
+     for (variable in object) {
+       statements;
+     }
+     ```
 
-    - for-in：循环一个指定的变量来循环一个对象所有可枚举的属性
+     - 注：
 
-      ```javascript
-      for (variable in object) {
-        statements;
-      }
-      ```
+       - 返回的除了数字索引外，还有自己自定义的属性名字
+       - 通过 for-in 循环输出的属性名的顺序是不可预测的
+       - 为遍历对象属性而构建，不建议与数组一起使用
 
-      - 注：
+     - for-in 遍历数组会出现的问题：
 
-        - 返回的除了数字索引外，还有自己自定义的属性名字
-        - 通过 for-in 循环输出的属性名的顺序是不可预测的
-        - 为遍历对象属性而构建，不建议与数组一起使用
+       - index 值 会是字符串（String）类型
+       - 循环不仅会遍历数组元素，还会遍历任意其他自定义添加的属性
+       - 某些情况下，会以随机顺序循环数组
 
-      - for-in 遍历数组会出现的问题：
+   - for-of：循环可迭代对象(Array, Map, Set, arguments 等)，对值的每一个特殊属性调用一次迭代
 
-        - index 值 会是字符串（String）类型
-        - 循环不仅会遍历数组元素，还会遍历任意其他自定义添加的属性
-        - 某些情况下，会以随机顺序循环数组
+     ```javascript
+     for (variable of object) {
+       statements;
+     }
+     ```
 
-    - for-of：循环可迭代对象(Array, Map, Set, arguments 等)，对值的每一个特殊属性调用一次迭代
+   - for-in 和 for-of 的区别：for-in 循环遍历数组只能获得对象的键名，不能获得键值
 
-      ```javascript
-      for (variable of object) {
-        statements;
-      }
-      ```
+   - for-of 循环遍历数组允许遍历获得键值
+     - 无论是 for...in 还是 for...of 都不能遍历出 Symbol 类型的值
+       - 遍历 Symbol 类型的值需要用 Object.getOwnPropertySymbols() 方法
 
-    - for-in 和 for-of 的区别：for-in 循环遍历数组只能获得对象的键名，不能获得键值
+9. **遍历数组**
 
-    - for-of 循环遍历数组允许遍历获得键值
-      - 无论是 for...in 还是 for...of 都不能遍历出 Symbol 类型的值
-        - 遍历 Symbol 类型的值需要用 Object.getOwnPropertySymbols() 方法
+   - every()：每一项都为 true，返回 true
 
-8.  **遍历数组**
+     - `arr.every(callback(element[, index[, array]])[, thisArg])`
 
-    - every()：每一项都为 true，返回 true
+   - some()：至少有一项为 true，返回 true
 
-      - `arr.every(callback(element[, index[, array]])[, thisArg])`
+     - `arr.some(callback(element[, index[, array]])[, thisArg])`
 
-    - some()：至少有一项为 true，返回 true
+   - filter()：创建一个新数组, 其包含通过所提供函数实现的测试的所有元素
 
-      - `arr.some(callback(element[, index[, array]])[, thisArg])`
+     - var newArray = arr.filter(callback(element[, index[, array]])[, thisArg])
 
-    - filter()：创建一个新数组, 其包含通过所提供函数实现的测试的所有元素
+   - forEach()：对数组的每个元素执行一次给定的函数
 
-      - var newArray = arr.filter(callback(element[, index[, array]])[, thisArg])
+     - `arr.forEach(callback(currentValue [, index [, array]])[, thisArg])`
+     - 与 map() 或者 reduce() 不同的是，它总是返回 undefined 值，并且不可链式调用
+     - forEach 不会直接改变调用它的对象，但是那个对象可能会被 callback 函数改变
+     - 除了抛出异常，**无法中止或跳出** forEach()循环
 
-    - forEach()：对数组的每个元素执行一次给定的函数
+   - map()：创建一个新数组，其结果是该数组中的每个元素都调用一次提供的函数后的返回值
 
-      - `arr.forEach(callback(currentValue [, index [, array]])[, thisArg])`
-      - 与 map() 或者 reduce() 不同的是，它总是返回 undefined 值，并且不可链式调用
-      - forEach 不会直接改变调用它的对象，但是那个对象可能会被 callback 函数改变
-      - 除了抛出异常，**无法中止或跳出** forEach()循环
+     ```javascript
+     var new_array = arr.map(function callback(currentValue [, index[, array]]) {
+       // Return element for new_array
+     }[, thisArg]);
+     ```
 
-    - map()：创建一个新数组，其结果是该数组中的每个元素都调用一次提供的函数后的返回值
+     - 不修改调用它的原数组本身（当然可以在 callback 执行时改变原数组）
+     - 调用 map 方法之后追加的数组元素不会被 callback 访问
 
-      ```javascript
-      var new_array = arr.map(function callback(currentValue [, index[, array]]) {
-        // Return element for new_array
-      }[, thisArg]);
-      ```
+   - reduce()：对数组中的每个元素执行一个由您提供的 reducer 函数(升序执行)，将其结果汇总为单个返回值
 
-      - 不修改调用它的原数组本身（当然可以在 callback 执行时改变原数组）
-      - 调用 map 方法之后追加的数组元素不会被 callback 访问
+     - `arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])`
 
-    - reduce()：对数组中的每个元素执行一个由您提供的 reducer 函数(升序执行)，将其结果汇总为单个返回值
+       - accumulator：累计器累计回调的返回值; 是上一次调用回调时返回的累积值，或 initialValue
+       - currentValue：数组中正在处理的元素。
+       - index：数组中正在处理的当前元素的索引。如果提供了 initialValue，则起始索引号为 0，否则从 1 起始
+       - array：调用 reduce()的数组
 
-      - `arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])`
+   - reduceRight()：接受一个函数作为累加器（accumulator）和数组的每个值（从右到左）将其减少为单个值
 
-        - accumulator：累计器累计回调的返回值; 是上一次调用回调时返回的累积值，或 initialValue
-        - currentValue：数组中正在处理的元素。
-        - index：数组中正在处理的当前元素的索引。如果提供了 initialValue，则起始索引号为 0，否则从 1 起始
-        - array：调用 reduce()的数组
-
-    - reduceRight()：接受一个函数作为累加器（accumulator）和数组的每个值（从右到左）将其减少为单个值
-
-9.  **创建对象方式**
+10. **创建对象方式**
 
     - **工厂模式**
 
@@ -488,7 +484,7 @@
 
       - 使用稳妥构造函数模式创建的对象与构造函数之间也没有什么关系，因此 instanceof 操作符对这种对象也没有什么意义
 
-10. **执行上下文**
+11. **执行上下文**
 
     - 定义了变量或函数有权访问的其他数据，决定了他们各自的行为
 
@@ -503,7 +499,7 @@
       - 函数执行上下文
       - eval 执行上下文
 
-11. **作用域 和 作用域链**
+12. **作用域 和 作用域链**
 
     - 作用域指的是一个**变量和函数的作用范围**
 
@@ -527,7 +523,7 @@
       - try-catch 语句的 catch 块
       - with 语句
 
-12. **变量提升 & 函数提升**
+13. **变量提升 & 函数提升**
 
     - 先有声明，后有赋值
 
@@ -553,7 +549,7 @@
 
     - 所有的声明(变量和函数)，都会被"移动"到各自作用域的顶端，这个过程被称为提升
 
-13. **原型链**
+14. **原型链**
 
     - 基本思想：利用原型让一个引用类型继承另一个引用类型的属性和方法。
 
@@ -563,7 +559,7 @@
 
     - 属性修改机制：只会修改实例对象本身的属性，如果不存在，则进行添加该属性，如果需要修改原型的属性时，则可以用`b.prototype.x = function(){...}`，但是这样会造成所有继承于该对象的实例的属性发生改变。
 
-14. **继承**
+15. **继承**
 
     - **原型链继承**
 
@@ -776,7 +772,7 @@
 
       - 子类 extends 父类，然后 constructor 里 super 继承父类
 
-15. **闭包**
+16. **闭包**
 
     - 指**有权访问另一个函数作用域中的变量**的函数。本质是利用了作用域的机制，来达到外部作用域访问内部作用域的目的
 
@@ -858,12 +854,12 @@
 
       - 回调函数：在定时器、事件监听器、ajax 请求、跨窗口通信、Web Workers 或者任何其他的异步(或者同步)任务中，只要用了回调函数，实际上就是在使用闭包(援引自小黄书)。
 
-16. **函数科里化**
+17. **函数科里化**
 
     - 用于创建已经设置好了一个或多个参数的函数
     - 基本方法：使用一个闭包返回一个函数。
 
-17. **对象的拷贝**
+18. **对象的拷贝**
 
     - **浅拷贝**：两个 js 对象指向同一个内存地址，其中一个改变会影响另一个
 
@@ -1107,7 +1103,7 @@
         - **jquery 的\$.extend**
         - **lodash 的\_.cloneDeep**
 
-18. **js 的垃圾回收机制**
+19. **js 的垃圾回收机制**
 
     - 原理：垃圾收集器会按照固定的时间间隔，周期性的找出不再继续使用的变量，然后释放其占用的内存
 
@@ -1125,7 +1121,7 @@
         - 那些还存在标记的变量被视为准备删除的变量
         - 最后垃圾收集器会执行最后一步内存清除的工作，销毁那些带标记的值并回收它们所占用的内存空间
 
-19. **内存泄露**
+20. **内存泄露**
 
     - 内存泄漏指由于疏忽或错误造成程序未能释放已经不再使用的内存。内存泄漏并非指内存在物理上的消失，而是应用程序分配某段内存后，由于设计错误，导致在释放该段内存之前就失去了对该段内存的控制，从而造成了内存的浪费。
 
@@ -1294,7 +1290,7 @@
         - 减少不必要的全局变量，或者生命周期较长的对象，及时对无用的数据进行垃圾回收
         - 避免创建过多的对象 原则：不用了的东西要及时归还
 
-20. **javascript 事件循环机制**
+21. **javascript 事件循环机制**
 
     - JS 一大特点就是单线程，这是为了避免复杂性。单线程就意味着所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时长，后一个任务就不得不一直等着。而主线程完全可以先挂起处于等待中的任务，先运行排在后面的任务，之后再运行挂起的这些任务。于是所有任务就分成了两种：同步任务吗，异步任务。
 
@@ -1362,7 +1358,7 @@
 
     - 微任务队列中创建的宏任务会被添加到当前宏任务队列的尾端，微任务队列中创建的微任务会被添加到微任务队列的尾端，只要微任务队列中还有任务，宏任务队列就只会等待微任务队列执行完毕后再执行
 
-21. **this 的指向**
+22. **this 的指向**
 
     - this 是在函数被调用时发生的绑定，它指向什么**取决于函数的调用位置**
 
@@ -1400,7 +1396,7 @@
 
     - 优先级：new 绑定 > 显式绑定 > 隐式绑定 > 默认绑定
 
-22. **new 运算符的执行过程**
+23. **new 运算符的执行过程**
 
     - 创建(/构造)一个全新的对象
     - 新对象链接到该函数的\[\[prototype\]\]原型
@@ -1413,32 +1409,32 @@
     Base.call(obj);
     ```
 
-23. **改变 this 的指向：call()、apply()、bind()**
+24. **改变 this 的指向：call()、apply()、bind()**
 
     - **call()**
     - **apply()**
     - **bind()**
     - **call()、apply()、bind()的区别**
 
-24. **defineProperty**
+25. **defineProperty**
 
-25. **eval**
+26. **eval**
 
     - 把对应的字符串解析成 JS 代码并运行
     - 应该避免使用 eval，不安全，非常耗性能(2 次，一次解析成 js 语句，一次执行)
 
-26. **V8 线程模式**
+27. **V8 线程模式**
 
-27. **前端模块化**
+28. **前端模块化**
 
     - 有几种规范？
     - commonjs 和 es module 都是怎么实现的？有啥区别？
 
-28. **前端性能优化**
+29. **前端性能优化**
 
-29. **JS 延迟加载的方式**
+30. **JS 延迟加载的方式**
 
-30. **setTimeout 和 setInterval**
+31. **setTimeout 和 setInterval**
 
     - **setTimeout**：到达一定的时间触发一次， 当方法执行完成定时器就立即停止(但是定时器还在,只不过没用了)
 
@@ -1463,7 +1459,7 @@
       }
       ```
 
-31. **函数防抖和函数节流**
+32. **函数防抖和函数节流**
 
     - 函数防抖：触发事件后在规定时间内回调函数只能执行一次，如果在规定时间内又触发了该事件，则会重新开始算规定时间
 
@@ -1603,13 +1599,13 @@
         }
         ```
 
-32. **事件流**
+33. **事件流**
 
     - 事件流描述从页面中接收事件的顺序， 一共有**三个阶段**：捕获阶段 —— 目标阶段 —— 冒泡阶段
     - **事件捕获**：其思想是不太具体的节点应该更早接收到事件，而最具体的节点应该最后接收到事件。其用意在于在事件到达预定目标之前捕获它。
     - **事件冒泡**：事件开始时由最具体的元素接收，然后逐级向上传播到较为不具体的节点
 
-33. **事件委托(代理)**
+34. **事件委托(代理)**
 
     - 是对”事件处理程序“过多问题的解决方案。
 
@@ -1647,13 +1643,13 @@
       </script>
       ```
 
-34. **如何阻止事件冒泡和默认事件**
+35. **如何阻止事件冒泡和默认事件**
 
     - 阻止冒泡：stopPropagation()。ie8 以下：设置事件对象的 cancelBubble 属性为 true
 
     - 阻止默认事件：preventDefault()。ie：设置事件对象的 returnValue 属性为 false
 
-35. **event 对象**
+36. **event 对象**
 
     - 在触发 DOM 上的某个事件时，会产生一个事件对象 event，这个对象中包含着所有与事件有关的信息。包括导致事件的元素、时间的类型以及其它与特定事件相关的信息。比如：
 

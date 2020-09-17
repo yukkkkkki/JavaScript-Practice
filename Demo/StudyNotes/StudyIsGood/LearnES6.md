@@ -17,10 +17,12 @@
    - const：声明常量；块级作用域；const 声明不允许修改绑定，但允许修改值
 
      - 即声明对象时，可以修改对象的属性值
+     
+   - **var、let、const区别的实现原理**
 
 2. **箭头函数**
 
-   - 箭头函数里面根本没有自己的 this，而是引用外层的 this
+   - 箭头函数里面根本**没有自己的 this，而是引用外层的 this**
 
      ```javascript
      var handler = {
@@ -41,9 +43,9 @@
      };
      ```
 
-   - 除了 this，以下三个变量在箭头函数之中也是不存在的，指向外层函数的对应变量
+   - 除了 this，**以下三个变量在箭头函数之中也是不存在的**，指向外层函数的对应变量
 
-     - arguments、super、new.target
+     - **arguments、super、new.target**
 
    - 使用注意点
 
@@ -596,10 +598,6 @@
       // 1
   ```
 
-  ````
-  
-  ````
-
 - Promise 的实例方法：then()、catch()、finally()
 - `Promise.all()`、`Promise.race()`、`Promise.allSettled()`、`Promise.any()`
 - `Promise.resolve()`、`Promise.reject()`
@@ -611,10 +609,92 @@
 
 16. **Class**
 
-    - extends 继承
+    - **constructor方法**：是类的默认方法，**通过new命令生成对象实例时，自动调用该方法**。一个类必须有该方法，若没有显示定义，一个空的constructor方法会被默认添加
+
+    - **取值函数 getter 和存值函数 setter**
+
+      ```javascript
+      class CustomHTMLElement {
+        constructor(element) {
+          this.element = element;
+        }
+        get html() {
+          return this.element.innerHTML;
+        }
+        set html(value) {
+          this.element.innerHTML = value;
+        }
+      }
+      
+      var descriptor = Object.getOwnPropertyDescriptor(
+        CustomHTMLElement.prototype,
+        'html'
+      );
+      
+      'get' in descriptor; // true
+      'set' in descriptor; // true
+      ```
+
+    - extends 关键字继承
+
     - super 继承
 
-17. **`CommonJS`**
+      - **`super`作为函数调用时，代表父类的构造函数**。ES6 要求，子类的构造函数必须执行一次`super`函数。
+
+        - 作为函数时，`super()`只能用在子类的构造函数之中，用在其他地方就会报错
+
+        ```javascript
+        class A {
+          constructor() {
+            console.log(new.target.name);
+          }
+        }
+        class B extends A {
+          constructor() {
+            // super内部的this指的是B的实例
+            super(); // super()在这里相当于A.prototype.constructor.call(this)
+          }
+        }
+        new A() // A
+        new B() // B
+        ```
+
+      - `super`作为对象时，**在普通方法中，指向父类的原型对象；在静态方法中，指向父类**
+
+        - 当`super`指向父类的原型对象时，定义在父类实例上的方法或属性无法通过`super`调用；如果属性定义在父类的原型对象上，`super`就可以取到
+        - 在子类普通方法中通过`super`调用父类的方法时，方法内部的`this`指向当前的子类实例
+
+        ```javascript
+        class A {
+          p() {
+            return 2;
+          }
+        }
+        
+        class B extends A {
+          constructor() {
+            super();
+            // 将super当作一个对象使用
+            // super在普通方法之中，指向A.prototype，所以super.p()就相当于A.prototype.p()
+            console.log(super.p()); // 2
+          }
+        }
+        
+        let b = new B();
+        ```
+
+        
+
+17. **ES5/ES6的继承除了写法以外还有什么区别**
+
+    - **ES5的继承实质上是先创造子类的实例对象this，然后再将父类的方法添加this上面**(Parent.apply(this))，由于父类的内部属性无法获取，导致无法继承原生的构造函数
+    - **ES6的继承机制实质是先将父类实例对象的属性和方法加到this上面**（所以必须先调用super方法），**然后再用子类的构造函数修改this**，使得父类的所有行为都可以继承
+      - 在子类的构造函数中，只有调用`super`之后，才可以使用`this`关键字，否则会报错。因为子类实例的构建基于父类实例，只有`super`方法才能调用父类实例
+      - 父类的静态方法，也会被子类继承
+    - **ES6 可以自定义原生数据结构，这是 ES5 无法做到的**
+    - **`extends`关键字不仅可以用来继承类，还可以用来继承原生的构造函数**。因此可以在原生数据结构的基础上，定义自己的数据结构
+
+18. **`CommonJS`**
 
 > 参考链接
 >

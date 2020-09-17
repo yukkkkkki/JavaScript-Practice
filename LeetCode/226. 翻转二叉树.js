@@ -32,21 +32,20 @@ var invertTree = function (root) {
   return root;
 };
 
-// 方法二：中序遍历 + 左右交换
+// 方法二：层序遍历 + 左右交换
 var invertTree = function (root) {
   if (!root) return null;
-  let cur;
-  let stack = [root];
-  while (stack.length) {
-    cur = stack.pop();
-    // 左右交换
-    let temp = root.left;
-    root.left = root.right;
-    cur.right = temp;
+  let queue = [root];
 
-    // 栈依次存入右、左节点
-    cur.right && stack.push(cur.right);
-    cur.left && stack.push(cur.left);
+  while (queue.length) {
+    let node = queue.pop();
+
+    let temp = node.left;
+    node.left = node.right;
+    node.right = temp;
+
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
   }
   return root;
 };
