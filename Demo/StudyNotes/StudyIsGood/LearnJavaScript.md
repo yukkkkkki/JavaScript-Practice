@@ -274,9 +274,23 @@
    - forEach()：对数组的每个元素执行一次给定的函数
 
      - `arr.forEach(callback(currentValue [, index [, array]])[, thisArg])`
-     - 与 map() 或者 reduce() 不同的是，它总是返回 undefined 值，并且不可链式调用
-     - forEach 不会直接改变调用它的对象，但是那个对象可能会被 callback 函数改变
+
      - 除了抛出异常，**无法中止或跳出** forEach()循环
+
+     - 与 map() 或者 reduce() 不同的是，它总是返回 undefined 值，并且不可链式调用
+
+     - **forEach 不会直接改变调用它的对象，但是那个对象可能会被 callback 函数改变**
+
+       ```javascript
+       // 基本数据类型 -> 原数组数据不会被改变
+       let arr2 = [3, 4, 5, 6];
+       arr2.forEach((item) => (item = 8));
+       console.log(arr); // [3, 4, 5, 6]
+       // 引用类型 -> 类似对象数组可以爽快改变偶
+       let arr3 = [{ a: 1 }, { a: 1 }, { a: 1 }];
+       arr3.forEach((item) => (item.a = 2));
+       console.log(arr3); // [ { a: 2 }, { a: 2 }, { a: 2 } ]
+       ```
 
    - map()：创建一个新数组，其结果是该数组中的每个元素都调用一次提供的函数后的返回值
 
