@@ -14,11 +14,11 @@
 // 方法一：反中序
 // 在反中序过程中直接修改节点值
 var convertBST = function (root) {
-  if (root === null) return null;
-  let stack = [],
-    sum = 0;
+  if (!root) return null;
+  const stack = [];
+  let sum = 0;
   let node = root;
-  while (stack.length > 0 || node !== null) {
+  while (stack.length || node) {
     if (node) {
       stack.push(node);
       node = node.right;

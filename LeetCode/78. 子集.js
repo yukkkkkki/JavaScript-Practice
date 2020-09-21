@@ -21,15 +21,16 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
+// 方法一：回溯
 var subsets = function (nums) {
   const n = nums.length;
   const res = [];
 
   const backTrack = (start, tmpPath) => {
-    res.push(tmpPath.slice());
+    res.push(tmpPath);
     for (let i = start; i < n; i++) {
       tmpPath.push(nums[i]);
-      backTrack(i + 1, tmpPath);
+      backTrack(i + 1, tmpPath.slice());
       tmpPath.pop();
     }
   };
@@ -37,3 +38,5 @@ var subsets = function (nums) {
   backTrack(0, []);
   return res;
 };
+
+console.log(subsets([1, 2, 3]));
