@@ -35,25 +35,26 @@ var mergeTrees = function (t1, t2) {
   return t1;
 };
 
-// 方法二：迭代
+// 方法二：用栈做
 var mergeTrees = function (t1, t2) {
   if (!t1 || !t2) return t1 || t2;
-  const res = [[t1, t2]];
-  while (res.length) {
-    const temp = res.pop();
-    temp[0].val += temp[1].val;
-    if (temp[0].left && temp[1].left) {
-      res.push([temp[0].left, temp[1].left]);
+  const stack = [[t1, t2]];
+  while (stack.length) {
+    const cur = stack.pop();
+    cur[0].val += cur[1].val;
+    if (cur[0].left && cur[1].left) {
+      stack.push([cur[0].left, cur[1].left]);
     }
-    if (temp[0].right && temp[1].right) {
-      res.push([temp[0].right, temp[1].right]);
+    if (cur[0].right && cur[1].right) {
+      stack.push([cur[0].right, cur[1].right]);
     }
 
-    if (!temp[0].left && temp[1].left) {
-      temp[0].left = temp[1].left;
+    if (!cur[0].left && cur[1].left) {
+      cur[0].left = cur[1].left;
     }
-    if (!temp[0].right && temp[1].right) {
-      temp[0].right = temp[1].right;
+
+    if (!cur[0].right && cur[1].right) {
+      cur[0].right = cur[1].right;
     }
   }
   return t1;

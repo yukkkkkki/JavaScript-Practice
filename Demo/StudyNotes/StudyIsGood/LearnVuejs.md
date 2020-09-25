@@ -440,7 +440,7 @@
        - text 和 textarea 元素使用 `value` property 和 `input` 事件；
        - checkbox 和 radio 使用 `checked` property 和 `change` 事件；
        - select 字段将 `value` 作为 prop 并将 `change` 作为事件。
-     
+   
 - **Vue 是数据双向绑定的框架(MVVM)，由三个部分组成**：
    - 数据层(Model)：应用的数据及业务逻辑，为开发者编写的业务代码
   - 视图层(View)：应用的展示效果，各类 UI 组件，由 template 和 css 组成的代码
@@ -449,26 +449,22 @@
        - 故其由两部分组成
          - 监听器（Observer）：观察数据，做到时刻清楚数据的任何变化，然后通知视图更新
          - 解析器（Compiler）：观察 UI，做到时刻清楚视图发生的一切交互，然后更新数据
-   
+  
 9. **Vue 响应式原理**
 
    - ![image](https://user-gold-cdn.xitu.io/2019/8/16/16c986328e407929?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
    - 采用**数据劫持**结合**发布-订阅模式**的方式：-- _以下援引自深入浅出 vuejs_
 
-   - Data 通过 Observer，使用**Object.defineProperty()**对数据进行劫持，**将 data 中的每个属性转换为 getter/setter 响应式来追踪变化**
+     - Data 通过 Observer，使用**Object.defineProperty()**对数据进行劫持，**将 data 中的每个属性转换为 getter/setter 响应式来追踪变化**
+     - 当外界**通过 Watcher 读取数据时会触发 getter 从而将 watcher 添加到依赖中**
+     - 当**数据发生了变化会触发 setter，从而向 Dep 中的依赖(Watcher)发送通知**
+     - **Watcher 收到通知后，会向外界发送通知**，变化通知到外界后可能会**触发视图更新**，也有可能**触发用户的某个回调函数**等
    
-   - 当外界**通过 Watcher 读取数据时会触发 getter 从而将 watcher 添加到依赖中**
+   - **注意**：
    
-- 当**数据发生了变化会触发 setter，从而向 Dep 中的依赖(Watcher)发送通知**
-   
-- **Watcher 收到通知后，会向外界发送通知**，变化通知到外界后可能会**触发视图更新**，也有可能**触发用户的某个回调函数**等
-   
-- **注意**：
-   
-  - **`defineProperty`缺点：无法监控到数组下标的变化，导致直接通过数组下标给数组设置值，不能实时响应**
-   
-  - 因为 data 可能是多层嵌套的对象，所以深度递归劫持，设置递归出口，排除数据不存在或者不是对象的情况。但是**此处的递归只会为 data 中初始的数据进行劫持，对于新加进来的则不会**，因此在为数据添加 set 方法时，也对数据进行劫持
+     - **`defineProperty`缺点：无法监控到数组下标的变化，导致直接通过数组下标给数组设置值，不能实时响应**
+     - 因为 data 可能是多层嵌套的对象，所以深度递归劫持，设置递归出口，排除数据不存在或者不是对象的情况。但是**此处的递归只会为 data 中初始的数据进行劫持，对于新加进来的则不会**，因此在为数据添加 set 方法时，也对数据进行劫持
    
    - 实现：
    
@@ -498,7 +494,7 @@
      }
      // 收集依赖
      export default class Dep {
-    constructor() {
+       constructor() {
          this.subs = [];
        }
        addSub(sub) {
@@ -506,13 +502,13 @@
        }
        removeSub(sub) {
          remove(this.subs, sub);
-    }
+       }
        depend() {
          if (window.target) {
            this.addSub(window.target);
          }
        }
-    notify() {
+       notify() {
          const subs = this.subs.slice();
          for (let i = 0; i < subs.length; i++) {
            subs[i].update();
@@ -520,7 +516,7 @@
        }
      }
      function remove(arr, item) {
-    if (arr.length) {
+       if (arr.length) {
          const index = arr.indexOf(item);
          if (index > -1) {
            return arr.splice(index, 1);
@@ -550,7 +546,7 @@
      // 读取一个字符串的keypath
      const bailRE = /[^\w.$]/;
      export function parsePath(path) {
-    if (bailRE.test(path)) {
+       if (bailRE.test(path)) {
          return;
        }
        const segments = path.split('.');
@@ -579,8 +575,6 @@
        }
      }
      ```
-   
-     
    
 10. **v-if 和 v-show**
 

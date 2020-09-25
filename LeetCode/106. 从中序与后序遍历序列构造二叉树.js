@@ -30,7 +30,7 @@ var buildTree = function (inorder, postorder) {
   return root;
 };
 
-// 方法二：指针
+// 方法二
 var buildTree = function (inorder, postorder) {
   let map = new Map();
   let idx = inorder.length - 1;
@@ -48,6 +48,35 @@ var buildTree = function (inorder, postorder) {
     root.left = helper(left, index);
     return root;
   }
-
   return helper(0, inorder.length);
+};
+
+// 方法三：迭代
+var buildTree = function (inorder, postorder) {
+  if (postorder.length == 0) {
+    return null;
+  }
+  const root = new TreeNode(postorder[postorder.length - 1]);
+  const stack = [];
+  stack.push(root);
+  let inorderIndex = inorder.length - 1;
+  for (let i = postorder.length - 2; i >= 0; i--) {
+    let postorderVal = postorder[i];
+    let node = stack[stack.length - 1];
+    if (node.val !== inorder[inorderIndex]) {
+      node.right = new TreeNode(postorderVal);
+      stack.push(node.right);
+    } else {
+      while (
+        stack.length &&
+        stack[stack.length - 1].val === inorder[inorderIndex]
+      ) {
+        node = stack.pop();
+        inorderIndex--;
+      }
+      node.left = new TreeNode(postorderVal);
+      stack.push(node.left);
+    }
+  }
+  return root;
 };

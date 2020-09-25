@@ -501,7 +501,7 @@
 
     - 前端路由的核心，就在于 —— 改变视图的同时不会向后端发出请求
 
-    - hash 模式（默认）：通过改变锚点(#)来更新页面 URL
+    - **hash 模式**（默认）：通过改变锚点(#)来更新页面 URL
 
       - ![image](https://segmentfault.com/img/remote/1460000021324752/view)
 
@@ -516,7 +516,7 @@
         - 只能通过字符串改变 URL
         - 可以通过`window.onhashchange`(hash 模式的原理) 监听到 hash 的改变，会记录在`window.hisotry`中，借此实现无刷新跳转
 
-    - history 模式：利用 `history.pushState` API 来实现页面的无刷新跳转。
+    - **history 模式**：利用 `history.pushState` API 来实现页面的无刷新跳转。
 
       - ![image](https://segmentfault.com/img/remote/1460000021324754/view)
 

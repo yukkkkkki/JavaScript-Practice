@@ -2,36 +2,48 @@
 
 1. **BFC**
 
-   - 块级格式化上下文，是一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响。（盒子里面的子元素的样式不会影响到外面的元素）
+   - 块级格式化上下文，是**一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响**。（盒子里面的子元素的样式不会影响到外面的元素）
 
-   - 规则
-
-     - 属于同一个 BFC 的两个相邻 Box：垂直排列、margin 会发生重叠
+   - **规则**
+- **属于同一个 BFC 的两个相邻 Box：垂直排列、margin 会发生重叠**
      - BFC 中子元素的 margin box 的左边，与包含块 (BFC) border box 的左边相接触 (子元素 absolute 除外)
-     - BFC 的区域不会与 float 的元素区域重叠(防止浮动文字环绕)
-     - 计算 BFC 的高度时，浮动子元素也参与计算
+     - **BFC 的区域不会与 float 的元素区域重叠**(防止浮动文字环绕)
+     - **计算 BFC 的高度时，浮动子元素也参与计算**
      - 文字层不会被浮动层覆盖，环绕于周围
-
-   - 触发条件
-
-     - 浮动元素，float !== none
-     - 定位元素，position（absolute,fixed）
+     
+- **触发条件**
+   - 浮动元素，float !== none
+  - 定位元素，position（absolute,fixed）
      - display: inline-block / table-cell/table-caption
      - overflow !== visible （为 hidden/auto/scroll）
-
+     
    - 应用
-     - 阻止 margin 重叠
+  - 阻止 margin 重叠
      - 可以包含浮动元素 —— 清除内部浮动(清除浮动的原理是两个 div 都位于同一个 BFC 区域之中)
      - 自适应两栏布局
      - 可以阻止元素被浮动元素覆盖
-
+   
 2. **盒模型**
 
-   - 外边距(margin)、边框(border)、内边距(padding)、内容(content)
+   - **外边距(margin)、边框(border)、内边距(padding)、内容(content)**
 
    - 两种模式:
-     - 标准模式: box-sizing: content-box(默认); 宽高不包括内边距和边框
-     - 怪异模式: box-sizing: border-box
+     - **标准模式**: **box-sizing: content-box**(默认); **宽高不包括内边距和边框**
+     
+       - ![image](https://img2018.cnblogs.com/blog/1748308/201908/1748308-20190811223557414-1734948215.png)
+     
+       - 一个块的总宽度 = 内容的width + padding(左右) + border(左右) + margin(左右)
+       - **即会被设置的padding撑开**
+     
+     - **怪异模式**: box-sizing: border-box
+     
+       - ![image](https://img2018.cnblogs.com/blog/1748308/201908/1748308-20190811223843048-1245861711.png)
+     
+       - 一个块的总宽度 = 内容的width(**包含了padding(左右)和border(左右)的值**) + margin(左右) 
+       - **盒子的大小并不会被padding所撑开**
+       - **解决方式：设置doctype声明，让浏览器使用标准模式**
+     
+     - 附：padding-box：将padding算入width范围
 
 3. **负外边距**
 
@@ -600,7 +612,7 @@
     }
     ```
 
-18. **至少两种方式实现自适应搜索**
+18. **至少两种方式实现自适应**
 
 19. **CSS3 新特性**
 
@@ -676,27 +688,13 @@
 
     - 滤镜 Filter
 
-20. **display:none 与 visibility:hidden 的区别**
+20. **CSS隐藏元素的方法**
 
-    - display:none：元素不可见、**不占据空间**、资源会加载、DOM 可访问
+    - **opacity: 0**：设置透明度来隐藏元素，不会改变页面布局，该元素上已经绑定的一些事件仍可触发，会触发重绘
 
-    - visibility:hidden：元素不可见、不能点击、但**占据空间**、资源会加载，可以使用
-
-    - 区别
-
-      |                     | display: none                | visibility: hidden                                  |
-      | ------------------- | ---------------------------- | --------------------------------------------------- |
-      | 是否占据空间        | 不占据                       | 空间保留                                            |
-      | 是否触发重绘和回流  | 会触发重绘和回流             | 只会触发重绘                                        |
-      | 元素可见性          | 节点和子孙节点元素全都不可见 | 节点的子孙节点元素可以设置 visibility: visible 显示 |
-      | transition 过渡效果 | 会                           | 不会                                                |
-
-      - visibility: hidden 属性值具有继承性，所以子孙元素默认继承了 hidden 而隐藏，但是当子孙元素重置为 visibility: visible 就不会被隐藏
-
-    - 补充
-
-      - opacity:0 意思是该元素隐藏起来了，但不会改变页面布局，并且，如果该元素已经绑定一些事件，那么点击该区域，是可以触发点击事件的
-      - opacity 会触发重绘
+    - **display:none**：元素不可见、**不占据空间**、资源会加载、DOM 可访问，会触发重绘和回流
+    - **visibility:hidden**：元素不可见、**占据空间**、资源会加载，DOM可以使用，相应的绑定事件不会触发，只会触发重绘
+    - **position:absolute**：将元素移出可视区，脱离标准流，不影响布局
 
 21. **可继承属性和非继承属性**
 
@@ -991,3 +989,4 @@
 > 14. https://blog.csdn.net/eva_lu/article/details/79633044
 > 15. https://www.runoob.com/w3cnote/css-position-static-relative-absolute-fixed.html ★
 > 16. https://blog.csdn.net/u013516618/article/details/52624314
+> 17. http://www.divcss5.com/rumen/r18099.shtml
