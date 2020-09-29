@@ -22,19 +22,18 @@
 //  4   4
 // 返回 false 。
 
-// 方法一
+// 方法一：DFS
 // 后续遍历。从最底下进行查找
 // 判断只要一次左右树相差为 -1；一直向上返回-1
 // 判断的函数是，判断左右节点相减取绝对值，为0或者1都行，返回左右最深节点+1，向上返回
 // 作者：ning-meng-jia-cu-5
 // 链接：https://leetcode-cn.com/problems/ping-heng-er-cha-shu-lcof/solution/hou-xu-bian-li-by-ning-meng-jia-cu-5/
-
 var isBalanced = function (root) {
-  var dps = function (node) {
+  var dfs = function (node) {
     if (!node) return 0;
 
-    let left = dps(node.left);
-    let right = dps(node.right);
+    let left = dfs(node.left);
+    let right = dfs(node.right);
 
     if (left == -1 || right == -1) {
       return -1;
@@ -47,7 +46,7 @@ var isBalanced = function (root) {
     }
   };
 
-  return dps(root) > -1;
+  return dfs(root) > -1;
 };
 
 // 方法二

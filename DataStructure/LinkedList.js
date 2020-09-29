@@ -11,7 +11,7 @@
 // 链表访问任何一个位置的元素时，都需要从头开始访问(无法跳过第一个元素访问任何一个元素)
 // 无法通过下标直接访问元素，需要从头一个个访问，知道找到对应的元素
 export class Node {
-  constructor(element) {
+  constructor(element) {  
     // 保存元素
     this.element = element;
     // 指向下一个节点

@@ -5,24 +5,27 @@
    - 块级格式化上下文，是**一个独立的渲染区域，让处于 BFC 内部的元素与外部的元素相互隔离，使内外元素的定位不会相互影响**。（盒子里面的子元素的样式不会影响到外面的元素）
 
    - **规则**
-- **属于同一个 BFC 的两个相邻 Box：垂直排列、margin 会发生重叠**
+
+     - **属于同一个 BFC 的两个相邻 Box：垂直排列、margin 会发生重叠**
      - BFC 中子元素的 margin box 的左边，与包含块 (BFC) border box 的左边相接触 (子元素 absolute 除外)
      - **BFC 的区域不会与 float 的元素区域重叠**(防止浮动文字环绕)
      - **计算 BFC 的高度时，浮动子元素也参与计算**
-     - 文字层不会被浮动层覆盖，环绕于周围
-     
-- **触发条件**
-   - 浮动元素，float !== none
-  - 定位元素，position（absolute,fixed）
+     - **文字层不会被浮动层覆盖，环绕于周围**
+
+   - **触发条件**
+
+     - 浮动元素，float !== none
+     - 定位元素，position（absolute,fixed）
      - display: inline-block / table-cell/table-caption
      - overflow !== visible （为 hidden/auto/scroll）
-     
+
    - 应用
-  - 阻止 margin 重叠
+
+     - 阻止 margin 重叠
+
      - 可以包含浮动元素 —— 清除内部浮动(清除浮动的原理是两个 div 都位于同一个 BFC 区域之中)
      - 自适应两栏布局
      - 可以阻止元素被浮动元素覆盖
-   
 2. **盒模型**
 
    - **外边距(margin)、边框(border)、内边距(padding)、内容(content)**
@@ -698,9 +701,8 @@
 
 21. **可继承属性和非继承属性**
 
-    - 常用不可继承属性
-
-      - 宽高：height, width
+    - **常用不可继承属性**
+- 宽高：height, width
       - 最小最大宽高：max-height, min-height, max-width, min-width
       - dispaly
       - 文本阴影：text-shadow
@@ -710,16 +712,15 @@
       - 层级属性：z-index
       - 定位属性：position, left, right, top, bottom
       - 盒模型属性：margin, padding, border
-
-    - 常用可继承属性
-
-      - 字体系列属性：font-family, font-size
-      - 文本系列属性：text-indent, line-height,color
+      
+- **常用可继承属性**
+    - 字体系列属性：font-family, font-size
+  - 文本系列属性：text-indent, line-height,color
       - 元素可见性：visibility
       - 表格布局属性：border-style
       - 列表布局属性：list-style, list-style-type
       - 光标属性：cursor
-
+    
 22. **CSS Sprites**
 
     - 将一个页面涉及到的所有图片都包含到一张大图中去，然后利用 CSS 的 background-image，background- repeat，background-position 的组合进行背景定位
