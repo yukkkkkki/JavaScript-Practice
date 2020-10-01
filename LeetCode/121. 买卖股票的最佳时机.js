@@ -44,22 +44,18 @@ var maxProfit = function (prices) {
   return max;
 };
 
-// 方法三：dp粗糙版
+// 方法三：动态规划
+// dp[i] = Math.max(dp[i - 1], prices[i] - minPrice)
 var maxProfit = function (prices) {
-  if (prices.length <= 1) return 0;
-  let diff = [];
-  for (let i = 0; i < prices.length - 1; i++) {
-    diff[i] = prices[i + 1] - prices[i];
+  const n = prices.length;
+  if (n == 0) return 0;
+  const dp = new Array(n).fill(0);
+  minPrice = prices[0];
+  for (let i = 1; i < n; i++) {
+    minPrice = Math.min(minPrice, prices[i]);
+    dp[i] = Math.max(dp[i - 1], prices[i] - minPrice);
   }
-
-  let dp = new Array(prices.length).fill(0);
-  dp[0] = Math.max(0, diff[0]);
-  let max = dp[0];
-  for (let i = 1; i < diff.length; i++) {
-    dp[i] = Math.max(0, dp[i - 1] + diff[i]);
-    max = Math.max(max, dp[i]);
-  }
-  return max;
+  return dp[n - 1];
 };
 
 // 方法四：dp优化版
