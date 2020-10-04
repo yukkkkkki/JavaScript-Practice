@@ -37,28 +37,33 @@ var addTwoNumbers = function (l1, l2) {
 };
 // 时间复杂度：O(n); 空间复杂度：O(n)
 
-// 方法二：数字相加法
-var listNodeToNum = function (listNode) {
-  let numString = "";
-  let currentNode = listNode;
-  while (currentNode) {
-    numString = current.val + numString;
-    currentNode = currentNode.next;
-  }
-  return BigInt(numString);
-};
+// 方法二：模拟
+// 思路：同时遍历两个链表，逐位计算它们的和，并与当前位置的进位值相加
+var addTwoNumbers = function (l1, l2) {
+  let head = null,
+    tail = null;
+  let carry = 0;
+  while (l1 || l2) {
+    const n1 = l1 ? l1.val : 0;
+    const n2 = l2 ? l2.val : 0;
+    const sum = n1 + n2 + carry;
+    if (!head) {
+      head = tail = new ListNode(sum % 10);
+    } else {
+      tail.next = new ListNode(sum % 10);
+      tail = tail.next;
+    }
 
-const numToListNode = function (num) {
-  let listNode = null;
-  const numString = num.toString();
-  for (let i = 0; i < numString.length; i++) {
-    const newNode = new ListNode(numString[i]);
-    newNode.next = listNode;
-    listNode = newNode;
+    carry = Math.floor(sum / 10);
+    if (l1) {
+      l1 = l1.next;
+    }
+    if (l2) {
+      l2 = l2.next;
+    }
   }
-  return listNode;
-};
-
-const addTwoNumbers = function (l1, l2) {
-  return numToListNode(listNodeToNum(l1) + listNodeToNum(l2));
+  if (carry > 0) {
+    tail.next = new ListNode(carry);
+  }
+  return head;
 };

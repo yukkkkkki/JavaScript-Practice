@@ -46,6 +46,7 @@
    - 关系运算符
 
      - 若两个操作数都是字符串，则比较两个字符串对应的字符编码值
+   
 3.  **强制转换、显式转换和隐式转换**
 
     - 强制类型转换：Boolean()、 Number()、String()、parseInt()、parseFloat()、JSON.parse()、JSON.stringify()
@@ -1446,6 +1447,36 @@
 
 29. **前端性能优化**
 
+    - 原则：多使用内存，缓存或者其他方式；减少CPU计算，减少网络请求；减少I/O操作
+    - **加载资源优化**：
+      - **减少HTTP请求**：设置HTTP缓存；静态资源的合并和压缩，压缩css、js文件；CSS Sprites等
+        - webpack中使用以下插件压缩：
+          - javascript：UglifyPlugin
+          - CSS：MiniCssExtractPlugin
+          - HTML：HtmlWebpackPlugin
+        - 使用gzip压缩
+      - 静态资源缓存
+      - **静态资源使用CDN**（内容分发网络）：CDN是一组分配在多个不同地理位置的Web服务器。
+      - **减少DNS查找**：减少主机名的数量
+      - **使用HTTP2**：HTTP2解析速度快；支持多路复用；提供首部压缩功能；可以对比较紧急的请求设置一个较高的优先级，服务器在收到请求后可优先处理；流量控制
+    - **渲染优化**
+      - **CSS放在文件head中，JS放在body中**：浏览器在构建CSSOM的过程中，不会渲染任何已处理的内容，即便DOM已经解析完毕，因此**CSS是阻塞渲染的资源，需尽早和尽快将其下载到客户端，以便缩短首次渲染的时间**；**JS引擎独立于渲染引擎，当HTML解析器遇到一个script标签时，会暂停渲染过程**，将控制权交给JS引擎，当JS引擎运行完毕，浏览器又会把控制权还给渲染引擎，继续CSSOM和DOM的构建（若JS放在头部，可以给script标签加上defer属性，异步下载，延迟执行）
+      - **尽量减少重绘重排**：修改样式不要直接写样式，而是替换class来改变样式
+      - **图片懒加载**
+      - 减少DOM操作，对DOM操作做缓存
+      - 减少DOM操作，多个操作尽量合并在一起执行
+      - 事件节流和防抖
+      - 尽早执行操作DOMContentLoaded
+    - **使用事件委托**
+    - **使用缓存**：Expires/Cache-Control & Last-Modified/Etag，不重复加载相同的资源
+    - **避免重定向**：页面重定向会延迟整个HTML文档的传输
+    - **通过webpack按需加载代码**：提取第三库代码；减少ES6转为ES5的冗余代码；import动态引入组件，按需加载
+    - **使用服务端渲染**：
+      - 客户端渲染：获取HTML文件，根据需要下载JS文件，允许文件，生成DOM，再渲染
+      - 服务端渲染：服务端返回HTML文件，客户端只需解析HTML
+      - 优点：**首屏渲染快，利于SEO**
+      - 缺点：**配置麻烦，增加了服务器的计算压力**
+
 30. **JS 延迟加载的方式**
 
 31. **setTimeout 和 setInterval**
@@ -1715,3 +1746,8 @@
 > 28. https://www.jianshu.com/p/bfc3e319a96b
 > 29. https://juejin.im/post/6844904152779210766
 > 30. https://juejin.im/post/6844904152779210766
+> 31. https://segmentfault.com/a/1190000017556203
+> 32. https://segmentfault.com/a/1190000022205291
+> 33. https://segmentfault.com/a/1190000016529612
+> 34. https://segmentfault.com/a/1190000019185648
+> 35. https://blog.csdn.net/an1090239782/article/details/78166983
