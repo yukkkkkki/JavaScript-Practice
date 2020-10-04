@@ -9,34 +9,33 @@
 // 递归函数：在从 start 指针开始的子数组中选合适的数推入 path。path 也作为参数。在递归过程中，不断选数字入 path
 // 结束递归：start 指针到达边界，没有数字可选了，结束递归
 var findSubsequences = function (nums) {
+  const n = nums.length;
   const res = [];
-  const len = nums.length;
   const set = new Set();
 
-  const dfs = (start, path) => {
-    if (path.length >= 2) {
-      const str = path.join(','); // 转成字符串，存入set
+  const backTrack = (start, tmpPath) => {
+    if (tmpPath.length >= 2) {
+      const str = tmpPath.join(','); // 转成字符串，存入set
+      // 避免重复的子序列进入res
       if (!set.has(str)) {
-        // 避免重复的子序列进入res
-        res.push(path.slice()); // 推入一份拷贝，path还要继续用
+        res.push(tmpPath.slice()); // 推入一份拷贝，path还要继续用
         set.add(str);
       }
     }
 
-    for (let i = start; i < len; i++) {
-      const prev = path[path.length - 1];
+    for (let i = start; i < n; i++) {
+      const prev = tmpPath[tmpPath.length - 1];
       const cur = nums[i];
-      if (path.length == 0 || prev <= cur) {
-        path.push(cur); // 选择当前的数字
-        dfs(i + 1, path); // 继续往下递归
-        path.pop(); // 撤销选择当前数字，选择别的数字
+      if (tmpPath.length == 0 || prev <= cur) {
+        tmpPath.push(cur); // 选择当前的数字
+        backTrack(i + 1, tmpPath); // 继续往下递归
+        tmpPath.pop(); // 撤销选择当前数字，选择别的数字
       }
     }
   };
-  dfs(0, []);
+  backTrack(0, []);
   return res;
 };
-
 // 优化：不用额外空间的去重
 var findSubsequences = function (nums) {
   const res = [];
