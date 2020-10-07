@@ -15,7 +15,6 @@
 3. **Vue.js中ajax请求代码应该写在组件的methods中还是`Vuex`的actions中**
 5. 为什么vuex中的mutation不能做异步操作
 6. 双向绑定和vuex是否冲突
-7. 
 8. **为什么`vuex`数据更新后，插件中使用数据的地方没有更新？**
    - `Vuex`的数据写在store里，在组件中需要用到`this.$store.commit`() 来调用store中mutations 里面的一些数据处理方法来向后端请求数据。并在computed计算属性中通过this.$getters来获取`Vuex`的数据。数据获取完成并且被getters到组件中，但组件显示数据没有更新：
      - 因为没有监听到数据变化；`vue`对数组数据的变化只能监听到：push(), pop(), shift(), unshift(), splice(), sort(), reverse()
