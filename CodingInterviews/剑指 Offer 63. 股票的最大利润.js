@@ -17,7 +17,7 @@ var maxProfit = function (prices) {
   const n = prices.length;
   if (n == 0) return 0;
   const dp = new Array(n).fill(0);
-  minPrice = prices[0];
+  let minPrice = prices[0];
   for (let i = 1; i < n; i++) {
     minPrice = Math.min(minPrice, prices[i]);
     dp[i] = Math.max(dp[i - 1], prices[i] - minPrice);

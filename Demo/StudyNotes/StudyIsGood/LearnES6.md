@@ -637,9 +637,17 @@
 
     - extends 关键字继承
 
-    - super 继承
+      ```javascript
+      class Point {
+      }
+      // 相当于把ColorPoint.prototype的[[Prototype]]链接到Foo.prototype
+      class ColorPoint extends Point {
+      }
+      ```
 
-      - **`super`作为函数调用时，代表父类的构造函数**。ES6 要求，子类的构造函数必须执行一次`super`函数。
+    - super 关键字继承
+
+      - **`super`作为函数调用时，代表父类的构造函数**。ES6 要求，子类的构造函数必须执行一次`super()`。
 
         - 作为函数时，`super()`只能用在子类的构造函数之中，用在其他地方就会报错
 
@@ -683,7 +691,84 @@
         let b = new B();
         ```
 
-        
+    - 注意：
+
+      - **严格模式**：类和模块的内部，默认是严格模式
+
+      - 类**不存在提升**
+
+      - **name属性**：函数的许多特性都被`Class`继承，包括`name`属性
+
+        ```javascript
+        class Point {}
+        Point.name // "Point"
+        ```
+
+      - **Generator方法**：某个方法之前加上星号（`*`），就表示该方法是一个 Generator 函数
+
+        ```javascript
+        class Foo {
+          constructor(...args) {
+            this.args = args;
+          }
+          *[Symbol.iterator]() {
+            for(let arg of this.args) {
+              yield arg;
+            }
+          }
+        }
+        for(let x of new Foo('hello', 'world')) {
+          console.log(x);
+        }
+        ```
+
+      - **this的指向**：类的方法内部若含有this，默认指向类的实例。使用时可能会发生找不到调用方法的情况，因为this会指向该方法运行时所在的环境。解决方法：
+
+        - 在构造函数中绑定this
+
+          ```javascript
+          class Logger {
+            constructor() {
+              this.printName = this.printName.bind(this);
+            }
+            // ...
+          }
+          ```
+
+        - **使用箭头函数**。箭头函数内部的`this`总是指向定义时所在的对象
+
+          ```javascript
+          class Obj {
+            constructor() {
+              this.getThis = () => this;
+            }
+          }
+          const myObj = new Obj();
+          myObj.getThis() === myObj // true
+          ```
+
+        - 使用Proxy，获取方法时自动绑定this
+
+          ```javascript
+          function selfish (target) {
+            const cache = new WeakMap();
+            const handler = {
+              get (target, key) {
+                const value = Reflect.get(target, key);
+                if (typeof value !== 'function') {
+                  return value;
+                }
+                if (!cache.has(value)) {
+                  cache.set(value, value.bind(target));
+                }
+                return cache.get(value);
+              }
+            };
+            const proxy = new Proxy(target, handler);
+            return proxy;
+          }
+          const logger = selfish(new Logger());
+          ```
 
 17. **ES5/ES6的继承除了写法以外还有什么区别**
 
@@ -695,6 +780,123 @@
     - **`extends`关键字不仅可以用来继承类，还可以用来继承原生的构造函数**。因此可以在原生数据结构的基础上，定义自己的数据结构
 
 18. **`CommonJS`**
+
+    - 导入
+
+      ```javascript
+      module.exports = {
+        flag: true,
+        test(a, b) {
+          return a + b;
+        },
+        demo(a, b) {
+          return a + b;
+        }
+      }
+      ```
+
+    - 导出：commonJS模块输出的是值的缓存，不存在动态更新
+
+      ```javascript
+      let { test, demo, flag } = require('moduleA');
+      // 等同于
+      let _mA = require('moduleA');
+      let test = _mA.test;
+      let demo = _mA.demo;
+      let flag = _mA.flag;
+      ```
+
+19. **Module**
+
+    - 传统的模块模式：基于一个带有内部变量和函数的外层函数，以及一个被返回的public API，这个API带有对内部数据和功能拥有闭包的方法
+
+      ```javascript
+      function Hello(name) {
+        function greeting() {
+          console.log('hello' + name + '!');
+        }
+        // public API
+        return {
+          greeting: greeting
+        };
+      }
+      var me = Hello('Kyle');
+      me.greeting(); // Hello Kyle!
+      ```
+
+    - ES6模块与过去的区别 *——以下援引自小黄书*
+
+      - ES6使用基于文件的模块，即一个文件一个模块；
+      - ES6模块的API是**静态的**，即在模块的公开API中静态定义所有最高处导出，之后无法补充；
+      - ES6模块是单例；
+      - ES6模块的公开API中暴露的属性和方法不仅仅是普通的值或属性的赋值，是到内部模块定义中的标识符的实际绑定；
+      - 导入模块和静态请求加载这个模块是一样的
+
+    - ES6模块
+
+      - 导出API成员 export
+
+        - 命名导出 named export：导出变量/函数等的名称绑定
+
+          ```javascript
+          export function foo() {
+            // ...
+          }
+          export var awesome = 42;
+          var bar = [1, 2, 3];
+          export { bar };
+          
+          // 或者写成：
+          function foo() {
+            // ...
+          }
+          var awesome = 42;
+          var bar = [1, 2, 3];
+          export { foo, awesome, bar };
+          // 在命名导出时还可以重命名一个模块成员
+          // export { foo as bar }
+          ```
+          
+        - 默认导出 default export：一个模块使用一个export，默认导出把一个特定导出绑定设置为导入模块时的默认导出
+        
+          ```javascript
+          function foo() {
+            // ...
+          }
+          export default foo;
+          
+          // 或者
+          function foo() {
+            // ...
+          }
+          export { foo as default };
+          
+          // 或者
+          export default function foo() {
+            // ...
+          }
+          ```
+        
+      - 导出API成员 import
+
+        ```javascript
+        import { foo, bar, baz } from 'foo';
+        // 当模块只有一个你想要的导入，并绑定到一个标识符的默认导出，绑定时可以省略 { ... }的语法
+        import foo from 'foo';
+        // 或者
+        import { default as foo } from 'foo';
+        
+        // 命名空间导入
+        // foo.js
+        export function bar() {}
+        export var x = 42;
+        export function baz() {}
+        // 把整个API导入到单个模块命名空间绑定
+        import * as foo from 'foo';
+        foo.bar();
+        foo.x;
+        foo.baz();
+        ```
 
 > 参考链接
 >

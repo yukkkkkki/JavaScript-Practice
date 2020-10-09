@@ -702,8 +702,8 @@
 21. **可继承属性和非继承属性**
 
     - **常用不可继承属性**
-- 宽高：height, width
-      - 最小最大宽高：max-height, min-height, max-width, min-width
+      - 宽高：height, width
+      -  最小最大宽高：max-height, min-height, max-width, min-width
       - dispaly
       - 文本阴影：text-shadow
       - 背景属性：background
@@ -712,15 +712,13 @@
       - 层级属性：z-index
       - 定位属性：position, left, right, top, bottom
       - 盒模型属性：margin, padding, border
-      
-- **常用可继承属性**
-    - 字体系列属性：font-family, font-size
-  - 文本系列属性：text-indent, line-height,color
-      - 元素可见性：visibility
-      - 表格布局属性：border-style
-      - 列表布局属性：list-style, list-style-type
-      - 光标属性：cursor
-    
+    - **常用可继承属性**
+      - 字体系列属性：font-family, font-size
+      - 文本系列属性：text-indent, line-height,color
+        - 元素可见性：visibility
+        - 表格布局属性：border-style
+        - 列表布局属性：list-style, list-style-type
+        - 光标属性：cursor
 22. **CSS Sprites**
 
     - 将一个页面涉及到的所有图片都包含到一张大图中去，然后利用 CSS 的 background-image，background- repeat，background-position 的组合进行背景定位
@@ -831,15 +829,13 @@
       - 优点：移动端首选
       - 缺点：不兼容 ie9 及以下
 
-    - **table 布局**：父容器设置 display:table，子元素 display:table-cell
+    - **table 布局**：父容器设置 display: table，子元素 display: table-cell
 
       - 按照 left、middle、right 顺序布局
       - 优点：兼容性好
       - 缺点：无法设置栏间距
 
-    - **grid 布局**：父容器设置 display:grid 和 grid-template-columns，子元素设置 min-height
-
-      - **等 grid 看完再回来完善这里**
+    - **grid 布局**：父容器设置 display: grid 和 grid-template-columns，子元素设置 min-height，固定第一列第二列宽度，第三列auto
 
     - **margin 负值法**
 

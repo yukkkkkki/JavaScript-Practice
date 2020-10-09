@@ -193,111 +193,106 @@
 
       - ![](https://image-static.segmentfault.com/180/628/1806285859-5e51e6597ff7a_articlex)
 
-8.  **缓存策略: 强缓存 和 协商缓存**
+8. **缓存策略: 强缓存 和 协商缓存**
 
-    - 缓存：保存资源副本并在下次请求时直接使用该副本的技术。
+   - 缓存：保存资源副本并在下次请求时直接使用该副本的技术。
 
-    - 缓存的好处
+   - 缓存的好处
 
-      - 缓解服务器压力(不用每次去请求资源)
-      - 减少页面加载时间，提升性能
-      - 减少网络传输，减少带宽消耗
+     - 缓解服务器压力(不用每次去请求资源)
+     - 减少页面加载时间，提升性能
+     - 减少网络传输，减少带宽消耗
 
-    - 缓存的分类
+   - 缓存的分类
 
-      - 宏观
+     - 宏观
 
-        - 私有缓存: 用户专享，各级代理不能缓存
-        - 共享缓存: 能够被多个用户使用的缓存,也就是那些能被各级代理的缓存
+       - 私有缓存: 用户专享，各级代理不能缓存
+       - 共享缓存: 能够被多个用户使用的缓存,也就是那些能被各级代理的缓存
 
-      - 微观：浏览器缓存、代理服务器缓存、网关缓存、数据库缓存
+     - 微观：浏览器缓存、代理服务器缓存、网关缓存、数据库缓存
 
-    - 浏览器缓存
+   - 浏览器缓存
 
-      - 浏览器缓存分为强缓存和协商缓存，强缓存会直接读取浏览器缓存，不会向服务器发送请求，而协商缓存先向访问服务器看缓存是否过期，再决定是否从浏览器里面拿数据
+     - 浏览器缓存分为强缓存和协商缓存，强缓存会直接读取浏览器缓存，不会向服务器发送请求，而协商缓存先向访问服务器看缓存是否过期，再决定是否从浏览器里面拿数据
 
-      - ![image](https://mmbiz.qpic.cn/mmbiz_jpg/vzEib9IRhZD5sp48Jfr1IrOPOPdmJ4GEIib3icc4wf6TQGp0PqTia9yUlG3OX40jibf3QBmzAIxYmUKX4yTwhaDpwdA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
+     - ![image](https://mmbiz.qpic.cn/mmbiz_jpg/vzEib9IRhZD5sp48Jfr1IrOPOPdmJ4GEIib3icc4wf6TQGp0PqTia9yUlG3OX40jibf3QBmzAIxYmUKX4yTwhaDpwdA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
-      - **强缓存(Expires & Cache-Control)**
+     - **强缓存(Expires & Cache-Control)**
 
-        - 给浏览器缓存设置过期时间，超过这个时间之后缓存就是过期，浏览器需要重新请求
+       - 给浏览器缓存设置过期时间，超过这个时间之后缓存就是过期，浏览器需要重新请求
 
-        - 三种情况
+       - 三种情况
 
-          - 第一次请求，不存在缓存结果和缓存标识，直接向服务器发送请求
-          - 存在缓存标识和缓存结果，但是缓存结果已经失效，则使用协商缓存
-          - 存在缓存标识和缓存结果，且该结果尚未失效，强制缓存生效，直接返回该结果
+         - 第一次请求，不存在缓存结果和缓存标识，直接向服务器发送请求
+         - 存在缓存标识和缓存结果，但是缓存结果已经失效，则使用协商缓存
+         - 存在缓存标识和缓存结果，且该结果尚未失效，强制缓存生效，直接返回该结果
 
-        - Expires：HTTP/1.0 中的定义缓存的字段，告知客户端资源缓存失效的**绝对时间**
+       - Expires：HTTP/1.0 中的定义缓存的字段，告知客户端资源缓存失效的**绝对时间**
 
-          - 返回的是服务器的时间 `Expires: Wed Feb 20 2019 11:25:41 GMT`
+         - 返回的是服务器的时间 `Expires: Wed Feb 20 2019 11:25:41 GMT`
 
-        - Cache-Control：max-age：HTTP/1.1 定义的关于缓存的字段，它规定了缓存过期的一个**相对时间**
+       - Cache-Control：max-age：HTTP/1.1 定义的关于缓存的字段，它规定了缓存过期的一个**相对时间**
 
-          - public：所有内容都将被缓存(客户端和代理服务器都可缓存)
-          - private：所有内容只有客户端可以缓存，Cache-Control 的默认取值
-          - no-cache：客户端缓存内容，每次使用需要经过协商缓存来验证决定是否可用
-          - no-store：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存
-          - max-age=xxx (xxx is numeric)：缓存内容将在 xxx 秒后失效
+         - public：所有内容都将被缓存(客户端和代理服务器都可缓存)
+         - private：所有内容只有客户端可以缓存，Cache-Control 的默认取值
+         - no-cache：客户端缓存内容，每次使用需要经过协商缓存来验证决定是否可用
+         - no-store：所有内容都不会被缓存，即不使用强制缓存，也不使用协商缓存
+         - max-age=xxx (xxx is numeric)：缓存内容将在 xxx 秒后失效
 
-        - **优先级**：**Cache-Control > Expires**
+       - **优先级**：**Cache-Control > Expires**
 
-        - **缺点**：该缓存方式优先级高，如果在过期时间内缓存的资源在服务器上更新了，客服端不能及时获取最新的资源(所以有了协商缓存)
+       - **缺点**：该缓存方式优先级高，如果在过期时间内缓存的资源在服务器上更新了，客服端不能及时获取最新的资源(所以有了协商缓存)
 
-      - **协商缓存(Last-Modified & Etag)**
+     - **协商缓存(Last-Modified & Etag)**
 
-        - 强缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程
+       - 强缓存失效后，浏览器携带缓存标识向服务器发起请求，由服务器根据缓存标识决定是否使用缓存的过程
 
-        - **强缓存不发请求到服务器**，所以有时候资源更新了浏览器还不知道；**协商缓存会发请求到服务器**，所以资源是否更新，服务器肯定知道(协商缓存需要配合强缓存使用)
+       - **强缓存不发请求到服务器**，所以有时候资源更新了浏览器还不知道；**协商缓存会发请求到服务器**，所以资源是否更新，服务器肯定知道(协商缓存需要配合强缓存使用)
 
-        - 利用 Last-Modified，If-Modified-Since 和 ETag、If-None-Match 对资源做标识，然后由服务器做分析，如果资源未更新，则返回 304 状态码，那么浏览器则会从缓存中读取资源，否则重新请求资源
+       - 利用 Last-Modified，If-Modified-Since 和 ETag、If-None-Match 对资源做标识，然后由服务器做分析，如果资源未更新，则返回 304 状态码，那么浏览器则会从缓存中读取资源，否则重新请求资源
 
-        - **Last-Modified 与 If-Modified-Since**
+       - **Last-Modified 与 If-Modified-Since**
 
-          - last-modified：**资源在服务器上最后一次修改的时间**
-          - If-Modified-Since：**上一次请求时返回的 Last-Modified 的值**
+         - last-modified：**资源在服务器上最后一次修改的时间**
+         - If-Modified-Since：**上一次请求时返回的 Last-Modified 的值**
+         - 服务器再次收到资源请求时，根据浏览器传过来 If-Modified-Since 和资源在服务器上的最后修改时间判断资源是否有变化
 
-          - 服务器再次收到资源请求时，根据浏览器传过来 If-Modified-Since 和资源在服务器上的最后修改时间判断资源是否有变化
+         - 浏览器收到 200 的响应后，Last-Modified Header 在重新加载的时候会被更新，下次请求时，If-Modified-Since 会启用上次返回的 Last-Modified 值
+         - **缺点：**
 
-            - 若无变化，返回 304，不会返回资源内容，从缓存中加载资源
-            - 若有变化，返回 200，正常返回资源内容
+           - **周期性修改，但内容未变时，会导致缓存失效**
 
-          - 浏览器收到 200 的响应后，Last-Modified Header 在重新加载的时候会被更新，下次请求时，If-Modified-Since 会启用上次返回的 Last-Modified 值
+           - **以秒为单位进行更新，如果小于该单位高频进行更新的话，则不适合采用该方法**。(所以就有了 ETag、If-None-Match)
 
-        - **缺点：**
+       - **Etag 与 If-None-Match**
 
-          - **周期性修改，但内容未变时，会导致缓存失效**
+         - Etag(response 携带)：**服务器根据当前请求的资源生成的一个唯一标识**，是一个字符串，只要资源有变化这个标识就会不同，跟最后修改时间没有关系
+         - If-None-Match：浏览器**再次跟服务器请求这个资源时，在 request 的 header 上加上 If-None-Match 的 header**，这个 header 的值就是**上一次请求时返回的 ETag 的值**
 
-          - **以秒为单位进行更新，如果小于该单位高频进行更新的话，则不适合采用该方法**。(所以就有了 ETag、If-None-Match)
+         - 服务器再次收到资源请求时，根据浏览器传过来 If-None-Match 和资源生成一个新的 ETag，**如果这两个值相同就说明资源没有变化，否则就是有变化**。
+         - **ETag 相对于 Last-Modified 可更加准确地判断文件内容是否被修改；但由于需要对资源进行生成标识，性能方面势必有所牺牲**
 
-        - **Etag 与 If-None-Match**
+       - Last-Modified、If-Modified-Since 和 ETag、If-None-Match 一般都是同时启用，这是为了处理 Last-Modified 不可靠的情况。
 
-          - Etag(response 携带)：**服务器根据当前请求的资源生成的一个唯一标识**，是一个字符串，只要资源有变化这个标识就会不同，跟最后修改时间没有关系
+       - 注：分布式系统里多台机器间文件的 Last-Modified 必须保持一致，以免负载均衡到不同机器导致比对失败
 
-        - If-None-Match：浏览器**再次跟服务器请求这个资源时，在 request 的 header 上加上 If-None-Match 的 header**，这个 header 的值就是**上一次请求时返回的 ETag 的值**
-          - 服务器再次收到资源请求时，根据浏览器传过来 If-None-Match 和资源生成一个新的 ETag，**如果这两个值相同就说明资源没有变化，否则就是有变化**。
-          - 若无变化，服务端返回 304，浏览器使用缓存
-            - 若有变化，服务端响应 200，并正常返回资源内容
-        - **ETag 相对于 Last-Modified 可更加准确地判断文件内容是否被修改；但由于需要对资源进行生成标识，性能方面势必有所牺牲**
-          - Last-Modified、If-Modified-Since 和 ETag、If-None-Match 一般都是同时启用，这是为了处理 Last-Modified 不可靠的情况。
-        - 注：分布式系统里多台机器间文件的 Last-Modified 必须保持一致，以免负载均衡到不同机器导致比对失败
+         - 分布式系统尽量关闭掉 ETag(每台机器生成的 ETag 都会不一样）
 
-          - 分布式系统尽量关闭掉 ETag(每台机器生成的 ETag 都会不一样）
+       - 优先级：**ETag/If-None-Match > Last-Modified/If-Modified-Since**, 同时存在时, 前者覆盖后者
 
-        - 优先级：**ETag/If-None-Match > Last-Modified/If-Modified-Since**, 同时存在时, 前者覆盖后者
+     - 启发式缓存
 
-      - 启发式缓存
+       - 当请求头中确定缓存过期时间的字段一个都没有，会默认触发浏览器启发式缓存。
 
-        - 当请求头中确定缓存过期时间的字段一个都没有，会默认触发浏览器启发式缓存。
+     - 缓存的优先级
 
-      - 缓存的优先级
+       - 强缓存 > 协商缓存 > 启发式缓存
 
-        - 强缓存 > 协商缓存 > 启发式缓存
+       - Cache-Control > Expires > ETag > Last-Modified
+       - 浏览器整个缓存策略的过程： ![image](https://user-gold-cdn.xitu.io/2018/1/27/16137f262e0adf18?imageView2/0/w/1280/h/960/ignore-error/1)
 
-        - Cache-Control > Expires > ETag > Last-Modified
-        - 浏览器整个缓存策略的过程： ![image](https://user-gold-cdn.xitu.io/2018/1/27/16137f262e0adf18?imageView2/0/w/1280/h/960/ignore-error/1)
-
-        - 浏览器先检查 Cache-Control，如果为 no-store，则浏览器所有内容都不会缓存，强制缓存，协商缓存统统都不会触发
+       - 浏览器先检查 Cache-Control，如果为 no-store，则浏览器所有内容都不会缓存，强制缓存，协商缓存统统都不会触发
 
 9.  **http 状态码**
 
