@@ -17,8 +17,8 @@
    - const：声明常量；块级作用域；const 声明不允许修改绑定，但允许修改值
 
      - 即声明对象时，可以修改对象的属性值
-     
-   - **var、let、const区别的实现原理**
+
+   - **var、let、const 区别的实现原理**
 
 2. **箭头函数**
 
@@ -49,21 +49,17 @@
 
    - 使用注意点
 
-     - 函数体内的 this 对象，就是定义时所在的对象，而不是使用时所在的对象。
-
-       - this 对象的指向是可变的，但是在箭头函数中，它是固定的，这种特性很有利于封装回调函数
-
-     - 不可以当作构造函数，也就是说，不可以使用 new 命令，否则会抛出一个错误。
-
-     - 不可以使用 arguments 对象，该对象在函数体内不存在。如果要用，可以用 rest 参数代替。
-
-     - 不可以使用 yield 命令，因此箭头函数不能用作 Generator 函数。
+     - 函数体内的 this 对象，就是**定义时所在的对象，而不是使用时所在的对象**；且 this**在定义时就已经固定，之后永远不会改变**
+     - **call | apply | bind 无法改变箭头函数中 this 的指向**
+     - **不可以当作构造函数**，也就是说，不可以使用 new 命令，否则会抛出一个错误
+     - **不可以使用 arguments 对象**，该对象在函数体内不存在。如果要用，可以用 rest 参数代替
+     - **不可以使用 yield 关键字，不能用作 Generator 函数**
 
    - 不适合场合
 
      - 定义对象的方法，且该方法内部包括 this
      - 需要动态 this 的时候，也不应使用箭头函数
-     - 如果函数体很复杂，有许多行，或者函数内部有大量的读写操作，不单纯是为了计算值，这时也不应该使用箭头函数
+     - 如果函数体很复杂，或者函数内部有大量的读写操作，不单纯是为了计算值，这时不应使用箭头函数
 
 3. **解构赋值**
 
@@ -503,105 +499,113 @@
       ```
 
       - **resolve()和 reject()的使用**(援引自小黄书)
+        - 如果调用 reject，则 promise 被拒绝，如果有任何值传给 reject，则这个值就是被拒绝的原因值
+        - 如果调用 resolve 且没有值传入，或者传入任何非 promise 值，这个 promise 就完成
+        - 如果调用 resolve 并传入另外一个 promise，这个 promise 就会采用传入的 promise 的状态
 
-- 如果调用 reject，则 promise 被拒绝，如果有任何值传给 reject，则这个值就是被拒绝的原因值
-- 如果调用 resolve 且没有值传入，或者传入任何非 promise 值，这个 promise 就完成
-- 如果调用 resolve 并传入另外一个 promise，这个 promise 就会采用传入的 promise 的状态
-- **promise 特点**
+    - **promise 特点**
 
-  - 对象的状态不受外界影响。
+      - 对象的状态不受外界影响。
 
-    - pending（进行中）、fulfilled（已成功）、rejected（已失败）
+        - pending（进行中）、fulfilled（已成功）、rejected（已失败）
 
-    - 一旦状态改变，就不会再变，任何时候都可以得到这个结果，这时就称为 resolved。
+        - 一旦状态改变，就不会再变，任何时候都可以得到这个结果，这时就称为 resolved。
 
-- **Promise 缺点**
-  - 无法取消`Promise`，一旦新建它就会立即执行，无法中途取消
-    - 如果不设置回调函数，`Promise`内部抛出的错误，不会反应到外部
-    - 当处于`pending`状态时，无法得知目前进展到哪一个阶段
-- **promise 的基本用法及案例**
+    - **Promise 缺点**
 
-  ````javascript
+      - 无法取消`Promise`，一旦新建它就会立即执行，无法中途取消
+        - 如果不设置回调函数，`Promise`内部抛出的错误，不会反应到外部
+        - 当处于`pending`状态时，无法得知目前进展到哪一个阶段
+
+    - **promise 的基本用法及案例**
+
+      ```javascript
       // 案例1：Promise 新建后就会立即执行
-      let promise = new Promise(function(resolve, reject) {
-        console.log("Promise");
+      let promise = new Promise(function (resolve, reject) {
+        console.log('Promise');
         resolve();
       });
       promise.then(() => {
-          console.log('resolved.');
-      })
-      console.log("hi")
+        console.log('resolved.');
+      });
+      console.log('hi');
       // Promise
       // hi
       // resolved.
-  
+
       // 案例2：异步加载图片
       function loadImageAsync(url) {
-          return new Promise((resolve, reject) => {
-              const image = new Image();
-              image.onload = function () {
-                  resolve(image);
-              };
-              image.onerror = function () {
-                  reject(new Error('Could not load image at ' + url));
-              };
-              image.src = url;
-          })
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = function () {
+            resolve(image);
+          };
+          image.onerror = function () {
+            reject(new Error('Could not load image at ' + url));
+          };
+          image.src = url;
+        });
       }
-  
+
       // 案例3：用Promise对象实现 Ajax 操作
       const getJSON = function (url) {
-          const promise = new Promise(function(resolve, reject) {
-              const handler = function () {
-                  if(this.readyState !== 4) {
-                      return;
-                  }
-                  if(this.status === 200) {
-                      resolve(this.response);
-                  } else {
-                      reject(new Error(this.statusText));
-                  }
-              };
-              const client = new XMLHttpRequest();
-              client.open('GET', url);
-              client.onreadystatechange = handler;
-              client.responseType = "json";
-              client.setRequestHeader("Accept", "application/json")
-          });
-          return promise;
-      }
-      getJSON("/posts.json").then(function (json) {
+        const promise = new Promise(function (resolve, reject) {
+          const handler = function () {
+            if (this.readyState !== 4) {
+              return;
+            }
+            if (this.status === 200) {
+              resolve(this.response);
+            } else {
+              reject(new Error(this.statusText));
+            }
+          };
+          const client = new XMLHttpRequest();
+          client.open('GET', url);
+          client.onreadystatechange = handler;
+          client.responseType = 'json';
+          client.setRequestHeader('Accept', 'application/json');
+        });
+        return promise;
+      };
+      getJSON('/posts.json').then(
+        function (json) {
           console.log('Contents:' + json);
-      }, function (error) {
+        },
+        function (error) {
           console.log('出错了', error);
-      })
-  
+        }
+      );
+
       // 案例4：如果调用resolve函数和reject函数时带有参数，那么它们的参数会被传递给回调函数
       const p1 = new Promise(function (resolve, reject) {
-          setTimeout(() => reject(new Error('fail')), 3000);
+        setTimeout(() => reject(new Error('fail')), 3000);
       });
       const p2 = new Promise(function (resolve, reject) {
-          setTimeout(() => resolve(p1), 1000);
+        setTimeout(() => resolve(p1), 1000);
       });
       // 由p1的状态决定p2的状态，所以后面的then语句都变成针对p1
-      p2.then(res => console.log(res)).catch(err => console.log(err));
+      p2.then((res) => console.log(res)).catch((err) => console.log(err));
       // Error: fail
-  
+
       // 案例5：调用resolve或reject并不会终结 Promise 的参数函数的执行
       new Promise((resolve, reject) => {
-          resolve(1);
-          console.log(2);
-        }).then(r => {
-          console.log(r);
+        resolve(1);
+        console.log(2);
+      }).then((r) => {
+        console.log(r);
       });
       // 2
       // 1
-  ```
+      ```
 
-- Promise 的实例方法：then()、catch()、finally()
-- `Promise.all()`、`Promise.race()`、`Promise.allSettled()`、`Promise.any()`
-- `Promise.resolve()`、`Promise.reject()`
-- **手写 Promise**
+    - Promise 的实例方法：then()、catch()、finally()
+
+    - `Promise.all()`、`Promise.race()`、`Promise.allSettled()`、`Promise.any()`
+
+    - `Promise.resolve()`、`Promise.reject()`
+
+    - **手写 Promise**
 
 14. **async & await**
 
@@ -609,7 +613,7 @@
 
 16. **Class**
 
-    - **constructor方法**：是类的默认方法，**通过new命令生成对象实例时，自动调用该方法**。一个类必须有该方法，若没有显示定义，一个空的constructor方法会被默认添加
+    - **constructor 方法**：是类的默认方法，**通过 new 命令生成对象实例时，自动调用该方法**。一个类必须有该方法，若没有显示定义，一个空的 constructor 方法会被默认添加
 
     - **取值函数 getter 和存值函数 setter**
 
@@ -625,12 +629,12 @@
           this.element.innerHTML = value;
         }
       }
-      
+
       var descriptor = Object.getOwnPropertyDescriptor(
         CustomHTMLElement.prototype,
         'html'
       );
-      
+
       'get' in descriptor; // true
       'set' in descriptor; // true
       ```
@@ -638,11 +642,9 @@
     - extends 关键字继承
 
       ```javascript
-      class Point {
-      }
+      class Point {}
       // 相当于把ColorPoint.prototype的[[Prototype]]链接到Foo.prototype
-      class ColorPoint extends Point {
-      }
+      class ColorPoint extends Point {}
       ```
 
     - super 关键字继承
@@ -663,8 +665,8 @@
             super(); // super()在这里相当于A.prototype.constructor.call(this)
           }
         }
-        new A() // A
-        new B() // B
+        new A(); // A
+        new B(); // B
         ```
 
       - `super`作为对象时，**在普通方法中，指向父类的原型对象；在静态方法中，指向父类**
@@ -678,7 +680,7 @@
             return 2;
           }
         }
-        
+
         class B extends A {
           constructor() {
             super();
@@ -687,7 +689,7 @@
             console.log(super.p()); // 2
           }
         }
-        
+
         let b = new B();
         ```
 
@@ -697,14 +699,14 @@
 
       - 类**不存在提升**
 
-      - **name属性**：函数的许多特性都被`Class`继承，包括`name`属性
+      - **name 属性**：函数的许多特性都被`Class`继承，包括`name`属性
 
         ```javascript
         class Point {}
-        Point.name // "Point"
+        Point.name; // "Point"
         ```
 
-      - **Generator方法**：某个方法之前加上星号（`*`），就表示该方法是一个 Generator 函数
+      - **Generator 方法**：某个方法之前加上星号（`*`），就表示该方法是一个 Generator 函数
 
         ```javascript
         class Foo {
@@ -712,19 +714,19 @@
             this.args = args;
           }
           *[Symbol.iterator]() {
-            for(let arg of this.args) {
+            for (let arg of this.args) {
               yield arg;
             }
           }
         }
-        for(let x of new Foo('hello', 'world')) {
+        for (let x of new Foo('hello', 'world')) {
           console.log(x);
         }
         ```
 
-      - **this的指向**：类的方法内部若含有this，默认指向类的实例。使用时可能会发生找不到调用方法的情况，因为this会指向该方法运行时所在的环境。解决方法：
+      - **this 的指向**：类的方法内部若含有 this，默认指向类的实例。使用时可能会发生找不到调用方法的情况，因为 this 会指向该方法运行时所在的环境。解决方法：
 
-        - 在构造函数中绑定this
+        - 在构造函数中绑定 this
 
           ```javascript
           class Logger {
@@ -744,16 +746,16 @@
             }
           }
           const myObj = new Obj();
-          myObj.getThis() === myObj // true
+          myObj.getThis() === myObj; // true
           ```
 
-        - 使用Proxy，获取方法时自动绑定this
+        - 使用 Proxy，获取方法时自动绑定 this
 
           ```javascript
-          function selfish (target) {
+          function selfish(target) {
             const cache = new WeakMap();
             const handler = {
-              get (target, key) {
+              get(target, key) {
                 const value = Reflect.get(target, key);
                 if (typeof value !== 'function') {
                   return value;
@@ -762,7 +764,7 @@
                   cache.set(value, value.bind(target));
                 }
                 return cache.get(value);
-              }
+              },
             };
             const proxy = new Proxy(target, handler);
             return proxy;
@@ -770,45 +772,18 @@
           const logger = selfish(new Logger());
           ```
 
-17. **ES5/ES6的继承除了写法以外还有什么区别**
+17. **ES5/ES6 的继承除了写法以外还有什么区别**
 
-    - **ES5的继承实质上是先创造子类的实例对象this，然后再将父类的方法添加this上面**(Parent.apply(this))，由于父类的内部属性无法获取，导致无法继承原生的构造函数
-    - **ES6的继承机制实质是先将父类实例对象的属性和方法加到this上面**（所以必须先调用super方法），**然后再用子类的构造函数修改this**，使得父类的所有行为都可以继承
+    - **ES5 的继承实质上是先创造子类的实例对象 this，然后再将父类的方法添加 this 上面**(Parent.apply(this))，由于父类的内部属性无法获取，导致无法继承原生的构造函数
+    - **ES6 的继承机制实质是先将父类实例对象的属性和方法加到 this 上面**（所以必须先调用 super 方法），**然后再用子类的构造函数修改 this**，使得父类的所有行为都可以继承
       - 在子类的构造函数中，只有调用`super`之后，才可以使用`this`关键字，否则会报错。因为子类实例的构建基于父类实例，只有`super`方法才能调用父类实例
       - 父类的静态方法，也会被子类继承
     - **ES6 可以自定义原生数据结构，这是 ES5 无法做到的**
     - **`extends`关键字不仅可以用来继承类，还可以用来继承原生的构造函数**。因此可以在原生数据结构的基础上，定义自己的数据结构
 
-18. **`CommonJS`**
+19. **ES6 Module**
 
-    - 导入
-
-      ```javascript
-      module.exports = {
-        flag: true,
-        test(a, b) {
-          return a + b;
-        },
-        demo(a, b) {
-          return a + b;
-        }
-      }
-      ```
-
-    - 导出：commonJS模块输出的是值的缓存，不存在动态更新
-
-      ```javascript
-      let { test, demo, flag } = require('moduleA');
-      // 等同于
-      let _mA = require('moduleA');
-      let test = _mA.test;
-      let demo = _mA.demo;
-      let flag = _mA.flag;
-      ```
-
-19. **Module**
-
-    - 传统的模块模式：基于一个带有内部变量和函数的外层函数，以及一个被返回的public API，这个API带有对内部数据和功能拥有闭包的方法
+    - 传统的模块模式：基于一个带有内部变量和函数的外层函数，以及一个被返回的 public API，这个 API 带有对内部数据和功能拥有闭包的方法
 
       ```javascript
       function Hello(name) {
@@ -817,24 +792,24 @@
         }
         // public API
         return {
-          greeting: greeting
+          greeting: greeting,
         };
       }
       var me = Hello('Kyle');
       me.greeting(); // Hello Kyle!
       ```
 
-    - ES6模块与过去的区别 *——以下援引自小黄书*
+    - ES6 模块与过去的区别 _——以下援引自小黄书_
 
-      - ES6使用基于文件的模块，即一个文件一个模块；
-      - ES6模块的API是**静态的**，即在模块的公开API中静态定义所有最高处导出，之后无法补充；
-      - ES6模块是单例；
-      - ES6模块的公开API中暴露的属性和方法不仅仅是普通的值或属性的赋值，是到内部模块定义中的标识符的实际绑定；
-      - 导入模块和静态请求加载这个模块是一样的
+      - ES6 使用**基于文件**的模块，即一个文件一个模块；
+      - ES6 模块的 API 是**静态的**，即在模块的公开 API 中静态定义所有最高处导出，之后无法补充；
+      - ES6 模块是**单例**；
+      - ES6 模块的公开 API 中暴露的属性和方法不仅仅是普通的值或属性的赋值，**是到内部模块定义中的标识符的实际绑定**；
+      - **导入模块和静态请求加载这个模块是一样的**
 
-    - ES6模块
+    - ES6 模块
 
-      - 导出API成员 export
+      - 导出 API 成员 export
 
         - 命名导出 named export：导出变量/函数等的名称绑定
 
@@ -845,7 +820,7 @@
           export var awesome = 42;
           var bar = [1, 2, 3];
           export { bar };
-          
+
           // 或者写成：
           function foo() {
             // ...
@@ -856,28 +831,28 @@
           // 在命名导出时还可以重命名一个模块成员
           // export { foo as bar }
           ```
-          
-        - 默认导出 default export：一个模块使用一个export，默认导出把一个特定导出绑定设置为导入模块时的默认导出
-        
+
+        - 默认导出 default export：一个模块使用一个 export，默认导出把一个特定导出绑定设置为导入模块时的默认导出
+
           ```javascript
           function foo() {
             // ...
           }
           export default foo;
-          
+
           // 或者
           function foo() {
             // ...
           }
           export { foo as default };
-          
+
           // 或者
           export default function foo() {
             // ...
           }
           ```
-        
-      - 导出API成员 import
+
+      - 导出 API 成员 import
 
         ```javascript
         import { foo, bar, baz } from 'foo';
@@ -885,7 +860,7 @@
         import foo from 'foo';
         // 或者
         import { default as foo } from 'foo';
-        
+
         // 命名空间导入
         // foo.js
         export function bar() {}
@@ -898,6 +873,9 @@
         foo.baz();
         ```
 
+    
+
 > 参考链接
 >
 > 1. https://es6.ruanyifeng.com/#docs/set-map
+> 2. https://juejin.im/post/6844903576309858318#heading-3

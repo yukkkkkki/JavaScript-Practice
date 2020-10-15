@@ -29,24 +29,27 @@
     - 其他对象：Function、Arguments、Math、Date、RegExp、Error
     - 新类型：Symbol
 
-2. **操作符**
+2.  **操作符**
 
-   - 位操作符
+    - 位操作符
 
-     - ~(按位非)，&(按位与)，|(按位或)，^(按位异或)，<<(左移)，">>" (有符号右移)(保留正负号标记)，">>>" (无符号右移)(会把负数的二进制码当成正数的二进制码)
-   - 加性操作符(操作数存在字符串的情况)
+      - ~(按位非)，&(按位与)，|(按位或)，^(按位异或)，<<(左移)，">>" (有符号右移)(保留正负号标记)，">>>" (无符号右移)(会把负数的二进制码当成正数的二进制码)
 
-     - 加法
+    - 加性操作符(操作数存在字符串的情况)
 
-       - **两个操作数都是字符串，则字符串拼接**
-       - **只有一个操作数是字符串，则另一个字符转换为字符串，再字符串拼接**
-     - 减法
-       - **若一个操作数是字符串、布尔值、null 或者 undefined，则后台先将其隐式转换(Number)成数值，然后再计算**
-       - 若**一个操作数是对象，则调用对象的 valueOf()方法取得该对象的值，然后再计算**
-   - 关系运算符
+      - 加法
 
-     - 若两个操作数都是字符串，则比较两个字符串对应的字符编码值
-   
+        - **两个操作数都是字符串，则字符串拼接**
+        - **只有一个操作数是字符串，则另一个字符转换为字符串，再字符串拼接**
+
+      - 减法
+        - **若一个操作数是字符串、布尔值、null 或者 undefined，则后台先将其隐式转换(Number)成数值，然后再计算**
+        - 若**一个操作数是对象，则调用对象的 valueOf()方法取得该对象的值，然后再计算**
+
+    - 关系运算符
+
+      - 若两个操作数都是字符串，则比较两个字符串对应的字符编码值
+
 3.  **强制转换、显式转换和隐式转换**
 
     - 强制类型转换：Boolean()、 Number()、String()、parseInt()、parseFloat()、JSON.parse()、JSON.stringify()
@@ -55,279 +58,279 @@
 4.  **数值转换**
 
     - Number() 函数的转换规则
-      - Boolean值，true -> 1， false -> 0
-      - null值 -> 返回0
-      - undefined -> 返回NaN
+      - Boolean 值，true -> 1， false -> 0
+      - null 值 -> 返回 0
+      - undefined -> 返回 NaN
       - 字符串
         - 只包含数字，则将其转换为十进制数值
         - 字符串中包含有效的浮点格式，转换为对应的浮点数值
         - 字符串中包含有效的十六进制格式，转换为相同大小的十进制整数值
-        - 字符串为空 -> 转换为0
-        - 字符串除上述格式之外的字符，转换为NaN
-      - 对象，调用对象的valueOf()方法，然后依照前面的规则转换返回的值。若结果是NaN，则调用对象的toString()方法，然后在依照前面的规则转换返回的字符串值
+        - 字符串为空 -> 转换为 0
+        - 字符串除上述格式之外的字符，转换为 NaN
+      - 对象，调用对象的 valueOf()方法，然后依照前面的规则转换返回的值。若结果是 NaN，则调用对象的 toString()方法，然后在依照前面的规则转换返回的字符串值
 
-5. **JavaScript 的基本规范**
+5.  **JavaScript 的基本规范**
 
-   - 不要在同一行声明多个变量
-   - 使用 ===或!==来比较 true/false 或者数值
-   - switch 必须带有 default 分支
-   - 函数应该有返回值
-   - for if else 必须使用大括号
-   - 语句结束加分号
-   - 命名要有意义，使用驼峰命名法
+    - 不要在同一行声明多个变量
+    - 使用 ===或!==来比较 true/false 或者数值
+    - switch 必须带有 default 分支
+    - 函数应该有返回值
+    - for if else 必须使用大括号
+    - 语句结束加分号
+    - 命名要有意义，使用驼峰命名法
 
-6. **typeof 和 instanceof 原理**
+6.  **typeof 和 instanceof 原理**
 
-   - typeof 原理：不同的对象在底层都表示为二进制，在 Javascript 中二进制前（低）三位存储其类型信息。
+    - typeof 原理：不同的对象在底层都表示为二进制，在 Javascript 中二进制前（低）三位存储其类型信息。
 
-     - 000: 对象
-     - 010: 浮点数
-     - 100：字符串
-     - 110： 布尔
-     - 1： 整数
+      - 000: 对象
+      - 010: 浮点数
+      - 100：字符串
+      - 110： 布尔
+      - 1： 整数
 
-     所以 typeof null === object
+      所以 typeof null === object
 
-   - instanceof 原理：用来比较一个对象是否为某一个构造函数的实例(注：只能用于对象，不适用原始类型的值)。即，能在实例的**原型对象链**中找到该构造函数的 **prototype**属性所指向的**原型对象**，就返回**true**。
+    - instanceof 原理：用来比较一个对象是否为某一个构造函数的实例(注：只能用于对象，不适用原始类型的值)。即，能在实例的**原型对象链**中找到该构造函数的 **prototype**属性所指向的**原型对象**，就返回**true**。
 
-     - **instanceof 的语法：**
+      - **instanceof 的语法：**
 
-     ```javascript
-     object instanceof constructor;
-     // 等同于
-     constructor.prototype.isPrototypeOf(object);
-     ```
+      ```javascript
+      object instanceof constructor;
+      // 等同于
+      constructor.prototype.isPrototypeOf(object);
+      ```
 
-     - **instanceof 的代码实现**
+      - **instanceof 的代码实现**
 
-     ```javascript
-     function instanceof(L, R) {
-       //L 是表达式左边，R 是表达式右边
-       const O = R.prototype;
-       L = L.**proto**;
-       while (true) {
-         if (L === null) return false;
-         // 这里重点：当 L 严格等于 0 时，返回 true
-         if (L === O) return true;
-         L = L.**proto**;
-       }
-     }
-     ```
+      ```javascript
+      function instanceof(L, R) {
+        //L 是表达式左边，R 是表达式右边
+        const O = R.prototype;
+        L = L.**proto**;
+        while (true) {
+          if (L === null) return false;
+          // 这里重点：当 L 严格等于 0 时，返回 true
+          if (L === O) return true;
+          L = L.**proto**;
+        }
+      }
+      ```
 
-     - **instanceof 原理**：检测 constructor.prototype 是否存在于参数 object 的 原型链上。instanceof 查找的过程中会遍历 object 的原型链，直到找到 constructor 的 prototype ,如果查找失败，则会返回 false，告诉我们，object 并非是 constructor 的实例
+      - **instanceof 原理**：检测 constructor.prototype 是否存在于参数 object 的 原型链上。instanceof 查找的过程中会遍历 object 的原型链，直到找到 constructor 的 prototype ,如果查找失败，则会返回 false，告诉我们，object 并非是 constructor 的实例
 
-7. **JavaScript 中判断对象类型的几种方法**
+7.  **JavaScript 中判断对象类型的几种方法**
 
-   - typeof
+    - typeof
 
-   - instanceo f
+    - instanceo f
 
-   - constructor 属性：JavaScript 中，每个对象都有一个 constructor 属性，它引用了初始化该对象的构造函数，常用于判断未知对象的类型。如给定一个求知的值，通过 typeof 运算符来判断它是基本数据类型的值还是对象。如果是对象，就可以使用 constructor 属性来判断其类型
+    - constructor 属性：JavaScript 中，每个对象都有一个 constructor 属性，它引用了初始化该对象的构造函数，常用于判断未知对象的类型。如给定一个求知的值，通过 typeof 运算符来判断它是基本数据类型的值还是对象。如果是对象，就可以使用 constructor 属性来判断其类型
 
-   - Object.prototype.toString.call()
+    - Object.prototype.toString.call()
 
-     - 目前为止发现的判断一个对象类型的最好的办法
+      - 目前为止发现的判断一个对象类型的最好的办法
 
-     ```javascript
-     const b = [];
-     Object.prototype.toString.call(b); // "[object Array]"
+      ```javascript
+      const b = [];
+      Object.prototype.toString.call(b); // "[object Array]"
 
-     const c = {};
-     Object.prototype.toString.call(c); // "[object Object]"
+      const c = {};
+      Object.prototype.toString.call(c); // "[object Object]"
 
-     const d = new Date();
-     Object.prototype.toString.call(d); // "[object Date]"
+      const d = new Date();
+      Object.prototype.toString.call(d); // "[object Date]"
 
-     const e = new RegExp();
-     Object.prototype.toString.call(e); // "[object RegExp]"
-     ```
+      const e = new RegExp();
+      Object.prototype.toString.call(e); // "[object RegExp]"
+      ```
 
-8. **JavaScript 中函数调用的几种方法**
+8.  **JavaScript 中函数调用的几种方法**
 
-   - **函数调用**：this 指向 window，返回值由 return 决定
+    - **函数调用**：this 指向 window，返回值由 return 决定
 
-     ```javascript
-     function f1() {
-       console.log(this);
-     }
-     f1();
-     ```
+      ```javascript
+      function f1() {
+        console.log(this);
+      }
+      f1();
+      ```
 
-   - **方法调用**(函数作为方法调用)：this 指向方法的调用者 ，返回值由 return 决定
+    - **方法调用**(函数作为方法调用)：this 指向方法的调用者 ，返回值由 return 决定
 
-     ```javascript
-     var obj = {
-       hello: function () {
-         return 'hello,' + this.username;
-       },
-       username: 'selena',
-     };
-     obj.hello(); // "hello, selena"
-     ```
+      ```javascript
+      var obj = {
+        hello: function () {
+          return 'hello,' + this.username;
+        },
+        username: 'selena',
+      };
+      obj.hello(); // "hello, selena"
+      ```
 
-     - 上述 hello()直接调用的时候，this 的指向就成了问题。在这种情况下，this 往往被指向全局对象(严格模式下 this 指向 undefined)
+      - 上述 hello()直接调用的时候，this 的指向就成了问题。在这种情况下，this 往往被指向全局对象(严格模式下 this 指向 undefined)
 
-   - **构造函数调用**：this 指向当前构造函数构建的对象
+    - **构造函数调用**：this 指向当前构造函数构建的对象
 
-     - 返回值有以下几种情况
+      - 返回值有以下几种情况
 
-       - 没有返回值，返回 this
+        - 没有返回值，返回 this
 
-         ```javascript
-         function Person() {
-           this.age = 20;
-           this.name = 'zs';
-           console.log(this);
-         }
-         var p1 = new Person(); // {age: 20, name:"zs"}
-         ```
+          ```javascript
+          function Person() {
+            this.age = 20;
+            this.name = 'zs';
+            console.log(this);
+          }
+          var p1 = new Person(); // {age: 20, name:"zs"}
+          ```
 
-       - return 了一个基本数据类型
+        - return 了一个基本数据类型
 
-         ```javascript
-         function P2() {
-           this.age = 18;
-           return 'abc';
-         }
+          ```javascript
+          function P2() {
+            this.age = 18;
+            return 'abc';
+          }
 
-         var p2 = new P2();
-         console.log(p2); //{age: 18}
-         ```
+          var p2 = new P2();
+          console.log(p2); //{age: 18}
+          ```
 
-       - 返回了一个复杂数据类型
+        - 返回了一个复杂数据类型
 
-         ```javascript
-         function P3() {
-           this.age = 10;
-           return {};
-         }
+          ```javascript
+          function P3() {
+            this.age = 10;
+            return {};
+          }
 
-         var p3 = new P3();
-         console.log(p3); //Object {}
-         console.log(p3.age); //undefined
+          var p3 = new P3();
+          console.log(p3); //Object {}
+          console.log(p3.age); //undefined
 
-         function P3() {
-           this.age = 10;
-           return {};
-         }
+          function P3() {
+            this.age = 10;
+            return {};
+          }
 
-         var p3 = new P3();
-         console.log(p3); //Object {}
-         console.log(p3.age); //undefined
-         ```
+          var p3 = new P3();
+          console.log(p3); //Object {}
+          console.log(p3.age); //undefined
+          ```
 
-   - **上下文调用**
+    - **上下文调用**
 
-     - call()、apply()
+      - call()、apply()
 
-     - this 指向
+      - this 指向
 
-       - 传递一个 null/undefined -> window
-       - 传递一个数字/字符串/布尔值 -> 对应的基本包装类型的对象
-       - 传递一个对象 -> 指向该对象
+        - 传递一个 null/undefined -> window
+        - 传递一个数字/字符串/布尔值 -> 对应的基本包装类型的对象
+        - 传递一个对象 -> 指向该对象
 
-     - 返回值：由 return 语句决定
+      - 返回值：由 return 语句决定
 
-       ```javascript
-       f1.call(null);
-       f1.call(undefined);
-       f1.call('abc'); // String { "abc" }
-       f1.call(true); // Boolean { true }
-       f1.call(1); // Number { 1 }
-       ```
+        ```javascript
+        f1.call(null);
+        f1.call(undefined);
+        f1.call('abc'); // String { "abc" }
+        f1.call(true); // Boolean { true }
+        f1.call(1); // Number { 1 }
+        ```
 
-9. **for-in 和 for-of**
+9.  **for-in 和 for-of**
 
-   - for-in：循环一个指定的变量来循环一个对象所有可枚举的属性
+    - for-in：循环一个指定的变量来循环一个对象所有可枚举的属性
 
-     ```javascript
-     for (variable in object) {
-       statements;
-     }
-     ```
+      ```javascript
+      for (variable in object) {
+        statements;
+      }
+      ```
 
-     - 注：
+      - 注：
 
-       - 返回的除了数字索引外，还有自己自定义的属性名字
-       - 通过 for-in 循环输出的属性名的顺序是不可预测的
-       - 为遍历对象属性而构建，不建议与数组一起使用
+        - 返回的除了数字索引外，还有自己自定义的属性名字
+        - 通过 for-in 循环输出的属性名的顺序是不可预测的
+        - 为遍历对象属性而构建，不建议与数组一起使用
 
-     - for-in 遍历数组会出现的问题：
+      - for-in 遍历数组会出现的问题：
 
-       - index 值 会是字符串（String）类型
-       - 循环不仅会遍历数组元素，还会遍历任意其他自定义添加的属性
-       - 某些情况下，会以随机顺序循环数组
+        - index 值 会是字符串（String）类型
+        - 循环不仅会遍历数组元素，还会遍历任意其他自定义添加的属性
+        - 某些情况下，会以随机顺序循环数组
 
-   - for-of：循环可迭代对象(Array, Map, Set, arguments 等)，对值的每一个特殊属性调用一次迭代
+    - for-of：循环可迭代对象(Array, Map, Set, arguments 等)，对值的每一个特殊属性调用一次迭代
 
-     ```javascript
-     for (variable of object) {
-       statements;
-     }
-     ```
+      ```javascript
+      for (variable of object) {
+        statements;
+      }
+      ```
 
-   - for-in 和 for-of 的区别：for-in 循环遍历数组只能获得对象的键名，不能获得键值
+    - for-in 和 for-of 的区别：for-in 循环遍历数组只能获得对象的键名，不能获得键值
 
-   - for-of 循环遍历数组允许遍历获得键值
-     - 无论是 for...in 还是 for...of 都不能遍历出 Symbol 类型的值
-       - 遍历 Symbol 类型的值需要用 Object.getOwnPropertySymbols() 方法
+    - for-of 循环遍历数组允许遍历获得键值
+      - 无论是 for...in 还是 for...of 都不能遍历出 Symbol 类型的值
+        - 遍历 Symbol 类型的值需要用 Object.getOwnPropertySymbols() 方法
 
 10. **遍历数组**
 
-   - every()：每一项都为 true，返回 true
+    - every()：每一项都为 true，返回 true
 
-     - `arr.every(callback(element[, index[, array]])[, thisArg])`
+      - `arr.every(callback(element[, index[, array]])[, thisArg])`
 
-   - some()：至少有一项为 true，返回 true
+    - some()：至少有一项为 true，返回 true
 
-     - `arr.some(callback(element[, index[, array]])[, thisArg])`
+      - `arr.some(callback(element[, index[, array]])[, thisArg])`
 
-   - filter()：创建一个新数组, 其包含通过所提供函数实现的测试的所有元素
+    - filter()：创建一个新数组, 其包含通过所提供函数实现的测试的所有元素
 
-     - var newArray = arr.filter(callback(element[, index[, array]])[, thisArg])
+      - var newArray = arr.filter(callback(element[, index[, array]])[, thisArg])
 
-   - forEach()：对数组的每个元素执行一次给定的函数
+    - forEach()：对数组的每个元素执行一次给定的函数
 
-     - `arr.forEach(callback(currentValue [, index [, array]])[, thisArg])`
+      - `arr.forEach(callback(currentValue [, index [, array]])[, thisArg])`
 
-     - 除了抛出异常，**无法中止或跳出** forEach()循环
+      - 除了抛出异常，**无法中止或跳出** forEach()循环
 
-     - 与 map() 或者 reduce() 不同的是，它总是返回 undefined 值，并且不可链式调用
+      - 与 map() 或者 reduce() 不同的是，它总是返回 undefined 值，并且不可链式调用
 
-     - **forEach 不会直接改变调用它的对象，但是那个对象可能会被 callback 函数改变**
+      - **forEach 不会直接改变调用它的对象，但是那个对象可能会被 callback 函数改变**
 
-       ```javascript
-       // 基本数据类型 -> 原数组数据不会被改变
-       let arr2 = [3, 4, 5, 6];
-       arr2.forEach((item) => (item = 8));
-       console.log(arr); // [3, 4, 5, 6]
-       // 引用类型 -> 类似对象数组可以爽快改变偶
-       let arr3 = [{ a: 1 }, { a: 1 }, { a: 1 }];
-       arr3.forEach((item) => (item.a = 2));
-       console.log(arr3); // [ { a: 2 }, { a: 2 }, { a: 2 } ]
-       ```
+        ```javascript
+        // 基本数据类型 -> 原数组数据不会被改变
+        let arr2 = [3, 4, 5, 6];
+        arr2.forEach((item) => (item = 8));
+        console.log(arr); // [3, 4, 5, 6]
+        // 引用类型 -> 类似对象数组可以爽快改变偶
+        let arr3 = [{ a: 1 }, { a: 1 }, { a: 1 }];
+        arr3.forEach((item) => (item.a = 2));
+        console.log(arr3); // [ { a: 2 }, { a: 2 }, { a: 2 } ]
+        ```
 
-   - map()：创建一个新数组，其结果是该数组中的每个元素都调用一次提供的函数后的返回值
+    - map()：创建一个新数组，其结果是该数组中的每个元素都调用一次提供的函数后的返回值
 
-     ```javascript
-     var new_array = arr.map(function callback(currentValue [, index[, array]]) {
-       // Return element for new_array
-     }[, thisArg]);
-     ```
+      ```javascript
+      var new_array = arr.map(function callback(currentValue [, index[, array]]) {
+        // Return element for new_array
+      }[, thisArg]);
+      ```
 
-     - 不修改调用它的原数组本身（当然可以在 callback 执行时改变原数组）
-     - 调用 map 方法之后追加的数组元素不会被 callback 访问
+      - 不修改调用它的原数组本身（当然可以在 callback 执行时改变原数组）
+      - 调用 map 方法之后追加的数组元素不会被 callback 访问
 
-   - reduce()：对数组中的每个元素执行一个由您提供的 reducer 函数(升序执行)，将其结果汇总为单个返回值
+    - reduce()：对数组中的每个元素执行一个由您提供的 reducer 函数(升序执行)，将其结果汇总为单个返回值
 
-     - `arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])`
+      - `arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue])`
 
-       - accumulator：累计器累计回调的返回值; 是上一次调用回调时返回的累积值，或 initialValue
-       - currentValue：数组中正在处理的元素。
-       - index：数组中正在处理的当前元素的索引。如果提供了 initialValue，则起始索引号为 0，否则从 1 起始
-       - array：调用 reduce()的数组
+        - accumulator：累计器累计回调的返回值; 是上一次调用回调时返回的累积值，或 initialValue
+        - currentValue：数组中正在处理的元素。
+        - index：数组中正在处理的当前元素的索引。如果提供了 initialValue，则起始索引号为 0，否则从 1 起始
+        - array：调用 reduce()的数组
 
-   - reduceRight()：接受一个函数作为累加器（accumulator）和数组的每个值（从右到左）将其减少为单个值
+    - reduceRight()：接受一个函数作为累加器（accumulator）和数组的每个值（从右到左）将其减少为单个值
 
 11. **创建对象方式**
 
@@ -800,9 +803,9 @@
     - **ES6 Class extends 继承**
 
       - 子类 extends 父类，然后 constructor 里 super 继承父类
-      
+
         ```javascript
-        class Point{
+        class Point {
           constructor(x, y) {
             this.x = x;
             this.y = y;
@@ -826,7 +829,7 @@
 
 17. **闭包**
 
-    - 指**有权访问另一个函数作用域中的变量**的函数。本质是利用了作用域的机制，来达到外部作用域访问内部作用域的目的
+    - 指**有权访问另一个函数作用域中的变量**的函数。本质是**利用了作用域的机制，来达到外部作用域访问内部作用域的目的**
 
       - 是 js 特有的**链式作用域**结构
 
@@ -980,7 +983,7 @@
         function deepClone(source) {
           // 创建一个新对象
           let result = {};
-        
+
           for (var i in source) {
             if (source.hasOwnProperty(i)) {
               // 如果字段的值也是一个对象则递归操作
@@ -1010,11 +1013,11 @@
             function isObject(x) {
               return Object.prototype.toString.call(x) === '[object Object]';
             }
-            
+
             function deepClone(source) {
               // 相当于加上一个递归出口
               if (!isObject(source)) return source;
-            
+
               // ...
             }
             ```
@@ -1169,8 +1172,8 @@
     - **标记清除**：当变量进入环境（例如，在函数中声明一个变量）时，就将这个变量标记为“**进入环境**”。从逻辑上讲，永远不能释放进入环境的变量所占的内存，因为只要执行流进入相应的环境，就可能用到它们。而当变量离开环境时，这将其 标记为“离开环境”。标记“**离开环境**”的就回收内存。
       - 工作流程：
         - 垃圾收集器会在运行的时候会给存储在内存中的所有变量都加上标记
-        - 去掉环境中的变量以及被环境中的变量引用的变量的标记
-        - 那些还存在标记的变量被视为准备删除的变量
+        - **去掉环境中的变量以及被环境中的变量引用的变量的标记**
+        - 那些**还存在标记的变量被视为准备删除的变量**
         - 最后垃圾收集器会执行最后一步内存清除的工作，销毁那些带标记的值并回收它们所占用的内存空间
 
 21. **内存泄露**
@@ -1356,7 +1359,7 @@
 
       - 若是**同步任务则进入主线程**，形成一个**执行栈**；若是**异步任务则进入 Event Table 并且注册函数**
       - 当指定的事情完成时，Event Table 会将这个函数移入 Event Queue
-      - js 引擎存在 monitoring process 进程，会持续不断地检查主线程执行栈是否为空，一旦为空，就会去 Event Queue 那里检查是否有等待被调用的函数，若有则进入主线程执行
+      - js 引擎存在 monitoring process 进程，会**持续不断地检查主线程执行栈是否为空，一旦为空，就会去 Event Queue 那里检查是否有等待被调用的函数，若有则进入主线程执行**
       - 上述过程会不断重复，反复等待—执行，这就是**Event Loop**
       - 总结：**事件循环机制的特点：**出队一个宏任务 -> 调用栈为空后，执行一队微任务 -> 更新界面渲染 -> 回到第一步
 
@@ -1408,7 +1411,7 @@
 
       - process.nextTick()不属于任何 event loop 阶段，Node 在遇到这个 API 时，event loop 不会继续进行，会马上停下来执行 process.nextTick()，这个执行完之后才会继续 event loop
 
-    - 微任务队列中创建的宏任务会被添加到当前宏任务队列的尾端，微任务队列中创建的微任务会被添加到微任务队列的尾端，只要微任务队列中还有任务，宏任务队列就只会等待微任务队列执行完毕后再执行
+    - **微任务队列中创建的宏任务会被添加到当前宏任务队列的尾端，微任务队列中创建的微任务会被添加到微任务队列的尾端**，只要微任务队列中还有任务，宏任务队列就只会等待微任务队列执行完毕后再执行
 
 23. **this 的指向**
 
@@ -1479,39 +1482,196 @@
 
 29. **前端模块化**
 
-    - 有几种规范？
-    - commonjs 和 es module 都是怎么实现的？有啥区别？
+    - 为什么会产生前端模块化
+
+      - 现代 Web 网站正不断向 APP 演进
+      - 代码复杂性不断增加
+      - 项目越来越大
+      - 代码部署需要通过分包不断优化
+      - 代码重用需求
+
+    - 前端模块化的几种规范：CommonJS，AMD，CMD，UMD，ES6
+
+    - **CommonJS**
+
+      - 四个重要的环境变量：module、exports、require、global
+
+      - 使用
+
+        - **每个文件就是一个模块，有独立的作用域**，内部所有变量、函数对其它模块都是不可见的，**不会污染全局作用域**
+        - 每个模块可以多次加载，但是**只会在第一次加载时运行**，然后**会被缓存供后续加载时使用**。要让模块再次运行，必须清楚缓存
+        - **按照代码出现顺序同步加载模块**
+
+      - **module.exports 导出**
+
+        ```javascript
+        module.exports = {
+          // 里面是需要向外暴露的函数、变量
+          flag: true,
+          test(a, b) {
+            return a + b;
+          },
+          demo(a, b) {
+            return a + b;
+          },
+        };
+        ```
+
+      - **require 导入**：commonJS 模块输出的是值的缓存，不存在动态更新
+
+        ```javascript
+        let { test, demo, flag } = require('moduleA');
+        // 等同于
+        let _mA = require('moduleA');
+        let test = _mA.test;
+        let demo = _mA.demo;
+        let flag = _mA.flag;
+        ```
+        
+      - 加载过程
+
+        - **优先从缓存中加载**
+        - 若缓存中没有，检查**是否是核心模块**，若是则直接加载
+        - 若非核心模块，检查**是否是文件模块**，解析路径，根据解析出的路径定位文件，然后执行并加载
+        - 若以上都不是，**沿当前路径向上逐级递归，直到根目录的node_modules目录**
+        
+      - 循环依赖处理：当遇到循环依赖，加载的时候会**只加载已经执行并导出的部分**
+
+    - **AMD**（require.js）
+
+      - 初衷是为了解决浏览器端目前存在的以下问题：
+
+        - 大量出现的\<script>标签以及全局作用域污染
+        - 需要手工控制加载顺序
+        - commonJS存在的一些问题，如一个文件一个模块、浏览器不友好等
+
+      - 使用：`define(id?, dependencies?, factory);`
+
+        - id：用来标识一个模块
+        - dependencies：是一个数组，可以用路径也可以用id
+        - factory：回调函数，会在所有依赖都加载完成后自动执行
+
+        ```javascript
+        // 定义一个模块
+        define("module", ['dep'], function(dep) {
+          return exports;
+        });
+        // 导入和使用
+        require(['module'], function(module) {
+          // ...
+        })
+        ```
+
+      - **采用异步方式加载模块**，模块的加载不影响它后面语句的运行
+
+    - **CMD**（sea.js）
+
+      - 使用
+
+        ```javascript
+        /** sea.js **/
+        // 定义模块 math.js
+        define(function(require, exports, module) {
+            var $ = require('jquery.js');
+            var add = function(a,b){
+                return a+b;
+            }
+            exports.add = add;
+        });
+        // 加载模块
+        seajs.use(['math.js'], function(math){
+            var sum = math.add(1+2);
+        });
+        ```
+
+        - 推崇就近依赖，只有在用到某个模块的时候再去require
+
+    - **ES6 module**
+
+      - **编译时加载**，所以**import命令有提升效果**，会提升到整个模块的头部，首先执行
+
+      - **exports 导出**
+      
+        - **具名导出**
+      
+        - **as 关键字重命名导出**
+      
+          ```javascript
+          var first = 'test';
+          export { first as second };
+          ```
+      
+        - **export default默认导出**，即**用户不需要知道模块中输出的名字，在导入的时候为其指定任意名字**
+      
+          ```javascript
+          // 导出
+          export default function () {
+            console.log('foo');
+          }
+          // 导入
+          import customName from './export-default';
+          ```
+      
+      - **import 导入**
+      
+        - 正常导入 `import {firstName, lastName, year} from './profile';`
+        - as 关键字 `import { lastName as surname } from './profile';`
+        - 加载整个模块（无输出）`import 'lodash'; `
+        - 加载整个模块（有输出）`import * as circle from './circle';`
+      
+    - **ES6 模块与 CommonJS 模块的区别**
+
+      - **CommonJS 模块输出的是一个值的拷贝**，即一旦输出一个值**，模块内部的变化就影响不到这个值**；**ES6 模块输出的是值的引用**，JS 引擎对脚本静态分析的时候，遇到模块加载命令 import，就生成一个只读引用，等到脚本真正执行的时候，再根据这个只读引用，到被加载的那个模块里面去取值，**原始值变了，import 加载的值也会跟着变**。因此 ES6 模块是**动态引用，并且不会缓存值**，模块里面的变量绑定其所在的模块
+    - **CommonJS 模块是运行时加载**，加载的是一个对象，该对象只有在脚本运行完才会生成；**ES6 模块是编译时输出接口**
+      
+    - **总结比较**
+
+      | 标准/特性  | 适用场景        | 同步/异步  | 模块依赖关系确定时间 |
+      | ---------- | --------------- | ---------- | -------------------- |
+      | CommonJS   | 服务端          | 同步       | 运行时               |
+      | AMD        | 浏览器端        | 异步       | 运行时               |
+      | CMD        | 浏览器端        | 同步或异步 | 运行时               |
+      | ES6 Module | 服务端/浏览器端 | 同步或异步 | 编译时               |
+
+    - 模块化的好处
+
+      - 更好地分离：避免一个html放置多个script，只需引入一个总的script
+      - 避免命名冲突
+      - 更好地处理模块之间的依赖：每个模块只用担心自己所以来的模块
+      - 提高可维护性
+      - 前端性能优化
+      - 模块的版本管理
 
 30. **前端性能优化**
 
-    - 原则：多使用内存，缓存或者其他方式；减少CPU计算，减少网络请求；减少I/O操作
+    - 原则：多使用内存，缓存或者其他方式；减少 CPU 计算，减少网络请求；减少 I/O 操作
     - **加载资源优化**：
-      - **减少HTTP请求**：设置HTTP缓存；静态资源的合并和压缩，压缩css、js文件；CSS Sprites等
-        - webpack中使用以下插件压缩：
+      - **减少 HTTP 请求**：设置 HTTP 缓存；静态资源的合并和压缩，压缩 css、js 文件；CSS Sprites 等
+        - webpack 中使用以下插件压缩：
           - javascript：UglifyPlugin
           - CSS：MiniCssExtractPlugin
           - HTML：HtmlWebpackPlugin
-        - 使用gzip压缩
+        - 使用 gzip 压缩
       - 静态资源缓存
-      - **静态资源使用CDN**（内容分发网络）：CDN是一组分配在多个不同地理位置的Web服务器。
-      - **减少DNS查找**：减少主机名的数量
-      - **使用HTTP2**：HTTP2解析速度快；支持多路复用；提供首部压缩功能；可以对比较紧急的请求设置一个较高的优先级，服务器在收到请求后可优先处理；流量控制
+      - **静态资源使用 CDN**（内容分发网络）：CDN 是一组分配在多个不同地理位置的 Web 服务器。
+      - **减少 DNS 查找**：减少主机名的数量
+      - **使用 HTTP2**：HTTP2 解析速度快；支持多路复用；提供首部压缩功能；可以对比较紧急的请求设置一个较高的优先级，服务器在收到请求后可优先处理；流量控制
     - **渲染优化**
-      - **CSS放在文件head中，JS放在body中**：浏览器在构建CSSOM的过程中，不会渲染任何已处理的内容，即便DOM已经解析完毕，因此**CSS是阻塞渲染的资源，需尽早和尽快将其下载到客户端，以便缩短首次渲染的时间**；**JS引擎独立于渲染引擎，当HTML解析器遇到一个script标签时，会暂停渲染过程**，将控制权交给JS引擎，当JS引擎运行完毕，浏览器又会把控制权还给渲染引擎，继续CSSOM和DOM的构建（若JS放在头部，可以给script标签加上defer属性，异步下载，延迟执行）
-      - **尽量减少重绘重排**：修改样式不要直接写样式，而是替换class来改变样式
+      - **CSS 放在文件 head 中，JS 放在 body 中**：浏览器在构建 CSSOM 的过程中，不会渲染任何已处理的内容，即便 DOM 已经解析完毕，因此**CSS 是阻塞渲染的资源，需尽早和尽快将其下载到客户端，以便缩短首次渲染的时间**；**JS 引擎独立于渲染引擎，当 HTML 解析器遇到一个 script 标签时，会暂停渲染过程**，将控制权交给 JS 引擎，当 JS 引擎运行完毕，浏览器又会把控制权还给渲染引擎，继续 CSSOM 和 DOM 的构建（若 JS 放在头部，可以给 script 标签加上 defer 属性，异步下载，延迟执行）
+      - **尽量减少重绘重排**：修改样式不要直接写样式，而是替换 class 来改变样式
       - **图片懒加载**
-      - 减少DOM操作，对DOM操作做缓存
-      - 减少DOM操作，多个操作尽量合并在一起执行
+      - 减少 DOM 操作，对 DOM 操作做缓存
+      - 减少 DOM 操作，多个操作尽量合并在一起执行
       - 事件节流和防抖
-      - 尽早执行操作DOMContentLoaded
+      - 尽早执行操作 DOMContentLoaded
     - **使用事件委托**
     - **使用缓存**：Expires/Cache-Control & Last-Modified/Etag，不重复加载相同的资源
-    - **避免重定向**：页面重定向会延迟整个HTML文档的传输
-    - **通过webpack按需加载代码**：提取第三库代码；减少ES6转为ES5的冗余代码；import动态引入组件，按需加载
+    - **避免重定向**：页面重定向会延迟整个 HTML 文档的传输
+    - **通过 webpack 按需加载代码**：提取第三库代码；减少 ES6 转为 ES5 的冗余代码；import 动态引入组件，按需加载
     - **使用服务端渲染**：
-      - 客户端渲染：获取HTML文件，根据需要下载JS文件，允许文件，生成DOM，再渲染
-      - 服务端渲染：服务端返回HTML文件，客户端只需解析HTML
-      - 优点：**首屏渲染快，利于SEO**
+      - 客户端渲染：获取 HTML 文件，根据需要下载 JS 文件，允许文件，生成 DOM，再渲染
+      - 服务端渲染：服务端返回 HTML 文件，客户端只需解析 HTML
+      - 优点：**首屏渲染快，利于 SEO**
       - 缺点：**配置麻烦，增加了服务器的计算压力**
 
 31. **JS 延迟加载的方式**
@@ -1788,3 +1948,12 @@
 > 33. https://segmentfault.com/a/1190000016529612
 > 34. https://segmentfault.com/a/1190000019185648
 > 35. https://blog.csdn.net/an1090239782/article/details/78166983
+> 36. https://juejin.im/post/6844904019845103629
+> 37. https://juejin.im/post/6844903741020192776
+> 38. https://juejin.im/post/6844904099729637384
+> 39. https://juejin.im/post/6844903768660639751
+> 40. https://juejin.im/post/6844904087201267726
+> 41. https://juejin.im/post/6844904056557682701
+> 42. https://juejin.im/post/6844904055777689607
+> 43. https://juejin.im/post/6844903717947310093
+
