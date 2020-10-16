@@ -26,6 +26,7 @@
      - 可以包含浮动元素 —— 清除内部浮动(清除浮动的原理是两个 div 都位于同一个 BFC 区域之中)
      - 自适应两栏布局
      - 可以阻止元素被浮动元素覆盖
+   
 2. **盒模型**
 
    - **外边距(margin)、边框(border)、内边距(padding)、内容(content)**
@@ -444,7 +445,7 @@
 
     - **未知宽高的元素水平垂直居中**
 
-      1. 通过定位和 transform 来实现(absolute + transform)(子绝父相)
+      1. **通过定位和 transform 来实现**(absolute + transform)(子绝父相)
 
       ```CSS
       .parent {
@@ -463,7 +464,7 @@
       }
       ```
 
-      2. 利用 flex 布局来实现(flex + justify-content + align-items)
+      2. 利用 **flex 布局**来实现(flex + justify-content + align-items)
 
          ```css
          .parent {
@@ -480,7 +481,7 @@
          }
          ```
 
-      3. 将父元素设置为 table，子元素设置为 table-cell，利用 table 属性(table + table-cell + vertical-align + text-align)
+      3. 将**父元素设置为 table，子元素设置为 table-cell**，利用 table 属性(table + table-cell + vertical-align + text-align)
 
          ```css
          .parent {
@@ -505,94 +506,53 @@
 
 14. **CSS 动画**
 
-    先定义 @keyframes 规则（0%，100% | from，to）
+    - 先定义 @keyframes 规则（0%，100% | from，to）
+      - from 表示起始点；to 表示终点
 
-    - from 表示起始点
-    - to 表示终点
+    - 然后定义 animation，以下参数可直接写在 animation 后面
+      - animation: name duration timing-function delay iteration-count direction fill-mode play-state;
 
-    然后定义 animation，以下参数可直接写在 animation 后面
-
-    - animation: name duration timing-function delay iteration-count direction fill-mode play-state;
-
-    | 值                        | 描述                                                                                 |
-    | ------------------------- | ------------------------------------------------------------------------------------ |
-    | animation-name            | 指定要绑定到选择器的动画的名称                                                       |
-    | animation-duration        | 动画指定需要多少秒或毫秒完成。如果动画数量大于时间数量，将重新从时间列表中计算       |
-    | animation-timing-function | 设置动画将如何完成一个周期                                                           |
-    | animation-delay           | 定义过渡效果何时开始                                                                 |
-    | animation-iteration-count | 指定元素播放动画的循环次数。(infinite 表示无限循环执行)                              |
-    | animation-direction       | 指定元素动画播放的方向                                                               |
-    | animation-fill-mode       | 规定当动画不播放时(当动画完成时，或当动画有一个延迟未开始播放时)，要应用到元素的样式 |
-    | animation-play-state      | 指定动画是否正在运行或已暂停                                                         |
-    | initial                   | 设置属性为其默认值                                                                   |
-    | inherit                   | 从父元素继承属性                                                                     |
-
-    - animation-name
-
-      - 使用多个动画时用逗号分隔
-      - 多个动画有相同属性时，后面动画的属性优先使用
-
-    - animation-direction
-
-      - normal：从 0%到 100%运行动画
-      - reverse：从 100%到 0%运行动画
-      - alternate：先从 0%到 100%，然后从 100%到 0%
-      - alternate-reverse：先从 100%到 0%，然后从 0%到 100%
-
-    - animation-delay：liner | ease | ease-in | ease-out | ease-in-out | cubic-bezier(n,n,n,n)
-
-    - animation-play-state
-
-      - paused：暂停
-      - running：运行
-
-    - animation-fill-mode
-      - none：需要等延迟结束，起始帧属性才应用
-      - backwards：动画效果在起始帧，不等延迟结束
-      - forwards：结束后停留动画的最后一帧
-      - both：包含 backwards 与 forwards 规则，即动画效果在起始帧，不等延迟结束，并且在结束后停止在最后一帧
+    | 值                        | 描述                                                         |
+    | ------------------------- | ------------------------------------------------------------ |
+    | animation-name            | 指定要绑定到选择器的动画的名称<br />**使用多个动画时用逗号分隔<br />多个动画有相同属性时，后面动画的属性优先使用** |
+    | animation-duration        | 动画指定需要多少秒或毫秒完成。如果动画数量大于时间数量，将重新从时间列表中计算 |
+    | animation-timing-function | 设置动画将如何完成一个周期                                   |
+    | animation-delay           | 定义过渡效果何时开始<br />liner、ease、ease-in、ease-out、ease-in-out、cubic-bezier(n, n, n, n) |
+    | animation-iteration-count | 指定元素播放动画的循环次数。(infinite 表示无限循环执行)      |
+    | animation-direction       | 指定元素动画播放的方向<br />**normal：从 0%到 100%运行动画<br />reverse：从 100%到 0%运行动画<br />alternate：先从 0%到 100%，然后从 100%到 0%<br />alternate-reverse：先从 100%到 0%，然后从 0%到 100%** |
+    | animation-fill-mode       | 规定当动画不播放时(当动画完成时，或当动画有一个延迟未开始播放时)，要应用到元素的样式<br />**none：需要等延迟结束，起始帧属性才应用<br />backwards：动画效果在起始帧，不等延迟结束<br />forwards：结束后停留动画的最后一帧both：包含 backwards 与 forwards 规则，即动画效果在起始帧，不等延迟结束，并且在结束后停止在最后一帧** |
+    | animation-play-state      | 指定动画是否正在运行或已暂停<br />**paused：暂停<br />running：运行** |
+    | initial                   | 设置属性为其默认值                                           |
+    | inherit                   | 从父元素继承属性                                             |
 
 15. **过渡延迟**
 
     - transition: property duration timing-function delay;
 
-    | 值                         | 描述                                                                  |
-    | -------------------------- | --------------------------------------------------------------------- |
+    | 值                         | 描述                                                         |
+    | -------------------------- | ------------------------------------------------------------ |
     | transition-property        | 规定设置过渡效果的 CSS 属性的名称。默认值为 all，多个属性使用逗号分隔 |
-    | transition-duration        | 规定完成过渡效果需要多少秒或毫秒                                      |
-    | transition-timing-function | 规定速度效果的速度曲线                                                |
-    | transition-delay           | 定义过渡效果何时开始。                                                |
-
-    - transition-duration：
-
-      - 默认值为 0s 不产生过渡效果；
-      - 一个值时，所有属性使用同样的时间
-      - 二个值时，奇数属性使用第一个，偶数属性使用第二个
-      - 变化属性数量大于时间数量时，后面的属性再从第一个时间开始重复使用
+    | transition-duration        | 规定完成过渡效果需要多少秒或毫秒<br />**默认值为 0s 不产生过渡效果；<br />一个值时，所有属性使用同样的时间<br />二个值时，奇数属性使用第一个，偶数属性使用第二个<br />变化属性数量大于时间数量时，后面的属性再从第一个时间开始重复使用** |
+    | transition-timing-function | 规定速度效果的速度曲线                                       |
+    | transition-delay           | 定义过渡效果何时开始。<br />**默认为 0s 即立刻开始过渡<br />值可以为负数<br />变化属性数量大于时间数量时，后面的属性再从第一个时间开始重复使用** |
 
     - transition-timing-function
 
-      | 值                  | 描述                                                                  |
-      | ------------------- | --------------------------------------------------------------------- |
-      | linear              | 规定以相同速度开始至结束的过渡效果（等于 cubic-bezier(0,0,1,1)）      |
+      | 值                  | 描述                                                         |
+      | ------------------- | ------------------------------------------------------------ |
+      | linear              | 规定以相同速度开始至结束的过渡效果（等于 cubic-bezier(0,0,1,1)） |
       | ease                | 开始慢，然后快，慢下来，结束时非常慢（cubic-bezier(0.25,0.1,0.25,1)） |
-      | ease-in             | 开始慢，结束快（等于 cubic-bezier(0.42,0,1,1)）                       |
-      | ease-out            | 开始快，结束慢（等于 cubic-bezier(0,0,0.58,1)）                       |
-      | ease-in-out         | 中间快，两边慢（等于 cubic-bezier(0.42,0,0.58,1)）                    |
-      | cubic-bezier(n,n,n) | 在 cubic-bezier 函数中定义自己的值                                    |
+      | ease-in             | 开始慢，结束快（等于 cubic-bezier(0.42,0,1,1)）              |
+      | ease-out            | 开始快，结束慢（等于 cubic-bezier(0,0,0.58,1)）              |
+      | ease-in-out         | 中间快，两边慢（等于 cubic-bezier(0.42,0,0.58,1)）           |
+      | cubic-bezier(n,n,n) | 在 cubic-bezier 函数中定义自己的值 (\<x1>, \<y1>, \<x2>, \<y2>) |
 
-      - cubic-bezier(\<x1>, \<y1>, \<x2>, \<y2>)
       - 步进速度
 
         - steps(n,start)：设置 n 个时间点，第一时间点变化状态
         - steps(n,end)：设置 n 个时间点，第一时间点初始状态
         - step-start：等于 steps(1,start)，可以理解为从下一步开始
         - step-end：等于 steps(1,end)，可以理解为从当前步开始
-
-      - transition-delay
-        - 默认为 0s 即立刻开始过渡
-        - 值可以为负数
-        - 变化属性数量大于时间数量时，后面的属性再从第一个时间开始重复使用
 
 16. **link 与 @import 的区别**
 
@@ -719,6 +679,7 @@
         - 表格布局属性：border-style
         - 列表布局属性：list-style, list-style-type
         - 光标属性：cursor
+    
 22. **CSS Sprites**
 
     - 将一个页面涉及到的所有图片都包含到一张大图中去，然后利用 CSS 的 background-image，background- repeat，background-position 的组合进行背景定位
@@ -932,16 +893,67 @@
 
 27. **移动端用什么距离单位**
 
-28. **逻辑像素, 物理像素, 设备像素比**
+    - **em**：相对值，是一个相对于父元素的值
 
-29. **背景属性**
+      - **1 / 父元素的 font-size * 需要转换的像素值 = em 值**
+
+    - **rem**：相对值，是一个相对于根元素\<html>的值， 可自定义
+
+      - 1 rem = html 的 font-size
+
+      - 移动端rem适配
+        - **获取html的宽** `document.documentElement.clientWidth`
+        - **获取htmlDom元素** `let htmlDom = document.getElementByTagName('html')[0]`
+        - **设置html样式**`htmlDom.style.fontSize = htmlwith / 20 + 'px';`
+
+    - **百分比%**
+
+      - 设计稿上元素的宽度 / 设计稿宽度 = 元素在设备上显示的宽度百分比
+
+    - **vh 和 vw**
+
+      - vw：viewport 宽度，1vw == viewport 宽度的 1%
+      - vh：viewport 高度，1vh == viewport 高度的 1%
+
+    - **vmin 和 vmax**
+
+      - vmin：vw 和 vh 中比较小的值
+      - vmax：vw 和 vh 中比较大的值
+
+    - **ch 和 ex**：根据当前font-family 的相对单位
+
+      - ch：字符0的宽度
+      - ex：小写字符x的高度
+
+    - **calc()**：CSS3新单位算法。calc(expression)
+
+      - eg：width: calc(100% - 20px)
+
+28. **Viewport**
+
+    - 指用户网页的可视区域
+    - 属性值
+      - width / height：定义layout viewport的宽 / 高度
+      - initial-scale：初始缩放比例
+      - maximum-scale：允许用户缩放到的最大缩放比例
+      - minimum-scale：允许用户缩放到的最小缩放比例
+      - user-scaleable：是否允许用户缩放，可以设置yes / no
+
+29. **物理像素，逻辑像素, 设备像素比**
+
+    - 物理像素 DP (device pixels)：设备屏幕实际拥有的像素，pt
+    - 逻辑像素：设备独立像素(device independent pixel)，可以理解为反映在CSS里的像素点，也就是说CSS像素是逻辑像素的一种，px
+      - CSS像素 = 设备独立像素 = 逻辑像素
+    - 设备像素比 DPR：表示一个设备的物理像素 / 逻辑像素
+
+30. **背景属性**
 
     - background
     - background-color
     - background-image
     - background-repeat
     - background-position
-      - (表示相对于左侧的偏移量 background-position-x，表示相对于右侧的偏移量 background-position-y)
+      - (表示相对于左侧的偏移量 background-position-x，相对于右侧的偏移量 background-position-y)
     - background-clip
       - border-box
       - padding-box：将图片裁剪到内边距盒子以内
@@ -954,7 +966,7 @@
       - contain 可以让浏览器尽可能保持图片最大化，同时不改变图片的宽高比
       - cover 图片会缩放以保证覆盖元素的每一个像素，同时不会变形
 
-30. **什么情况下会发生边距叠加**
+31. **什么情况下会发生边距叠加**
 
     - 当**一个元素出现在另一个元素上面**时，第一个元素的下外边距与第二个元素的上外边距会发生合并
     - 当**一个元素包含在另一个元素中**时（假设**没有内边距或边框把外边距分隔开**），它们的上和/或下外边距也会发生合并
@@ -987,3 +999,10 @@
 > 15. https://www.runoob.com/w3cnote/css-position-static-relative-absolute-fixed.html ★
 > 16. https://blog.csdn.net/u013516618/article/details/52624314
 > 17. http://www.divcss5.com/rumen/r18099.shtml
+> 18. https://www.cnblogs.com/fanyx/p/6054981.html
+> 19. https://blog.csdn.net/dke1141/article/details/102198046
+> 20. https://blog.csdn.net/xiaodi520520/article/details/90056865
+> 21. https://segmentfault.com/a/1190000014502172
+> 22. https://www.cnblogs.com/zaoa/p/8630393.html ★
+> 23. https://blog.csdn.net/hjc256/article/details/83097907
+

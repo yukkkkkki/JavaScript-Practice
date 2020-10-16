@@ -110,7 +110,7 @@
      - `vuex`
      - 利用本地存储和`vue-router`等方式
 
-   - **`Props`传参**：父组件给子组件传递数据
+   - **`Props`传参：父组件给子组件传递数据**
 
      - 子组件里定义`props`三种方式
 
@@ -257,7 +257,7 @@
        - 单一组件层级一深需要逐层传递，会有很多不必要的代码量
        - 不能解决了多组件依赖统同一状态的问题
 
-   - `$emit`/`$on`：子组件向父组件传值
+   - **`$emit`/`$on`：子组件向父组件传值**
 
      ```javascript
      // 子组件里自定义事件：
@@ -266,9 +266,9 @@
      <cpn @item-click="cpnClick"></cpn>
      ```
 
-   - `provide`/`inject `依赖注入
+   - **`provide`/`inject `依赖注入**
 
-     - 在父组件上通过 provide 提供给后代组件的数据/方法，在后代组件上通过 inject 来接收被注入的数据/方法
+     - 在**父组件上通过 provide 提供给后代组件的数据/方法**，在**后代组件上通过 inject 来接收被注入的数据/方法**
 
        - provide：应该是一个对象或返回一个对象的函数。该对象包含可注入其子孙的 property
        - inject：应该是一个字符串数组，或者一个对象，对象的 key 是本地的绑定名，value 是
@@ -277,52 +277,102 @@
            - `from` property 是在可用的注入内容中搜索用的 key
            - `default` property 是降级情况下使用的 value
 
-       ```javascript
-       // 父组件
-       var Provider = {
-         provide: function () {
+     - 可以把依赖注入看作一部分“大范围有效的 prop”，除了
+
+       - **祖先组件不需要知道哪些后代组件使用它提供的 property**
+       - **后代组件不需要知道被注入的 property 来自哪里**
+
+     - 优点：不用像 props 一层层传递，**可以跨层级传递**
+
+     - 缺点
+
+       - 用**这种方式传递的 property 是非响应式的**，所以尽可能来传递一些静态属性。**如果你传入了一个可监听的对象，那么其对象的 property 还是可响应的**
+       - 它**将你的应用以目前的组件组织方式耦合了起来**，使重构变得更加困难
+
+     - 实例：
+
+       ```vue
+       // A.vue
+       <template>
+         <div style="width: 500px; margin: 0 auto; border: 1px solid black">
+           <h1>provide / inject</h1>
+           <comB></comB>
+         </div>
+       </template>
+       <script>
+       import comB from "./B";
+       export default {
+         name: "A",
+         provide: {
+           for: "我是A提供的for参数",
+         },
+         components: {
+           comB,
+         },
+       };
+       </script>
+       //B.vue
+       <template>
+         <div style="border: 1px solid blue">
+           <h1>这是子组件</h1>
+           {{ demo }}
+           <comC></comC>
+         </div>
+       </template>
+       <script>
+       import comC from "./C";
+       export default {
+         name: "B",
+         inject: ["for"],
+         data() {
            return {
-             getMap: this.getMap,
+             demo: this.for,
+           };
+         },
+         components: {
+           comC,
+         },
+       };
+       </script>
+       // C.vue
+       <template>
+         <div style="border: 1px solid red">
+           <h1>这是孙子组件</h1>
+           {{ demo }}
+         </div>
+       </template>
+       <script>
+       export default {
+         name: "C",
+         inject: ["for"],
+         data() {
+           return {
+             demo: this.for,
            };
          },
        };
-
-       // 子组件
-       var Child = { inject: ['getMap'] };
+       </script>
        ```
 
-     - 可以把依赖注入看作一部分“大范围有效的 prop”，除了
-
-       - 祖先组件不需要知道哪些后代组件使用它提供的 property
-       - 后代组件不需要知道被注入的 property 来自哪里
-
-     - 优点：不用像 props 一层层传递，可以跨层级传递
-
-     - 缺点
-
-       - 用这种方式传递的 property 是非响应式的，所以尽可能来传递一些静态属性。
-         - 如果你传入了一个可监听的对象，那么其对象的 property 还是可响应的
-       - **它将你的应用以目前的组件组织方式耦合了起来，使重构变得更加困难**
-
-   - `slot` / `slot-scope`
+   - **`slot` / `slot-scope`**
 
      - 可以在组件的 html 模版里添加自定义内容
      - **父组件模板的所有东西都会在父级作用域内编译；子组件模板的所有东西都会在子级作用域内编译**
-     - 优点：可以在父组件里自定义插入到子组件里的内容；复用性好,适合做组件开发
-     - 缺点：和 props 一样不支持跨层级传递
+     - 优点：**可以在父组件里自定义插入到子组件里的内容；复用性好,适合做组件开发**
+     - 缺点：和 props 一样**不支持跨层级传递**
 
-   - `$parent` / `$children`：通过`$parent`/`$children`可以拿到父子组件的实例，从而调用实例里的方法，实现父子组件通信。并不推荐这种做法。
+   - **`$parent` / `$children`**：通过`$parent`/`$children`可以拿到父子组件的实例，从而调用实例里的方法，实现父子组件通信。并不推荐这种做法。
 
      - 优点：可以拿到父子组件实例，从而拥有实例里的所有属性
      - 缺点
-       - 用这种方法写出来的组件十分难维护，因为你并不知道数据的来源是哪里，有悖于单向数据流的原则
+       - 用这种方法写出来的组件十分难维护，因为你并不知道数据的来源是哪里，有悖单向数据流原则
        - `this.$children`拿到的是一个数组，你并不能很准确的找到你要找的子组件的位置，尤其是子组件多的时候
 
-   - `$attrs`和`$listeners`传参
+   - **`$attrs`和`$listeners`**
 
      - **\$attrs**：包含了父作用域中**不作为 prop 被识别 (且获取)** 的 attribute 绑定。当一个组件没有声明任何 prop 时，这里会包含所有父作用域的绑定，并且可以通过 `v-bind="$attrs"` 传入内部组件
 
-     - **\$listeners**：包含了父作用域中的 (不含 `.native` 修饰器的) `v-on` 事件监听器。它可以通过 `v-on="$listeners"` 传入内部组件
+     - **\$listeners**：**包含了父作用域中的 (不含 `.native` 修饰器的) `v-on` 事件监听器**。它可以通过 `v-on="$listeners"` 传入内部组件
 
      - **使用方法**：父组件的子组件中，引用孙子组件时给其 v-bind 绑定$attrs，获取到父组件中传递下来除了子组件中props声明的属性；v-on绑定$listeners，这样孙子组件可以直接向爷爷组件 emit 数据
 
@@ -412,7 +462,11 @@
        </script>
        ```
 
-   - `EventBus`
+   - **`ref / refs`**
+
+     - 
+
+   - **EventBus**
 
    - `Vuex`传参
 
