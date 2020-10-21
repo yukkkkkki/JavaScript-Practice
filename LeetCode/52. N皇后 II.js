@@ -27,6 +27,7 @@ var totalNQueens = function (n) {
   const isValid = (row, col) => {
     for (let i = 0; i < row; i++) {
       for (let j = 0; j < n; j++) {
+        // 斜对角线和对角线不可以走
         if (
           checkBoard[i][j] === 'Q' &&
           (j == col || i + j == row + col || i - j == row - col)
