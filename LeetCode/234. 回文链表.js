@@ -11,8 +11,8 @@
 // 方法一：字符串拼接比较
 // 通过正向、反向将链表节点值拼接成字符串，最后比较正向、反向字符串是否相同
 var isPalindrome = function (head) {
-  let positiveStr = "";
-  let reverseStr = "";
+  let positiveStr = '';
+  let reverseStr = '';
 
   while (head) {
     const nodeVal = head.val;
@@ -56,36 +56,29 @@ function isPalindrome(head) {
     return true;
   }
 
-  let slowRef = head; // 慢指针
-  let fastRef = head; // 快指针
+  let slow = head; // 慢指针
+  let fast = head; // 快指针
   let reverseRef; // 反转前半部分
   let reversePreRef; // 反转前一个节点
   // 连续 2 个节点都存在
-  while (fastRef && fastRef.next) {
-    // 快指针前进 2 步
-    fastRef = fastRef.next.next;
-    reverseRef = slowRef;
-    // 慢指针前进 1 步
-    slowRef = slowRef.next;
+  while (fast && fast.next) {
+    fast = fast.next.next; // 快指针前进 2 步
+    reverseRef = slow;
+    slow = slow.next; // 慢指针前进 1 步
 
-    // 反转链表
-    reverseRef.next = reversePreRef;
-    // 记录上一个节点
-    reversePreRef = reverseRef;
+    reverseRef.next = reversePreRef; // 反转链表
+    reversePreRef = reverseRef; // 记录上一个节点
   }
 
   // 奇数场景
-  if (fastRef) {
-    // 中间值不用比较，慢指针直接前进一步
-    slowRef = slowRef.next;
-  }
+  if (fast) slow = slow.next; // 中间值不用比较，慢指针直接前进一步
 
-  while (reverseRef && slowRef) {
-    if (reverseRef.val !== slowRef.val) {
+  while (reverseRef && slow) {
+    if (reverseRef.val !== slow.val) {
       return false;
     }
     reverseRef = reverseRef.next;
-    slowRef = slowRef.next;
+    slow = slow.next;
   }
   return true;
 }
