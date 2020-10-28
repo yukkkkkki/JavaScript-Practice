@@ -163,10 +163,151 @@ var sortArray = function (nums) {
 // 平均时间复杂度：O(nlogn);
 // 最好时间复杂度：O(nlogn);
 // 最坏时间复杂度：O(n^2);
+// 空间复杂度：O(n)
+
+// 改进
+var sortArray = function (nums) {
+  function swap(arr, a, b) {
+    // let tmp = arr[a];
+    // arr[a] = arr[b];
+    // arr[b] = tmp;
+    [arr[b], arr[a]] = [arr[a], arr[b]];
+  }
+  // 分区操作
+  function partition(arr, left, right) {
+    let pivot = arr[right];
+    let storeIndex = left; // 依次紧挨着存放小于pivot的元素
+    for (let i = left; i < right; ++i) {
+      if (arr[i] < pivot) {
+        swap(arr, storeIndex, i);
+        storeIndex++;
+      }
+    }
+    // 将pivot交换到storeIndex处，基准元素放置到最终正确位置上
+    swap(arr, right, storeIndex);
+    return storeIndex;
+  }
+
+  function sort(arr, left, right) {
+    if (left > right) return;
+    let storeIndex = partition(arr, left, right);
+    sort(arr, left, storeIndex - 1);
+    sort(arr, storeIndex + 1, right);
+  }
+  sort(nums, 0, nums.length - 1);
+  return nums;
+};
+// 平均时间复杂度：O(nlogn);
+// 最好时间复杂度：O(nlogn);
+// 最坏时间复杂度：O(n^2);
 // 空间复杂度：O(logn)
 
 // 方法七：堆排序
 
 // 方法八：计数排序
+var sortArray = function (nums) {
+  function countingSort(arr) {
+    const n = arr.length;
+    let max = Math.max(...arr);
+    let min = Math.min(...arr);
+
+    let buckets = new Array(max - min + 1).fill(0);
+    for (let item of arr) {
+      buckets[item - min]++; // 解决出现负数的情况
+    }
+    let current = 0;
+    for (let i = 0; i < buckets.length; i++) {
+      while (buckets[i] > 0) {
+        arr[current++] = i + min; // 将桶的编号加上最小值，变回原来的元素
+        buckets[i]--;
+      }
+    }
+    return arr;
+  }
+
+  return countingSort(nums);
+};
+// 平均时间复杂度：O(n + k);
+// 最好时间复杂度：O(n + k);
+// 最坏时间复杂度：O(n + k);
+// 空间复杂度：O(k)
 
 // 方法九：桶排序
+// 稳定与否取决于每个桶的排序方式，若为快排则不稳定，为归并则稳定
+var sortArray = function (nums) {
+  function bucketSort(arr, bucketSize) {
+    const n = arr.length;
+    if (n === 0) return arr;
+    // console.time('桶排序耗时');
+    let i = 0;
+    let min = arr[0];
+    let max = arr[0];
+    for (i = 1; i < n; i++) {
+      if (arr[i] < min) {
+        min = arr[i];
+      } else if (arr[i] > max) {
+        max = arr[i];
+      }
+    }
+    // 桶的初始化
+    const default_bucket_size = 5;
+    bucketSize = bucketSize || default_bucket_size;
+    const bucketCount = Math.floor((max - min) / bucketSize) + 1;
+    const buckets = new Array(bucketCount);
+    for (i = 0; i < buckets.length; i++) {
+      buckets[i] = [];
+    }
+    // 利用映射函数将数据分配到各个桶中
+    for (i = 0; i < n; i++) {
+      buckets[Math.floor((arr[i] - min) / bucketSize)].push(arr[i]);
+    }
+    arr.length = 0;
+    for (i = 0; i < buckets.length; i++) {
+      quickSort(buckets[i]); //对每个桶进行排序，这里使用了快速排序
+      for (let j = 0; j < buckets[i].length; j++) {
+        arr.push(buckets[i][j]);
+      }
+    }
+    // console.timeEnd('桶排序耗时');
+    return arr;
+  }
+  const quickSort = (arr, left, right) => {
+    let len = arr.length,
+      partitionIndex;
+    left = typeof left != 'number' ? 0 : left;
+    right = typeof right != 'number' ? len - 1 : right;
+    if (left < right) {
+      partitionIndex = partition(arr, left, right);
+      quickSort(arr, left, partitionIndex - 1);
+      quickSort(arr, partitionIndex + 1, right);
+    }
+    return arr;
+  };
+  //分区操作
+  const partition = (arr, left, right) => {
+    let pivot = left,
+      index = pivot + 1;
+    for (let i = index; i <= right; i++) {
+      if (arr[i] < arr[pivot]) {
+        swap(arr, i, index);
+        index++;
+      }
+    }
+    swap(arr, pivot, index - 1);
+    return index - 1;
+  };
+
+  const swap = (arr, i, j) => {
+    let temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+  };
+
+  return bucketSort(nums);
+};
+// 平均时间复杂度：O(n + k);
+// 最好时间复杂度：O(n + k);
+// 最坏时间复杂度：O(n^2);
+// 空间复杂度：O(n + k)
+
+// 方法十：基数排序
