@@ -101,10 +101,10 @@
    - Storage 事件
 
      - 对 Storage 对象进行任何的操作，都会在文档上触发 Storage 事件， 这个事件的 event 对象有以下属性
-           - domain：发生变化的存储空间的域名
-               - key：设置或删除的键名
-               - newValue：如果是设置值，则是新值。如果是删除键，则为 null
-               - oldValue：键被更改之前的值
+       - domain：发生变化的存储空间的域名
+       - key：设置或删除的键名
+       - newValue：如果是设置值，则是新值。如果是删除键，则为 null
+       - oldValue：键被更改之前的值
 
    - 数据库级别
 
@@ -185,10 +185,11 @@
    - 现代浏览器为 JavaScript 创造的 多线程环境。可以新建并将部分任务分配到 worker 线程并行运行，两个线程可**独立运行，互不干扰**，可通过自带的**消息机制**相互通信。
    
 - postMessage //向 worker 发送数据
+   
    - onmessage //接收 worker 传过来的数据函数
    
 - **基本用法**
-   
+  
   ```javascript
      // 创建 worker
      const worker = new Worker("work.js");
@@ -200,8 +201,8 @@
      worker.onmessage = function (event) {
        console.log("Received message " + event.data);
      };
-     ```
-   
+  ```
+  
 - **限制**
      - 同源限制
      - 无法使用 document / window / alert / confirm

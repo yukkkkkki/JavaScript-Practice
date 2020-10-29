@@ -2,9 +2,24 @@
 
 1. **let、const**
 
-   - let：声明变量；块级作用域；不存在变量提升；不允许在相同作用域内重复声明同一个变量
+   - let：声明**变量**；**块级作用域；不存在变量提升；不允许在相同作用域内重复声明同一个变量**
 
-     - 暂时性死区：只要块级作用域内存在`let`命令，它所声明的变量就“绑定”（binding）这个区域，不再受外部的影响。
+     ```javascript
+     var a = [];
+     for (let i = 0; i < 10; i++) {
+       a[i] = function () {
+         console.log(i);
+       };
+     }
+     a[6](); // 6
+     // 变量i是let声明的，当前的i只在本轮循环有效，所以每一次循环的i其实都是一个新的变量，最后输出6
+     
+     // 当i是var声明的时，在全局范围内都有效，所以全局只有一个变量i。
+     // 每一次循环，i的值都会发生改变，而循环内被赋给数组a的函数内部的console.log(i)，i指向全局的i
+     // 即所有数组a的成员里面的i，指向的都是同一个i，导致运行时输出的是最后一轮的i的值，也就是 10
+     ```
+
+     - **暂时性死区**：只要块级作用域内存在`let`命令，它所声明的变量就“绑定”（binding）这个区域，**不再受外部的影响**。
 
        ```javascript
        var tmp = 123;
@@ -14,11 +29,9 @@
        }
        ```
 
-   - const：声明常量；块级作用域；const 声明不允许修改绑定，但允许修改值
+   - const：声明**常量**；**块级作用域；不存在变量提升，const 声明不允许修改绑定，但允许修改值**
 
      - 即声明对象时，可以修改对象的属性值
-
-   - **var、let、const 区别的实现原理**
 
 2. **箭头函数**
 
@@ -611,6 +624,66 @@
 
 15. **Proxy**
 
+    - `var proxy = new Proxy(target, handler)`，在目标对象之前架设一层“拦截”，外界对该对象的访问，都必须先通过这层拦截，因此提供了一种机制，可以对外界的访问进行过滤和改写
+
+    ```javascript
+    let target = { _prop: 'foo', prop: 'foo' }; // 要拦截的对象
+    var proxy = new Proxy(target, {
+      get: function (obj, prop) {
+        console.log('设置 get 操作');
+        return obj[prop];
+      },
+      set: function (obj, prop, value) {
+        console.log('设置 set 操作');
+        obj[prop] = value;
+      },
+      has(target, key) {
+        if (key[0] === '_') {
+          return false;
+        }
+        return key in target;
+      },
+    });
+    
+    proxy.time = 35; // 设置 set 操作
+    console.log(proxy.time); // 设置 get 操作 // 35
+    console.log('_prop' in proxy); // false
+    
+    // 使用get拦截，实现数组读取负数的索引
+    function createArray(...elements) {
+      let handler = {
+        get(target, propKey, receiver) {
+          let index = Number(propKey);
+          if (index < 0) {
+            propKey = String(target.length + index);
+          }
+          return Reflect.get(target, propKey, receiver);
+        },
+      };
+    
+      let target = [];
+      target.push(...elements);
+      return new Proxy(target, handler);
+    }
+    let arr = createArray('a', 'b', 'c');
+    console.log(arr[-1]); // c
+    ```
+
+    - 支持的拦截操作：
+      - get(target, propKey, receiver)
+      - set(target, propKey, value, receiver)
+      - has(target, propKey)
+      - deleteProperty(target, propKey)
+      - ownKeys(target)
+      - getOwnPropertyDescriptor(target, propKey)
+      - defineProperty(target, propKey, propDesc)
+      - preventExtensions(target)
+      - getPrototypeOf(target)
+      - isExtensible(target)
+      - setPrototypeOf(target, proto)
+      - apply(target, object, args)
+      - construct(target, args)
+
 16. **Class**
 
     - **constructor 方法**：是类的默认方法，**通过 new 命令生成对象实例时，自动调用该方法**。一个类必须有该方法，若没有显示定义，一个空的 constructor 方法会被默认添加
@@ -781,7 +854,7 @@
     - **ES6 可以自定义原生数据结构，这是 ES5 无法做到的**
     - **`extends`关键字不仅可以用来继承类，还可以用来继承原生的构造函数**。因此可以在原生数据结构的基础上，定义自己的数据结构
 
-19. **ES6 Module**
+18. **ES6 Module**
 
     - 传统的模块模式：基于一个带有内部变量和函数的外层函数，以及一个被返回的 public API，这个 API 带有对内部数据和功能拥有闭包的方法
 
@@ -873,9 +946,13 @@
         foo.baz();
         ```
 
-    
 
 > 参考链接
 >
-> 1. https://es6.ruanyifeng.com/#docs/set-map
-> 2. https://juejin.im/post/6844903576309858318#heading-3
+> 1. https://es6.ruanyifeng.com/#docs/let
+> 2. https://es6.ruanyifeng.com/#docs/set-map
+> 3. https://juejin.im/post/6844903576309858318#heading-3
+> 4. https://cloud.tencent.com/developer/article/1465078
+> 5. https://es6.ruanyifeng.com/#docs/proxy
+> 6. https://cloud.tencent.com/developer/article/1460544
+> 7. https://cloud.tencent.com/developer/article/1451912

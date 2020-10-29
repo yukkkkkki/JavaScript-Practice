@@ -312,14 +312,13 @@
 10. **HTTP请求方法**
 
     - GET：**获取资源**。请求访问已被URI识别的资源。指定的资源经服务端解析后返回响应内容
-- POST：**传输实体主体**。主要目的并不是获取响应的主体内容
-    - PUT：**传输文件**。就像FTP协议的文件上传一样，要求**在请求报文的主体中包含文件内容**，然后保存到请求URI指定的位置。但**HTTP/1.1 的PUT方法自身不带验证机制，任何人都可以上传文件，存在安全性问题**，因此一般的web网站不使用该方法
-- HEAD：**获得报文首部**。和GET方法一样，只是不返回报文主体部分。用于**确认URI的有效性及资源更新的日期时间等**
-    - DELETE：**删除文件**。按请求URI删除指定的资源。和PUT方法一样**不带验证机制**
-    - OPTIONS：**询问支持的方法**。用来查询针对请求URI指定的资源支持的方法
-- TRACE：**追踪路径**。让web服务器端将之前的请求通信返回给客户端的方法。客户端通过TRACE方法可以查询发送出去的请求是怎样被加工修改/篡改的。容易引发XST跨站追踪
-    - CONNECT：**要求用隧道协议链接代理**。要求在与代理服务器通信时建立隧道，实现用隧道协议进行TCP通信。主要使用SSL(Secure Sockets Layer，安全套接层)和TLS(Transport Layer Security，传输层安全)协议把通信内容加密后经网络隧道传输
-    
+    - POST：**传输实体主体**。主要目的并不是获取响应的主体内容
+      - PUT：**传输文件**。就像FTP协议的文件上传一样，要求**在请求报文的主体中包含文件内容**，然后保存到请求URI指定的位置。但**HTTP/1.1 的PUT方法自身不带验证机制，任何人都可以上传文件，存在安全性问题**，因此一般的web网站不使用该方法
+    - HEAD：**获得报文首部**。和GET方法一样，只是不返回报文主体部分。用于**确认URI的有效性及资源更新的日期时间等**
+      - DELETE：**删除文件**。按请求URI删除指定的资源。和PUT方法一样**不带验证机制**
+      - OPTIONS：**询问支持的方法**。用来查询针对请求URI指定的资源支持的方法
+    - TRACE：**追踪路径**。让web服务器端将之前的请求通信返回给客户端的方法。客户端通过TRACE方法可以查询发送出去的请求是怎样被加工修改/篡改的。容易引发XST跨站追踪
+      - CONNECT：**要求用隧道协议链接代理**。要求在与代理服务器通信时建立隧道，实现用隧道协议进行TCP通信。主要使用SSL(Secure Sockets Layer，安全套接层)和TLS(Transport Layer Security，传输层安全)协议把通信内容加密后经网络隧道传输
 11. **WebSocket**
 
     - 服务器与客户端之间全双工通信标准，是真正的**双向平等对话**，属于服务器推送技术的一种。(不受同源政策影响)
@@ -362,22 +361,24 @@
     - **GET**：主要用于获取信息，无副作用，幂等，可缓存
 
       - 浏览器**回退无害**
-      - 请求 URL 的编码格式仅支持 ASCII 编码；**不能提交 json 数据**
+      - 请求 URL 的编码格式**仅支持 ASCII 编码**；**不能提交 json 数据**
       - 请求的数据**会附加在 URL 之后**，用问号分割，多个参数用&进行连接，会暴露在地址栏中，
       - 相对安全性较差，会被浏览器**主动缓存**
       - 产生一个 TCP 数据包，**head 和 data 一起发送**
+      - **比post快**：post请求包含更多的请求头；post在真正接收数据之前会先将请求头发送给服务器进行确认，然后才真正发送数据
 
     - **POST**：主要用于创建或者更新数据，有副作用，非幂等，**不可缓存**
       - 浏览器**回退重新请求**
-      - post 请求 URL 的编码格式支持各种编码
+      - 不能进行管道化传输
+      - post 请求 URL 的编码格式**支持各种编码**
       - post 请求必须**设置 Content-Type 值为`application/x-form-www-urlencoded`**
       - 请求会把**数据放置在 HTTP 请求包的包体中**，不会直接暴露给用户
       - 理论上**大小是不会限制的**，但是实际上各个服务器会规定 POST 提交数据大小
       - **相对 Get 更安全**，因为参数不会保存浏览器历史或者是 web 服务器日志中，**不会被缓存**
-      - 部分浏览器或框架，POST 方法会产生**两个 TCP 数据包**，header 先发送，服务端返回 100 状态码再发送 Body，服务器 200 然后返回数据
+      - 部分浏览器或框架，POST 方法会产生**两个 TCP 数据包**，**header 先发送**，**服务端返回 100 状态码再发送 Body，服务器 200 然后返回数据**
     - **无区别表现**
       - GET 和 POST 只**是 HTTP 协议中的两种请求方式，**而 HTTP 协议之基于 TCP/IP 的应用层协议，无论 POST 和 GET 都是用同一个传输层协议，所以传输上没有区别
-      - GET 和 POST 能做的事情是一样的，只要给 GET 加上 request body，给 POST 加上 url 参数，技术上完全是行得通的
+      - GET 和 POST **能做的事情是一样的**，只要给 GET 加上 request body，给 POST 加上 url 参数，技术上完全是行得通的
 
 14. **fetch**
 
@@ -385,7 +386,7 @@
 
     - **同源**指的是两个域需要协议，子域名，主域名与端口号都保持一致，四者有一个不同，即属于**跨域**
 
-    - 同源政策的**目的**：保证用户信息的安全，防止恶意的网站窃取数据
+    - 同源政策的**目的**：**是浏览器的安全机制，旨在保证用户信息的安全，防止恶意的网站窃取数据**
 
     - 同源策略限制内容：不是一个源的文档，你没有权力去操作另一个源的文档
 
@@ -395,15 +396,13 @@
 
     - 特别说明：
 
-      - 如果是协议和端口造成的跨域问题"前台"是无能为力的
+      - 如果是**协议和端口造成的跨域问题"前台"是无能为力的**
       - 在跨域问题上，仅仅是通过"URL 的首部"来识别而不会根据域名对应的 IP 地址是否相同来判断
       - 跨域并不是请求发不出去，请求能发出去，服务端能收到请求并正常返回结果，只是结果被浏览器拦截了
 
     - 跨域的**解决方案**
 
-      - **JSONP**
-
-        - 利用 script 标签可以不受限制的从其他域加载资源的能力，进行跨域通信
+      - **JSONP**：**利用 script 标签可以不受限制的从其他域加载资源的能力**，进行跨域通信
 
         - 由两部分组成：回调函数和数据
 
@@ -421,17 +420,17 @@
         - 优缺点
 
           - 优点：简单，兼容性好，可用于解决主流浏览器的跨域数据访问的问题
-          - 缺点：仅支持 get 方法具有局限性,不安全可能会遭受 XSS 攻击
+          - 缺点：**仅支持 get 方法**具有局限性，不安全可能会遭受 XSS 攻击
 
-        - JSONP 的使用
+        - JSONP 的使用步骤
 
           - 动态创建一个 script 元素
 
-          - 为 script 指定 src 属性的值，需要将回调函数名拼接给 url，形式为：`callback=functionName`
+          - 为 script 指定 src 属性的值，需要**将回调函数名拼接给 url**，形式为：`callback=functionName`
 
           - 然后动态地将 script 标签追加到 body 中
 
-          - 前端声明一个函数，函数名作为参数值传递给跨域请求数据的服务器，**函数形参为要获取目标函数**(服务器返回的 data)；服务器收到请求后，需要进行特殊的处理：把传递进来的函数名和要返回去的数据拼接成一个字符串。最后服务器把准备的数据通过 HTTP 协议返回给客户端，客户端再调用执行之前声明的回调函数，对返回的数据进行操作
+          - 前端声明一个函数，**函数名作为参数值传递给跨域请求数据的服务器，函数形参为要获取目标函数(服务器返回的 data)**；服务器收到请求后，需要进行特殊的处理：**把传递进来的函数名和要返回去的数据拼接成一个字符串**。最后服务器把准备的数据通过 HTTP 协议返回给客户端，客户端再调用执行之前声明的回调函数，对返回的数据进行操作
 
         - 简单实现
 
@@ -536,7 +535,22 @@
 
       - **CORS**(cross-origin-resource) 跨域资源共享
 
-        - 浏览器一旦发现请求跨源，就会在请求报文中自动添加一些附加的 origin 头信息(包括页面源信息：协议、域名和端口号)，有时还会多出一次附加的请求；**服务器**收到请求报文后，如果同意该请求，则在响应报文头部加 Access-Control-Allow-Origin，值与请求报文头的 origin 头部的值一致
+        - 浏览器一旦发现请求跨源，就会**在请求报文中自动添加一些附加的 origin 头信息**(**包括页面源信息：协议、域名和端口号**)，有时还会多出一次附加的请求；**服务器**收到请求报文后，如果**同意该请求，则在响应报文头部加 Access-Control-Allow-Origin**，值与请求报文头的 origin 头部的值一致
+
+        ```http
+        // 示例
+        GET / HTTP/1.1
+        Host: shanyue.tech
+        Origin: http://shanyue.tech
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36
+        
+        HTTP/1.1 200 OK
+        Access-Control-Allow-Origin: *
+        Content-Type: text/plain; charset=utf-8
+        Content-Length: 12
+        Date: Wed, 08 Jul 2020 17:03:44 GMT
+        Connection: keep-alive
+        ```
 
         - Access-Control-Allow-Origin：表示哪些域名可以访问资源，如果设置通配符则表示所有网站都可以访问资源
 
@@ -554,15 +568,19 @@
 
             - 简单请求
 
-              - 使用 GET/HEAD/POST 方法之一
-              - Content-Type 的值仅限于 text/plain | multipart/form-data | application/x-www-form-urlencoded 中三者之一
-
-            - 复杂请求：不符合以上条件的请求
-              - 会在正式通信之前，增加一次 HTTP 查询请求，称为"预检"请求,该请求是 option 方法的，通过该请求来知道服务端是否允许跨域请求
+              - **Method**: GET/HEAD/POST 
+              - **Header**: Content-Type| Accept-Language | Content-Language 
+              - **Content-Type**: text/plain | multipart/form-data | application/x-www-form-urlencoded
+            - **复杂请求**：当请求跨域且不是简单请求时会发起**"预检"请求**，即在正式通信之前，增加一次 HTTP 查询请求，也就是**Options**，通过该请求来知道服务端是否允许跨域请求
+              - Content-Type: application/json
+              - Authorization: \<token>
+              - Access-Control-Allow-Methods
+              - Access-Control-Allow-Headers
+              - Access-Control-Max-Age
 
       - **iframe**
 
-        - window.name + iframe
+        - **window.name + iframe**
 
           - window.name 属性的独特之处：name 值在不同的页面（甚至不同域名）加载后依旧存在，并且可以支持非常长的 name 值
 
@@ -570,9 +588,7 @@
             // a.html(http://localhost:3000/b.html)
             <iframe
               src="http://localhost:4000/c.html"
-              frameborder="0"
-              onload="load()"
-              id="iframe"
+              frameborder="0" onload="load()" id="iframe"
             >
             </iframe>
             <script>
@@ -590,25 +606,25 @@
                 }
               }
             </script>
-
+            
             // c.html(http://localhost:4000/c.html)
-
-            <script>
-              window.name = '我不爱你';
-            </script>
             ```
-
-          - a 页面和 b 页面同域，b 为中间代理页面，通过 iframe 的 Src 属性由外域转向本地域，跨域数据由 iframe 的 window.name 从外域传递到本地域。巧妙地绕过了浏览器的跨域访问限制，但同时它又是安全操作
-
-        - location.hash + iframe
-
-          - 实现原理：a.html 欲与 c.html 跨域相互通信，通过中间页 b.html 来实现。 三个页面，不同域之间利用 iframe 的 location.hash 传值，相同域之间直接 js 访问来通信
-
-          - 具体实现步骤：一开始 a.html 给 c.html 传一个 hash 值，然后 c.html 收到 hash 值后，再把 hash 值传递给 b.html，最后 b.html 将结果放到 a.html 的 hash 值中
-
-          ```javascript
+      <script>
+              window.name = '我不爱你';
+      </script>
+            ```
+            
+          - a 页面和 b 页面同域，**b 为中间代理页面，通过 iframe 的 Src 属性由外域转向本地域，跨域数据由 iframe 的 window.name 从外域传递到本地域**。巧妙地绕过了浏览器的跨域访问限制，但同时它又是安全操作
+      
+      - **location.hash + iframe**
+        
+        - 实现原理：a.html 欲与 c.html 跨域相互通信，**通过中间页 b.html 来实现**。 三个页面，**不同域之间利用 iframe 的 location.hash 传值**，相同域之间直接 js 访问来通信
+        
+        - 具体实现步骤：一开始 a.html 给 c.html 传一个 hash 值，然后 c.html 收到 hash 值后，再把 hash 值传递给 b.html，最后 b.html 将结果放到 a.html 的 hash 值中
+        
+        ```javascript
           // a.html
-          <iframe src="http://localhost:4000/c.html#iloveyou"></iframe>
+        <iframe src="http://localhost:4000/c.html#iloveyou"></iframe>
           <script>
             window.onhashchange = function () {
               //检测 hash 的变化
@@ -620,32 +636,32 @@
             window.parent.parent.location.hash = location.hash;
             //b.html将结果放到a.html的hash值中，b.html可通过parent.parent访问a.html页面
           </script>
-
+        
           // c.html
           console.log(location.hash);
-          let iframe = document.createElement('iframe');
+        let iframe = document.createElement('iframe');
           iframe.src = 'http://localhost:3000/b.html#idontloveyou';
           document.body.appendChild(iframe);
-          ```
-
-        - document.domain + iframe
-
-          - 只能用于二级域名相同的情况下，比如 a.test.com 和 b.test.com 适用于该方式
-
-          - 实现原理：两个页面都通过 js 强制设置 document.domain 为基础主域，就实现了同域
-
-      - **postMessage**
-
-        - postMessage 方法允许来自不同源的脚本采用异步方式进行有限的通信，可以实现跨文本档、多窗口、跨域消息传递
-
-        - otherWindow.postMessage(message, targetOrigin, \[transfer]);
-
-          - message: 将要发送到其他 window 的数据
-
-        - targetOrigin：通过窗口的 origin 属性来指定哪些窗口能接收到消息事件，其值可以是字符串"\*"（表示无限制）或者一个 URI - transfer(可选)：是一串和 message 同时传递的 Transferable 对象
-
-        - example:
-
+        ```
+        
+        - **document.domain + iframe**
+        
+        - 只能用于二级域名相同的情况下，比如 a.test.com 和 b.test.com 适用于该方式
+        
+        - 实现原理：两个页面都通过 js 强制设置 document.domain 为基础主域，就实现了同域
+        
+    - **postMessage**
+      
+      - postMessage 方法**允许来自不同源的脚本采用异步方式进行有限的通信，可以实现跨文本档、多窗口、跨域消息传递**
+      
+      - otherWindow.postMessage(message, targetOrigin, \[transfer]);
+      
+        - message: 将要发送到其他 window 的数据
+      
+      - targetOrigin：通过窗口的 origin 属性来指定哪些窗口能接收到消息事件，其值可以是字符串"\*"（表示无限制）或者一个 URI - transfer(可选)：是一串和 message 同时传递的 Transferable 对象
+      
+      - example:
+      
           ```javascript
           // a.html
           <iframe src="http://localhost:4000/b.html" frameborder="0" id="frame" onload="load()"></iframe> //等它加载完触发一个事件
@@ -664,19 +680,19 @@
             console.log(e.data) //我爱你
             e.source.postMessage('我不爱你', e.origin)
           }
-          ```
-
-          - a 页面设置\<iframe>标签，src 链接到 b 页面，postMessage 向 b 页面发送数据，onmessage 接收 b 页面返回的数据；
-          - b 页面 onmessage 接收 a 页面发送的数据，postMessage 向 a 页面发送数据
-
-      - **WebSocket**
-
-        - WebSocket 是 HTML5 的一个持久化的协议，它实现了浏览器与服务器的全双工通信，同时也是跨域的一种解决方案；
-
-        - 是一种双向通信协议，在建立连接之后，WebSocket 的 server 与 client 都能主动向对方发送或接收数据
-
-        - WebSocket 在建立连接时需要借助 HTTP 协议，连接建立好了之后 client 与 server 之间的双向通信就与 HTTP 无关了
-
+        ```
+      
+          - **a 页面设置\<iframe>标签，src 链接到 b 页面**，postMessage 向 b 页面发送数据，onmessage 接收 b 页面返回的数据；
+        - b 页面 onmessage 接收 a 页面发送的数据，postMessage 向 a 页面发送数据
+      
+    - **WebSocket**
+      
+      - WebSocket 是 HTML5 的一个持久化的协议，它实现了浏览器与服务器的全双工通信，同时也是跨域的一种解决方案；
+      
+      - 是一种双向通信协议，在建立连接之后，WebSocket 的 server 与 client 都能主动向对方发送或接收数据
+      
+      - WebSocket 在建立连接时需要借助 HTTP 协议，连接建立好了之后 client 与 server 之间的双向通信就与 HTTP 无关了
+      
           ```javascript
           // socket.html
           <script>
@@ -698,29 +714,57 @@
               ws.send('我不爱你');
             });
           })
-          ```
-
-      - **Node 中间件代理(两次跨域)**
-
-        - 同源策略是浏览器需要遵循的标准，而如果是服务器向服务器请求就无需遵循同源策略
-
+        ```
+      
+    - **Node 中间件代理(两次跨域)**
+      
+      - 同源策略是浏览器需要遵循的标准，而如果是服务器向服务器请求就无需遵循同源策略
+      
         - 步骤
           - 接受客户端请求
           - 将请求转发给服务器
           - 拿到服务器 响应 数据
-          - 将 响应 转发给客户端
-
-      - **nginx 反向代理**
-
+        - 将 响应 转发给客户端
+      
+    - **nginx 反向代理**
+      
         - 类似于 Node 中间件代理，需要你搭建一个中转 nginx 服务器，用于转发请求
-        - 只需要修改 nginx 的配置即可解决跨域问题，支持所有浏览器，支持 session，不需要修改任何代码，并且不会影响服务器性能
-
-        - 实现思路：通过 nginx 配置一个代理服务器（域名与 domain1 相同，端口不同）做跳板机，反向代理访问 domain2 接口，并且可以顺便修改 cookie 中 domain 信息，方便当前域 cookie 写入，实现跨域登录
-
-      - 总结
-
-        - CORS 支持所有类型的 HTTP 请求，是跨域 HTTP 请求的根本解决方案
-
+        - 只需要**修改 nginx 的配置**即可解决跨域问题，支持所有浏览器，支持 session，不需要修改任何代码，并且不会影响服务器性能
+      - 实现思路：**通过 nginx 配置一个代理服务器**（域名与 domain1 相同，端口不同）做跳板机，反向代理访问 domain2 接口，并且可以顺便修改 cookie 中 domain 信息，方便当前域 cookie 写入，实现跨域登录
+      
+        ```nginx
+        // nginx配置
+        server{
+            # 监听9099端口
+            listen 9099;
+            # 域名是localhost
+            server_name localhost;
+            #凡是localhost:9099/api这个样子的，都转发到真正的服务端地址http://localhost:9871 
+            location ^~ /api {
+                proxy_pass http://localhost:9871;
+            }    
+        }
+        // 前端：
+        // 请求的时候直接用回前端这边的域名http://localhost:9099，这就不会跨域
+        // 然后Nginx监听到凡是localhost:9099/api，都转发到真正的服务端地址http://localhost:9871
+        fetch('http://localhost:9099/api/iframePost', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            msg: 'helloIframePost'
+          })
+        })
+      ```
+      
+      
+      
+    - 总结
+      
+      - CORS 支持所有类型的 HTTP 请求，是跨域 HTTP 请求的根本解决方案
+      
         - JSONP 只支持 GET 请求，JSONP 的优势在于支持老式浏览器，以及可以向不支持 CORS 的网站请求数据。
         - 不管是 Node 中间件代理还是 nginx 反向代理，主要是通过同源策略对服务器不加限制。
         - 日常工作中，用得比较多的跨域方案是**cors**和**nginx**反向代理
@@ -783,3 +827,6 @@
 > 20. https://blog.fundebug.com/2019/03/22/differences-of-tcp-and-udp/
 > 21. https://jaminzhang.github.io/network/The-Difference-Between-TCP-And-UDP-Protocol/
 > 22. https://segmentfault.com/a/1190000021815671
+> 23. https://cloud.tencent.com/developer/article/1694262
+> 24. https://mp.weixin.qq.com/s/QMnFk8zBMnSIMZSqAElJQQ
+> 25. https://juejin.im/post/6844904023909236749

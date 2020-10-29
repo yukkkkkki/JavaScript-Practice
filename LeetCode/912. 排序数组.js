@@ -113,27 +113,30 @@ var sortArray = function (nums) {
 // 重复上一步骤，知道某一指针达到序列尾
 // 将另一序列剩下的所有元素直接复制到合并序列尾
 var sortArray = function (nums) {
-  const n = nums.length;
-  if (n < 2) return nums;
-  let mid = Math.floor(n / 2);
-  let left = nums.slice(0, mid);
-  let right = nums.slice(mid);
-  return merge(sortArray(left), sortArray(right));
-};
-
-function merge(left, right) {
-  let result = [];
-  while (left.length && right.length) {
-    if (left[0] <= right[0]) {
-      result.push(left.shift());
-    } else {
-      result.push(right.shift());
-    }
+  function mergeSort(arr) {
+    const len = arr.length;
+    if (len < 2) return arr;
+    let middle = Math.floor(len / 2);
+    let left = arr.slice(0, middle),
+      right = arr.slice(middle);
+    return merge(mergeSort(left), mergeSort(right));
   }
-  while (left.length) result.push(left.shift());
-  while (right.length) result.push(right.shift());
-  return result;
-}
+
+  function merge(left, right) {
+    const res = [];
+    while (left.length && right.length) {
+      if (left[0] <= right[0]) {
+        res.push(left.shift());
+      } else {
+        res.push(right.shift());
+      }
+    }
+    while (left.length) res.push(left.shift());
+    while (right.length) res.push(right.shift());
+    return res;
+  }
+  return mergeSort(nums);
+};
 // 平均时间复杂度：O(nlogn);
 // 最好时间复杂度：O(nlogn);
 // 最坏时间复杂度：O(nlogn);
@@ -146,19 +149,22 @@ function merge(left, right) {
 // 重新排序数列，所有元素比基准值小的摆放在基准前，比基准值大的摆在基准后面。在这个分区退出之后，该基准就处于数列的中间位置，这称为分区操作
 // 递归地把小于基准值元素的子数列和大于基准值元素的子数列排序
 var sortArray = function (nums) {
-  if (nums.length <= 1) return nums;
-  let pivotIndex = Math.floor(nums.length / 2);
-  let pivot = nums.splice(pivotIndex, 1)[0];
-  let left = [];
-  let right = [];
-  for (let i = 0; i < nums.length; i++) {
-    if (nums[i] < pivot) {
-      left.push(nums[i]);
-    } else {
-      right.push(nums[i]);
+  function quickSort(arr) {
+    if (arr.length <= 1) return arr;
+    let pivotIndex = Math.floor(arr.length / 2);
+    let pivot = arr.splice(pivotIndex, 1)[0];
+    let left = [],
+      right = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] < pivot) {
+        left.push(arr[i]);
+      } else {
+        right.push(arr[i]);
+      }
     }
+    return quickSort(left).concat([pivot], quickSort(right));
   }
-  return sortArray(left).concat([pivot], sortArray(right));
+  return quickSort(nums);
 };
 // 平均时间复杂度：O(nlogn);
 // 最好时间复杂度：O(nlogn);
@@ -167,34 +173,30 @@ var sortArray = function (nums) {
 
 // 改进
 var sortArray = function (nums) {
-  function swap(arr, a, b) {
-    // let tmp = arr[a];
-    // arr[a] = arr[b];
-    // arr[b] = tmp;
-    [arr[b], arr[a]] = [arr[a], arr[b]];
+  function quickSort(arr, left, right) {
+    if (left > right) return;
+    let pivotIndex = partition(arr, left, right);
+    quickSort(arr, left, pivotIndex - 1);
+    quickSort(arr, pivotIndex + 1, right);
   }
   // 分区操作
   function partition(arr, left, right) {
     let pivot = arr[right];
-    let storeIndex = left; // 依次紧挨着存放小于pivot的元素
-    for (let i = left; i < right; ++i) {
+    let pivotIndex = left;
+    for (let i = left; i < right; i++) {
       if (arr[i] < pivot) {
-        swap(arr, storeIndex, i);
-        storeIndex++;
+        swap(arr, pivotIndex, i);
+        pivotIndex++;
       }
     }
-    // 将pivot交换到storeIndex处，基准元素放置到最终正确位置上
-    swap(arr, right, storeIndex);
-    return storeIndex;
+    // 将pivot交换到pivotIndex处，基准元素放置到最终正确位置上
+    swap(arr, right, pivotIndex);
+    return pivotIndex;
   }
-
-  function sort(arr, left, right) {
-    if (left > right) return;
-    let storeIndex = partition(arr, left, right);
-    sort(arr, left, storeIndex - 1);
-    sort(arr, storeIndex + 1, right);
+  function swap(arr, a, b) {
+    [arr[b], arr[a]] = [arr[a], arr[b]];
   }
-  sort(nums, 0, nums.length - 1);
+  quickSort(nums, 0, nums.length - 1);
   return nums;
 };
 // 平均时间复杂度：O(nlogn);
@@ -202,7 +204,53 @@ var sortArray = function (nums) {
 // 最坏时间复杂度：O(n^2);
 // 空间复杂度：O(logn)
 
-// 方法七：堆排序
+// 方法七：堆排序 不稳定
+var sortArray = function (nums) {
+  var len;
+  // 建立大顶堆
+  function buildMaxHeap(arr) {
+    len = arr.length;
+    for (let i = Math.floor(len / 2); i >= 0; i--) {
+      heapify(arr, i);
+    }
+  }
+  // 堆调整
+  function heapify(arr, i) {
+    var left = 2 * i + 1,
+      right = 2 * i + 2,
+      largest = i;
+
+    if (left < len && arr[left] > arr[largest]) {
+      largest = left;
+    }
+    if (right < len && arr[right] > arr[largest]) {
+      largest = right;
+    }
+    if (largest !== i) {
+      swap(arr, i, largest);
+      heapify(arr, largest);
+    }
+  }
+  function swap(arr, i, j) {
+    let tmp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = tmp;
+  }
+  function heapSort(arr) {
+    buildMaxHeap(arr);
+    for (let i = arr.length - 1; i > 0; i--) {
+      swap(arr, 0, i);
+      len--;
+      heapify(arr, 0);
+    }
+    return arr;
+  }
+  return heapSort(nums);
+};
+// 平均时间复杂度：O(nlogn);
+// 最好时间复杂度：O(nlogn);
+// 最坏时间复杂度：O(nlogn);
+// 空间复杂度：O(1)
 
 // 方法八：计数排序
 var sortArray = function (nums) {

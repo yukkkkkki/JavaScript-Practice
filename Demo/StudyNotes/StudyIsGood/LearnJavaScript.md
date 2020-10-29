@@ -1473,6 +1473,50 @@
 
 26. **defineProperty**
 
+    - defineProperty(obj, prop, descriptor)
+
+    ```javascript
+    var obj = {};
+    var value = null;
+    Object.defineProperty(obj, 'num', {
+      get: function () {
+        console.log('执行了 get 操作');
+        return value;
+      },
+      set: function (newValue) {
+        console.log('执行了 set 操作');
+        value = newValue;
+      },
+    });
+    obj.num = 1; // 执行了 set 操作
+    console.log(obj.num); // 执行了 get 操作 // 1
+    
+    // 进一步封装
+    function Watcher() {
+      let value = null;
+      let watch = [];
+      Object.defineProperty(this, 'num', {
+        get: function () {
+          console.log('执行了 get 操作');
+          return value;
+        },
+        set: function (newValue) {
+          console.log('执行了 set 操作');
+          value = newValue;
+          watch.push({ val: value });
+        },
+      });
+      this.getWatch = function () {
+        return watch;
+      };
+    }
+    var tmp = new Watcher();
+    tmp.num; // 执行了 get 操作
+    tmp.num = 11; // 执行了 set 操作
+    tmp.num = 13; // 执行了 set 操作
+    console.log(tmp.getWatch()); // [ { val: 11 }, { val: 13 } ]
+    ```
+
 27. **eval**
 
     - 把对应的字符串解析成 JS 代码并运行
@@ -1956,4 +2000,5 @@
 > 41. https://juejin.im/post/6844904056557682701
 > 42. https://juejin.im/post/6844904055777689607
 > 43. https://juejin.im/post/6844903717947310093
+> 44. https://cloud.tencent.com/developer/article/1537930
 
