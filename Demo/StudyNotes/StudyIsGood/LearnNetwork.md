@@ -295,19 +295,28 @@
 
        - 浏览器先检查 Cache-Control，如果为 no-store，则浏览器所有内容都不会缓存，强制缓存，协商缓存统统都不会触发
 
-9.  **http 状态码**
+9. **http 状态码**
 
-    - 常见状态码
+   - 常见状态码
 
-    | 1XX 接收的请求正在处理 | 2XX 请求正常处理完毕  | 3XX 重定向                                 | 4XX 客户端错误    | 5XX 服务器错误            |
-    | ---------------------- | --------------------- | ------------------------------------------ | ----------------- | ------------------------- |
-    | 1xx: 接受，继续处理    | 200：成功，并返回数据 | 301: 永久移动，重定向                      | 400: 请求语法错误 | 500: 服务器错误           |
-    |                        | 201: 已创建           | 302: 临时移动，可使用原有 URI              | 401: 要求身份认证 | 503：服务器暂时处于超负载 |
-    |                        | 202: 已接受           | 303: 资源存在另一个 URI（GET 方法获取请求) | 403: 拒绝请求     | 503：或服务器正在停机维护 |
-    |                        | 203: 成功，但未授权   | 304: 资源未修改，可使用缓存                | 404: 资源不存在   |                           |
-    |                        | 204: 成功，无内容     | 305: 需代理访问 305: 需代理访问            |                   |                           |
-    |                        | 205: 成功，重置内容   | 307: 临时重定向，不会从 POST 变成 GET      |                   |                           |
-    |                        | 206: 成功，部分内容   |                                            |                   |                           |
+   | 1XX 接收的请求正在处理 | 2XX 请求正常处理完毕  | 3XX 重定向                                 | 4XX 客户端错误    | 5XX 服务器错误            |
+   | ---------------------- | --------------------- | ------------------------------------------ | ----------------- | ------------------------- |
+   | 1xx: 接受，继续处理    | 200：成功，并返回数据 | 301: 永久移动，重定向                      | 400: 请求语法错误 | 500: 服务器错误           |
+   |                        | 201: 已创建           | 302: 临时移动，可使用原有 URI              | 401: 要求身份认证 | 503：服务器暂时处于超负载 |
+   |                        | 202: 已接受           | 303: 资源存在另一个 URI（GET 方法获取请求) | 403: 拒绝请求     | 503：或服务器正在停机维护 |
+   |                        | 203: 成功，但未授权   | 304: 资源未修改，可使用缓存                | 404: 资源不存在   |                           |
+   |                        | 204: 成功，无内容     | 305: 需代理访问 305: 需代理访问            |                   |                           |
+   |                        | 205: 成功，重置内容   | 307: 临时重定向，不会从 POST 变成 GET      |                   |                           |
+   |                        | 206: 成功，部分内容   |                                            |                   |                           |
+
+   - 301和302的区别
+
+     ![image](https://user-images.githubusercontent.com/23393062/63314108-37e7c880-c339-11e9-88c2-2d2390a07904.png)
+
+     - 301永久重定向：**被请求的资源已永久移动到新位置，并且将来任何对此资源的引用都应该使用本响应返回的若干个 URI 之一**。除非额外指定，否则这个响应**默认可缓存**。**搜索引擎在抓取新的内容的同时也将旧的网址替换为了重定向之后的网址**
+       - 常用的例如域名跳转：http:**** => https:****
+     - 302临时重定向：请求的资源现在临时从不同的 URI 响应请求。由于这样的重定向是临时的，**客户端应当继续向原有地址发送以后的请求**。**默认不会缓存，只有在Cache-Control或Expires中进行了指定的情况下，这个响应才是可缓存的**。**搜索引擎会抓取新的内容而保留旧的地址**，因为服务器返回302
+       - 应用场景: 做活动时候，从首页跳到活动页面
 
 10. **HTTP请求方法**
 
@@ -584,38 +593,36 @@
 
           - window.name 属性的独特之处：name 值在不同的页面（甚至不同域名）加载后依旧存在，并且可以支持非常长的 name 值
 
-            ```html
-            // a.html(http://localhost:3000/b.html)
-            <iframe
-              src="http://localhost:4000/c.html"
-              frameborder="0" onload="load()" id="iframe"
-            >
-            </iframe>
-            <script>
-              let first = true;
-              // onload 事件会触发 2 次，第 1 次加载跨域页，并留存数据于 window.name
-              function load() {
-                if (first) {
-                  // 第 1 次 onload(跨域页)成功后，切换到同域代理页面
-                  let iframe = document.getElementById('iframe');
-                  iframe.src = 'http://localhost:3000/b.html';
-                  first = false;
-                } else {
-                  // 第 2 次 onload(同域 b.html 页)成功后，读取同域 window.name 中数据
-                  console.log(iframe.contentWindow.name);
-                }
+          ```html
+          // a.html(http://localhost:3000/b.html)
+          <iframe
+            src="http://localhost:4000/c.html"
+            frameborder="0" onload="load()" id="iframe"
+          >
+          </iframe>
+          <script>
+            let first = true;
+            // onload 事件会触发 2 次，第 1 次加载跨域页，并留存数据于 window.name
+            function load() {
+              if (first) {
+                // 第 1 次 onload(跨域页)成功后，切换到同域代理页面
+                let iframe = document.getElementById('iframe');
+                iframe.src = 'http://localhost:3000/b.html';
+                first = false;
+              } else {
+                // 第 2 次 onload(同域 b.html 页)成功后，读取同域 window.name 中数据
+                console.log(iframe.contentWindow.name);
               }
-            </script>
-            
-            // c.html(http://localhost:4000/c.html)
-            ```
-      <script>
-              window.name = '我不爱你';
-      </script>
-            ```
-            
-          - a 页面和 b 页面同域，**b 为中间代理页面，通过 iframe 的 Src 属性由外域转向本地域，跨域数据由 iframe 的 window.name 从外域传递到本地域**。巧妙地绕过了浏览器的跨域访问限制，但同时它又是安全操作
-      
+            }
+          </script>
+          
+          // c.html(http://localhost:4000/c.html)
+          <script>
+            window.name = '我不爱你';
+          </script>
+          ```
+
+        - a 页面和 b 页面同域，**b 为中间代理页面，通过 iframe 的 Src 属性由外域转向本地域，跨域数据由 iframe 的 window.name 从外域传递到本地域**。巧妙地绕过了浏览器的跨域访问限制，但同时它又是安全操作
       - **location.hash + iframe**
         
         - 实现原理：a.html 欲与 c.html 跨域相互通信，**通过中间页 b.html 来实现**。 三个页面，**不同域之间利用 iframe 的 location.hash 传值**，相同域之间直接 js 访问来通信
@@ -650,18 +657,18 @@
         
         - 实现原理：两个页面都通过 js 强制设置 document.domain 为基础主域，就实现了同域
         
-    - **postMessage**
-      
-      - postMessage 方法**允许来自不同源的脚本采用异步方式进行有限的通信，可以实现跨文本档、多窗口、跨域消息传递**
-      
-      - otherWindow.postMessage(message, targetOrigin, \[transfer]);
-      
-        - message: 将要发送到其他 window 的数据
-      
-      - targetOrigin：通过窗口的 origin 属性来指定哪些窗口能接收到消息事件，其值可以是字符串"\*"（表示无限制）或者一个 URI - transfer(可选)：是一串和 message 同时传递的 Transferable 对象
-      
-      - example:
-      
+      - **postMessage**
+
+        - postMessage 方法**允许来自不同源的脚本采用异步方式进行有限的通信，可以实现跨文本档、多窗口、跨域消息传递**
+
+        - otherWindow.postMessage(message, targetOrigin, \[transfer]);
+
+          - message: 将要发送到其他 window 的数据
+
+        - targetOrigin：通过窗口的 origin 属性来指定哪些窗口能接收到消息事件，其值可以是字符串"\*"（表示无限制）或者一个 URI - transfer(可选)：是一串和 message 同时传递的 Transferable 对象
+
+        - example:
+
           ```javascript
           // a.html
           <iframe src="http://localhost:4000/b.html" frameborder="0" id="frame" onload="load()"></iframe> //等它加载完触发一个事件
@@ -680,19 +687,19 @@
             console.log(e.data) //我爱你
             e.source.postMessage('我不爱你', e.origin)
           }
-        ```
-      
+          ```
+
           - **a 页面设置\<iframe>标签，src 链接到 b 页面**，postMessage 向 b 页面发送数据，onmessage 接收 b 页面返回的数据；
-        - b 页面 onmessage 接收 a 页面发送的数据，postMessage 向 a 页面发送数据
-      
-    - **WebSocket**
-      
-      - WebSocket 是 HTML5 的一个持久化的协议，它实现了浏览器与服务器的全双工通信，同时也是跨域的一种解决方案；
-      
-      - 是一种双向通信协议，在建立连接之后，WebSocket 的 server 与 client 都能主动向对方发送或接收数据
-      
-      - WebSocket 在建立连接时需要借助 HTTP 协议，连接建立好了之后 client 与 server 之间的双向通信就与 HTTP 无关了
-      
+          - b 页面 onmessage 接收 a 页面发送的数据，postMessage 向 a 页面发送数据
+
+      - **WebSocket**
+
+        - WebSocket 是 HTML5 的一个持久化的协议，它实现了浏览器与服务器的全双工通信，同时也是跨域的一种解决方案；
+
+        - 是一种双向通信协议，在建立连接之后，WebSocket 的 server 与 client 都能主动向对方发送或接收数据
+
+        - WebSocket 在建立连接时需要借助 HTTP 协议，连接建立好了之后 client 与 server 之间的双向通信就与 HTTP 无关了
+
           ```javascript
           // socket.html
           <script>
@@ -714,24 +721,24 @@
               ws.send('我不爱你');
             });
           })
-        ```
-      
-    - **Node 中间件代理(两次跨域)**
-      
-      - 同源策略是浏览器需要遵循的标准，而如果是服务器向服务器请求就无需遵循同源策略
-      
+          ```
+
+      - **Node 中间件代理(两次跨域)**
+
+        - 同源策略是浏览器需要遵循的标准，而如果是服务器向服务器请求就无需遵循同源策略
+
         - 步骤
           - 接受客户端请求
           - 将请求转发给服务器
           - 拿到服务器 响应 数据
-        - 将 响应 转发给客户端
-      
-    - **nginx 反向代理**
-      
+          - 将 响应 转发给客户端
+
+      - **nginx 反向代理**
+
         - 类似于 Node 中间件代理，需要你搭建一个中转 nginx 服务器，用于转发请求
         - 只需要**修改 nginx 的配置**即可解决跨域问题，支持所有浏览器，支持 session，不需要修改任何代码，并且不会影响服务器性能
-      - 实现思路：**通过 nginx 配置一个代理服务器**（域名与 domain1 相同，端口不同）做跳板机，反向代理访问 domain2 接口，并且可以顺便修改 cookie 中 domain 信息，方便当前域 cookie 写入，实现跨域登录
-      
+        - 实现思路：**通过 nginx 配置一个代理服务器**（域名与 domain1 相同，端口不同）做跳板机，反向代理访问 domain2 接口，并且可以顺便修改 cookie 中 domain 信息，方便当前域 cookie 写入，实现跨域登录
+
         ```nginx
         // nginx配置
         server{
@@ -757,14 +764,12 @@
             msg: 'helloIframePost'
           })
         })
-      ```
-      
-      
-      
-    - 总结
-      
-      - CORS 支持所有类型的 HTTP 请求，是跨域 HTTP 请求的根本解决方案
-      
+        ```
+
+      - 总结
+
+        - CORS 支持所有类型的 HTTP 请求，是跨域 HTTP 请求的根本解决方案
+
         - JSONP 只支持 GET 请求，JSONP 的优势在于支持老式浏览器，以及可以向不支持 CORS 的网站请求数据。
         - 不管是 Node 中间件代理还是 nginx 反向代理，主要是通过同源策略对服务器不加限制。
         - 日常工作中，用得比较多的跨域方案是**cors**和**nginx**反向代理
@@ -830,3 +835,5 @@
 > 23. https://cloud.tencent.com/developer/article/1694262
 > 24. https://mp.weixin.qq.com/s/QMnFk8zBMnSIMZSqAElJQQ
 > 25. https://juejin.im/post/6844904023909236749
+> 26. https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/249
+> 27. https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Redirections
