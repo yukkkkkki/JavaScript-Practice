@@ -27,7 +27,7 @@
 
 2.  **DNS 域名解析**
 
-    - **DNS**(Domain Name System)：用于将主机名和域名转换为 IP
+    - **DNS**(Domain Name System)：用于根据主机名和域名查找 IP 地址
 
     - **工作流程**
 
@@ -41,7 +41,7 @@
       - 此时 LDNS**向主域名服务器发起解析请求**
       - 主域名服务器接收到解析请求后，**查找并返回域名对应的域名服务器(Name Server)的地址**，这个 **Name Server 就是网站注册的域名服务器**
       - 域名服务器会查询存储的域名和 IP 的**映射关系表**，返回给 LDNS 目标 IP 记录以及一个 TTL 值(time to live)
-      - LDNS 接收到 IP 和 TTL 值，**进行缓存**，缓存时间有 TTL 值控制
+      - LDNS 接收到 IP 和 TTL 值，**进行缓存**，**缓存时间由 TTL 值控制**
       - LDNS 将解析的结果返回给用户，**用户根据 TTL 值缓存在本地系统缓存中**，域名解析过程结束
 
 3.  **HTTP 和 HTTPS**
@@ -215,7 +215,7 @@
 
    - 浏览器缓存
 
-     - 浏览器缓存分为强缓存和协商缓存，强缓存会直接读取浏览器缓存，不会向服务器发送请求，而协商缓存先向访问服务器看缓存是否过期，再决定是否从浏览器里面拿数据
+     - 浏览器缓存分为强缓存和协商缓存，强缓存会直接读取浏览器缓存，不会向服务器发送请求，而协商 缓存先向访问服务器看缓存是否过期，再决定是否从浏览器里面拿数据
 
      - ![image](https://mmbiz.qpic.cn/mmbiz_jpg/vzEib9IRhZD5sp48Jfr1IrOPOPdmJ4GEIib3icc4wf6TQGp0PqTia9yUlG3OX40jibf3QBmzAIxYmUKX4yTwhaDpwdA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1)
 
@@ -833,7 +833,7 @@
 > 21. https://jaminzhang.github.io/network/The-Difference-Between-TCP-And-UDP-Protocol/
 > 22. https://segmentfault.com/a/1190000021815671
 > 23. https://cloud.tencent.com/developer/article/1694262
-> 24. https://mp.weixin.qq.com/s/QMnFk8zBMnSIMZSqAElJQQ
+> 24. https://mp.weixin.qq.com/s/QMnFk8zBMnSIMZSqAElJQQ ★(跨域)
 > 25. https://juejin.im/post/6844904023909236749
 > 26. https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/249
 > 27. https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Redirections
