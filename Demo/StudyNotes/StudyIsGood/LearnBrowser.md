@@ -11,7 +11,7 @@
    - 设置共享 cookie 与不断轮询检查(setInterval)
    - 借助服务端或者中间层实现
 
-2. **存储(localStorage、sessionStorage、cookie)**
+2. **客户端存储(localStorage、sessionStorage、cookie)**
 
    - 前端存储的好处
 
@@ -25,7 +25,7 @@
 
      - 作用：与服务器进行交互，作为 HTTP 规范的一部分而存在。(而 Web Storage 仅仅是为了在本地“存储”数据而生。)
 
-     - cookie 的属性
+     - cookie 的构成
 
        | 属性名   | 解释                                                         |
        | -------- | ------------------------------------------------------------ |
@@ -108,9 +108,9 @@
 
    - 数据库级别
 
-     - indexeddb：类似 NoSQL，直接使用 js 的方法操作数据
+     - **IndexedDB**：类似 NoSQL，直接使用 js 的方法操作数据
 
-     - Web SQL：类似关系型数据库， 它使用 sql 语句进行相关操作
+     - **Web SQL**：类似关系型数据库， 它使用 sql 语句进行相关操作
 
      - 特点
        - 访问：indexDB 和 Web SQL 和 Web Storage 一样，均是只能在创建数据库的域名下才能访问
@@ -184,30 +184,29 @@
 
    - 现代浏览器为 JavaScript 创造的 多线程环境。可以新建并将部分任务分配到 worker 线程并行运行，两个线程可**独立运行，互不干扰**，可通过自带的**消息机制**相互通信。
    
-- postMessage //向 worker 发送数据
+   - postMessage //向 worker 发送数据
    
    - onmessage //接收 worker 传过来的数据函数
    
-- **基本用法**
-  
-  ```javascript
+   - **基本用法**
+   
+     ```javascript
      // 创建 worker
      const worker = new Worker("work.js");
-     
      // 向主进程推送消息
      worker.postMessage("Hello World");
-     
      // 监听主进程来的消息
      worker.onmessage = function (event) {
        console.log("Received message " + event.data);
      };
-  ```
-  
-- **限制**
+     ```
+   
+   - **限制**
+   
      - 同源限制
      - 无法使用 document / window / alert / confirm
      - 无法加载本地资源
-
+   
 > 参考链接
 >
 > 1. https://juejin.im/post/5ad5b9116fb9a028e014fb19

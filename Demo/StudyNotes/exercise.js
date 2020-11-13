@@ -314,3 +314,19 @@ const radixSort = (array, maxDigits) => {
 
 // let arr = createArray('a', 'b', 'c');
 // console.log(arr[-1]); // c
+
+// let a = [1, 2, 3];
+// let b = a;
+
+let count = 0;
+let arr = [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0];
+for (let i = 0; i < 4; i++) {
+  let index = i * 5;
+  let tmp = arr.slice(index, index + 5).filter((item) => item == 1);
+  if (tmp.length) count++;
+  // if (tmp.filter((item) => item == 1)) count++;
+  // for (let j = 0; j < 5; j++) {
+  //   if (tmp[j]) count += 1;
+  // }
+}
+console.log(count);
