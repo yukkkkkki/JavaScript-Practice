@@ -15,8 +15,8 @@
 // 4. 最后对两个子链表进行归并操作。
 var sortList = function (head) {
   if (!head || !head.next) return head;
-  let slow = head;
-  let fast = head;
+  let slow = head,
+    fast = head;
   while (slow.next && fast.next && fast.next.next) {
     slow = slow.next;
     fast = fast.next.next;
@@ -29,12 +29,11 @@ var sortList = function (head) {
 };
 
 const merge = function (left, right) {
-  const temp = new ListNode(null);
-  let p1 = left;
-  let p2 = right;
+  const tmp = new ListNode(null);
+  let p1 = left, p2 = right;
   let p = tmp;
-  while (p1 && p2) {
-    if (p1.val < p2.val) {
+  while(p1 && p2) {
+    if(p1.val < p2.val) {
       const s = p1;
       p1 = p1.next;
       s.next = null;
@@ -48,8 +47,8 @@ const merge = function (left, right) {
       p = s;
     }
   }
-  if (p1) p.next = p1;
-  if (p2) p.next = p2;
+  if(p1) p.next = p1;
+  if(p2) p.next = p2;
   return tmp.next;
 };
 // 时间复杂度：O(nlogn); 空间复杂对：O(1)
