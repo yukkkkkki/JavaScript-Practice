@@ -12,25 +12,37 @@
 // 输入: nums = [5,7,7,8,8,10], target = 6
 // 输出: [-1,-1]
 
-// 方法一
-var searchRange = function (nums, target) {
+// 方法一：二分查找
+const binarySearch = (nums, target, lower) => {
   let left = 0,
     right = nums.length - 1,
-    mid;
+    ans = nums.length;
   while (left <= right) {
-    mid = (left + right) >> 1;
-    if (nums[mid] === target) break;
-    if (nums[mid] > target) right = mid - 1;
-    else left = mid + 1;
+    const mid = Math.floor((left + right) / 2);
+    if (nums[mid] > target || (lower && nums[mid] >= target)) {
+      right = mid - 1;
+      ans = mid;
+    } else {
+      left = mid + 1;
+    }
   }
-
-  if (left > right) return [-1, -1];
-  let i = mid,
-    j = mid;
-  while (nums[i] === nums[i - 1]) i--;
-  while (nums[j] === nums[j + 1]) j++;
-  return [i, j];
+  return ans;
 };
+var searchRange = function (nums, target) {
+  let res = [-1, -1];
+  const leftIdx = binarySearch(nums, target, true);
+  const rightIdx = binarySearch(nums, target, false) - 1;
+  if (
+    leftIdx <= rightIdx &&
+    rightIdx < nums.length &&
+    nums[leftIdx] === target &&
+    nums[rightIdx] === target
+  ) {
+    res = [leftIdx, rightIdx];
+  }
+  return res;
+};
+// 时间复杂度： O(logn)；空间复杂度：O(1)
 
 // 方法二
 var searchRange = function (nums, target) {
