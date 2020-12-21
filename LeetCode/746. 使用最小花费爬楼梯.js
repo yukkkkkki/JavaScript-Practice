@@ -1,7 +1,5 @@
 // 数组的每个索引作为一个阶梯，第 i个阶梯对应着一个非负数的体力花费值 cost[i](索引从0开始)。
-
 // 每当你爬上一个阶梯你都要花费对应的体力花费值，然后你可以选择继续爬一个阶梯或者爬两个阶梯。
-
 // 您需要找到达到楼层顶部的最低花费。在开始时，你可以选择从索引为 0 或 1 的元素作为初始阶梯。
 
 // 示例 1:
@@ -15,25 +13,16 @@
 // 解释: 最低花费方式是从cost[0]开始，逐个经过那些1，跳过cost[3]，一共花费6。
 
 // 方法一：动态规划-分解
-// 思路
-// 如果走一步或两步上来有两种方法
-// 动态转移方程为
-// dp[i] = Math.min(dp[i-2] , dp[i-1]) + cost[i]
-// 由题意分解可知
-// 如果最后一步正好是在最后一个台阶上时，最后一个台阶的花费值不算在内
-// 动态转移方程为
-// i == n && dp[i] = Math.min(dp[i-2] , dp[i-1])
+// 思路：dp[i]表示达到下标 i 的最小花费。
+// 可以选择下标0或1作为初始阶梯，因此dp[0] = dp[1] = 0
+// 动态转移方程：当2 <= i <= n
+// dp[i] = Math.min(dp[i - 1] + cost[i - 1] , dp[i - 2] + cost[i - 2])
 var minCostClimbingStairs = function (cost) {
   const n = cost.length;
   let dp = new Array(n + 1);
-  dp[0] = cost[0];
-  dp[1] = cost[1];
+  dp[0] = dp[1] = 0;
   for (let i = 2; i <= n; i++) {
-    if (i == n) {
-      dp[i] = Math.min(dp[i - 2], dp[i - 1]);
-    } else {
-      dp[i] = Math.min(dp[i - 2], dp[i - 1]) + cost[i];
-    }
+    dp[i] = Math.min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
   }
   return dp[n];
 };
