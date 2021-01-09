@@ -583,11 +583,11 @@
 
 15. **原型链**
 
-    - 基本思想：利用原型让一个引用类型继承另一个引用类型的属性和方法。
+    - 基本思想：**利用原型让一个引用类型继承另一个引用类型的属性和方法**。
 
-    - 原型链：每个构造函数都有一个 prototype 属性，指向它的原型对象，而原型对象都有一个 constructor 属性，指向构造函数，而每个构造函数的实例都包含一个\_\_proto\_\_属性，指向该实例构造函数的原型对象。构造函数、原型和实例形成一个原型链，是一个用来实现继承和共享属性的对象链。
+    - **原型链**：每个构造函数都有一个 prototype 属性，指向它的原型对象，而原型对象都有一个 constructor 属性，指向构造函数。每个构造函数的实例都包含一个\_\_proto\_\_属性，指向该实例构造函数的原型对象。构造函数、原型和实例形成一个原型链，是一个用来实现继承和共享属性的对象链。
 
-    - 属性查找机制：当访问一个对象的属性(包括方法)时，首先查找这个对象自身有没有该属性，如果没有就查找它的原型，若还没有就查找原型对象的原型，以此类推，一直找到 Object 为止，若找到就输出，若找不到就输出 null。
+    - **属性查找机制**：当访问一个对象的属性(包括方法)时，**首先查找这个对象自身**有没有该属性，如果没有就查找它的原型，若还没有就查找原型对象的原型，以此类推，一直找到 Object 为止，若找到就输出，若找不到就输出 null。
 
     - 属性修改机制：只会修改实例对象本身的属性，如果不存在，则进行添加该属性，如果需要修改原型的属性时，则可以用`b.prototype.x = function(){...}`，但是这样会造成所有继承于该对象的实例的属性发生改变。
 
@@ -618,9 +618,9 @@
       alert(instance.getSuperValue()); // true
       ```
 
-      - 确定原型和实例的关系：instanceof 或者 isPrototypeOf()
+      - 确定原型和实例的关系：**instanceof 或者 isPrototypeOf()**
 
-      - 给原型添加方法的代码一定要放在替换原型的语句之后
+      - **给原型添加方法的代码一定要放在替换原型的语句之后**
 
       - 在通过原型链实现继承时，不能使用对象字面量创建原型
         方法，因为这样会重写原型链(原型链被切断)。
@@ -645,7 +645,7 @@
         alert(instance2.colors); // "red, blue, green, black"
         ```
 
-        - 在创建子类型的实例时，不能向超类型的构造函数中传递参数。(没有办法在不影响所有对象实例的情况下，给超类型的构造函数传递参数)
+        - 在**创建子类型的实例时，不能向超类型的构造函数中传递参数**。(没有办法在不影响所有对象实例的情况下，给超类型的构造函数传递参数)
 
     - **借用构造函数**：call(), apply()
 
@@ -655,23 +655,37 @@
       function SuperType() {
         this.colors = ['red', 'blue', 'green'];
       }
-
+      
       function SubType() {
         // 继承了SuperType
         SuperType.call(this);
       }
-
+      
       var instance1 = new SubType();
       instance1.colors.push('black');
       alert(instance1.colors); // "red, blue, green, black"
-
+      
       var instance2 = new SubType();
       alert(instance2.colors); // "red, blue, green"
       ```
 
       - 借用构造函数可以在子类型构造函数中向超类型构造函数传递参数
 
+        ```javascript
+        function SuperType(name) {
+          this.name = name;
+        }
+        function SubType() {
+          SuperType.call(this, 'nico');
+          this.age = 20;
+        }
+        var instance = new SubType();
+        console.log(instance.name); // nico
+        console.log(instance.age); // 20
+        ```
+
       - **借用构造函数的问题**
+        
         - 方法都在构造函数中定义，因此**函数复用无从谈起**
         - 在**超类型的原型中定义的方法，对子类型是不可见的**，结果所有类型都只能使用构造函数模式
 
@@ -679,7 +693,7 @@
 
       - 将原型链和借用构造函数结合在一起
 
-      - 使用原型链实现对原型属性和方法的继承，而通过借用构造函数来实现对实例属性的继承。
+      - **使用原型链实现对原型属性和方法的继承，而通过借用构造函数来实现对实例属性的继承**。
         - 这样**既通过在原型上定义方法实现了函数复用，又能够保证每个实例都有它自己的属性**
 
       ```javascript
@@ -689,7 +703,7 @@
       }
 
       SuperType.prototype.sayName = function () {
-        alert(this.name);
+        console.log(this.name);
       };
 
       function SubType(name, age) {
@@ -702,19 +716,19 @@
       SubType.prototype = new SuperType(); // 第一次调用
       SubType.prototype.constructor = SubType;
       SubType.prototype.sayAge = function () {
-        alert(this.age);
+        console.log(this.age);
       };
 
       var instance1 = new SubType('Nicholas', 29);
       instance1.colors.push('black');
-      alert(instance1.colors); // "red, blue, green, black"
+      console.log(instance1.colors); // "red, blue, green, black"
       instance1.sayName(); // "Nicholas"
       instance1.sayAge(); // 29
 
       var instance2 = new SubType('Greg', 27);
-      alert(instance2.colors); // "red, blue, green"
-      instance1.sayName(); // "Greg"
-      instance1.sayAge(); // 27
+      console.log(instance2.colors); // "red, blue, green"
+      instance2.sayName(); // "Greg"
+      instance2.sayAge(); // 27
       ```
 
       - 问题：无论什么情况，都会调用两次超类型构造函数：
@@ -761,7 +775,7 @@
         }
         ```
 
-      - 由于不能做到函数复用而降低效率
+      - 由于**不能做到函数复用**而降低效率
 
     - **寄生组合继承**(最有效)
 
@@ -773,33 +787,29 @@
         prototype.constructor = subType; // 增强对象
         subType.prototype = prototype; // 指定对象(将新创建的对象赋值给子类型的原型)
       }
-      ```
-
-      ```javascript
       function SuperType(name) {
-        this.name = name;
+      this.name = name;
         this.colors = ['red', 'blue', 'green'];
       }
-
+      
       SuperType.prototype.sayName = function () {
-        alert(this.name);
-      };
-
+        console.log(this.name);
+    };
+      
       function SubType(name, age) {
         // 继承属性
-        SuperType.call(this, name);
+      SuperType.call(this, name);
         this.age = age;
       }
-
+      
       inheritPrototype(SubType, SuperType);
-
       SubType.prototype.sayAge = function () {
-        alert(this.age);
+      alert(this.age);
       };
-      ```
-
-      - 如此，便只调用一次 SuperType 构造函数，并且因此避免了在 SubType，prototype 上面创建不必要的、多余的属性。原型链也保持不变。
-
+    ```
+      
+      - 如此，便**只调用一次 SuperType 构造函数**，并且因此避免了在 SubType，prototype 上面创建不必要的、多余的属性。原型链也保持不变。
+      
     - **ES6 Class extends 继承**
 
       - 子类 extends 父类，然后 constructor 里 super 继承父类

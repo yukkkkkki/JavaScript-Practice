@@ -799,7 +799,7 @@
 
       - **this 的指向**：类的方法内部若含有 this，默认指向类的实例。使用时可能会发生找不到调用方法的情况，因为 this 会指向该方法运行时所在的环境。解决方法：
 
-        - 在构造函数中绑定 this
+        - **在构造函数中绑定 this**
 
           ```javascript
           class Logger {
@@ -822,7 +822,7 @@
           myObj.getThis() === myObj; // true
           ```
 
-        - 使用 Proxy，获取方法时自动绑定 this
+        - **使用 Proxy**，获取方法时自动绑定 this
 
           ```javascript
           function selfish(target) {
@@ -844,6 +844,72 @@
           }
           const logger = selfish(new Logger());
           ```
+      
+    - **静态方法**
+
+      - 类相当于实例的原型，所有在类中定义的方法，都会被继承。如果再一个方法前加上static关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。
+
+        ```javascript
+        class Foo {
+          static classMethod() {
+            return 'hello';
+          }
+        }
+        console.log(Foo.classMethod()); // hello
+        var foo = new Foo();
+        // TypeError: foo.classMethod is not a function
+        console.log(foo.classMethod());
+        ```
+
+      - 如果静态方法包含`this`关键字，这个`this`指的是类，而不是实例
+
+        ```javascript
+        class Foo {
+          static bar() {
+            this.baz();
+          }
+          static baz() {
+            console.log('hello');
+          }
+          baz() {
+            console.log('world');
+          }
+        }
+        console.log(Foo.bar()); // hello
+        // 静态方法bar调用了this.baz，这里的this指的是Foo类，而不是Foo的实例
+        // 等同于调用Foo.baz。
+        ```
+
+      - 父类的静态方法，可以被子类继承
+
+        ```javascript
+        class Foo {
+          static classMethod() {
+            return 'hello';
+          }
+        }
+        class Bar extends Foo {
+        }
+        Bar.classMethod() // 'hello'
+        ```
+
+      - 静态方法也可从`super`对象上调用
+
+        ```javascript
+        class Foo {
+          static classMethod() {
+            return 'hello';
+          }
+        }
+        class Bar extends Foo {
+          static classMethod() {
+            return super.classMethod() + ', too';
+          }
+        }
+        Bar.classMethod() // "hello, too"
+        ```
+
+    - **静态方法**
 
 17. **ES5/ES6 的继承除了写法以外还有什么区别**
 
