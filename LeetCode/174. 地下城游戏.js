@@ -52,7 +52,7 @@ var calculateMinimumHP = function (dungeon) {
 //
 // 作者：hyj8
 // 链接：https://leetcode-cn.com/problems/dungeon-game/solution/fei-dp-xiang-jie-dfsjie-fa-yi-ji-ta-de-you-hua-by-/
-const calculateMinimumHP = (dungeon) => {
+const calculateMinimumHP2 = (dungeon) => {
   const m = dungeon.length;
   const n = dungeon[0].length;
   const minSaveHP = (dungeon, i, j) => { // 至少需要带着多少血量来到(i,j)这点
@@ -98,7 +98,7 @@ const calculateMinimumHP = (dungeon) => {
 };
 // 代码超时了
 // 优化：记忆化递归
-const calculateMinimumHP = (dungeon) => {
+const calculateMinimumHP3 = (dungeon) => {
   const m = dungeon.length;
   const n = dungeon[0].length;
   // memo初始化，每一项都为0，代表还没记录
@@ -107,7 +107,7 @@ const calculateMinimumHP = (dungeon) => {
     memo[i] = new Array(n).fill(0);
   }
   const minSaveHP = (dungeon, i, j) => {
-    if (i == m - 1 && j == n - 1) { // 递归的出口
+    if (i === m - 1 && j === n - 1) { // 递归的出口
       return dungeon[i][j] > 0 ? 1 : 1 - dungeon[i][j];
     }
     if (memo[i][j] > 0) return memo[i][j]; // 如果备忘录中有，就直接返回它

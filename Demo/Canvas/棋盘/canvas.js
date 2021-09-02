@@ -1,10 +1,10 @@
 window.onload = function () {
-  var chessboard = document.getElementById("chessboard"); //棋盘canvas
+  var chessboard = document.getElementById('chessboard'); //棋盘canvas
   if (chessboard.getContext) {
-    var ctx = chessboard.getContext("2d");
+    var ctx = chessboard.getContext('2d');
 
     /**棋盘begin**/
-    var cb = chessboard.getContext("2d");
+    var cb = chessboard.getContext('2d');
     var lineNum = 19, //棋盘线数
       lineLong = 25, //格子间距
       chessSize = parseInt(lineLong / 3) - 1, //棋子大小
@@ -32,12 +32,12 @@ window.onload = function () {
       //从 startAngle弧度开始到endAngle弧度结束。anticlosewise是布尔值，true表示逆时针，false表示顺时针。(默认是顺时针)
       cb.arc(x, y, chessSize, 0, Math.PI * 2, false);
       var grd = ctx.createRadialGradient(x, y, chessSize, x, y - 2, 0);
-      if (color == "#fff") {
-        grd.addColorStop(0, "#fff");
-        grd.addColorStop(1, "#e6e6e6");
+      if (color == '#fff') {
+        grd.addColorStop(0, '#fff');
+        grd.addColorStop(1, '#e6e6e6');
       } else {
         grd.addColorStop(0, color);
-        grd.addColorStop(1, "#fff");
+        grd.addColorStop(1, '#fff');
       }
       cb.fillStyle = grd; //填充颜色
       cb.fill();
@@ -50,9 +50,9 @@ window.onload = function () {
     // chesses(200, 50, "red");
     // chesses(225, 50, "blue");
     // chesses(225, 75, "red");
-    chesses(25, 25, "red");
-    chesses(225, 50, "blue");
-    chesses(225, 75, "red");
+    chesses(25, 25, 'red');
+    chesses(225, 50, 'blue');
+    chesses(225, 75, 'red');
     /**棋子end**/
 
     /**点阵数字begin**/
@@ -215,9 +215,9 @@ window.onload = function () {
               ? chesses(
                   cbStart + (leftMove + w) * lineLong,
                   cbStart + (q + topMove) * lineLong,
-                  "#000"
+                  '#000'
                 )
-              : "";
+              : '';
           }
         }
       }
@@ -231,7 +231,7 @@ window.onload = function () {
       setInterval(function () {
         time = time == 0 ? 9 : time - 1;
         //cb.clearRect(0,0,500,500); //这种方法清除画布有bug，1，6，7白点待解决
-        cb.fillStyle = "#fff";
+        cb.fillStyle = '#fff';
         cb.beginPath();
         cb.fillRect(0, 0, 500, 500);
         cb.closePath();
@@ -242,6 +242,6 @@ window.onload = function () {
     countDown();
     /**倒计时end**/
   } else {
-    console.log("不支持Canvas");
+    console.log('不支持Canvas');
   }
 };
