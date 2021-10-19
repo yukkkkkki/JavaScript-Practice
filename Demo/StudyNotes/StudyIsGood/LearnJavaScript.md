@@ -123,7 +123,7 @@
 
     - typeof
 
-    - instanceo f
+    - instanceof
 
     - constructor 属性：JavaScript 中，每个对象都有一个 constructor 属性，它引用了初始化该对象的构造函数，常用于判断未知对象的类型。如给定一个求知的值，通过 typeof 运算符来判断它是基本数据类型的值还是对象。如果是对象，就可以使用 constructor 属性来判断其类型
 
@@ -134,13 +134,13 @@
       ```javascript
       const b = [];
       Object.prototype.toString.call(b); // "[object Array]"
-
+  
       const c = {};
       Object.prototype.toString.call(c); // "[object Object]"
-
+  
       const d = new Date();
       Object.prototype.toString.call(d); // "[object Date]"
-
+  
       const e = new RegExp();
       Object.prototype.toString.call(e); // "[object RegExp]"
       ```
@@ -204,16 +204,16 @@
             this.age = 10;
             return {};
           }
-
+    
           var p3 = new P3();
           console.log(p3); //Object {}
           console.log(p3.age); //undefined
-
+    
           function P3() {
             this.age = 10;
             return {};
           }
-
+    
           var p3 = new P3();
           console.log(p3); //Object {}
           console.log(p3.age); //undefined
@@ -631,16 +631,16 @@
         function SuperType() {
           this.colors = ['red', 'blue', 'green'];
         }
-
+  
         function SubType() {}
-
+  
         // 继承了SuperType
         SubType.prototype = new SuperType();
-
+  
         var instance1 = new SubType();
         instance1.colors.push('black');
         alert(instance1.colors); // "red, blue, green, black"
-
+  
         var instance2 = new SubType();
         alert(instance2.colors); // "red, blue, green, black"
         ```
@@ -794,7 +794,7 @@
       
       SuperType.prototype.sayName = function () {
         console.log(this.name);
-    };
+      };
       
       function SubType(name, age) {
         // 继承属性
@@ -835,7 +835,7 @@
         cp instanceof Point; // true
         // Object.getPrototypeOf方法可以用来从子类上获取父类
         Object.getPrototypeOf(ColorPoint) === Point; // true
-        ```
+    ```
 
 17. **闭包**
 
@@ -1023,11 +1023,11 @@
             function isObject(x) {
               return Object.prototype.toString.call(x) === '[object Object]';
             }
-
+      
             function deepClone(source) {
               // 相当于加上一个递归出口
               if (!isObject(source)) return source;
-
+      
               // ...
             }
             ```
@@ -1357,7 +1357,7 @@
 
 22. **javascript 事件循环机制**
 
-    - JS 一大特点就是单线程，这是为了避免复杂性。单线程就意味着所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时长，后一个任务就不得不一直等着。而主线程完全可以先挂起处于等待中的任务，先运行排在后面的任务，之后再运行挂起的这些任务。于是所有任务就分成了两种：同步任务吗，异步任务。
+    - JS 一大特点就是单线程，这是为了避免复杂性。单线程就意味着所有任务需要排队，前一个任务结束，才会执行后一个任务。如果前一个任务耗时长，后一个任务就不得不一直等着。而主线程完全可以先挂起处于等待中的任务，先运行排在后面的任务，之后再运行挂起的这些任务。于是所有任务就分成了两种：同步任务，异步任务。
 
     - ![image](https://user-gold-cdn.xitu.io/2018/7/14/164974fb89da87c5?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
@@ -1875,7 +1875,7 @@
           } else if (type === 2) {
             let timeout;
           }
-
+    
           return function () {
             let that = this;
             let args = arguments;
@@ -1924,7 +1924,7 @@
         <li id="goSomething">Do Something</li>
         <li id="sayHi">Say Hi</li>
       </ul>
-
+  
       <script>
         var list = document.getElementById('myLinks');
         EventUtil.addHandler(list, 'click', function (event) {

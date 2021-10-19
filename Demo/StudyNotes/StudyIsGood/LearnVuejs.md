@@ -146,10 +146,10 @@
          ```html
          <!-- prop 接收到 Number 类型的 123-->
          <children :xxx="123"></children>
-
+          
          <!-- prop 接收到 Array 类型的 [1, 2, 3]-->
          <children v-bind:xxx="[1, 2, 3]"></children>
-
+          
          <!-- prop 会接收到 xxx1 和 xxx2 俩个参数。这种不支持简写形式-->
          <children v-bind="{xxx1: 1, xxx2: 2}"></children>
          <!-- 如果是表达式则获取到的是表达式的计算结果 -->
@@ -490,8 +490,8 @@
      
 - 在内部为不同的输入元素使用不同的 property 并抛出不同的事件
        - text 和 textarea 元素使用 `value` property 和 `input` 事件；
-       - checkbox 和 radio 使用 `checked` property 和 `change` 事件；
-       - select 字段将 `value` 作为 prop 并将 `change` 作为事件。
+           - checkbox 和 radio 使用 `checked` property 和 `change` 事件；
+           - select 字段将 `value` 作为 prop 并将 `change` 作为事件。
    
 - **Vue 是数据双向绑定的框架(MVVM)，由三个部分组成**：
    - 数据层(Model)：应用的数据及业务逻辑，为开发者编写的业务代码
@@ -501,14 +501,13 @@
        - 故其由两部分组成
          - 监听器（Observer）：观察数据，做到时刻清楚数据的任何变化，然后通知视图更新
          - 解析器（Compiler）：观察 UI，做到时刻清楚视图发生的一切交互，然后更新数据
-  
 9. **Vue 响应式原理**
 
    - ![image](https://user-gold-cdn.xitu.io/2019/8/16/16c986328e407929?imageView2/0/w/1280/h/960/format/webp/ignore-error/1)
 
    - 采用**数据劫持**结合**发布-订阅模式**的方式：-- _以下援引自深入浅出 vuejs_
 
-     - Data 通过 Observer，使用**Object.defineProperty()**对数据进行劫持，**将 data 中的每个属性转换为 getter/setter 响应式来追踪变化**
+     - 在生成vue实例时，对Data 进行遍历，使用**Object.defineProperty()**对数据进行劫持，**将 data 中的每个属性转换为 getter/setter 响应式来追踪变化**（通过 Observer）
      - 当外界**通过 Watcher 读取数据时会触发 getter 从而将 watcher 添加到依赖中**
      - 当**数据发生了变化会触发 setter，从而向 Dep 中的依赖(Watcher)发送通知**
      - **Watcher 收到通知后，会向外界发送通知**，变化通知到外界后可能会**触发视图更新**，也有可能**触发用户的某个回调函数**等
@@ -685,17 +684,17 @@
         <keep-alive include="a,b">
           <component :is="view"></component>
         </keep-alive>
-
+        
         <!-- 正则表达式 (使用 `v-bind`) -->
         <keep-alive :include="/a|b/">
           <component :is="view"></component>
         </keep-alive>
-
+        
         <!-- 数组 (使用 `v-bind`) -->
         <keep-alive :include="['a', 'b']">
           <component :is="view"></component>
         </keep-alive>
-
+        
         <keep-alive :max="10">
           <component :is="view"></component>
         </keep-alive>
@@ -1056,9 +1055,8 @@
 
 26. **v-if 和 v-for 的优先级**
 
-    - 当 `v-if` 与 `v-for` 一起使用时，**`v-for` 具有比 `v-if` 更高的优先级**，这意味着 `v-if` 将分别重复运行于每个 `v-for` 循环中。
+    - 当 `v-if` 与 `v-for` 一起使用时，**`v-if` 具有比 `v-for` 更高的优先级**，这意味着`v-if`将没有权限访问 `v-for` 里的变量。
     - 不推荐 `v-if` 和 `v-for` 同时使用。
-    - 如果 `v-if` 和 `v-for` 一起用的话，vue 中会自动提示 `v-if` 应该放到外层去。
 
 27. **assets 和 static 的区别**
 
