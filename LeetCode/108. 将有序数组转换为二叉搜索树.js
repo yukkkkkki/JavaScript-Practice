@@ -48,23 +48,6 @@ var sortedArrayToBST = function (nums) {
 };
 
 // 方法三
-var sortedArrayToBST = function (nums) {
-  return initTressNode(nums, 0, nums.length - 1);
-};
-
-const initTressNode = (arr, start, end) => {
-  if (start <= end) {
-    const mid = start + parseInt((end - start) / 2, 10);
-    const root = new TreeNode(arr[mid]);
-    root.left = initTressNode(arr, start, mid - 1);
-    root.right = initTressNode(arr, mid + 1, end);
-    return root;
-  } else {
-    return null;
-  }
-};
-
-// 方法四
 // 数组模拟队列
 // 思路
 // 可以先将提示数组按照二分法的查找顺数，一次推入数组中。
