@@ -76,3 +76,27 @@ var isSymmetric = function (root) {
   }
   return true;
 };
+
+// 方法三：迭代
+// 用队列做 根节点入队两次
+// 每次提取两个节点做比较
+// 两个节点的左右子节点按相反顺序入队
+// 队列为空 || 不对城时算法结束
+var isSymmetric = function (root) {
+  const queue = [root, root];
+  while (queue.length) {
+    // 左右子树分别出列
+    let left = queue.shift();
+    let right = queue.shift();
+    if (!left && !right) continue;
+    // 不满足对称
+    if (!left || !right || left.val !== right.val) {
+      return false;
+    }
+
+    // 让左子树的left和右子树的right入列
+    queue.push(left.left, right.right);
+    queue.push(left.right, right.left);
+  }
+  return true;
+};
