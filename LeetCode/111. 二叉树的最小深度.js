@@ -16,8 +16,8 @@
 // 返回它的最小深度  2.
 
 // 方法一：DFS
-const minDepth = (root) => {
-  if (root == null) return 0;
+var minDepth = function (root) {
+  if (!root) return 0;
   if (root.left && root.right) {
     return 1 + Math.min(minDepth(root.left), minDepth(root.right));
   } else if (root.left) {
@@ -28,6 +28,8 @@ const minDepth = (root) => {
     return 1;
   }
 };
+// 时间复杂度：o(n)
+// 空间复习度：o(H)
 
 // 写法二
 const minDepth = (root) => {
@@ -83,8 +85,8 @@ const minDepth = (root) => {
 };
 
 // 方法二：BFS
-const minDepth = (root) => {
-  if (root == null) return 0;
+var minDepth = function (root) {
+  if (!root) return 0;
 
   const queue = [root];
   let depth = 1;
@@ -93,15 +95,16 @@ const minDepth = (root) => {
     const levelSize = queue.length;
     for (let i = 0; i < levelSize; i++) {
       const cur = queue.shift();
-      if (cur.left == null && cur.right == null) {
+      if (!cur.left && !cur.right) {
         return depth;
       }
-      if (cur.left) queue.push(cur.left);
-      if (cur.right) queue.push(cur.right);
+      cur.left && queue.push(cur.left);
+      cur.right && queue.push(cur.right);
     }
-    depth++; // 肯定有下一层，如果没有早就return了
+    depth++;
   }
 };
-
+// 时间复杂度：o(n)
+// 空间复习度：o(n)
 // 作者：xiao_ben_zhu
 // 链接：https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/solution/tu-jie-dfs-xie-liao-si-ban-bfs-xie-liao-yi-ban-by-/
