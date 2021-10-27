@@ -43,42 +43,49 @@ function isPalindrome(head) {
 // 时间复杂度：O(n)；空间复杂度：O(1)
 
 // 方法三：快慢指针
-// 思路
-// 找到链表的中间节点，将前半部分的链表反转，与后半部分链表数据进行比较。
+// 思路：找到链表的中间节点，将后半部分的链表反转，与前半部分链表数据进行比较。
 // 为了找到中间位置，采用两个引用，步调速度相差 1，当快的引用到达最终节点时，慢的正好在中间。
-// 详解
-// 1. 分别定义快、慢指针，及前半部分的指针存储
-// 2. 遍历链表，快指针走 2 步，慢指针走 1 步，同时将慢指针对应的前半部分链表进行反转
-// 3. 链表结束后，慢指针指向中间，与前半部分反转的链表进行逐个比较
-function isPalindrome(head) {
-  // 空或者单节点
-  if (!head || !head.next) {
-    return true;
+var isPalindrome = function (head) {
+  if (!head || !head.next) return true;
+
+  // 找到前半部分尾节点并反转后半部分链表
+  const firstHalfEnd = endOfFirstHalf(head);
+  const secondHalfStart = reverseLinkList(firstHalfEnd.next);
+
+  // 判断是否是回文
+  let p1 = head;
+  let p2 = secondHalfStart;
+  let result = true;
+  while (result && p2) {
+    if (p1.val !== p2.val) return false;
+    p1 = p1.next;
+    p2 = p2.next;
   }
-
-  let slow = head; // 慢指针
-  let fast = head; // 快指针
-  let reverseRef; // 反转前半部分
-  let reversePreRef; // 反转前一个节点
-  // 连续 2 个节点都存在
-  while (fast && fast.next) {
-    fast = fast.next.next; // 快指针前进 2 步
-    reverseRef = slow;
-    slow = slow.next; // 慢指针前进 1 步
-
-    reverseRef.next = reversePreRef; // 反转链表
-    reversePreRef = reverseRef; // 记录上一个节点
-  }
-
-  // 奇数场景
-  if (fast) slow = slow.next; // 中间值不用比较，慢指针直接前进一步
-
-  while (reverseRef && slow) {
-    if (reverseRef.val !== slow.val) {
-      return false;
-    }
-    reverseRef = reverseRef.next;
+  // 还原后半部分链表
+  firstHalfEnd.next = reverseLinkList(secondHalfStart);
+  return result;
+};
+// 快慢指针找中点
+const endOfFirstHalf = (head) => {
+  let fast = head;
+  let slow = head;
+  while (fast.next && fast.next.next) {
+    fast = fast.next.next;
     slow = slow.next;
   }
-  return true;
-}
+  return slow;
+};
+// 反转链表
+const reverseLinkList = (root) => {
+  let prev = null;
+  let curr = root;
+
+  while (curr) {
+    let next = curr.next;
+    curr.next = prev;
+    prev = curr;
+    curr = next;
+  }
+  return prev;
+};
+// 时间复杂度：O(n)；空间复杂度：O(1)

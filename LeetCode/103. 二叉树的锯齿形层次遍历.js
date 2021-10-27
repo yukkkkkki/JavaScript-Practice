@@ -15,37 +15,29 @@
 //   [15,7]
 // ]
 
-// 方法一：双栈法
-// 1. 定义两个数组，一个接收奇数层元素，另一个接收偶数层元素。
-// 2. 奇数层遍历完成之后，将下一层元素由左向右插入偶数层数组。
-// 3. 先进后出原则，偶数列遍历时，取值顺序就变成了由右向左取值。
-// 4. 偶数层遍历完成之后，将下一层元素由右向左插入奇数层数组。
-// 5. 先进后出原则，奇数列遍历时，取值顺序就变成了由左向右取值。
-// 6. 循环往复，形成锯齿形层次遍历
+// 方法一：BFS 广度优先遍历
+// 根节点所在层为0 偶数层从左往右输出 奇数层从右往左输出
+// 用一个isOrderLeft来标识是否从左往右
 var zigzagLevelOrder = function (root) {
   if (!root) return [];
+
   const res = [];
-  const l2r = [];
-  const r2l = [];
-  l2r.push(root);
-  while (l2r.length || r2l.length) {
-    const temp = [];
-    if (l2r.length) {
-      while (l2r.length) {
-        const cur = l2r.pop();
-        temp.push(cur.val);
-        if (cur.left) r2l.push(cur.left);
-        if (cur.right) r2l.push(cur.right);
-      }
-    } else if (r2l.length) {
-      while (r2l.length) {
-        const cur = r2l.pop();
-        temp.push(cur.val);
-        if (cur.right) l2r.push(cur.right);
-        if (cur.left) l2r.push(cur.left);
-      }
+  const queue = [root];
+  let isOrderLeft = true;
+
+  while (queue.length) {
+    const levelList = [];
+    const size = queue.length;
+    for (let i = 0; i < size; i++) {
+      const node = queue.shift();
+      if (isOrderLeft) levelList.push(node.val);
+      else levelList.unshift(node.val);
+
+      node.left && queue.push(node.left);
+      node.right && queue.push(node.right);
     }
-    res.push(temp);
+    res.push(levelList);
+    isOrderLeft = !isOrderLeft;
   }
   return res;
 };
