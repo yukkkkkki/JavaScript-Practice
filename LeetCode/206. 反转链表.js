@@ -5,9 +5,9 @@
 
 // 双指针 原地反转
 var reverseList = function (head) {
-  var prev = null,
-    cur = head,
-    temp;
+  let prev = null;
+  let cur = head;
+  let temp;
   while (cur) {
     // 修改前先记住下一个节点
     temp = cur.next;

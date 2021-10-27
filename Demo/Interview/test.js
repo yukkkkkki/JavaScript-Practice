@@ -99,3 +99,5 @@ console.log(Number('hello')); // NaN
 // 对象：
 // 调用对象的 valueOf()方法，然后依照前面的规则转换返回的值。
 // 若结果是 NaN，则调用对象的 toString()方法，然后在依照前面的规则转换返回的字符串值
+
+

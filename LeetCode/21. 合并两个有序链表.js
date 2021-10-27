@@ -9,7 +9,7 @@
 var mergeTwoLists = function (l1, l2) {
   if (!l1) return l2;
   if (!l2) return l1;
-  if (l1.val <= l2.val) {
+  if (l1.val < l2.val) {
     l1.next = mergeTwoLists(l1.next, l2);
     return l1;
   } else {
@@ -19,22 +19,23 @@ var mergeTwoLists = function (l1, l2) {
 };
 // 时间复杂度：O(m + n); 空间复杂度：O(m + n)
 
-// 方法二：双指针法
+// 方法二：迭代：双指针法
 // 创建一个新链表，通过判断两个链表当前值，将较小值放到新链表的下个节点，较小值的链表重新赋值为其下一节点，直到参数链表都为空时结束
 var mergeTwoLists = function (l1, l2) {
-  let prevHead = new ListNode(-1);
-  let prevNode = prevHead;
-  while (l1 && l2) {
+  const prevHead = new ListNode(-1);
+
+  let prev = prevHead;
+  while (l1 !== null && l2 !== null) {
     if (l1.val <= l2.val) {
-      prevNode.next = l1;
+      prev.next = l1;
       l1 = l1.next;
     } else {
-      prevNode.next = l2;
+      prev.next = l2;
       l2 = l2.next;
     }
-    prevNode = prevNode.next;
+    prev = prev.next;
   }
-  prevNode.next = l1 || l2;
-  return prevNode.next;
+  prev.next = l1 || l2;
+  return prevHead.next;
 };
 // 时间复杂度：O(m + n); 空间复杂度：O(1)

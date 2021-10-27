@@ -134,13 +134,13 @@
       ```javascript
       const b = [];
       Object.prototype.toString.call(b); // "[object Array]"
-    
+      
       const c = {};
       Object.prototype.toString.call(c); // "[object Object]"
-    
+      
       const d = new Date();
       Object.prototype.toString.call(d); // "[object Date]"
-    
+      
       const e = new RegExp();
       Object.prototype.toString.call(e); // "[object RegExp]"
       ```
@@ -204,16 +204,16 @@
             this.age = 10;
             return {};
           }
-        
+          
           var p3 = new P3();
           console.log(p3); //Object {}
           console.log(p3.age); //undefined
-        
+          
           function P3() {
             this.age = 10;
             return {};
           }
-        
+          
           var p3 = new P3();
           console.log(p3); //Object {}
           console.log(p3.age); //undefined
@@ -631,16 +631,16 @@
         function SuperType() {
           this.colors = ['red', 'blue', 'green'];
         }
-      
+        
         function SubType() {}
-      
+        
         // 继承了SuperType
         SubType.prototype = new SuperType();
-      
+        
         var instance1 = new SubType();
         instance1.colors.push('black');
         alert(instance1.colors); // "red, blue, green, black"
-      
+        
         var instance2 = new SubType();
         alert(instance2.colors); // "red, blue, green, black"
         ```
@@ -1023,11 +1023,11 @@
             function isObject(x) {
               return Object.prototype.toString.call(x) === '[object Object]';
             }
-          
+            
             function deepClone(source) {
               // 相当于加上一个递归出口
               if (!isObject(source)) return source;
-          
+            
               // ...
             }
             ```
@@ -1924,7 +1924,7 @@
         <li id="goSomething">Do Something</li>
         <li id="sayHi">Say Hi</li>
       </ul>
-    
+      
       <script>
         var list = document.getElementById('myLinks');
         EventUtil.addHandler(list, 'click', function (event) {
