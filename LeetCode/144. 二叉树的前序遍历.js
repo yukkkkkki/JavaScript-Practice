@@ -13,17 +13,18 @@
 
 // 方法一：递归
 var preorderTraversal = function (root) {
-  let res = [];
-  help(res, root);
-  return res;
-};
+  const res = [];
 
-var help = function (res, root) {
-  if (root) {
-    res.push(root.val);
-    help(res, root.left);
-    help(res, root.right);
+  function dfs(node) {
+    if (node) {
+      res.push(node.val);
+      dfs(node.left);
+      dfs(node.right);
+    }
   }
+
+  dfs(root);
+  return res;
 };
 
 // 方法二：非递归
@@ -31,12 +32,11 @@ var help = function (res, root) {
 var preorderTraversal = function (root) {
   if (!root) return [];
 
-  let stack = [root], // 根节点不为空时，根节点入栈
-    res = [],
-    node = null;
+  const stack = [root]; // 根节点不为空时，根节点入栈
+  const res = [];
 
   while (stack.length) {
-    node = stack.pop();
+    let node = stack.pop();
     res.push(node.val);
 
     // 先打印左子树，然后右子树

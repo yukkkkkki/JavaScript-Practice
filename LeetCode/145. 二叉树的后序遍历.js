@@ -11,33 +11,38 @@
 
 // 方法一：递归
 var postorderTraversal = function (root) {
-  let res = [];
-  const help = (root) => {
+  const res = [];
+
+  const dfs = (root) => {
     if (root) {
-      help(root.left);
-      help(root.right);
+      dfs(root.left);
+      dfs(root.right);
       res.push(root.val);
     }
   };
-  help(root);
+
+  dfs(root);
   return res;
 };
 
-// 方法二：非递归(用栈来做)
+// 方法二：非递归
 // 每次先入左节点, 然后入右节点
 // 每次把值都插到数组的最前面
 // 即：先进左节点再进右节点 + 结果倒序
 var postorderTraversal = function (root) {
+  if (!root) return [];
+
   const res = [];
-  if (!root) return res;
-  const stack = [root];
+  const helper = [root];
+
   while (stack.length) {
-    let node = stack.pop();
-    res.unshift(node.val);
+    let node = helper.pop();
+    res.unshift(node.val); // 先进先出
+
     // 先进栈左子树，后进栈右子树，出栈顺序为向右后左
     // 先右子树头插入res，后左子树头插入res
-    node.left && stack.push(node.left);
-    node.right && stack.push(node.right);
+    node.left && helper.push(node.left);
+    node.right && helper.push(node.right);
   }
   return res;
 };

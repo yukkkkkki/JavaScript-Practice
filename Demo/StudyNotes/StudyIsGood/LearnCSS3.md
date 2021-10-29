@@ -13,16 +13,15 @@
      - **文字层不会被浮动层覆盖，环绕于周围**
 
    - **触发条件**
-
      - 浮动元素，float !== none
      - 定位元素，position（absolute,fixed）
      - display: inline-block / table-cell/table-caption
      - overflow !== visible （为 hidden/auto/scroll）
-
+     
    - 应用
-
+   
      - 阻止 margin 重叠
-
+   
      - 可以包含浮动元素 —— 清除内部浮动(清除浮动的原理是两个 div 都位于同一个 BFC 区域之中)
      - 自适应两栏布局
      - 可以阻止元素被浮动元素覆盖
@@ -33,12 +32,11 @@
 
    - 两种模式:
      - **标准模式**: **box-sizing: content-box**(默认); **宽高不包括内边距和边框**
-     
        - ![image](https://img2018.cnblogs.com/blog/1748308/201908/1748308-20190811223557414-1734948215.png)
-     
+       
        - 一个块的总宽度 = 内容的width + padding(左右) + border(左右) + margin(左右)
        - **即会被设置的padding撑开**
-     
+       
      - **怪异模式**: box-sizing: border-box
      
        - ![image](https://img2018.cnblogs.com/blog/1748308/201908/1748308-20190811223843048-1245861711.png)
@@ -48,7 +46,7 @@
        - **解决方式：设置doctype声明，让浏览器使用标准模式**
      
      - 附：padding-box：将padding算入width范围
-
+   
 3. **负外边距**
 
    - margin-left/margin-top 的负外边距会把元素向左/上拉，盖住其旁边的元素
@@ -77,7 +75,7 @@
      | 属性选择器     | `[target]`        | 选择带有 target 属性所有元素                       |
      |                | `[target=_blank]` | 选择 target="\_blank" 的所有元素                   |
      |                | `[title~=flower]` | 选择 title 属性包含单词 "flower" 的所有元素        |
-     |                | `[lang            | =en]`                                              | 选择 `lang` 属性值以 `"en"` 开头的所有元素 |
+     |                | `[lang  | =en]`   | 选择 `lang` 属性值以 `"en"` 开头的所有元素         |
      |                | `a[src^="https"]` | 选择其 `src` 属性值以 "https" 开头的每个 \<a> 元素 |
 
    - 伪类选择器(a:hover, li:nth-child)
@@ -381,7 +379,7 @@
               background: red;
             }
           </style>
-    
+        
           <div class="container">
             <div class="box1"></div>
             <div class="box2"></div>
@@ -408,7 +406,7 @@
               margin-top: 20px;
             }
           </style>
-      
+          
           /*html*/
           <body>
             <div class="box">
@@ -725,22 +723,22 @@
     - **absolute + margin-left**
 
       ```css
-      * {
-        /*清除默认格式*/
-        margin: 0;
-        padding: 0；;
-      }
-
-      .left {
-        width: 200px;
-        background-color: red;
-        float: left;
-      }
-
-      .right {
-        background-color: green;
-        margin-left: 200px; //等于左边栏的宽度
-      }
+      <style>
+        .box {
+          position: relative;
+        }
+        .left {
+    position: absolute;
+          height: 100px;
+          width: 100px;
+          background-color: skyblue;
+        }
+        .right {
+    margin-left: 100px;
+          height: 100px;
+          background-color: rosybrown;
+        }
+      </style>
       ```
 
     - **float + BFC**
@@ -896,41 +894,40 @@
 28. **移动端用什么距离单位**
 
     - **em**：相对值，是一个相对于父元素的值
-
       - **1 / 父元素的 font-size * 需要转换的像素值 = em 值**
-
+      
     - **rem**：相对值，是一个相对于根元素\<html>的值， 可自定义
-
+    
       - 1 rem = html 的 font-size
-
+    
       - 移动端rem适配
         - **获取html的宽** `document.documentElement.clientWidth`
         - **获取htmlDom元素** `let htmlDom = document.getElementByTagName('html')[0]`
         - **设置html样式**`htmlDom.style.fontSize = htmlwith / 20 + 'px';`
-
+    
     - **百分比%**
-
+    
       - 设计稿上元素的宽度 / 设计稿宽度 = 元素在设备上显示的宽度百分比
-
+    
     - **vh 和 vw**
-
+    
       - vw：viewport 宽度，1vw == viewport 宽度的 1%
       - vh：viewport 高度，1vh == viewport 高度的 1%
-
+    
     - **vmin 和 vmax**
-
+    
       - vmin：vw 和 vh 中比较小的值
       - vmax：vw 和 vh 中比较大的值
-
+    
     - **ch 和 ex**：根据当前font-family 的相对单位
-
+    
       - ch：字符0的宽度
       - ex：小写字符x的高度
-
+    
     - **calc()**：CSS3新单位算法。calc(expression)
-
+    
       - eg：width: calc(100% - 20px)
-
+    
 29. **Viewport**
 
     - 指用户网页的可视区域

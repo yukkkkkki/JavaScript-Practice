@@ -41,25 +41,26 @@ var inorderTraversal = function (root) {
 
 // 方法二：递归
 var inorderTraversal = function (root) {
-  let res = [];
-  help(root, res);
-  return res;
-};
+  const res = [];
 
-var help = function (root, res) {
-  if (root !== null) {
-    help(root.left, res);
-    res.push(root.val);
-    help(root.right, res);
+  function dfs(root) {
+    if (root) {
+      dfs(root.left);
+      res.push(root.val);
+      dfs(root.right);
+    }
   }
+
+  dfs(root);
+  return res;
 };
 // 时间复杂度:O(n); 空间复杂度:O(n)
 
-// 方法三：非递归
-// 用栈来做
+// 方法三：非递归 用栈来做
 var inorderTraversal = function (root) {
-  let res = [],
-    stack = [];
+  const res = [];
+  const stack = [];
+
   while (root || stack.length) {
     while (root) {
       // 左子节点们入栈
@@ -68,8 +69,8 @@ var inorderTraversal = function (root) {
     }
 
     root = stack.pop(); // 直到左子节点没有左子节点，出栈
-    res.push(root.val); // push进res
-    root = root.right; // 看右子节点
+    res.push(root.val);
+    root = root.right;
   }
   return res;
 };

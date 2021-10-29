@@ -71,6 +71,8 @@
 
 7. **webpack打包原理**
 
+   webpack打包原理是根据文件间的依赖关系对其进行静态分析，然后将这些模块按指定规则生成静态资源，当 webpack 处理程序时，它会递归地构建一个依赖关系图(dependency graph)，其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。
+
 > 参考链接
 >
 > 1. https://www.webpackjs.com/concepts/configuration/
