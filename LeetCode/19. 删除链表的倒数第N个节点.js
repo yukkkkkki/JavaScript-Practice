@@ -7,16 +7,16 @@
 // 方法一：双指针法
 // 1. 指针 first 指向头节点，然后，让其向后移动 n 步。
 // 2. 指针 second 指向头结点，并和 first 一起向后移动。当 first 的 next 指针为 null 时，second 即指向了要删除节点的前一个节点。
-// 3. 指针 first 的 next 指向要删除节点的下一个节点。
+// 3. 指针 next 的 next 指向要删除节点的下一个节点。
 var removeNthFromEnd = function (head, n) {
   let first = head;
-  let second = head;
   while (n > 0) {
     first = first.next;
-    n -= 1;
+    n--;
   }
-  // 如果first为null，则要删除的节点是首节点，直接返回head
+  // 如果first为null，则要删除的节点是首节点，直接返回head.next
   if (!first) return head.next;
+  let second = head;
   while (first.next) {
     first = first.next;
     second = second.next;
@@ -66,3 +66,25 @@ var removeNthFromEnd = function (head, n) {
   }
 };
 // 时间复杂度：O(n); 空间复杂度：O(1)
+
+// 方法三：栈
+// 遍历链表的同时将所有节点入栈 则弹出栈的第 n 个节点就是需要删除的节点
+// 且目前栈顶的节点就是待删除节点的前驱节点
+var removeNthFromEnd = function (head, n) {
+  const dummy = new ListNode(0, head);
+  const stack = [];
+  let cur = dummy;
+  while (cur) {
+    stack.push(cur);
+    cur = cur.next;
+  }
+
+  for (let i = 0; i < n; i++) {
+    stack.pop();
+  }
+
+  let prev = stack[stack.length - 1];
+  prev.next = prev.next.next;
+  return dummy.next;
+};
+// 时间复杂度：O(L); 空间复杂度：O(L)

@@ -30,34 +30,37 @@ var swapPairs = function (head) {
   if (!head || !head.next) return head;
   const newHead = head.next;
   head.next = swapPairs(newHead.next);
-  newHead.next = head; // 表示将其余节点进行两两交换，交换后的新的头节点为 head 的下一个节点
+  // 表示将其余节点进行两两交换，交换后的新的头节点为 head 的下一个节点
+  newHead.next = head;
   return newHead;
 };
 // 时间复杂度：O(n); 空间复杂度：O(n)
 
 // 方法二：迭代
 // 思路：
-// 设置虚拟头结点 dummy，使得dummy.next始终指向第一个结点
-// 开启while循环,三步完成一对结点的交换
-//     head.next = next.next;
-//     next.next = head;
-//     pre.next = next;
-// 指针更新,在下一轮迭代中,完成下一对结点的交换
-//     pre = head;
-//     head = head.next;
+// 设置虚拟头结点 dummy，使得dummy.next = head
+// 令 prev 表示当前到达的节点，初始时 prev = dummyHead, 每次需要交换 prev 后面的两个节点
+// 若 prev 后无节点，则没有更多的节点需要交换，因此结束交换
+// 否则 获得 prev 后的 node1 和 node2 更新指针关系两两交换节点
+// prev.next = node2;
+// node1.next = node2.next;
+// node2.next = node1
 var swapPairs = function (head) {
-  const dummy = new ListNode(0);
+  const dummy = new ListNode(-1);
   dummy.next = head;
-  let pre = dummy;
+  let prev = dummy;
+
   while (head && head.next) {
     const next = head.next;
     head.next = next.next;
     next.next = head;
-    pre.next = next;
+    prev.next = next;
+
     // 指针更新
-    pre = head;
+    prev = head;
     head = head.next;
   }
+
   return dummy.next;
 };
 // 时间复杂度：O(n); 空间复杂度：O(1)

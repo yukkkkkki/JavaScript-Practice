@@ -14,7 +14,7 @@
 
    - **触发条件**
      - 浮动元素，float !== none
-     - 定位元素，position（absolute,fixed）
+     - 定位元素，position（absolute，fixed）
      - display: inline-block / table-cell/table-caption
      - overflow !== visible （为 hidden/auto/scroll）
      
@@ -379,7 +379,7 @@
               background: red;
             }
           </style>
-        
+          
           <div class="container">
             <div class="box1"></div>
             <div class="box2"></div>

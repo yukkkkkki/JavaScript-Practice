@@ -27,6 +27,4 @@ let objectArr = [
 ];
 const map = new Map();
 
-function diff(newObj) {
-  
-}
+function diff(newObj) {}
