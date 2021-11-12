@@ -102,8 +102,8 @@ var getIntersectionNode = function (headA, headB) {
 // 链接：https://leetcode-cn.com/problems/intersection-of-two-linked-lists/solution/tu-jie-leetcode160xiang-jiao-lian-biao-by-user7746/
 var getIntersectionNode = function (headA, headB) {
   // 消除高度差
-  let node1 = headA,
-    node2 = headB;
+  let node1 = headA;
+  let node2 = headB;
   while (node1 || node2) {
     if (node1 == node2) return node1;
     node1 = node1 !== null ? node1.next : headB;
