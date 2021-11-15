@@ -27,21 +27,22 @@ var removeElements = function (head, val) {
   return head;
 };
 
-// 方法二
+// 方法二：dummyhead
 var removeElements = function (head, val) {
-  let newHead = new ListNode(null), //创建一个新链表头结点来辅助操作
-    pre = newHead,
-    cur = head;
-  newHead.next = head; // 新链表头结点指向head
+  let dummy = new ListNode(0);
+  dummy.next = head;
+
+  let pre = dummy;
+  let cur = head;
 
   while (cur) {
     if (cur.val === val) {
       pre.next = cur.next;
-      cur = pre.next;
     } else {
       pre = cur;
-      cur = cur.next;
     }
+    cur = cur.next;
   }
-  return newHead.next;
+
+  return dummy.next;
 };
