@@ -17,7 +17,7 @@
 var maxDepth = function (root) {
   if (!root) return 0;
   let queue = [root];
-  let level = 0;
+  let maxChildDepth = 0;
 
   while (queue.length) {
     let count = queue.length;
@@ -27,19 +27,27 @@ var maxDepth = function (root) {
         queue = queue.concat(node.children);
       }
     }
-    level++;
+    maxChildDepth++;
   }
-  return level;
+  return maxChildDepth;
 };
+// 时间复杂度：O(n)
+
 
 // 方法一：深度优先遍历 DFS
+// 在计算当前 N 叉树的最大深度时，可以先递归计算出其每个子树的最大深度
+// 然后在 O(1) 的时间内计算出当前 N 叉树的最大深度。递归在访问到空节点时退出
 var maxDepth = function (root) {
   if (!root) return 0;
   if (!root.children) return 1;
-  let level = 0;
+
+  let maxChildDepth = 0;
   for (let i = 0; i < root.children.length; i++) {
     let cur = maxDepth(root.children[i]);
-    level = Math.max(max, cur);
+    maxChildDepth = Math.max(maxChildDepth, cur);
   }
-  return level + 1;
+
+  return maxChildDepth + 1;
 };
+// 时间复杂度：O(n)
+// 空间复杂度：O(height)

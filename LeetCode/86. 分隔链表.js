@@ -1,16 +1,8 @@
-// 给你一个链表和一个特定值 x ，请你对链表进行分隔，使得所有小于 x 的节点都出现在大于或等于 x 的节点之前。
-
-// 你应当保留两个分区中每个节点的初始相对位置。
-
-// 示例：
-// 输入：head = 1->4->3->2->5->2, x = 3
-// 输出：1->2->2->4->3->5
-
 /**
  * Definition for singly-linked list.
- * function ListNode(val) {
- *     this.val = val;
- *     this.next = null;
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
  * }
  */
 /**
@@ -19,12 +11,17 @@
  * @return {ListNode}
  */
 // 方法一：模拟
+// 维护两个链表 small 和 large 即可
+// small 链表按顺序存储所有小于 x 的节点，large 链表按顺序存储所有大于等于 x 的节点
+// 遍历完原链表后，我们只要将 small 链表尾节点指向 large 链表的头节点即能完成对链表的分隔
 var partition = function (head, x) {
   let small = new ListNode(0);
   const smallHead = small;
+
   let large = new ListNode(0);
   const largeHead = large;
-  while (head !== null) {
+
+  while (head) {
     if (head.val < x) {
       small.next = head;
       small = small.next;
@@ -34,6 +31,7 @@ var partition = function (head, x) {
     }
     head = head.next;
   }
+
   large.next = null;
   small.next = largeHead.next;
   return smallHead.next;

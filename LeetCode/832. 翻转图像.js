@@ -16,26 +16,20 @@
 // 解释: 首先翻转每一行: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]]；
 //      然后反转图片: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
 
-var flipAndInvertImage = function (A) {
-  const m = A.length;
-  const n = A[0].length;
+/**
+ * @param {number[][]} image
+ * @return {number[][]}
+ */
+var flipAndInvertImage = function (image) {
+  const m = image.length;
 
   for (let i = 0; i < m; i++) {
-    A[i].reverse();
-  }
-  // console.log(A)
-  return reverseImage(A, m, n);
-};
-
-function reverseImage(A, m, n) {
-  for (let i = 0; i < m; i++) {
+    const n = image[i].length;
+    image[i].reverse();
     for (let j = 0; j < n; j++) {
-      if (A[i][j] === 0) {
-        A[i][j] = 1;
-      } else {
-        A[i][j] = 0;
-      }
+      image[i][j] = image[i][j] === 0 ? 1 : 0;
     }
   }
-  return A;
-}
+
+  return image;
+};
