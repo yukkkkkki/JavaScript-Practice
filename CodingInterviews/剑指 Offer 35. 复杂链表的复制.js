@@ -17,15 +17,14 @@
 // 输出：[]
 // 解释：给定的链表为空（空指针），因此返回 null。
 
-// 方法一
-// 用一个哈希表表示映射关系：键是原节点，值是复制的节点。
+// 方法一:哈希表：键是原节点，值是复制的节点。
 // 整体算法流程是：
 // 第一次遍历，复制每个节点和 next 指针，并且保存"原节点-复制节点"的映射关系
 // 第二次遍历，通过哈希表获得节点对应的复制节点，更新 random 指针
-
 // 参考：https://leetcode-cn.com/problems/fu-za-lian-biao-de-fu-zhi-lcof/solution/si-lu-yu-jie-fa-yong-ha-xi-biao-lai-zuo-ying-she-j/
 var copyRandomList = function (head) {
   if (!head) return null;
+
   const map = new Map();
   let node = head; // 当前节点
   const newHead = new Node(node.val);
@@ -49,17 +48,17 @@ var copyRandomList = function (head) {
   return newHead;
 };
 
-// 方法二：对象记录
+// 方法二：哈希表 记忆化搜索
 var copyRandomList = function (head) {
-  const mapping = new Map();
+  const map = new Map();
 
   // 递归函数
   function copy(node) {
     if (!node) return node; // 空结点
-    if (mapping.has(node)) return mapping.get(node); // 取缓存
+    if (map.has(node)) return map.get(node); // 取缓存
 
     const res = new Node();
-    mapping.set(node, res); // 先放缓存
+    map.set(node, res); // 先放缓存
 
     res.val = node.val;
     res.next = copy(node.next); // 结点，要递归
@@ -67,5 +66,8 @@ var copyRandomList = function (head) {
 
     return res;
   }
+
   return copy(head);
 };
+
+
