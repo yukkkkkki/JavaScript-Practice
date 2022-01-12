@@ -47,6 +47,7 @@ var sortedListToBST = function (head) {
     slow = slow.next;
     fast = fast.next.next;
   }
+  
   const root = new TreeNode(slow.val);
   if (preSlow) {
     // 中点slow不是head，需要构建左子树
