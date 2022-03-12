@@ -24,7 +24,7 @@ const findKthLargest = (nums, k) => {
     let random = Math.floor(Math.random() * (r - l + 1)) + l; // 随机选取一个index
     swap(nums, random, r); // 将它和位置r的元素交换，让 nums[r] 作为 pivot 元素
     /**
-     * 我们选定一个 pivot 元素，根据它进行 partition
+     * 选定一个 pivot 元素，根据它进行 partition
      * partition 找出一个位置：它左边的元素都比pivot小，右边的元素都比pivot大
      * 左边和右边的元素的是未排序的，但 pivotIndex 是确定下来的
      */
