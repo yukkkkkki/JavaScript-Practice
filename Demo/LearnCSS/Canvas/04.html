@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="cont" width="500px" height="500px"> </canvas>
+    <script>
+      // 画圆
+      var canvas = document.querySelector('#cont');
+      var ctx = canvas.getContext('2d');
+      // arc(x, y, radius, startAngle, endAngle, counterclockwise);
+      // ctx.arc(250, 250, 200, 0, Math.PI * 2, false);
+      ctx.beginPath();
+      ctx.arc(100, 100, 100, 0, Math.PI, true);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(300, 100, 100, 0, Math.PI, false);
+
+      ctx.fillStyle = 'gold';
+      ctx.fill();
+
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = 'red';
+      ctx.stroke();
+    </script>
+  </body>
+</html>

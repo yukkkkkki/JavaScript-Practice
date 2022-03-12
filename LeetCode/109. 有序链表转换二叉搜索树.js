@@ -28,7 +28,6 @@ var sortedListToBST = function (head) {
     root.left = builBST(start, mid - 1);
     root.right = builBST(mid + 1, end);
     return root;
-  };
 
   return builBST(0, arr.length - 1);
 };

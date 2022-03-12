@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>双飞翼布局</title>
+  <style>
+    /* margin负值法 */
+    .content {
+      float: left;
+      width: 100%;
+    }
+
+    .main {
+      height: 200px;
+      /* 大于left本身的width */
+      margin-left: 110px;
+      /* 大于right本身的width */
+      margin-right: 220px;
+      background-color: green;
+    }
+
+    .left {
+      float: left;
+      height: 200px;
+      width: 100px;
+      margin-left: -100%;
+      background-color: red;
+    }
+
+    .right {
+      float: right;
+      height: 200px;
+      width: 200px;
+      margin-left: -100%;
+      background-color: blue;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="content">
+    <div class="main">main</div>
+  </div>
+  <div class="left">left</div>
+  <div class="right">right</div>
+</body>
+
+</html>

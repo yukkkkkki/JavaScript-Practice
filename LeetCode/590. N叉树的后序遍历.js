@@ -25,6 +25,7 @@ var postorder = function (root) {
   while (stack.length) {
     let node = stack.pop();
     if (node) res.unshift(node.val);
+
     if (node.children) {
       for (item of node.children) {
         stack.push(item);
@@ -33,3 +34,22 @@ var postorder = function (root) {
   }
   return res;
 };
+
+// 方法二：递归
+// 每次递归时，先递归访问每个孩子节点，然后再访问根节点
+var postorder = function (root) {
+  const res = [];
+
+  const helper = (root) => {
+    if (root === null) return;
+    for (const ch of root.children) {
+      helper(ch);
+    }
+    res.push(root.val);
+  };
+
+  helper(root);
+  return res;
+};
+// 时间复杂度：O(m)
+// 空间复杂度：O(m)

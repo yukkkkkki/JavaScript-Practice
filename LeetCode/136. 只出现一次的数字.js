@@ -22,15 +22,15 @@ var singleNumber = function (nums) {
 
 // 方法二：哈希(这个效果更好)
 var singleNumber = function (nums) {
-  let numsObj = {};
+  let map = {};
   for (let i = 0; i < nums.length; i++) {
-    if (numsObj[nums[i]]) {
-      delete numsObj[nums[i]];
+    if (map[nums[i]]) {
+      delete map[nums[i]];
     } else {
-      numsObj[nums[i]] = 1;
+      map[nums[i]] = 1;
     }
   }
-  return Object.keys(numsObj)[0];
+  return Object.keys(map)[0];
 };
 
 // 方法三

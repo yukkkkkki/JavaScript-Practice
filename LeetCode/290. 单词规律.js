@@ -24,11 +24,14 @@
  * @return {boolean}
  */
 // 方法一：哈希表
+// 枚举 pattern 中的每一个字符，利用双指针来均摊线性地找到该字符在 str 中对应的字符串
+// 每次确定一个字符与字符串的组合，我们就检查是否出现冲突，最后再检查两字符串是否比较完毕
 var wordPattern = function (pattern, s) {
   const word2ch = new Map();
   const ch2word = new Map();
   const words = s.split(' ');
   if (pattern.length !== words.length) return false;
+
   for (const [i, word] of words.entries()) {
     const ch = pattern[i];
     if (
@@ -37,8 +40,11 @@ var wordPattern = function (pattern, s) {
     ) {
       return false;
     }
+
     word2ch.set(word, ch);
     ch2word.set(ch, word);
   }
   return true;
 };
+
+console.log(wordPattern('abba', 'dog cat cat dog'));

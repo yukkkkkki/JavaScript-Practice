@@ -39,8 +39,7 @@
  * @return {TreeNode}
  */
 
-// 思路
-// 当将 val 插入到以 root 为根的子树上时，根据 val 与 root.val 的大小关系，就可以确定要将 val 插入到哪个子树中。
+// 思路：将 val 插入到以 root 为根的子树上时，根据 val 与 root.val 的大小关系，确定将 val 插入到哪个子树中
 // 如果该子树不为空，则问题转化成了将 val 插入到对应子树上。
 // 否则，在此处新建一个以 val 为值的节点，并链接到其父节点 root 上
 var insertIntoBST = function (root, val) {
