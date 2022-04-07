@@ -14,9 +14,9 @@
 
 // 方法一：二分查找
 const binarySearch = (nums, target, lower) => {
-  let left = 0,
-    right = nums.length - 1,
-    ans = nums.length;
+  let left = 0;
+  let right = nums.length - 1;
+  let ans = nums.length;
   while (left <= right) {
     const mid = Math.floor((left + right) / 2);
     if (nums[mid] > target || (lower && nums[mid] >= target)) {
@@ -28,6 +28,7 @@ const binarySearch = (nums, target, lower) => {
   }
   return ans;
 };
+
 var searchRange = function (nums, target) {
   let res = [-1, -1];
   const leftIdx = binarySearch(nums, target, true);

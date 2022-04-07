@@ -2,6 +2,7 @@
  * @param {number} n
  * @return {number}
  */
+// 方法一：数学
 var trailingZeroes = function (n) {
   let res = 0;
   while (n >= 5) {
