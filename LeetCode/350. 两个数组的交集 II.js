@@ -28,16 +28,16 @@ var intersect = function (nums1, nums2) {
 // 方法二：双指针
 // 1.两个数组排序
 // 2.设定两个为0的指针，比较两个指针的元素是否相等
-// 3.如果相等，元素push到返回值里，两个指针同时往前
-// 4.如果不相等，元素小的指针往前
-// 如果相等，那肯定比较过的元素就没用了，两个指针++
-// 如果不相等，那把元素小的数组指针++。
+// 3.如果相等，元素push到返回值里，两个指针同时++
+// 4.如果不相等，元素小的指针++
 var intersect = function (nums1, nums2) {
   let res = [];
-  let p1 = 0,
-    p2 = 0;
+  let p1 = 0;
+  let p2 = 0;
+
   nums1 = nums1.sort((a, b) => a - b);
   nums2 = nums2.sort((a, b) => a - b);
+
   while (p1 < nums1.length && p2 < nums2.length) {
     if (nums1[p1] == nums2[p2]) {
       res.push(nums1[p1]);
@@ -62,8 +62,8 @@ var intersect = function (nums1, nums2) {
 var intersect = function (nums1, nums2) {
   let hash = new Map();
   let res = [];
-  let m = nums1.length,
-    n = nums2.length;
+  let m = nums1.length;
+  let n = nums2.length;
   for (let i = 0; i < nums1.length; i++) {
     if (hash.has(nums1[i])) {
       hash.set(nums1[i], hash.get(nums1[i]) + 1);
