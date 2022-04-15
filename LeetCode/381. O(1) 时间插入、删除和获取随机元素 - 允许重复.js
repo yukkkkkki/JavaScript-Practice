@@ -33,7 +33,6 @@ class RandomizedCollection {
     this.index = new Map();
     this.nums = [];
   }
-
   insert(val) {
     this.nums.push(val);
     const set = this.index.has(val) ? this.index.get(val) : new Set();
@@ -41,7 +40,6 @@ class RandomizedCollection {
     this.index.set(val, set);
     return set.size === 1;
   }
-
   remove(val) {
     if (!this.index.has(val)) return false;
     let i = undefined;
@@ -64,12 +62,10 @@ class RandomizedCollection {
     this.nums.pop();
     return true;
   }
-
   getRandom() {
     return this.nums[Math.floor(Math.random() * this.nums.length)];
   }
 }
-
 // // // 初始化一个空的集合。
 // let collection = new RandomizedCollection();
 

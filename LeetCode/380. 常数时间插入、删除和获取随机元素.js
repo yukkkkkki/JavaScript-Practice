@@ -76,8 +76,7 @@ RandomizedSet.prototype.remove = function (val) {
  * @return {number}
  */
 RandomizedSet.prototype.getRandom = function () {
-  const l = this.arr.length;
-  const i = Math.floor(Math.random() * l);
+  const i = Math.floor(Math.random() * this.arr.length);
   return this.arr[i];
 };
 // 时间复杂度：O(1); 空间复杂度：O(n)

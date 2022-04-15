@@ -42,29 +42,28 @@ var search = function (nums, target) {
   const min = Math.min.apply(null, nums);
   const max = Math.max.apply(nums, nums);
   const len = nums.length;
-  let pos;
-  let lo;
-  let hi;
-  let mid;
+
+  let pos, low, high, mid;
+
   if (target > nums[len - 1]) {
-    // 说明在max左侧
+    // 说明在 max 左侧
     pos = nums.indexOf(max);
-    lo = 0;
-    hi = pos;
+    low = 0;
+    high = pos;
   } else {
-    // 说明在min右侧
+    // 说明在 min 右侧
     pos = nums.indexOf(min);
-    lo = pos;
-    hi = len - 1;
+    low = pos;
+    high = len - 1;
   }
 
-  while (lo <= hi) {
-    mid = Math.ceil((lo + hi) / 2);
+  while (low <= high) {
+    mid = Math.ceil((low + high) / 2);
     if (nums[mid] === target) return mid;
     if (nums[mid] < target) {
-      lo = mid + 1;
+      low = mid + 1;
     } else {
-      hi = mid - 1;
+      high = mid - 1;
     }
   }
   return -1;
