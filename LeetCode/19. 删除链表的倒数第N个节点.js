@@ -5,26 +5,31 @@
 // 当删除了倒数第二个节点后，链表变为 1->2->3->5.
 
 // 方法一：双指针法
-// 1. 指针 first 指向头节点，然后，让其向后移动 n 步。
-// 2. 指针 second 指向头结点，并和 first 一起向后移动。当 first 的 next 指针为 null 时，second 即指向了要删除节点的前一个节点。
-// 3. 指针 next 的 next 指向要删除节点的下一个节点。
 var removeNthFromEnd = function (head, n) {
+  // 指针 first 指向头节点，然后，让其向后移动 n 步
   let first = head;
   while (n > 0) {
     first = first.next;
     n--;
   }
-  // 如果first为null，则要删除的节点是首节点，直接返回head.next
+
+  // 如果 first 为 null，则要删除的节点是首节点
   if (!first) return head.next;
+
+  // second 和 first 一起向后移动
+  // 当 first.next == null，second 指向了要删除节点的前一个节点
   let second = head;
   while (first.next) {
     first = first.next;
     second = second.next;
   }
+
+  // 删除节点
   second.next = second.next.next;
   return head;
 };
-// 时间复杂度：O(n); 空间复杂度：O(1)
+// 时间复杂度：O(n)
+// 空间复杂度：O(1)
 
 // 方法二：单向链表成为双向链表
 // 1. 指针 cur 指向头节点，并定义 cur.prev、cur.next 使其成为双向链表。

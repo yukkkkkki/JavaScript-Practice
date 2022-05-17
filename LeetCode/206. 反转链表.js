@@ -3,11 +3,12 @@
 // 输入: 1->2->3->4->5->NULL
 // 输出: 5->4->3->2->1->NULL
 
-// 双指针 原地反转
+// 方法一：双指针 原地反转
 var reverseList = function (head) {
   let prev = null;
   let cur = head;
   let temp;
+
   while (cur) {
     // 修改前先记住下一个节点
     temp = cur.next;
@@ -22,7 +23,7 @@ var reverseList = function (head) {
   return prev;
 };
 
-// 递归
+// 方法二：递归
 var reverseList = function (head) {
   if (head == null || head.next == null) {
     return head;

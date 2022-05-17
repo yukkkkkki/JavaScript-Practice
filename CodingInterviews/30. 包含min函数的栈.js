@@ -22,7 +22,7 @@ var MinStack = function () {
 MinStack.prototype.push = function (x) {
   // update 'min'
   const minV = this.minV;
-  if (x < this.minV) {
+  if (x < minV) {
     this.minV = x;
   }
   return this.stack.push(x - minV);

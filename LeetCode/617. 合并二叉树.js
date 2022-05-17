@@ -25,57 +25,40 @@ function TreeNode(val) {
   this.left = this.right = null;
 }
 
-// 方法一：递归
+// 方法一：深度优先搜索 DFS
 var mergeTrees = function (t1, t2) {
+  // 如果两个二叉树的对应节点只有一个为空，则合并后的二叉树的对应节点为其中的非空节点
   if (!t1 && t2) return (t1 = t2);
+  if (t1 && !t2) return t1;
+  // 如果两个二叉树的对应节点都为空，则合并后的二叉树的对应节点也为空
   if (!t1 && !t2) return null;
+
   if (t1 && t2) t1.val += t2.val;
   t1.left = mergeTrees(t1.left, t2 && t2.left);
   t1.right = mergeTrees(t1.right, t2 && t2.right);
+
   return t1;
 };
+// O(min(m,n))
+// O(min(m,n))
 
-// 方法二：用栈做
+// 方法二：广度优先搜索
 var mergeTrees = function (t1, t2) {
   if (!t1 || !t2) return t1 || t2;
+
   const stack = [[t1, t2]];
   while (stack.length) {
     const cur = stack.pop();
     cur[0].val += cur[1].val;
-    if (cur[0].left && cur[1].left) {
-      stack.push([cur[0].left, cur[1].left]);
-    }
-    if (cur[0].right && cur[1].right) {
-      stack.push([cur[0].right, cur[1].right]);
-    }
 
-    if (!cur[0].left && cur[1].left) {
-      cur[0].left = cur[1].left;
-    }
+    if (cur[0].left && cur[1].left) stack.push([cur[0].left, cur[1].left]);
+    if (cur[0].right && cur[1].right) stack.push([cur[0].right, cur[1].right]);
 
-    if (!cur[0].right && cur[1].right) {
-      cur[0].right = cur[1].right;
-    }
+    if (!cur[0].left && cur[1].left) cur[0].left = cur[1].left;
+    if (!cur[0].right && cur[1].right) cur[0].right = cur[1].right;
   }
+
   return t1;
 };
-
-// 方法三：递归
-var mergeTrees = function (t1, t2) {
-  var makeTree = (t1, t2) => {
-    let node;
-    if (t1 && t2) {
-      node = new TreeNode(t1.val + t2.val);
-      node.left = makeTree(t1.left, t2.left);
-      node.right = makeTree(t1.right, t2.right);
-    } else if (!t1 && t2) {
-      return t2;
-    } else if (t1 && !t2) {
-      return t1;
-    } else {
-      return null;
-    }
-    return node;
-  };
-  return makeTree(t1, t2);
-};
+// O(min(m,n))
+// O(min(m,n))

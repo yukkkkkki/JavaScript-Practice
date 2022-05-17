@@ -16,24 +16,24 @@
 //      偷窃到的最高金额 = 2 + 9 + 1 = 12 。
 
 // 动态规划
-// 状态方程：dp[n] = MAX( dp[n-1], dp[n-2] + num[n] )
-// num为当前房间自身的值
+// 偷窃第 k 间房屋，那么就不能偷窃第 k-1 间房屋，偷窃总金额为前 k-2 间房屋的最高总金额与第 k 间房屋的金额之和
+// 不偷窃第 k 间房屋，偷窃总金额为前 k−1 间房屋的最高总金额
+// 故状态转移方程：dp[n] = MAX( dp[n - 1], dp[n - 2] + num[n])
 var rob = function (nums) {
-  let len = nums.length;
-  if (len === 0) return 0;
-  if (len === 1) return 1;
+  const len = nums.length;
+  if (len == 0) return 0;
 
-  let dp = new Array(len);
-  dp[0] = nums[0];
-  dp[1] = Math.max(nums[0], nums[1]);
-  let res = dp[1];
-
-  for (let i = 2; i < len; i++) {
-    dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i]);
-    res = Math.max(dp[i], res);
+  const dp = new Array(len + 1);
+  dp[0] = 0;
+  dp[1] = nums[0];
+  
+  for (let i = 2; i <= len; i++) {
+    dp[i] = Math.max(dp[i - 1], dp[i - 2] + nums[i - 1]);
   }
-  return res;
+  return dp[len];
 };
+// 时间复杂度：O(n)
+// 时间复杂度：O(1)
 
 // 方法二
 // 原理还是动态规划，只不过把dp[i-1]和dp[i-2]换成用两个数表示
@@ -45,6 +45,7 @@ var rob = function (nums) {
   let preMax = nums[0];
   let curMax = Math.max(nums[0], nums[1]);
   let res = curMax;
+
   for (let i = 2; i < len; i++) {
     let temp = curMax;
     curMax = Math.max(nums[i] + preMax, curMax);

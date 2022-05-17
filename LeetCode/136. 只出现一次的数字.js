@@ -11,9 +11,8 @@
 // 输入: [4, 1, 2, 1, 2]
 // 输出: 4
 
-// 方法一：
+// 方法一：先排序，再暴力
 var singleNumber = function (nums) {
-  // 先排序。再暴力
   nums = nums.sort();
   for (let i = 0; i < nums.length; i++) {
     if (nums[i] !== nums[i - 1] && nums[i] !== nums[i + 1]) return nums[i];

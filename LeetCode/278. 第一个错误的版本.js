@@ -24,6 +24,8 @@ var solution = function (isBadVersion) {
 
     while (left < right) {
       const mid = Math.floor(left + (right - left) / 2);
+      // const mid = (right - left) >> 1; // 会超时
+
       if (isBadVersion(mid)) {
         right = mid;
       } else {

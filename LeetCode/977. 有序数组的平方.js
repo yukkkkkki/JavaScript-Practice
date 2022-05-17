@@ -23,43 +23,48 @@ var sortedSquares = function (A) {
 // 时间复杂度：O(nlogn)；空间复杂度：O(logn)
 
 // 方法二：双指针 归并排序
-// 思路：
-// 设 neg 为数组A中负数与非负数的分界线
-// 即，A[0] 到 A[neg]均为负数，而A[neg + 1]到A[n-1]均为非负数
-// 那么数组平方后，A[0] 到 A[neg] 单调递减，A[neg + 1] 到 A[n - 1] 单调递增
-var sortedSquares = function (A) {
-  const n = A.length;
-  let negative = -1;
-  for (let i = 0; i < n; ++i) {
-    if (A[i] < 0) {
-      negative = i;
+// 设 neg 为数组中负数与非负数的分界线
+// 即，nums[0] 到 nums[neg] 均为负数，而 nums[neg + 1] 到 nums[n − 1] 均为非负数
+// 将数组 nums 中的数平方后，那么 nums[0] 到 nums[neg] 单调 ↓，nums[neg + 1] 到 nums[n − 1] 单调 ↑
+var sortedSquares = function (nums) {
+  const n = nums.length;
+  let neg = -1;
+  for (let i = 0; i < n; i++) {
+    if (nums[i] < 0) {
+      neg = i;
     } else {
       break;
     }
   }
-  let res = new Array(n);
-  let index = 0,
-    i = negative,
-    j = negative + 1;
+
+  let result = new Array(n).fill(0);
+  let idx = 0;
+  let i = neg;
+  let j = neg + 1;
   while (i >= 0 || j < n) {
     if (i < 0) {
-      res[index] = A[j] * A[j];
+      // 全是正数的情况
+      result[idx] = nums[j] * nums[j];
       ++j;
-    } else if (j == n) {
-      res[index] = A[i] * A[i];
+    } else if (j === n) {
+      // 全是负数的情况
+      result[idx] = nums[i] * nums[i];
       --i;
-    } else if (A[i] * A[i] < A[j] * A[j]) {
-      res[index] = A[i] * A[i];
+    } else if (nums[i] * nums[i] < nums[j] * nums[j]) {
+      // 有正有负的情况，但负数平方 < 整数平方时
+      result[idx] = nums[i] * nums[i];
       --i;
     } else {
-      res[index] = A[j] * A[j];
+      result[idx] = nums[j] * nums[j];
       ++j;
     }
-    ++index;
+    ++idx;
   }
-  return res;
+
+  return result;
 };
-// 时间复杂度：O(n)；空间复杂度：O(1)
+// 时间复杂度：O(n)
+// 空间复杂度：O(1)
 
 // 方法三：双指针
 // 思路：

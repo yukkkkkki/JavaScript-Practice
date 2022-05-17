@@ -19,8 +19,8 @@
 // 方法一
 var lengthOfLongestSubstring = function (s) {
   const len = s.length;
-  let res = 0,
-    temp = "";
+  let res = 0;
+  let temp = '';
   for (let i = 0; i < len; i++) {
     if (temp.indexOf(s[i]) === -1) {
       temp += s[i];
@@ -35,8 +35,8 @@ var lengthOfLongestSubstring = function (s) {
 
 // 方法二：Map
 var lengthOfLongestSubstring = function (s) {
-  let map = new Map(),
-    max = 0;
+  let map = new Map();
+  let max = 0;
   for (let i = 0, j = 0; j < s.length; j++) {
     if (map.has(s[j])) {
       i = Math.max(map.get(s[j]) + 1, i);
