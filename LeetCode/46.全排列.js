@@ -20,7 +20,7 @@ var permute = function (nums) {
   let res = []; // 结果集
   let path = []; // 路径
 
-  const dfs = (nums, path) => {
+  const backTrack = (nums, path) => {
     // 结束条件
     if (path.length === nums.length) {
       return res.push(path.concat());
@@ -34,13 +34,13 @@ var permute = function (nums) {
       // 做选择
       path.push(nums[i]);
       // 进入下一层决策树
-      dfs(nums, path);
+      backTrack(nums, path);
       // 撤销选择
       path.pop();
     }
   };
 
-  dfs(nums, path);
+  backTrack(nums, path);
   return res;
 };
 

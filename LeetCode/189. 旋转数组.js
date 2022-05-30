@@ -16,7 +16,6 @@ var rotate = function (nums, k) {
 };
 
 // 方法二
-// 思路:
 // 先将原数组的所有元素整体往后移动 k 个位置，给需要旋转的元素预留出位置，然后通过替换和删除，实现数组的旋转。
 var rotate = function (nums, k) {
   let n = nums.length;

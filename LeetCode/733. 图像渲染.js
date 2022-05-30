@@ -12,19 +12,19 @@ var floodFill = function (image, sr, sc, newColor) {
   let oldColor = image[sr][sc];
   if (oldColor === newColor) return image;
 
-  const fill = (i, j) => {
+  const dfs = (i, j) => {
     if (i < 0 || i >= m || j < 0 || j >= n || image[i][j] !== oldColor) {
       return;
     }
 
     image[i][j] = newColor;
-    fill(i - 1, j);
-    fill(i + 1, j);
-    fill(i, j - 1);
-    fill(i, j + 1);
+    dfs(i - 1, j);
+    dfs(i + 1, j);
+    dfs(i, j - 1);
+    dfs(i, j + 1);
   };
 
-  fill(sr, sc);
+  dfs(sr, sc);
   return image;
 };
 // 时间复杂度：O(mn)

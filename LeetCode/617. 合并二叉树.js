@@ -51,8 +51,13 @@ var mergeTrees = function (t1, t2) {
     const cur = stack.pop();
     cur[0].val += cur[1].val;
 
-    if (cur[0].left && cur[1].left) stack.push([cur[0].left, cur[1].left]);
-    if (cur[0].right && cur[1].right) stack.push([cur[0].right, cur[1].right]);
+    if (cur[0].left && cur[1].left) {
+      stack.push([cur[0].left, cur[1].left]);
+    }
+
+    if (cur[0].right && cur[1].right) {
+      stack.push([cur[0].right, cur[1].right]);
+    }
 
     if (!cur[0].left && cur[1].left) cur[0].left = cur[1].left;
     if (!cur[0].right && cur[1].right) cur[0].right = cur[1].right;

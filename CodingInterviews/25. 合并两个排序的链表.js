@@ -28,9 +28,9 @@ var mergeTwoLists = function (l1, l2) {
 
 // 方法二：迭代
 var mergeTwoLists = function (l1, l2) {
-  const dummyHead = new ListNode(-1);
+  const dummy = new ListNode(-1);
+  let prev = dummy;
 
-  let prev = dummyHead;
   while (l1 && l2) {
     if (l1.val <= l2.val) {
       prev.next = l1;
@@ -39,10 +39,12 @@ var mergeTwoLists = function (l1, l2) {
       prev.next = l2;
       l2 = l2.next;
     }
+
     prev = prev.next;
   }
+
   prev.next = l1 || l2;
-  return dummyHead.next;
+  return dummy.next;
 };
 // 时间复杂度：o(m+n)
 // 空间复杂度：o(1)

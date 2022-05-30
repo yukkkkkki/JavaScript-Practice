@@ -1,36 +1,31 @@
-// 给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
-
-// 示例:
-// 输入: n = 4, k = 2
-// 输出:
-// [
-//   [2,4],
-//   [3,4],
-//   [2,3],
-//   [1,2],
-//   [1,3],
-//   [1,4],
-// ]
-
+/**
+ * @param {number} n
+ * @param {number} k
+ * @return {number[][]}
+ */
 // 方法一：回溯
 var combine = function (n, k) {
   if (k == 0) return [[]];
-  const res = [];
 
+  const res = [];
   const backTrack = (start, tmpPath) => {
+    // 回溯出口
     if (tmpPath.length === k) {
       res.push(tmpPath.slice());
       return;
     }
 
+    // 回溯主体
     for (let i = start; i <= n; i++) {
+      // 进行其他的操作;
       tmpPath.push(i);
+      // 标记已经搜索过的节点
       backTrack(i + 1, tmpPath);
+      // 状态返回
       tmpPath.pop();
     }
   };
 
   backTrack(1, []);
-  // console.log(res)
   return res;
 };

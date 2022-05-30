@@ -1,12 +1,18 @@
-// 给定一个链表，删除链表的倒数第 n 个节点，并且返回链表的头结点。
-
-// 示例：
-// 给定一个链表: 1->2->3->4->5, 和 n = 2.
-// 当删除了倒数第二个节点后，链表变为 1->2->3->5.
-
-// 方法一：双指针法
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @param {number} n
+ * @return {ListNode}
+ */
+// 方法一：双指针
 var removeNthFromEnd = function (head, n) {
-  // 指针 first 指向头节点，然后，让其向后移动 n 步
+  // 指针 first 指向头节点，然后让其向后移动 n 步
   let first = head;
   while (n > 0) {
     first = first.next;
@@ -70,7 +76,8 @@ var removeNthFromEnd = function (head, n) {
     n -= 1;
   }
 };
-// 时间复杂度：O(n); 空间复杂度：O(1)
+// 时间复杂度：O(n)
+// 空间复杂度：O(1)
 
 // 方法三：栈
 // 遍历链表的同时将所有节点入栈 则弹出栈的第 n 个节点就是需要删除的节点
@@ -92,4 +99,5 @@ var removeNthFromEnd = function (head, n) {
   prev.next = prev.next.next;
   return dummy.next;
 };
-// 时间复杂度：O(L); 空间复杂度：O(L)
+// 时间复杂度：O(L)
+// 空间复杂度：O(L)
