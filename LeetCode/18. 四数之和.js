@@ -17,16 +17,15 @@
  * @param {number} target
  * @return {number[][]}
  */
-// 方法一：排序 + 双指针
+// 方法一：排序 + 回溯
 var fourSum = function (nums, target) {
-  let res = [];
   nums.sort((a, b) => a - b);
 
-  const backTrack = (start, tmpPath) => {
-    if (tmpPath.length == 4) {
-      let curSum = tmpPath.reduce((prev, acc) => prev + acc);
-      if (curSum == target) {
-        res.push(tmpPath.slice());
+  const backTrack = (start, tmpRes) => {
+    if (tmpRes.length === 4) {
+      let sum = tmpRes.reduce((prev, curr) => prev + curr);
+      if (sum === target) {
+        res.push(tmpRes.slice());
       }
       return;
     }
@@ -35,14 +34,15 @@ var fourSum = function (nums, target) {
       if (nums[i] == nums[i - 1] && i > start) {
         continue;
       }
-      tmpPath.push(nums[i]);
-      backTrack(i + 1, tmpPath);
-      tmpPath.pop();
+
+      tmpRes.push(nums[i]);
+      backTrack(i + 1, tmpRes);
+      tmpRes.pop();
     }
   };
 
+  let res = [];
   backTrack(0, []);
   return res;
 };
-
 // console.log(fourSum([1, 0, -1, 0, -2, 2], 0));

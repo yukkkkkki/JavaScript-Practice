@@ -1,15 +1,3 @@
-// 给定一个二叉树，返回它的中序 遍历。
-
-// 示例:
-// 输入: [1,null,2,3]
-//    1
-//     \
-//      2
-//     /
-//    3
-
-// 输出: [1,3,2]
-
 // 方法一：非递归(左子节点->根节点->右子节点)
 // 借用辅助数组
 // shift() 头删 unshift() 头插
@@ -23,9 +11,9 @@
 //     res.push(node)
 //     node.left重新赋值给node
 var inorderTraversal = function (root) {
-  let arr = [],
-    res = [],
-    node = root;
+  let arr = [];
+  let res = [];
+  let node = root;
   while (arr.length !== 0 || node !== null) {
     if (node !== null) {
       arr.unshift(node);
