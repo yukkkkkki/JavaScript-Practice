@@ -20,21 +20,20 @@ var twoSum = function (nums, target) {
   }
 };
 
-// 方法二 利用map
-// 思路
-// 1. 将每个元素的值和它的索引添加到表中
-// 2. 检查每个元素所对应的目标元素（target - nums[i]）是否存在于表中
-const twoSum = (nums, target) => {
-  const prevNums = {};
+// 方法二：哈希表
+// 将每个元素的值和它的索引添加到表中
+// 检查每个元素所对应的目标元素（target - nums[i]）是否存在于表中
+var twoSum = function (nums, target) {
+  const map = new Map();
+
   for (let i = 0; i < nums.length; i++) {
-    const curNum = nums[i]; // 当前项
-    const targetNum = target - curNum; // 希望从过去的数字中找到的呼应项
-    const targetNumIndex = prevNums[targetNum]; // 在prevNums中找targetNum的索引
-    if (targetNumIndex !== undefined) {
-      return [targetNumIndex, i];
+    if (map.has(target - nums[i])) {
+      return [map.get(target - nums[i]), i];
     }
-    prevNums[curNum] = i; // 往prevNums存当前curNum和对应的i
+    map.set(nums[i], i);
   }
+
+  return [];
 };
 // 时间复杂度： O(n)
 // 空间复杂度： O(n)

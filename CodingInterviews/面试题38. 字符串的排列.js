@@ -1,16 +1,12 @@
-// 输入一个字符串，打印出该字符串中字符的所有排列。
-
-// 你可以以任意顺序返回这个字符串数组，但里面不能有重复元素。
-
-// 示例:
-// 输入：s = "abc"
-// 输出：["abc","acb","bac","bca","cab","cba"]
-
+/**
+ * @param {string} s
+ * @return {string[]}
+ */
 // 回溯
 var permutation = function (s) {
   let len = s.length;
   let res = new Set();
-  dfs("", s);
+  dfs('', s);
   return Array.from(res);
 
   /**
