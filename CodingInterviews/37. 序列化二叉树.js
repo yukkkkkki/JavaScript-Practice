@@ -12,10 +12,12 @@
  * @param {TreeNode} root
  * @return {string}
  */
+// BFS
 var serialize = function (root) {
   if (!root) return [];
   let res = [];
   let queue = [root];
+
   while (queue.length > 0) {
     let node = queue.shift();
     if (node != null) {
@@ -26,6 +28,7 @@ var serialize = function (root) {
       res.push(null);
     }
   }
+
   return res;
 };
 
@@ -36,7 +39,8 @@ var serialize = function (root) {
  * @return {TreeNode}
  */
 var deserialize = function (data) {
-  if (data.length === 0) return null;
+  if (!data.length) return null;
+
   let root = new TreeNode(data[0]);
   let queue = [root];
   let i = 1;

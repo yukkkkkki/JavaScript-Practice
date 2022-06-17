@@ -1,92 +1,57 @@
-// 请判断一个链表是否为回文链表。
-
-// 示例 1:
-// 输入: 1->2
-// 输出: false
-
-// 示例 2:
-// 输入: 1->2->2->1
-// 输出: true
-
-// 方法一：字符串拼接比较
-// 通过正向、反向将链表节点值拼接成字符串，最后比较正向、反向字符串是否相同
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
+// 方法一：快慢指针
+// 先找中点 然后后半部分反转 再与前半部分对比
 var isPalindrome = function (head) {
-  let positiveStr = "";
-  let reverseStr = "";
+  if (!head || !head.next) return true;
 
-  while (head) {
-    const nodeVal = head.val;
-    // 正向字符串拼接
-    positiveStr += nodeVal;
-    // 反向字符串拼接
-    reverseStr = nodeVal + reverseStr;
-    // 下一个节点
-    head = head.next;
+  const firstHalfEnd = endOfFirstHalf(head);
+  const secondHalfStart = reverseLinkList(firstHalfEnd.next);
+
+  // 判断是否回文
+  let p1 = head;
+  let p2 = secondHalfStart;
+  let result = true;
+  while (result && p2) {
+    if (p1.val !== p2.val) return false;
+    p1 = p1.next;
+    p2 = p2.next;
   }
-  return positiveStr === reverseStr;
+
+  firstHalfEnd.next = reverseLinkList(secondHalfStart);
+  return result;
 };
-// 时间复杂度：O(n)；空间复杂度：O(1)
+// 找中点
+const endOfFirstHalf = (head) => {
+  let slow = head;
+  let fast = head;
 
-// 方法二：递归解法
-// 通过递归的方式逆序遍历链表，同时定义一个全局变量 pointer 从前往后正序遍历链表，如果正序和逆序遍历出来的值相等，则为回文链表
-let pointer;
-var reverseLinkList = function (head) {
-  if (!head) return true;
-  const res = reverseLinkList(head.next) && pointer.val === head.val;
-  pointer = pointer.next;
-  return res;
+  while (fast.next && fast.next.next) {
+    fast = fast.next.next;
+    slow = slow.next;
+  }
+  return slow;
 };
+// 反转链表
+const reverseLinkList = (root) => {
+  let prev = null;
+  let cur = root;
 
-function isPalindrome(head) {
-  pointer = head;
-  return reverseLinkList(head);
-}
-// 时间复杂度：O(n)；空间复杂度：O(1)
-
-// 方法三：快慢指针
-// 思路
-// 找到链表的中间节点，将前半部分的链表反转，与后半部分链表数据进行比较。
-// 为了找到中间位置，采用两个引用，步调速度相差 1，当快的引用到达最终节点时，慢的正好在中间。
-// 详解
-// 1. 分别定义快、慢指针，及前半部分的指针存储
-// 2. 遍历链表，快指针走 2 步，慢指针走 1 步，同时将慢指针对应的前半部分链表进行反转
-// 3. 链表结束后，慢指针指向中间，与前半部分反转的链表进行逐个比较
-function isPalindrome(head) {
-  // 空或者单节点
-  if (!head || !head.next) {
-    return true;
+  while (cur) {
+    const next = cur.next;
+    cur.next = prev;
+    prev = cur;
+    cur = next;
   }
 
-  let slowRef = head; // 慢指针
-  let fastRef = head; // 快指针
-  let reverseRef; // 反转前半部分
-  let reversePreRef; // 反转前一个节点
-  // 连续 2 个节点都存在
-  while (fastRef && fastRef.next) {
-    // 快指针前进 2 步
-    fastRef = fastRef.next.next;
-    reverseRef = slowRef;
-    // 慢指针前进 1 步
-    slowRef = slowRef.next;
-
-    // 反转链表
-    reverseRef.next = reversePreRef;
-    // 记录上一个节点
-    reversePreRef = reverseRef;
-  }
-
-  // 奇数场景
-  if (fastRef) {
-    // 中间值不用比较，慢指针直接前进一步
-    slowRef = slowRef.next;
-  }
-
-  while (reverseRef && slowRef) {
-    if (reverseRef.val !== slowRef.val) {
-      return false;
-    }
-    reverseRef = reverseRef.next;
-    slowRef = slowRef.next;
-  }
-  return true;
-}
+  return prev;
+};

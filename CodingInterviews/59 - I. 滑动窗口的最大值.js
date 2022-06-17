@@ -44,7 +44,26 @@ var maxSlidingWindow = function (nums, k) {
 // 方法二：单调队列
 var maxSlidingWindow = function (nums, k) {
   const n = nums.length;
-  
+  const queue = [];
+  for (let i = 0; i < n; i++) {
+    while (queue.length && nums[i] >= nums[queue[queue.length - 1]]) {
+      queue.pop();
+    }
+    queue.push(i);
+  }
+
+  const res = [nums[queue[0]]];
+  for (let i = k; i < n; i++) {
+    while (queue.length && nums[i] >= nums[queue[queue.length - 1]]) {
+      queue.pop();
+    }
+    queue.push(i);
+    while (queue[0] <= i - k) {
+      queue.shift();
+    }
+    res.push(nums[queue[0]]);
+  }
+  return res;
 };
 // 时间复杂度：O(n)
 // 空间复杂度：O(k)
