@@ -22,9 +22,7 @@ var kthSmallest = function (root, k) {
 
     root = stack.pop();
     --k;
-    if (k === 0) {
-      break;
-    }
+    if (k === 0) break;
     root = root.right;
   }
   return root.val;

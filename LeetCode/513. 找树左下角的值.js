@@ -1,25 +1,3 @@
-// 给定一个二叉树，在树的最后一行找到最左边的值。
-
-// 示例 1:
-// 输入:
-//     2
-//    / \
-//   1   3
-// 输出:
-// 1
-
-// 示例 2:
-// 输入:
-//         1
-//        / \
-//       2   3
-//      /   / \
-//     4   5   6
-//        /
-//       7
-// 输出:
-// 7
-
 /**
  * Definition for a binary tree node.
  * function TreeNode(val) {
@@ -40,11 +18,37 @@ var findBottomLeftValue = function (root) {
   while (queue.length) {
     let count = queue.length;
     leftVal = queue[0].val;
+
     for (let i = 0; i < count; i++) {
       let node = queue.shift();
-      if (node.left) queue.push(node.left);
-      if (node.right) queue.push(node.right);
+      node.left && queue.push(node.left);
+      node.right && queue.push(node.right);
     }
   }
+
   return leftVal;
 };
+// 时间复杂度：O(n)
+// 空间复杂度：O(n)
+
+// 方法二：深度优先搜索 DFS
+var findBottomLeftValue = function (root) {
+  const dfs = (root, height) => {
+    if (!root) return;
+
+    height++;
+    dfs(root.left, height);
+    dfs(root.right, height);
+
+    if (height > curHeight) {
+      curHeight = height;
+      curVal = root.val;
+    }
+  };
+
+  let curHeight = 0;
+  dfs(root, 0);
+  return curVal;
+};
+// 时间复杂度：O(n)
+// 空间复杂度：O(n)

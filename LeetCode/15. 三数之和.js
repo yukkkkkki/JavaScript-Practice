@@ -20,6 +20,7 @@ var threeSum = function (nums) {
 
     let l = i + 1;
     let r = nums.length - 1;
+
     while (l < r) {
       let n2 = nums[l];
       let n3 = nums[r];
@@ -43,4 +44,6 @@ var threeSum = function (nums) {
 
   return res;
 };
+// 时间复杂度：O(N^2)
+// 空间复杂度：O(logN)
 // 参考：https://leetcode-cn.com/problems/3sum/solution/zhi-zhen-yi-dong-guo-cheng-zhong-tiao-guo-zhong-fu/

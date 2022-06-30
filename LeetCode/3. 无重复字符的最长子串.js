@@ -1,20 +1,3 @@
-// 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
-
-// 示例 1:
-// 输入: "abcabcbb"
-// 输出: 3
-// 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
-
-// 示例 2:
-// 输入: "bbbbb"
-// 输出: 1
-// 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
-
-// 示例 3:
-// 输入: "pwwkew"
-// 输出: 3
-// 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
-//      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
 /**
  * @param {string} s
  * @return {number}
@@ -52,14 +35,22 @@ var lengthOfLongestSubstring = function (s) {
 };
 
 // 方法三：滑动窗口
+// 以 (a)bcabcbb 开始的最长字符串为 (abc)abcbb；
+// 以 a(b)cabcbb 开始的最长字符串为 a(bca)bcbb；
+// 以 ab(c)abcbb 开始的最长字符串为 ab(cab)cbb；
+// 以 abc(a)bcbb 开始的最长字符串为 abc(abc)bb；
+// 以 abca(b)cbb 开始的最长字符串为 abca(bc)bb；
+// 以 abcab(c)bb 开始的最长字符串为 abcab(cb)b；
+// 以 abcabc(b)b 开始的最长字符串为 abcabc(b)b；
+// 以 abcabcb(b) 开始的最长字符串为 abcabcb(b)。
 var lengthOfLongestSubstring = function (s) {
   const occ = new Set();
   const n = s.length;
-  // 右指针，初始值为 -1，相当于在字符串的左边界的左侧，还未开始移动
+  // 右指针
   let rk = -1;
   let ans = 0;
 
-  // 在每一步的操作中，将左指针向右移动一格，表示开始枚举下一个字符作为起始位置
+  // 左指针向右移动一格，表示开始枚举下一个字符作为起始位置
   for (let i = 0; i < n; i++) {
     if (i != 0) {
       // 左指针向右移动一格，移除一个字符
@@ -69,7 +60,7 @@ var lengthOfLongestSubstring = function (s) {
     // 不断地向右移动右指针，需保证这左右指针对应的子串中没有重复的字符
     while (rk + 1 < n && !occ.has(s.charAt(rk + 1))) {
       occ.add(s.charAt(rk + 1));
-      ++rk;
+      rk++;
     }
 
     // 第 i 到 rk 个字符是一个极长的无重复字符子串

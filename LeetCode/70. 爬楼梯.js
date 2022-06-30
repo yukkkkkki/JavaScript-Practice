@@ -25,3 +25,20 @@ var climbStairs = function (n) {
   return dp[n];
 };
 // 时间复杂度：O(n)
+
+// 动态规划降维
+var climbStairs = function (n) {
+  let p = 0;
+  let q = 0;
+  let res = 1;
+
+  for (let i = 1; i <= n; i++) {
+    p = q;
+    q = res;
+    res = p + q;
+  }
+
+  return res;
+};
+// 时间复杂度：O(n)
+// 空间复杂度：O(1)
