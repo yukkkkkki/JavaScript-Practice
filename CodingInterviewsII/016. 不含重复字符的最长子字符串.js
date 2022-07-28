@@ -22,7 +22,8 @@ var lengthOfLongestSubstring = function (s) {
     // 左指针向右移动一格，移除一个字符
     if (i !== 0) occ.delete(s.charAt(i - 1));
 
-    // 不断地向右移动右指针，但需要保证这两个指针对应的子串中没有重复的字符
+    // 不断地向右移动右指针
+    // 需要保证这两个指针对应的子串中没有重复的字符
     while (rk + 1 < n && !occ.has(s.charAt(rk + 1))) {
       occ.add(s.charAt(rk + 1));
       rk++;

@@ -43,32 +43,35 @@ var permuteUnique = function (nums) {
 // 相邻两个相同的元素，跳过当前元素，从下一个元素开始组合
 // 从源头减少重复数组进入 res
 // 从源头判重，重复则子组合都无需进行组合
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
 var permuteUnique = function (nums) {
-  let n = nums.length;
-  nums = nums.sort((a, b) => {
-    return a - b;
-  });
-  let res = [];
-  let hash = {};
+  const res = [];
+  nums.sort((a, b) => a - b);
+  const vis = new Array(nums.length).fill(false);
 
-  const backtrack = (path) => {
-    if (path.length === n) {
-      res.push(path);
+  const backTrack = (idx, path) => {
+    if (idx === nums.length) {
+      res.push(path.slice());
       return;
     }
 
-    for (let i = 0; i < n; i++) {
-      if (hash[i] || (i > 0 && !hash[i - 1] && nums[i - 1] == nums[i]))
+    for (let i = 0; i < nums.length; i++) {
+      if (vis[i] || (i > 0 && nums[i] === nums[i - 1] && !vis[i - 1])) {
         continue;
+      }
 
-      hash[i] = true;
       path.push(nums[i]);
-      backtrack([...path]);
-      hash[i] = false;
+      vis[i] = true;
+      backTrack(idx + 1, path);
+      vis[i] = false;
       path.pop();
     }
   };
-  backtrack([]);
+
+  backTrack(0, []);
   return res;
 };
 
