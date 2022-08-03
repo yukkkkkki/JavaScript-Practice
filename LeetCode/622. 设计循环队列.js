@@ -9,7 +9,7 @@ var MyCircularQueue = function (k) {
 };
 
 /**
- *  @description 向循环队列插入一个元素
+ *  @description 向循环队列插入一个元素。如果成功插入则返回真。
  * @param {number} value
  * @return {boolean}
  */
@@ -25,7 +25,7 @@ MyCircularQueue.prototype.enQueue = function (value) {
 };
 
 /**
- * @description 从循环队列中删除一个元素
+ * @description 从循环队列中删除一个元素。如果成功删除则返回真
  * @return {boolean}
  */
 MyCircularQueue.prototype.deQueue = function () {
