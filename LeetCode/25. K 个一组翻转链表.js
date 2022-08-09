@@ -10,38 +10,43 @@
  * @param {number} k
  * @return {ListNode}
  */
+var reverseKGroup = function (head, k) {
+  const dummy = new ListNode(0);
+  dummy.next = head;
+  let prev = dummy;
+
+  while (head) {
+    let tail = prev;
+    // 查看剩余部分长度是否大于等于 k
+    for (let i = 0; i < k; i++) {
+      tail = tail.next;
+      if (!tail) return dummy.next;
+    }
+    const next = tail.next;
+    [head, tail] = myReverse(head, tail);
+
+    // 把子链表重新接回原链表
+    prev.next = head;
+    tail.next = next;
+    prev = tail;
+    head = tail.next;
+  }
+
+  return dummy.next;
+};
+
 const myReverse = (head, tail) => {
   let prev = tail.next;
   let p = head;
+
   while (prev !== tail) {
-    const nex = p.next;
+    const next = p.next;
     p.next = prev;
     prev = p;
-    p = nex;
+    p = next;
   }
+
   return [tail, head];
 };
-var reverseKGroup = function (head, k) {
-  const hair = new ListNode(0);
-  hair.next = head;
-  let pre = hair;
-
-  while (head) {
-    let tail = pre;
-    // 查看剩余部分长度是否大于等于 k
-    for (let i = 0; i < k; ++i) {
-      tail = tail.next;
-      if (!tail) {
-        return hair.next;
-      }
-    }
-    const nex = tail.next;
-    [head, tail] = myReverse(head, tail);
-    // 把子链表重新接回原链表
-    pre.next = head;
-    tail.next = nex;
-    pre = tail;
-    head = tail.next;
-  }
-  return hair.next;
-};
+// 时间复杂度：O(n)
+// 空间复杂度：O(1)
