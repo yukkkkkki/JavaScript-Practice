@@ -1,129 +1,96 @@
-// 给定一个包含 m x n 个元素的矩阵（m 行, n 列），请按照顺时针螺旋顺序，返回矩阵中的所有元素。
-
-// 示例 1:
-// 输入:
-// [
-//  [ 1, 2, 3 ],
-//  [ 4, 5, 6 ],
-//  [ 7, 8, 9 ]
-// ]
-// 输出: [1,2,3,6,9,8,7,4,5]
-
-// 示例 2:
-// 输入:
-// [
-//   [1, 2, 3, 4],
-//   [5, 6, 7, 8],
-//   [9,10,11,12]
-// ]
-// 输出: [1,2,3,4,8,12,11,10,9,5,6,7]
-
-// 方法一 ：转圈循环，遍历到底
-// 让循环继续的条件是cols > startX * 2 且 rows > startY * 2
+/**
+ * @param {number[][]} matrix
+ * @return {number[]}
+ */
+// 方法一 ：模拟
 var spiralOrder = function (matrix) {
-  if (matrix === null || matrix.length <= 0 || matrix[0].length <= 0) {
+  if (!matrix.length || !matrix[0].length) return [];
+
+  const rows = matrix.length;
+  const cols = matrix[0].length;
+  const visited = new Array(rows)
+    .fill(0)
+    .map(() => new Array(cols).fill(false));
+  const total = rows * cols;
+  const order = new Array(total).fill(0);
+
+  let dirIndex = 0;
+  let row = 0;
+  let col = 0;
+  const dirs = [
+    [0, 1],
+    [1, 0],
+    [0, -1],
+    [-1, 0]
+  ];
+  for (let i = 0; i < total; i++) {
+    order[i] = matrix[row][col];
+    visited[row][col] = true;
+
+    const nextRow = row + dirs[dirIndex][0];
+    const nextCol = col + dirs[dirIndex][1];
+    if (
+      !(
+        0 <= nextRow &&
+        nextRow < rows &&
+        0 <= nextCol &&
+        nextCol < cols &&
+        !visited[nextRow][nextCol]
+      )
+    ) {
+      dirIndex = (dirIndex + 1) % 4;
+    }
+    row += dirs[dirIndex][0];
+    col += dirs[dirIndex][1];
+  }
+
+  return order;
+};
+// 时间复杂度：O(mn)
+// 空间复杂度：O(mn)
+
+// 方法二：按层模拟
+var spiralOrder = function (matrix) {
+  if (!matrix.length || !matrix[0].length) {
     return [];
   }
 
   const rows = matrix.length;
   const cols = matrix[0].length;
-  let res = [];
+  const order = [];
 
-  let start = 0;
-  while (cols > start * 2 && rows > start * 2) {
-    res = help(matrix, cols, rows, start, res);
-    ++start;
+  let left = 0;
+  let right = cols - 1;
+  let top = 0;
+  let bottom = rows - 1;
+
+  while (left <= right && top <= bottom) {
+    // 从左到右遍历上侧元素
+    for (let column = left; column <= right; column++) {
+      order.push(matrix[top][column]);
+    }
+    // 从上到下遍历右侧元素
+    for (let row = top + 1; row <= bottom; row++) {
+      order.push(matrix[row][right]);
+    }
+
+    if (left < right && top < bottom) {
+      // 从右到左遍历下侧元素
+      for (let column = right - 1; column > left; column--) {
+        order.push(matrix[bottom][column]);
+      }
+      // 从下到上遍历左侧元素
+      for (let row = bottom; row > top; row--) {
+        order.push(matrix[row][left]);
+      }
+    }
+
+    // 遍历完当前层的元素之后
+    // left 和 top 分别增加 1，right 和 bottom 分别减少 1
+    [left, right, top, bottom] = [left + 1, right - 1, top + 1, bottom - 1];
   }
 
-  return res;
+  return order;
 };
-
-function help(matrix, cols, rows, start, res) {
-  let endX = cols - 1 - start;
-  let endY = rows - 1 - start;
-
-  // 从左到右打印一行
-  for (let i = start; i <= endX; ++i) {
-    res.push(matrix[start][i]);
-  }
-
-  // 从上到下打印一列
-  if (start < endY) {
-    for (let i = start + 1; i <= endY; ++i) {
-      res.push(matrix[i][endX]);
-    }
-  }
-
-  // 从右到左打印一行
-  if (start < endX && start < endY) {
-    for (let i = endX - 1; i >= start; --i) {
-      res.push(matrix[endY][i]);
-    }
-  }
-
-  // 从下到上打印一行
-  if (start < endX && start < endY - 1) {
-    for (let i = endY - 1; i >= start + 1; --i) {
-      res.push(matrix[i][start]);
-    }
-  }
-
-  return res;
-}
-
-// 方法二
-var spiralOrder = function (matrix) {
-  if (matrix.length == 0) return [];
-  const res = [];
-
-  let top = 0,
-    bottom = matrix.length - 1,
-    left = 0,
-    right = matrix[0].length - 1;
-  while (top <= bottom && left <= right) {
-    for (let i = left; i <= right; i++) {
-      res.push(matrix[top][i]);
-    }
-    top++;
-
-    for (let i = top; i <= bottom; i++) {
-      res.push(matrix[i][right]);
-    }
-    right--;
-
-    if (top > bottom || left > right) break;
-    for (let i = right; i >= left; i--) {
-      res.push(matrix[bottom][i]);
-    }
-    bottom--;
-
-    for (let i = bottom; i >= top; i--) {
-      res.push(matrix[i][left]);
-    }
-    left++;
-  }
-  return res;
-};
-
-// 方法三
-var spiralOrder = function (matrix) {
-  if (matrix.length == 0) return [];
-  const res = [];
-  let top = 0,
-    bottom = matrix.length - 1,
-    left = 0,
-    right = matrix[0].length - 1;
-  const size = matrix.length * matrix[0].length;
-  while (res.length !== size) {
-    for (let i = left; i <= right; i++) res.push(matrix[top][i]);
-    top++;
-    for (let i = top; i <= bottom; i++) res.push(matrix[i][right]);
-    right--;
-    if (res.length === size) break; // 遍历结束
-    for (let i = right; i >= left; i--) res.push(matrix[bottom][i]);
-    bottom--;
-    for (let i = bottom; i >= top; i--) res.push(matrix[i][left]);
-    left++;
-  }
-  return res;
-};
+// 时间复杂度：O(mn)
+// 空间复杂度：O(1)
