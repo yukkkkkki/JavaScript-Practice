@@ -1,57 +1,63 @@
-// 在 O(n log n) 时间复杂度和常数级空间复杂度下，对链表进行排序。
-
-// 示例 1:
-// 输入: 4->2->1->3
-// 输出: 1->2->3->4
-
-// 示例 2:
-// 输入: -1->5->3->4->0
-// 输出: -1->0->3->4->5
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
 
 // 方法一：归并排序
-// 1. 先判断是否只有一个元素，若只有一个元素，直接返回；
-// 2. 若不只有一个元素，首先找到链表的中间节点；
-// 3. 然后递归的对前半部分链表和后半部分链表分别进行递归排序；
-// 4. 最后对两个子链表进行归并操作。
 var sortList = function (head) {
-  if (!head || !head.next) return head;
-  let slow = head,
-    fast = head;
-  while (slow.next && fast.next && fast.next.next) {
-    slow = slow.next;
-    fast = fast.next.next;
-  }
-  const middle = slow.next;
-  slow.next = null;
-  const left = head;
-  const right = middle;
-  return merge(sortList(left), sortList(right));
+  return mergeSort(head, null);
 };
+const mergeSort = function (head, tail) {
+  if (!head) return head;
+  if (head.next === tail) {
+    head.next = null;
+    return head;
+  }
 
-const merge = function (left, right) {
-  const tmp = new ListNode(null);
-  let p1 = left, p2 = right;
-  let p = tmp;
-  while(p1 && p2) {
-    if(p1.val < p2.val) {
-      const s = p1;
-      p1 = p1.next;
-      s.next = null;
-      p.next = s;
-      p = s;
-    } else {
-      const s = p2;
-      p2 = p2.next;
-      s.next = null;
-      p.next = s;
-      p = s;
-    }
+  // 找到链表的中点，以中点为分界，将链表拆分成两个子链表
+  let slow = head;
+  let fast = head;
+  while (fast !== tail) {
+    slow = slow.next;
+    fast = fast.next;
+    if (fast !== tail) fast = fast.next;
   }
-  if(p1) p.next = p1;
-  if(p2) p.next = p2;
-  return tmp.next;
+  const mid = slow;
+  // 对两个子链表分别排序
+  // 将两个排序后的子链表合并，得到完整的排序后的链表
+  return merge(mergeSort(head, mid), mergeSort(mid, tail));
 };
-// 时间复杂度：O(nlogn); 空间复杂对：O(1)
+const merge = function (head1, head2) {
+  const dummyHead = new ListNode(0);
+  let tmp = dummyHead;
+  let tmp1 = head1;
+  let tmp2 = head2;
+
+  while (tmp1 !== null && tmp2 !== null) {
+    if (tmp1.val <= tmp2.val) {
+      tmp.next = tmp1;
+      tmp1 = tmp1.next;
+    } else {
+      tmp.next = tmp2;
+      tmp2 = tmp2.next;
+    }
+    tmp = tmp.next;
+  }
+
+  if (tmp1) tmp.next = tmp1;
+  else if (tmp2) tmp2.next = tmp2;
+
+  return dummyHead.next;
+};
+// 时间复杂度：O(nlogn);
+// 空间复杂对：O(logn)
 
 // 方法二：借助数组实现
 // 1. 先判断是否只有一个元素，若只有一个元素，直接返回；
@@ -59,6 +65,7 @@ const merge = function (left, right) {
 // 3. 然后把数组排序后重建链表，方法取巧。
 var sortList = function (head) {
   if (!head || !head.next) return head;
+
   let cur = head;
   let index = 0;
   const arr = [];

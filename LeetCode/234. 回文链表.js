@@ -1,18 +1,19 @@
-// 请判断一个链表是否为回文链表。
-
-// 示例 1:
-// 输入: 1->2
-// 输出: false
-
-// 示例 2:
-// 输入: 1->2->2->1
-// 输出: true
-
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} head
+ * @return {boolean}
+ */
 // 方法一：字符串拼接比较
 // 通过正向、反向将链表节点值拼接成字符串，最后比较正向、反向字符串是否相同
 var isPalindrome = function (head) {
-  let positiveStr = '';
-  let reverseStr = '';
+  let positiveStr = "";
+  let reverseStr = "";
 
   while (head) {
     const nodeVal = head.val;
@@ -25,10 +26,12 @@ var isPalindrome = function (head) {
   }
   return positiveStr === reverseStr;
 };
-// 时间复杂度：O(n)；空间复杂度：O(1)
+// 时间复杂度：O(n)
+// 空间复杂度：O(1)
 
 // 方法二：递归解法
-// 通过递归的方式逆序遍历链表，同时定义一个全局变量 pointer 从前往后正序遍历链表，如果正序和逆序遍历出来的值相等，则为回文链表
+// 通过递归的方式逆序遍历链表，同时定义一个全局变量 pointer 从前往后正序遍历链表
+// 如果正序和逆序遍历出来的值相等，则为回文链表
 let pointer;
 var reverseLinkList = function (head) {
   if (!head) return true;
@@ -40,10 +43,11 @@ function isPalindrome(head) {
   pointer = head;
   return reverseLinkList(head);
 }
-// 时间复杂度：O(n)；空间复杂度：O(1)
+// 时间复杂度：O(n)
+// 空间复杂度：O(1)
 
 // 方法三：快慢指针
-// 思路：找到链表的中间节点，将后半部分的链表反转，与前半部分链表数据进行比较。
+// 找到链表的中间节点，将后半部分的链表反转，与前半部分链表数据进行比较。
 // 为了找到中间位置，采用两个引用，步调速度相差 1，当快的引用到达最终节点时，慢的正好在中间。
 var isPalindrome = function (head) {
   if (!head || !head.next) return true;

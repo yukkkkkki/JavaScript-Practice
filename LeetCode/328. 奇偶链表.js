@@ -1,14 +1,22 @@
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
 // 方法一：分离节点后合并
-// 维护 odd 和 even 两个指针，初始时odd 变量指向头节点，even 指向第二个节点
-// 通过迭代的方式 将奇数节点和偶数节点分离成两个链表，每一步首先更新奇数节点，然后更新偶数节点
-// 最后将偶数链表连接在奇数链表之后
 var oddEvenList = function (head) {
   if (!head) return head;
 
-  let evenHead = head.next;
+  // 维护 odd 和 even 两个指针
   let odd = head;
+  let evenHead = head.next;
   let even = evenHead;
 
+  // 通过迭代，将奇数节点和偶数节点分离成两个链表
+  // 每一步首先更新奇数节点，然后更新偶数节点
+  // 最后将偶数链表连接在奇数链表之后
   while (even && even.next) {
     odd.next = even.next;
     odd = odd.next;
