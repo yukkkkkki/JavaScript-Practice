@@ -1,62 +1,61 @@
-// 110. 平衡二叉树
-// 给定一个二叉树，判断它是否是高度平衡的二叉树。
-
-// 本题中，一棵高度平衡二叉树定义为：
-// 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。
-
-// 示例 1:
-// 给定二叉树 [3,9,20,null,null,15,7]
-//     3
-//    / \
-//   9  20
-//     /  \
-//    15   7
-// 返回 true 。
-
-// 示例 2:
-// 给定二叉树 [1,2,2,3,3,null,null,4,4]
-//        1
-//       / \
-//      2   2
-//     / \
-//    3   3
-//   / \
-//  4   4
-// 返回 false 。
-
-// 方法一：递归
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
+// 方法一：自顶向下的递归
+// 类似于二叉树的前序遍历
 var isBalanced = function (root) {
   if (!root) return true;
-
-  let l = help(root.left);
-  let r = help(root.right);
-  if (Math.abs(l - r) > 1) return false;
-
-  return isBalanced(root.left) && isBalanced(root.right);
+  else {
+    // 首先计算左右子树的高度
+    // 如果左右子树的高度差是否不超过 1，再分别递归地遍历左右子节点，并判断左子树和右子树是否平衡
+    return (
+      Math.abs(height(root.left) - height(root.right)) <= 1 &&
+      isBalanced(root.left) &&
+      isBalanced(root.right)
+    );
+  }
 };
+// 计算二叉树中的任意一个节点 node 的高度
+var height = (node) => {
+  if (node === null) return 0;
+  else {
+    return Math.max(height(node.left), height(node.right)) + 1;
+  }
+};
+// 时间复杂度：O(n^2);
+// 空间复杂度：O(n)
 
-function help(node) {
-  if (!node) return 0;
-  return Math.max(help(node.left) + 1, help(node.right) + 1);
-}
-
-// 方法二：dfs
+// 方法二：自底向上的递归
+// 类似于后序遍历
+// 对于当前遍历到的节点，先递归地判断其左右子树是否平衡，再判断以当前节点为根的子树是否平衡
 var isBalanced = function (root) {
-  var dfs = function (node) {
-    if (!node) return 0;
-
-    let left = dfs(node.left);
-    let right = dfs(node.right);
-
-    if (left == -1 || right == -1) {
-      return -1;
-    }
-
-    if (Math.abs(left - right) <= 1) {
-      return Math.max(left, right) + 1;
-    } else {
-      return -1;
-    }
-  };
-  return dfs(root) > -1;
+  return height(root) >= 0;
 };
+// 对于每个节点，函数 height 只会被调用一次
+var height = function (node) {
+  if (!node) return 0;
+
+  let leftHeight = height(node.left);
+  let rightHeight = height(node.right);
+  if (
+    leftHeight == -1 ||
+    rightHeight == -1 ||
+    Math.abs(leftHeight - rightHeight) > 1
+  ) {
+    // 子树不平衡
+    return -1;
+  } else {
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+};
+// 时间复杂度：O(n);
+// 空间复杂度：O(n)
