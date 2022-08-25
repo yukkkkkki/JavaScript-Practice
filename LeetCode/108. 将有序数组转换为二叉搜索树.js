@@ -1,54 +1,30 @@
-// 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。
-
-// 本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。
-
-// 示例:
-
-// 给定有序数组: [-10,-3,0,5,9],
-
-// 一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
-
-//       0
-//      / \
-//    -3   9
-//    /   /
-//  -10  5
-
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {number[]} nums
+ * @return {TreeNode}
+ */
 // 方法一：二分递归
-// 思路
-// 由于数组是按照递增有序排列的，并且高度平衡二叉搜索树（一个高度平衡二叉树是指一个二叉树每个节点的左右两个子树的高度差的绝对值不超过1），可以使用二分法从数组的中间开始查找数据。
-// 详解
-// 1. 找出数组的中间坐标（mid）对应元素，作为当前二叉树节点（root）的 value
-// 2. root 的左节点 是 0 -> mid 的中间坐标对应元素
-// 3. root 的右节点 是 mid -> (arr.length - 1) 的中间坐标对应元素
-// 4. root 的左右节点 按照 1 - 3 步骤生成新的左右节点，直到数组遍历完，算法终止
 var sortedArrayToBST = function (nums) {
   if (nums.length == 0) return null;
+
+  // 找出数组的中间坐标（mid）对应元素，作为当前二叉树节点（root）的 value
   let mid = Math.floor(nums.length / 2);
   let node = new TreeNode(nums[mid]);
+
   node.left = sortedArrayToBST(nums.slice(0, mid));
   node.right = sortedArrayToBST(nums.slice(mid + 1));
+
   return node;
 };
 
-// 方法二
-// 用指针代替slice
-var sortedArrayToBST = function (nums) {
-  if (!nums.length) return null;
-
-  function dfs(left, right) {
-    if (left > right) return null;
-    let mid = Math.floor((left + right) / 2);
-    let cur = new TreeNode(nums[mid]);
-    cur.left = dfs(left, mid - 1);
-    cur.right = dfs(mid + 1, right);
-    return cur;
-  }
-  return dfs(0, nums.length - 1);
-};
-
-// 方法三
-// 数组模拟队列
+// 方法二：数组模拟队列
 // 思路
 // 可以先将提示数组按照二分法的查找顺数，一次推入数组中。
 // 然后，按照数组顺序通过生成二叉树的一般算法生成目标树。
