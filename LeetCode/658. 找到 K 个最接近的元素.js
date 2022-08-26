@@ -4,6 +4,7 @@
  * @param {number} x
  * @return {number[]}
  */
+// 方法一：二分查找
 var findClosestElements = function (arr, k, x) {
   let low = 0;
   let high = arr.length - 1;
@@ -16,5 +17,25 @@ var findClosestElements = function (arr, k, x) {
       high = mid;
     }
   }
+
   return arr.slice(low, low + k);
 };
+// 时间复杂度：O(logn)
+// 空间复杂度：O(1)
+
+// 方法二：排序
+var findClosestElements = function (arr, k, x) {
+  const list = [...arr];
+  list.sort((a, b) => {
+    if (Math.abs(a - x) !== Math.abs(b - x)) {
+      return Math.abs(a - x) - Math.abs(b - x);
+    } else {
+      return a - b;
+    }
+  });
+  const res = list.slice(0, k);
+  res.sort((a, b) => a - b);
+  return res;
+};
+// 时间复杂度：O(nlogn)
+// 空间复杂度：O(logn)
