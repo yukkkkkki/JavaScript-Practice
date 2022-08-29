@@ -37,7 +37,7 @@ var canPartition = function (nums) {
   const memo = new Map();
 
   const backTrack = (curSum, index) => {
-    const key = curSum + '&' + index;
+    const key = curSum + "&" + index;
     if (memo.has(key)) return memo.get(key);
 
     if (index > n - 1 || curSum > target) {
