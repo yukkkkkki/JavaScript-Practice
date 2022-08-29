@@ -1,24 +1,16 @@
-// 101. 对称二叉树
-// 给定一个二叉树，检查它是否是镜像对称的。
-
-// 例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
-
-//     1
-//    / \
-//   2   2
-//  / \ / \
-// 3  4 4  3
-
-// 但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
-
-//     1
-//    / \
-//   2   2
-//    \   \
-//    3    3
-
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {boolean}
+ */
 // 方法一：递归
-// 思路
 // 判断二叉树是不是对称的，主要是看二叉树左边和右边的节点是不是各自相等。
 // 所以我们可以通过递归，去判断左树的左节点和右树的右节点是不是相同。
 // 如果两个节点都为空，则表示递归到树的底部了；
@@ -31,6 +23,7 @@
 // 4. 如果相等，则继续传入该节点的子节点去判断；不相等则直接返回 false
 var isSymmetric = function (root) {
   if (!root) return true;
+
   var help = function (left, right) {
     if (!left && !right) return true;
     if (!left || !right) return false;
@@ -40,6 +33,7 @@ var isSymmetric = function (root) {
       help(left.right, right.left)
     );
   };
+
   return help(root.left, root.right);
 };
 
