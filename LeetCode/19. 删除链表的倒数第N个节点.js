@@ -53,7 +53,7 @@ var removeNthFromEnd = function (head, n) {
   if (n === 1) {
     // 删除最后一个节点
     if (!cur.prev) {
-      // 若是头节点则直接返回null
+      // 若是头节点则直接返回 null
       return null;
     } else {
       cur.prev.next = null;

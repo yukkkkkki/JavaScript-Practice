@@ -23,6 +23,5 @@ var multiply = function (num1, num2) {
   }
 
   while (pos[0] === 0) pos.shift();
-
   return pos.length ? pos.join("") : "0";
 };

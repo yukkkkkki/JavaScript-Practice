@@ -9,8 +9,8 @@ var longestCommonPrefix = function (strs) {
   let res = ""; // 共同的前缀字符串
   let index = 0; // 指针
 
+  // 遍历第一个字符串的每个字符
   for (let c of strs[0]) {
-    // 遍历第一个字符串的每个字符
     for (let i = 1; i < strs.length; i++) {
       if (index >= strs[i].length || strs[i][index] !== c) {
         return res;
@@ -43,7 +43,6 @@ var longestCommonPrefix = function (strs) {
 };
 
 // 方法三：迭代递归
-// 思路
 // 查找 n 个字符串的最长公共前缀，可以拆分成两步：
 // 1. 查找前 n-1 个字符串的最长公共前缀 m
 // 2. 查找 m 与最后一个字符串的公共前缀
@@ -72,7 +71,8 @@ var longestCommonPrefix = function (strs) {
   }
   return "";
 };
-// 时间复杂度： O(n); 空间复杂度：O(1)
+// 时间复杂度： O(n)
+// 空间复杂度：O(1)
 
 // 方法四：循环迭代
 // 思路
@@ -105,4 +105,5 @@ var longestCommonPrefix = function (strs) {
   }
   return strs[0].substring(0, i - 1);
 };
-// 时间复杂度： O(n); 空间复杂度： O(1)
+// 时间复杂度： O(n)
+// 空间复杂度： O(1)
