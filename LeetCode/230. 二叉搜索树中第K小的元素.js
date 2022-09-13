@@ -14,6 +14,7 @@
 // 方法一：中序遍历
 var kthSmallest = function (root, k) {
   const stack = [];
+
   while (root !== null || stack.length) {
     while (root !== null) {
       stack.push(root);

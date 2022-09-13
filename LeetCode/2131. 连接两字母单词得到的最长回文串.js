@@ -4,7 +4,7 @@
  */
 // 方法一：哈希 + 贪心
 var longestPalindrome = function (words) {
-  let map = {};
+  let map = {}; // 统计 words 中每个单词的出现次数
   let res = 0;
 
   for (let i = 0; i < words.length; i++) {

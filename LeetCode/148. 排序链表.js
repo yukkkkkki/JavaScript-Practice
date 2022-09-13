@@ -25,9 +25,11 @@ const mergeSort = function (head, tail) {
   let slow = head;
   let fast = head;
   while (fast !== tail) {
-    slow = slow.next;
     fast = fast.next;
-    if (fast !== tail) fast = fast.next;
+    slow = slow.next;
+    if (fast !== tail) {
+      fast = fast.next;
+    }
   }
   const mid = slow;
   // 对两个子链表分别排序
@@ -40,7 +42,7 @@ const merge = function (head1, head2) {
   let tmp1 = head1;
   let tmp2 = head2;
 
-  while (tmp1 !== null && tmp2 !== null) {
+  while (tmp1 && tmp2) {
     if (tmp1.val <= tmp2.val) {
       tmp.next = tmp1;
       tmp1 = tmp1.next;
@@ -52,7 +54,7 @@ const merge = function (head1, head2) {
   }
 
   if (tmp1) tmp.next = tmp1;
-  else if (tmp2) tmp2.next = tmp2;
+  else if (tmp2) tmp.next = tmp2;
 
   return dummyHead.next;
 };
@@ -60,12 +62,13 @@ const merge = function (head1, head2) {
 // 空间复杂对：O(logn)
 
 // 方法二：借助数组实现
-// 1. 先判断是否只有一个元素，若只有一个元素，直接返回；
-// 2. 若不只有一个元素，首先把链表转为数组；
-// 3. 然后把数组排序后重建链表，方法取巧。
+// 若不只有一个元素，
+// 3. 然，方法取巧。
 var sortList = function (head) {
+  // 只有一个元素，直接返回
   if (!head || !head.next) return head;
 
+  // 首先把链表转为数组
   let cur = head;
   let index = 0;
   const arr = [];
@@ -74,7 +77,10 @@ var sortList = function (head) {
     cur = cur.next;
     inde += 1;
   }
+  // 数组排序后
   arr.sort((a, b) => a - b);
+
+  // 重建链表
   cur = head;
   index = 0;
   while (cur) {

@@ -47,8 +47,9 @@ var searchMatrix = function (matrix, target) {
 // 可以将数组拍平，这样就是形成一维的单调递增的数组，再用二分查找的模板求解
 var searchMatrix = function (matrix, target) {
   matrix = matrix.flat(2);
-  let start = 0,
-    end = matrix.length - 1;
+  let start = 0;
+  let end = matrix.length - 1;
+
   while (start <= end) {
     // (end - start) >> 1相当于(end - start) / 2
     const mid = (start + (end - start)) >> 1;
@@ -60,5 +61,6 @@ var searchMatrix = function (matrix, target) {
       end = mid - 1;
     }
   }
+
   return false;
 };
