@@ -14,7 +14,7 @@ var updateMatrix = function (mat) {
     [0, 1],
     [0, -1],
     [-1, 0],
-    [1, 0],
+    [1, 0]
   ];
 
   let queue = [];
@@ -30,22 +30,23 @@ var updateMatrix = function (mat) {
 
   while (queue.length) {
     // 队首出元素，从当前节点扩散，扩散的条件是在矩阵范围内且并未被访问过
-    let [curI, curJ] = queue.shift();
+    let [x, y] = queue.shift();
 
     for (let dir of dirs) {
-      let newI = curI + dir[0];
-      let newJ = curJ + dir[1];
+      let dx = x + dir[0];
+      let dy = y + dir[1];
 
       // 超出边界 或者已经访问过了
-      if (newI < 0 || newI >= m || newJ < 0 || newJ >= n || vis[newI][newJ]) {
+      if (dx < 0 || dx >= m || dy < 0 || dy >= n || vis[dx][dy]) {
         continue;
       }
 
       // 从上一个点扩散到当前点  路径长度加 1
-      dist[newI][newJ] = dist[curI][curJ] + 1;
-      vis[newI][newJ] = true;
-      queue.push([newI, newJ]);
+      dist[dx][dy] = dist[x][y] + 1;
+      vis[dx][dy] = true;
+      queue.push([dx, dy]);
     }
   }
+
   return dist;
 };
