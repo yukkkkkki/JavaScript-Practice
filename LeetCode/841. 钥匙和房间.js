@@ -1,13 +1,3 @@
-// 有 N 个房间，开始时你位于 0 号房间。每个房间有不同的号码：0，1，2，...，N-1，并且房间里可能有一些钥匙能使你进入下一个房间。
-
-// 在形式上，对于每个房间 i 都有一个钥匙列表 rooms[i]，每个钥匙 rooms[i][j] 由 [0,1，...，N-1] 中的一个整数表示，其中 N = rooms.length。 钥匙 rooms[i][j] = v 可以打开编号为 v 的房间。
-
-// 最初，除 0 号房间外的其余所有房间都被锁住。
-
-// 你可以自由地在房间之间来回走动。
-
-// 如果能进入每个房间返回 true，否则返回 false。
-
 // 示例 1：
 // 输入: [[1],[2],[3],[]]
 // 输出: true
@@ -17,12 +7,10 @@
 // 然后我们去 2 号房间，拿到钥匙 3。
 // 最后我们去了 3 号房间。
 // 由于我们能够进入每个房间，我们返回 true。
-
-// 示例 2：
-// 输入：[[1,3],[3,0,1],[2],[0]]
-// 输出：false
-// 解释：我们不能进入 2 号房间。
-
+/**
+ * @param {number[][]} rooms
+ * @return {boolean}
+ */
 // 方法一：DFS
 var canVisitAllRooms = function (rooms) {
   const visited = new Set();
@@ -30,30 +18,29 @@ var canVisitAllRooms = function (rooms) {
   const dfs = (curRoom) => {
     visited.add(curRoom);
     const nextRooms = rooms[curRoom];
+
     for (let i = 0; i < nextRooms.length; i++) {
       const next = nextRooms[i];
-      if (!visited.has(next)) {
-        dfs(next);
-      }
+      if (!visited.has(next)) dfs(next);
     }
   };
-  dfs(0);
 
-  if (visited.size == rooms.length) {
-    return true;
-  } else {
-    return false;
-  }
+  dfs(0);
+  return visited.size === rooms.length;
 };
+// 时间复杂度：O(n + m)
+// 空间复杂度：O(n)
+canVisitAllRooms([[1], [2], [3], []]);
 
 // 方法二：BFS
 var canVisitAllRooms = function (rooms) {
   const visited = new Set();
-  const queue = [];
-  queue.push(0);
   visited.add(0);
+
+  const queue = [0];
   while (queue.length) {
     const nextRooms = rooms[queue.shift()];
+
     for (let i = 0; i < nextRooms.length; i++) {
       const next = nextRooms[i];
       if (!visited.has(next)) {
@@ -62,9 +49,8 @@ var canVisitAllRooms = function (rooms) {
       }
     }
   }
-  if (visited.size === rooms.length) {
-    return true;
-  } else {
-    return false;
-  }
+
+  return visited.size === rooms.length;
 };
+// 时间复杂度：O(n + m)
+// 空间复杂度：O(n)
