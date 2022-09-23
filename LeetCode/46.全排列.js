@@ -10,12 +10,11 @@
 // 方法一：回溯
 var permute = function (nums) {
   let res = []; // 结果集
-  let path = []; // 路径
 
-  const backTrack = (nums, path) => {
+  const backTrack = (path) => {
     // 结束条件
     if (path.length === nums.length) {
-      return res.push(path.concat());
+      return res.push(path.slice());
     }
 
     for (let i = 0; i < nums.length; i++) {
@@ -23,6 +22,7 @@ var permute = function (nums) {
       if (path.indexOf(nums[i]) > -1) {
         continue;
       }
+
       // 做选择
       path.push(nums[i]);
       // 进入下一层决策树
@@ -32,7 +32,8 @@ var permute = function (nums) {
     }
   };
 
-  backTrack(nums, path);
+  let path = []; // 路径
+  backTrack(path);
   return res;
 };
 

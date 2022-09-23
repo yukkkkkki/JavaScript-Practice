@@ -3,23 +3,22 @@
  * @param {number} target
  * @return {number[][]}
  */
-// 方法一：回溯法
+// 方法一：回溯
 var combinationSum = function (candidates, target) {
   const res = [];
   const n = candidates.length;
 
-  const backTrack = (tmpPath, target, start) => {
-    if (target < 0) return;
-
-    if (target === 0) {
-      res.push(tmpPath);
+  const backTrack = (path, newTarget, start) => {
+    if (newTarget < 0) return;
+    if (newTarget === 0) {
+      res.push(path.slice());
       return;
     }
 
     for (let i = start; i < n; i++) {
-      tmpPath.push(candidates[i]);
-      backTrack(tmpPath.slice(), target - candidates[i], i);
-      tmpPath.pop();
+      path.push(candidates[i]);
+      backTrack(path, newTarget - candidates[i], i);
+      path.pop();
     }
   };
 
@@ -27,4 +26,4 @@ var combinationSum = function (candidates, target) {
   return res;
 };
 
-// console.log(combinationSum([2, 3, 6, 7], 7));
+console.log(combinationSum([2, 3, 6, 7], 7));
