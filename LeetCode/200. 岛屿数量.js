@@ -8,24 +8,24 @@
 var numIslands = function (grid) {
   const n = grid.length;
   const m = grid[0].length;
+  let dirs = [
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1]
+  ];
 
   const turnZero = (i, j) => {
     // 判断是否超出 grid 边界，并判断是否为 0
-    if (
-      grid[i] === undefined ||
-      grid[i][j] === undefined ||
-      grid[i][j] === "0"
-    ) {
+    if (grid[i] === undefined || grid[i][j] === undefined || grid[i][j] === "0")
       return;
-    }
 
     grid[i][j] = "0";
 
     // 对此节点的上下左右节点继续递归传播，以此实现深度优先遍历
-    turnZero(i + 1, j);
-    turnZero(i - 1, j);
-    turnZero(i, j + 1);
-    turnZero(i, j - 1);
+    for (let dir of dirs) {
+      turnZero([i + dir[0], j + dir[1]]);
+    }
   };
 
   let count = 0;
@@ -49,20 +49,26 @@ var numIslands = function (grid) {
 var numIslands = function (grid) {
   const n = grid.length;
   const m = grid[0].length;
+  let dirs = [
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1]
+  ];
 
   const spread = (i, j) => {
     const queue = [[i, j]];
-    while (!!queue.length) {
+
+    while (queue.length) {
       const [i, j] = queue.pop();
       if (i >= 0 && i < n && j >= 0 && j < m && grid[i][j] === "1") {
         // 遇到陆地(1)节点便标记为海水(0)节点
         grid[i][j] = "0";
 
         // 迭代搜索队列中的每个结点，直到队列为空
-        queue.push([i - 1, j]);
-        queue.push([i + 1, j]);
-        queue.push([i, j + 1]);
-        queue.push([i, j - 1]);
+        for (let dir of dirs) {
+          queue.push([i + dir[0], j + dir[1]]);
+        }
       }
     }
   };

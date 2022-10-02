@@ -51,13 +51,11 @@ var spiralOrder = function (matrix) {
 
 // 方法二：按层模拟
 var spiralOrder = function (matrix) {
-  if (!matrix.length || !matrix[0].length) {
-    return [];
-  }
+  if (!matrix.length || !matrix[0].length) return [];
 
   const rows = matrix.length;
   const cols = matrix[0].length;
-  const order = [];
+  const result = [];
 
   let left = 0;
   let right = cols - 1;
@@ -67,27 +65,30 @@ var spiralOrder = function (matrix) {
   while (left <= right && top <= bottom) {
     // 从左到右遍历上侧元素
     for (let column = left; column <= right; column++) {
-      order.push(matrix[top][column]);
+      result.push(matrix[top][column]);
     }
     // 从上到下遍历右侧元素
     for (let row = top + 1; row <= bottom; row++) {
-      order.push(matrix[row][right]);
+      result.push(matrix[row][right]);
     }
 
     if (left < right && top < bottom) {
       // 从右到左遍历下侧元素
       for (let column = right - 1; column > left; column--) {
-        order.push(matrix[bottom][column]);
+        result.push(matrix[bottom][column]);
       }
       // 从下到上遍历左侧元素
       for (let row = bottom; row > top; row--) {
-        order.push(matrix[row][left]);
+        result.push(matrix[row][left]);
       }
     }
 
     // 遍历完当前层的元素之后
     // left 和 top 分别增加 1，right 和 bottom 分别减少 1
-    [left, right, top, bottom] = [left + 1, right - 1, top + 1, bottom - 1];
+    left += 1;
+    right -= 1;
+    top += 1;
+    bottom -= 1;
   }
 
   return order;

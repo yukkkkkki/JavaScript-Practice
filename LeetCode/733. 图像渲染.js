@@ -33,20 +33,21 @@ var floodFill = function (image, sr, sc, newColor) {
 
 // 方法二：广度优先搜索 bfs
 var floodFill = function (image, sr, sc, color) {
-  let currColor = image[sr][sc];
-  if (currColor === color) return image;
-
   const n = image.length;
   const m = image[0].length;
+
+  let oldColor = image[sr][sc];
+  if (oldColor === color) return image;
+
   let dirs = [
     [0, 1],
     [0, -1],
     [1, 0],
     [-1, 0]
   ];
-
   const queue = [[sr, sc]];
   image[sr][sc] = color;
+
   while (queue.length) {
     let [x, y] = queue.shift();
 
@@ -59,7 +60,7 @@ var floodFill = function (image, sr, sc, color) {
         dx < n &&
         dy >= 0 &&
         dy < m &&
-        image[dx][dy] === currColor
+        image[dx][dy] === oldColor
       ) {
         queue.push([dx, dy]);
         image[dx][dy] = color;
