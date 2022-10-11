@@ -20,10 +20,10 @@ var updateMatrix = function (mat) {
   let queue = [];
   for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
+      // 从 0 的位置开始进行 广度优先搜索
       if (mat[i][j] == 0) {
         queue.push([i, j]);
-        // 置为 true 就不会存在 0 到 0 扩散的路径了
-        vis[i][j] = true;
+        vis[i][j] = true; // 置为 true 就不会存在 0 到 0 扩散的路径了
       }
     }
   }
@@ -41,7 +41,7 @@ var updateMatrix = function (mat) {
         continue;
       }
 
-      // 从上一个点扩散到当前点  路径长度加 1
+      // 从上一个点扩散到当前点 路径长度加 1
       dist[dx][dy] = dist[x][y] + 1;
       vis[dx][dy] = true;
       queue.push([dx, dy]);

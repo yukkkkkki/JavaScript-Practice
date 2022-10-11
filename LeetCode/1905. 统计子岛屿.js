@@ -19,8 +19,10 @@ var countSubIslands = function (grid1, grid2) {
     grid2[i][j] = 0;
     // 判断岛屿包含的每一个格子是否都在 grid1 中出现了
     let check = grid1[i][j];
+
     while (queue.length) {
       let [x, y] = queue.shift();
+
       for (let dir of dirs) {
         let dx = x + dir[0];
         let dy = y + dir[1];
@@ -28,9 +30,8 @@ var countSubIslands = function (grid1, grid2) {
         if (dx >= 0 && dx < m && dy >= 0 && dy < n && grid2[dx][dy] === 1) {
           queue.push([dx, dy]);
           grid2[dx][dy] = 0;
-          if (grid1[dx][dy] !== 1) {
-            check = false;
-          }
+
+          if (grid1[dx][dy] !== 1) check = false;
         }
       }
     }

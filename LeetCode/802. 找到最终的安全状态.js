@@ -39,8 +39,9 @@ var eventualSafeNodes = function (graph) {
   // 入度：有向图的某个顶点作为终点的次数和
   // 反向图中「入度」为 0 的点集 x，其实就是原图中「出度」为 0 的节点
   const n = graph.length;
+
   const rg = new Array(n).fill(0).map(() => new Array());
-  const inDeg = new Array(n).fill(0);
+  const inDeg = new Array(n).fill(0); // 反图的入度数组
   for (let x = 0; x < n; x++) {
     for (let y of graph[x]) {
       rg[y].push(x);
@@ -51,14 +52,18 @@ var eventualSafeNodes = function (graph) {
   // 将所有入度为 0 的点加入队列
   const queue = [];
   for (let i = 0; i < n; i++) {
-    if (inDeg[i] === 0) queue.push(i);
+    if (inDeg[i] === 0) {
+      queue.push(i);
+    }
   }
   while (queue.length) {
     // 然后不断取出队首元素
     const y = queue.shift();
     for (const x of rg[y]) {
       // 将其出边相连的点的入度减一
-      if (--inDeg[x] === 0) queue.push(x);
+      if (--inDeg[x] === 0) {
+        queue.push(x);
+      }
     }
   }
 
