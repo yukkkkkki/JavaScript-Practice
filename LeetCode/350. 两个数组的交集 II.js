@@ -1,13 +1,8 @@
-// 给定两个数组，编写一个函数来计算它们的交集。
-
-// 示例 1：
-// 输入：nums1 = [1,2,2,1], nums2 = [2,2]
-// 输出：[2,2]
-
-// 示例 2:
-// 输入：nums1 = [4,9,5], nums2 = [9,4,9,8,4]
-// 输出：[4,9]
-
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number[]}
+ */
 // 方法一：暴力法
 // 遍历第一个数组，然后在第二个数组查找是否有当前元素。
 // 如果有，把当前元素push进返回值。然后把第二个数组里该下标元素删除。
@@ -26,24 +21,25 @@ var intersect = function (nums1, nums2) {
 };
 
 // 方法二：双指针
-// 1.两个数组排序
-// 2.设定两个为0的指针，比较两个指针的元素是否相等
-// 3.如果相等，元素push到返回值里，两个指针同时++
-// 4.如果不相等，元素小的指针++
 var intersect = function (nums1, nums2) {
   let res = [];
-  let p1 = 0;
-  let p2 = 0;
 
+  // 两个数组排序
   nums1 = nums1.sort((a, b) => a - b);
   nums2 = nums2.sort((a, b) => a - b);
 
+  // 设定两个为0的指针，比较两个指针的元素是否相等
+  let p1 = 0;
+  let p2 = 0;
+
   while (p1 < nums1.length && p2 < nums2.length) {
     if (nums1[p1] == nums2[p2]) {
+      // 相等，元素push到返回值里，两个指针同时++
       res.push(nums1[p1]);
       p1++;
       p2++;
     } else if (nums1[p1] < nums2[p2]) {
+      // 如果不相等，元素小的指针++
       p1++;
     } else {
       p2++;

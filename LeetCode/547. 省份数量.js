@@ -3,7 +3,6 @@
  * @return {number}
  */
 // 方法一：深度优先搜索
-// 遍历所有城市，对于每个城市，如果该城市尚未被访问过，则从该城市开始深度优先搜索
 var findCircleNum = function (isConnected) {
   const cities = isConnected.length;
   const visited = new Set();
@@ -18,7 +17,9 @@ var findCircleNum = function (isConnected) {
     }
   };
 
+  // 遍历所有城市
   for (let i = 0; i < cities; i++) {
+    // 对于每个城市，如果该城市尚未被访问过，则从该城市开始深度优先搜索
     if (!visited.has(i)) {
       dfs(i);
       provinces++;
